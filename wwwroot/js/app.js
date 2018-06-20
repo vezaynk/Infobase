@@ -153,7 +153,7 @@ var Hello = /** @class */ (function (_super) {
     Hello.prototype.render = function () {
         var isMounted = this.state.isMounted;
         return (React.createElement("div", null,
-            React.createElement("div", null, "Hello from server!"),
+            React.createElement("div", null, "Hello from server"),
             isMounted && React.createElement("div", null, "Hello from client")));
     };
     return Hello;

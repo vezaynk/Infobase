@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-// workd around for now until issue #555 is fixed
+// Workaround for setTimeout not defined issue in React 16.4.1 Issue #555 in React.NET
 __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 
 
