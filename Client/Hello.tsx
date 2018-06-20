@@ -4,7 +4,7 @@ interface IHelloState {
     isMounted: boolean;
 }
 
-export class Hello extends React.Component {
+export class Hello extends React.Component<null, IHelloState> {
 
     public state : IHelloState = {
         isMounted: false
