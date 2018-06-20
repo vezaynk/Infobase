@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "baseUrl": "./Client",
+    "noEmit": true
+  },
+  "exclude": [
+    "wwwroot",
+    "node_modules"
+  ]
+}
