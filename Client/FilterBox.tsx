@@ -10,7 +10,8 @@ class ChartDataStore {
     @observable chartData = [];
     
     async fetchData(id, value) {
-        let response = await fetch(`?${id}=${value}`, {
+        history.pushState(null, document.title, `?${id}=${value}`);
+        let response = await fetch(window.location.toString(), {
             method: 'POST'
         })
 
@@ -18,7 +19,6 @@ class ChartDataStore {
 
         runInAction("Update filters after fetching", () => {
             this.filters = r.filters;
-            console.log(r.filters)
         })
     }
 
@@ -55,6 +55,7 @@ export class FilterBox extends React.Component<null> {
                             id={filter.id}
                             name={filter.name}
                             items={filter.items}
+                            selected={filter.selected}
                             onSelect={this.selectFilter(filter.id)}
                         />)
                 }
@@ -68,9 +69,9 @@ interface FilterProps {
     id: string,
     items: Array<{
         value: number,
-        text: string,
-        selected: boolean
+        text: string
     }>,
+    selected: number,
     onSelect: (string) => void
 }
 
@@ -78,7 +79,12 @@ export class Filter extends React.Component<FilterProps> {
 
     render() {
         return (
-            <svg></svg>
+            <form className="form-group-sm">
+                <label className="control-label" htmlFor={this.props.id}>{this.props.name}</label>
+                <select className="form-control input-sm" value={this.props.selected} name={this.props.id} id={this.props.id} onChange={e => this.props.onSelect(e.target.value)}>
+                    {this.props.items.map(item => <option key={item.value} value={item.value}>{item.text}</option>)}
+                </select>
+            </form>
         )
     }
 }

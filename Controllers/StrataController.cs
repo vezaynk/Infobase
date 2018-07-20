@@ -223,56 +223,50 @@ namespace ReactDotNetDemo.Controllers
                                      .Select(ac => new DropdownItem
                                             {
                                                 Value = ac.ActivityId,
-                                                Text = ac.GetActivityName("EN"),
-                                                Selected = ac.ActivityId == strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId
+                                                Text = ac.GetActivityName("EN")
                                             });
             
-            cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities));
+            cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
 
             var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups.Select(ig => new DropdownItem
             {
                 Value = ig.IndicatorGroupId,
-                Text = ig.GetIndicatorGroupName("EN"),
-                Selected = ig.IndicatorGroupId == strata.Measure.Indicator.LifeCourse.IndicatorGroupId
+                Text = ig.GetIndicatorGroupName("EN")
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups));
+            cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
 
             var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses.Select(lc => new DropdownItem
             {
                 Value = lc.LifeCourseId,
-                Text = lc.GetLifeCourseName("EN"),
-                Selected = lc.LifeCourseId == strata.Measure.Indicator.LifeCourseId
+                Text = lc.GetLifeCourseName("EN")
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses));
+            cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
 
             var indicators = strata.Measure.Indicator.LifeCourse.Indicators.Select(i => new DropdownItem
             {
                 Value = i.IndicatorId,
-                Text = i.GetIndicatorName("EN"),
-                Selected = i.IndicatorId == strata.Measure.IndicatorId
+                Text = i.GetIndicatorName("EN")
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators));
+            cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
 
             var measures = strata.Measure.Indicator.Measures.Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
-                Text = m.GetMeasureName("EN"),
-                Selected = m.MeasureId == strata.MeasureId
+                Text = m.GetMeasureName("EN")
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Measures", "measureId", measures));
+            cpm.filters.Add(new DropdownMenuModel("Measures", "measureId", measures, strata.MeasureId));
 
             var stratas = strata.Measure.Stratas.Select(s => new DropdownItem
             {
                 Value = s.StrataId,
-                Text = s.GetStrataName("EN"),
-                Selected = s.StrataId == strataId
+                Text = s.GetStrataName("EN")
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas));
+            cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas, strataId));
 
 
             if (Request.Method == "GET")

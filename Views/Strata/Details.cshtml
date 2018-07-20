@@ -14,31 +14,11 @@
         </h6>
         @Html.React("Components.ChartPageState", new
    {
-       filters = new List<object>()
-       {
-           new
-           {
-               id = "Hey",
-               name = "Hey",
-               items = new List<object>()
-               {
-                   new
-                   {
-                       text = "Hey",
-                       value = "Hey",
-                       selected = true
-
-                   }
-
-               }
-
-           }
-            },
+       filters = Model.filters,
        chartData = Model.ChartData
-   }, clientOnly: false)
-        @Html.React("Components.FilterBox", new
-        {
-        }, clientOnly: false)
+   })
+
+        @Html.React("Components.FilterBox", new {})
 
     </div>
 

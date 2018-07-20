@@ -21,18 +21,19 @@ namespace ReactDotNetDemo.Models
         public string Name { get; set; }
         public string Id { get; set; }
         public List<DropdownItem> Items { get; set; } = new List<DropdownItem>();
-        public DropdownMenuModel(string name, string id, IEnumerable<DropdownItem> items)
+        public int Selected { get; set; }
+        public DropdownMenuModel(string name, string id, IEnumerable<DropdownItem> items, int selected)
         {
             this.Name = name;
             this.Id = id;
             this.Items.AddRange(items);
+            this.Selected = selected;
         }
     }
 
     public class DropdownItem
     {
         public int Value { get; set; }
-        public bool Selected { get; set; }
         public string Text { get; set; }
 
     }

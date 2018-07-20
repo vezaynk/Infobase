@@ -151,13 +151,13 @@ class ChartDataStore {
     }
     fetchData(id, value) {
         return __awaiter(this, void 0, void 0, function* () {
-            let response = yield fetch(`?${id}=${value}`, {
+            history.pushState(null, document.title, `?${id}=${value}`);
+            let response = yield fetch(window.location.toString(), {
                 method: 'POST'
             });
             let r = yield response.json();
             mobx_1.runInAction("Update filters after fetching", () => {
                 this.filters = r.filters;
-                console.log(r.filters);
             });
         });
     }
@@ -187,7 +187,7 @@ let FilterBox = class FilterBox extends React.Component {
         };
     }
     render() {
-        return (React.createElement("div", { className: "form-group-md" }, store.filters.map((filter) => React.createElement(Filter, { key: filter.id, id: filter.id, name: filter.name, items: filter.items, onSelect: this.selectFilter(filter.id) }))));
+        return (React.createElement("div", { className: "form-group-md" }, store.filters.map((filter) => React.createElement(Filter, { key: filter.id, id: filter.id, name: filter.name, items: filter.items, selected: filter.selected, onSelect: this.selectFilter(filter.id) }))));
     }
 };
 FilterBox = __decorate([
@@ -196,7 +196,9 @@ FilterBox = __decorate([
 exports.FilterBox = FilterBox;
 class Filter extends React.Component {
     render() {
-        return (React.createElement("svg", null));
+        return (React.createElement("form", { className: "form-group-sm" },
+            React.createElement("label", { className: "control-label", htmlFor: this.props.id }, this.props.name),
+            React.createElement("select", { className: "form-control input-sm", value: this.props.selected, name: this.props.id, id: this.props.id, onChange: e => this.props.onSelect(e.target.value) }, this.props.items.map(item => React.createElement("option", { key: item.value, value: item.value }, item.text)))));
     }
 }
 exports.Filter = Filter;
