@@ -1,0 +1,16 @@
+﻿@model ReactDotNetDemo.Models.PageModel
+
+
+@{
+    Layout = "~/Views/Shared/_TabLayout.cshtml";
+
+    ViewBag.tabs = new List<ReactDotNetDemo.Models.TabItem> {
+        new ReactDotNetDemo.Models.TabItem("Index", "Index"),
+        new ReactDotNetDemo.Models.TabItem("Tool", Model.IsFrench ? "Outil" : "Tool"),
+        new ReactDotNetDemo.Models.TabItem("Publications", "Publications")
+
+    };
+
+}
+
+@RenderBody()

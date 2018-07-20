@@ -7,7 +7,51 @@
 
 </head>
 <body>
-    @Html.React("Components.Hello", new { })
+    <div>
+        @Html.React("Components.ChartPageState", new
+      {
+          filters = new List<object>()
+          {
+              new
+              {
+                  id = "Hey",
+                  name = "Hey",
+                  items = new List<object>()
+                  {
+                      new
+                      {
+                          text = "Hey",
+                          value = "Hey",
+                          selected = true
+
+                      }
+
+                  }
+
+              }
+               }
+      }, serverOnly: false)
+    </div>
+    <div>
+    @Html.React("Components.Filter", new
+{
+    id = "Hey",
+    name = "Hey",
+    items = new List<object>()
+                  {
+                      new
+                      {
+                          text = "Hey",
+                          value = "Hey",
+                          selected = true
+
+                      }
+
+                  }
+
+}, serverOnly: false)
+    </div>
+
 
     <script src="@Url.Content("~/js/vendor.js")"></script>
     <script src="@Url.Content("~/js/app.js")"></script>

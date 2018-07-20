@@ -1,0 +1,29 @@
+﻿@model ReactDotNetDemo.Models.PageModel
+
+@{
+    // TODO: Add French
+    Layout = Model.IsFrench ? "~/Views/Shared/_MasterEN.cshtml" : "~/Views/Shared/_MasterEN.cshtml";
+}
+<div class="col-md-12 mrgn-tp-0">
+    <div class="row brdr-bttm bg-white mrgn-bttm-0">
+        <ul class="nav nav-tabs list-inline">
+            @foreach (var item in ViewBag.tabs)
+            {
+
+                if (item.Name == ViewBag.currentTabName)
+                {
+                    <li>
+                        @Html.ActionLink((string)item.Text, (string)item.Name, null, new { @class = "btn btn-sm btn-link text-nowrap active" })
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink((string)item.Text, (string)item.Name, null, new { @class = "btn btn-sm btn-link text-nowrap" })
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+    @RenderBody()
+</div>

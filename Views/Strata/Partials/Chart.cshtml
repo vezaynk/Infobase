@@ -1,0 +1,25 @@
+﻿
+@model ReactDotNetDemo.Models.ChartData
+
+@Html.React("Components.Chart", new { data = Model }, clientOnly: true)
+
+<script src="https://cdn.rawgit.com/exupero/saveSvgAsPng/gh-pages/src/saveSvgAsPng.js"></script>
+<style type="text/css">
+
+    .bar rect:hover {
+        fill: #dfbcbd;
+    }
+
+    .footnote tspan {
+        fill: rgb(220, 20, 60);
+    }
+
+    .axis-label {
+        text-anchor: middle;
+        font-weight: bold;
+    }
+
+    #title {
+        text-align: center;
+    }
+</style>

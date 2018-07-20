@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
+using ReactDotNetDemo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReactDotNetDemo
 {
@@ -39,6 +41,8 @@ namespace ReactDotNetDemo
             services.AddReact();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<PASSContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("PASSContext")));
 
             return services.BuildServiceProvider();
         }

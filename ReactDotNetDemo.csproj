@@ -2,17 +2,178 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Client\Chart.tsx" />
+    <None Remove="Client\FilterBox.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\fonts\gcweb_0c4a4eb7974d0a7287c93c02965f9b3f.svg" />
+    <None Include="wwwroot\css\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\img\sig-blk-en.svg" />
+    <None Include="wwwroot\img\sig-blk-fr.svg" />
+    <None Include="wwwroot\img\sig-en.svg" />
+    <None Include="wwwroot\img\sig-fr.svg" />
+    <None Include="wwwroot\img\sig-spl.svg" />
+    <None Include="wwwroot\img\wmms-blk.svg" />
+    <None Include="wwwroot\img\wmms-spl.svg" />
+    <None Include="wwwroot\img\wmms.svg" />
+    <None Include="wwwroot\js\wet\bootstrap.js" />
+    <None Include="wwwroot\js\wet\bootstrap.min.js" />
+    <None Include="wwwroot\js\wet\datatoolchart.js" />
+    <None Include="wwwroot\js\wet\i18n\af.js" />
+    <None Include="wwwroot\js\wet\i18n\af.min.js" />
+    <None Include="wwwroot\js\wet\i18n\ar.js" />
+    <None Include="wwwroot\js\wet\i18n\ar.min.js" />
+    <None Include="wwwroot\js\wet\i18n\bg.js" />
+    <None Include="wwwroot\js\wet\i18n\bg.min.js" />
+    <None Include="wwwroot\js\wet\i18n\cs.js" />
+    <None Include="wwwroot\js\wet\i18n\cs.min.js" />
+    <None Include="wwwroot\js\wet\i18n\de.js" />
+    <None Include="wwwroot\js\wet\i18n\de.min.js" />
+    <None Include="wwwroot\js\wet\i18n\el.js" />
+    <None Include="wwwroot\js\wet\i18n\el.min.js" />
+    <None Include="wwwroot\js\wet\i18n\en.js" />
+    <None Include="wwwroot\js\wet\i18n\en.min.js" />
+    <None Include="wwwroot\js\wet\i18n\es.js" />
+    <None Include="wwwroot\js\wet\i18n\es.min.js" />
+    <None Include="wwwroot\js\wet\i18n\et.js" />
+    <None Include="wwwroot\js\wet\i18n\et.min.js" />
+    <None Include="wwwroot\js\wet\i18n\fr.js" />
+    <None Include="wwwroot\js\wet\i18n\fr.min.js" />
+    <None Include="wwwroot\js\wet\i18n\hi.js" />
+    <None Include="wwwroot\js\wet\i18n\hi.min.js" />
+    <None Include="wwwroot\js\wet\i18n\hu.js" />
+    <None Include="wwwroot\js\wet\i18n\hu.min.js" />
+    <None Include="wwwroot\js\wet\i18n\hy.js" />
+    <None Include="wwwroot\js\wet\i18n\hy.min.js" />
+    <None Include="wwwroot\js\wet\i18n\id.js" />
+    <None Include="wwwroot\js\wet\i18n\id.min.js" />
+    <None Include="wwwroot\js\wet\i18n\is.js" />
+    <None Include="wwwroot\js\wet\i18n\is.min.js" />
+    <None Include="wwwroot\js\wet\i18n\it.js" />
+    <None Include="wwwroot\js\wet\i18n\it.min.js" />
+    <None Include="wwwroot\js\wet\i18n\ja.js" />
+    <None Include="wwwroot\js\wet\i18n\ja.min.js" />
+    <None Include="wwwroot\js\wet\i18n\ko.js" />
+    <None Include="wwwroot\js\wet\i18n\ko.min.js" />
+    <None Include="wwwroot\js\wet\i18n\lt.js" />
+    <None Include="wwwroot\js\wet\i18n\lt.min.js" />
+    <None Include="wwwroot\js\wet\i18n\lv.js" />
+    <None Include="wwwroot\js\wet\i18n\lv.min.js" />
+    <None Include="wwwroot\js\wet\i18n\nl.js" />
+    <None Include="wwwroot\js\wet\i18n\nl.min.js" />
+    <None Include="wwwroot\js\wet\i18n\pl.js" />
+    <None Include="wwwroot\js\wet\i18n\pl.min.js" />
+    <None Include="wwwroot\js\wet\i18n\pt-BR.js" />
+    <None Include="wwwroot\js\wet\i18n\pt-BR.min.js" />
+    <None Include="wwwroot\js\wet\i18n\pt.js" />
+    <None Include="wwwroot\js\wet\i18n\pt.min.js" />
+    <None Include="wwwroot\js\wet\i18n\ru.js" />
+    <None Include="wwwroot\js\wet\i18n\ru.min.js" />
+    <None Include="wwwroot\js\wet\i18n\sk.js" />
+    <None Include="wwwroot\js\wet\i18n\sk.min.js" />
+    <None Include="wwwroot\js\wet\i18n\sq.js" />
+    <None Include="wwwroot\js\wet\i18n\sq.min.js" />
+    <None Include="wwwroot\js\wet\i18n\th.js" />
+    <None Include="wwwroot\js\wet\i18n\th.min.js" />
+    <None Include="wwwroot\js\wet\i18n\tr.js" />
+    <None Include="wwwroot\js\wet\i18n\tr.min.js" />
+    <None Include="wwwroot\js\wet\i18n\uk.js" />
+    <None Include="wwwroot\js\wet\i18n\uk.min.js" />
+    <None Include="wwwroot\js\wet\i18n\vi.js" />
+    <None Include="wwwroot\js\wet\i18n\vi.min.js" />
+    <None Include="wwwroot\js\wet\i18n\zh-Hans.js" />
+    <None Include="wwwroot\js\wet\i18n\zh-Hans.min.js" />
+    <None Include="wwwroot\js\wet\i18n\zh.js" />
+    <None Include="wwwroot\js\wet\i18n\zh.min.js" />
+    <None Include="wwwroot\js\wet\ie8-wet-boew.js" />
+    <None Include="wwwroot\js\wet\ie8-wet-boew.min.js" />
+    <None Include="wwwroot\js\wet\ie8-wet-boew2.js" />
+    <None Include="wwwroot\js\wet\ie8-wet-boew2.min.js" />
+    <None Include="wwwroot\js\wet\jquery-1.10.2.intellisense.js" />
+    <None Include="wwwroot\js\wet\jquery-1.10.2.js" />
+    <None Include="wwwroot\js\wet\jquery-1.10.2.min.js" />
+    <None Include="wwwroot\js\wet\jquery-1.10.2.min.map" />
+    <None Include="wwwroot\js\wet\jquery.validate-vsdoc.js" />
+    <None Include="wwwroot\js\wet\jquery.validate.js" />
+    <None Include="wwwroot\js\wet\jquery.validate.min.js" />
+    <None Include="wwwroot\js\wet\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\js\wet\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\js\wet\theme.js" />
+    <None Include="wwwroot\js\wet\theme.min.js" />
+    <None Include="wwwroot\js\wet\wet-boew.js" />
+    <None Include="wwwroot\js\wet\wet-boew.min.js" />
+    <None Include="wwwroot\js\wet\wet-boew.min.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="React.AspNet" Version="3.3.0" />
-    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore" Version="2.4.20" />
-    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.win-x64" Version="2.4.20" />
-    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64" Version="2.4.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="React.AspNet" Version="3.4.0" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore" Version="2.4.22" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.win-x64" Version="2.4.22" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64" Version="2.4.22" />
     <PackageReference Include="JavaScriptEngineSwitcher.Core" Version="2.4.10" />
     <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="2.4.0" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\Chart.tsx" />
+    <TypeScriptCompile Include="Client\FilterBox.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\_CookieConsentPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_MasterEN.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_TabLayout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_ValidationScriptsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Delete.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Partials\Chart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Partials\DataFilters.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\Partials\SummaryTable.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Strata\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

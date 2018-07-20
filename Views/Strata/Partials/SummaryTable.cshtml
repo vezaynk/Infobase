@@ -1,0 +1,58 @@
+﻿
+@model ReactDotNetDemo.Models.ChartData
+
+<div class="col-md-12 bg-white">
+    <table class="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">
+        <caption>
+            @Model.title
+        </caption>
+
+        <thead>
+            <tr>
+                <th class="text-left" scope="col">@Model.axis.x</th>
+                <th class="text-center" scope="col">@Model.axis.y</th>
+                <th class="text-center" scope="col">95% <abbr title="Confidence Interval">CI</abbr></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var value in Model.values)
+            {
+                foreach (var point in value.points)
+                {
+                    switch (point.cv.interpretation)
+                    {
+
+                        // Data is in the red (66%+)
+                        case 1:
+                            <tr style="background-color: red">
+                                <td class="text-left">@point.label</td>
+                                <td>Suppr.<sup>F</sup></td>
+                                <td></td>
+                            </tr>
+                            break;
+
+                        // Data is in the red (33%+)
+                        case 2:
+                            <tr style="background-color: yellow">
+                                <td class="text-left">@point.label</td>
+                                <td>@point.value<sup>E</sup></td>
+                                <td>@point.confidence.lower - @point.confidence.upper</td>
+                            </tr>
+                            break;
+
+                        // Data is a Okay!
+                        default:
+                            <tr>
+                                <td class="text-left">@point.label</td>
+                                <td>@point.value</td>
+                                <td>@point.confidence.lower - @point.confidence.upper</td>
+                            </tr>
+                            break;
+
+                    }
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
