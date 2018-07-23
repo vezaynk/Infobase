@@ -4,12 +4,18 @@ import { observable, action, runInAction } from 'mobx';
 import * as mobx from 'mobx';
 import { renderChart } from 'renderChart'
 import * as ReactDOM from 'react-dom';
+import { ReactInstance } from 'react';
 
 class ChartDataStore {
     @observable filters: FilterProps[] = [];
     @observable chartData = [];
-    
+    @observable loading = false;
+    @observable number = 0;
     async fetchData(id, value) {
+        runInAction("Begin loading", () => {
+            this.loading = true;
+        })
+
         history.pushState(null, document.title, `?${id}=${value}`);
         let response = await fetch(window.location.toString(), {
             method: 'POST'
@@ -19,12 +25,15 @@ class ChartDataStore {
 
         runInAction("Update filters after fetching", () => {
             this.filters = r.filters;
+            this.chartData = r.chartData;
+            this.loading = false;
         })
     }
 
 }
 
 const store = new ChartDataStore();
+
 export class ChartPageState extends React.Component {
     constructor(props) {
         super(props)
@@ -33,6 +42,17 @@ export class ChartPageState extends React.Component {
     }
     render() {
         return null
+    }
+}
+
+@observer
+export class Test extends React.Component<null> {
+    constructor(props) {
+        super(props)
+        store.number++;
+    }
+    render() {
+        return <p>{store.number}</p>
     }
 }
 
@@ -75,15 +95,23 @@ interface FilterProps {
     onSelect: (string) => void
 }
 
-export class Filter extends React.Component<FilterProps> {
-
+@observer
+export class Filter extends React.Component<FilterProps, null> {
+    
+    componentDidMount() {
+        let noscript: HTMLElement = this.refs.noscript as HTMLElement;
+        noscript.style.display = "none";
+    }
     render() {
         return (
             <form className="form-group-sm">
-                <label className="control-label" htmlFor={this.props.id}>{this.props.name}</label>
-                <select className="form-control input-sm" value={this.props.selected} name={this.props.id} id={this.props.id} onChange={e => this.props.onSelect(e.target.value)}>
+                <label className="control-label" htmlFor={this.props.id}>{this.props.name} {this.props.selected}</label>
+                <select disabled={store.loading} className="form-control input-sm" value={this.props.selected} name={this.props.id} id={this.props.id} onChange={e => this.props.onSelect(e.target.value)}>
                     {this.props.items.map(item => <option key={item.value} value={item.value}>{item.text}</option>)}
                 </select>
+                <div ref="noscript">
+                    <input type="submit" />
+                </div>
             </form>
         )
     }
@@ -114,23 +142,33 @@ interface ChartData {
     "source": string
 }
 
-interface ChartProps {
-    data: ChartData
+interface ChartState {
+    isMounted: boolean;
 }
 
-export class Chart extends React.Component<ChartProps> {
+@observer
+export class Chart extends React.Component<null, ChartState> {
     componentDidMount() {
         let svg = ReactDOM.findDOMNode(this.refs.graph)
-        renderChart(svg, this.props.data)
+        renderChart(svg, store.chartData)
+        this.setState({ ...this.state, isMounted: true })
     }
+    componentDidUpdate() {
+        let svg = ReactDOM.findDOMNode(this.refs.graph);
 
+        if (this.state.isMounted)
+            renderChart(svg, store.chartData)
+    }
     render() {
         return (
+            <div>
             <svg ref="graph" width="100%" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet">
                 <foreignObject x="12.5%" y="0" width="75%" height="100">
                     <h3 ref="title" id="title">Hello World</h3>
                 </foreignObject>
-            </svg>
+                </svg>
+                <pre style={{display: 'none'}}>{store.chartData ? '' : ''}</pre>
+            </div>
         )
     }
 }

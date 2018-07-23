@@ -142,15 +142,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 const mobx_react_1 = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 const mobx_1 = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
-const renderChart_1 = __webpack_require__(/*! renderChart */ "./Client/renderChart.js");
+const renderChart_1 = __webpack_require__(/*! renderChart */ "./Client/renderChart.ts");
 const ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 class ChartDataStore {
     constructor() {
         this.filters = [];
         this.chartData = [];
+        this.loading = false;
+        this.number = 0;
     }
     fetchData(id, value) {
         return __awaiter(this, void 0, void 0, function* () {
+            mobx_1.runInAction("Begin loading", () => {
+                this.loading = true;
+            });
             history.pushState(null, document.title, `?${id}=${value}`);
             let response = yield fetch(window.location.toString(), {
                 method: 'POST'
@@ -158,6 +163,8 @@ class ChartDataStore {
             let r = yield response.json();
             mobx_1.runInAction("Update filters after fetching", () => {
                 this.filters = r.filters;
+                this.chartData = r.chartData;
+                this.loading = false;
             });
         });
     }
@@ -168,6 +175,12 @@ __decorate([
 __decorate([
     mobx_1.observable
 ], ChartDataStore.prototype, "chartData", void 0);
+__decorate([
+    mobx_1.observable
+], ChartDataStore.prototype, "loading", void 0);
+__decorate([
+    mobx_1.observable
+], ChartDataStore.prototype, "number", void 0);
 const store = new ChartDataStore();
 class ChartPageState extends React.Component {
     constructor(props) {
@@ -180,6 +193,19 @@ class ChartPageState extends React.Component {
     }
 }
 exports.ChartPageState = ChartPageState;
+let Test = class Test extends React.Component {
+    constructor(props) {
+        super(props);
+        store.number++;
+    }
+    render() {
+        return React.createElement("p", null, store.number);
+    }
+};
+Test = __decorate([
+    mobx_react_1.observer
+], Test);
+exports.Test = Test;
 let FilterBox = class FilterBox extends React.Component {
     selectFilter(id) {
         return (value) => {
@@ -194,63 +220,80 @@ FilterBox = __decorate([
     mobx_react_1.observer
 ], FilterBox);
 exports.FilterBox = FilterBox;
-class Filter extends React.Component {
+let Filter = class Filter extends React.Component {
+    componentDidMount() {
+        let noscript = this.refs.noscript;
+        noscript.style.display = "none";
+    }
     render() {
         return (React.createElement("form", { className: "form-group-sm" },
-            React.createElement("label", { className: "control-label", htmlFor: this.props.id }, this.props.name),
-            React.createElement("select", { className: "form-control input-sm", value: this.props.selected, name: this.props.id, id: this.props.id, onChange: e => this.props.onSelect(e.target.value) }, this.props.items.map(item => React.createElement("option", { key: item.value, value: item.value }, item.text)))));
+            React.createElement("label", { className: "control-label", htmlFor: this.props.id },
+                this.props.name,
+                " ",
+                this.props.selected),
+            React.createElement("select", { disabled: store.loading, className: "form-control input-sm", value: this.props.selected, name: this.props.id, id: this.props.id, onChange: e => this.props.onSelect(e.target.value) }, this.props.items.map(item => React.createElement("option", { key: item.value, value: item.value }, item.text))),
+            React.createElement("div", { ref: "noscript" },
+                React.createElement("input", { type: "submit" }))));
     }
-}
+};
+Filter = __decorate([
+    mobx_react_1.observer
+], Filter);
 exports.Filter = Filter;
-class Chart extends React.Component {
+let Chart = class Chart extends React.Component {
     componentDidMount() {
         let svg = ReactDOM.findDOMNode(this.refs.graph);
-        renderChart_1.renderChart(svg, this.props.data);
+        renderChart_1.renderChart(svg, store.chartData);
+        this.setState(Object.assign({}, this.state, { isMounted: true }));
+    }
+    componentDidUpdate() {
+        let svg = ReactDOM.findDOMNode(this.refs.graph);
+        if (this.state.isMounted)
+            renderChart_1.renderChart(svg, store.chartData);
     }
     render() {
-        return (React.createElement("svg", { ref: "graph", width: "100%", viewBox: "0 0 900 800", preserveAspectRatio: "xMidYMid meet" },
-            React.createElement("foreignObject", { x: "12.5%", y: "0", width: "75%", height: "100" },
-                React.createElement("h3", { ref: "title", id: "title" }, "Hello World"))));
+        return (React.createElement("div", null,
+            React.createElement("svg", { ref: "graph", width: "100%", viewBox: "0 0 900 800", preserveAspectRatio: "xMidYMid meet" },
+                React.createElement("foreignObject", { x: "12.5%", y: "0", width: "75%", height: "100" },
+                    React.createElement("h3", { ref: "title", id: "title" }, "Hello World"))),
+            React.createElement("pre", { style: { display: 'none' } }, store.chartData ? '' : '')));
     }
-}
+};
+Chart = __decorate([
+    mobx_react_1.observer
+], Chart);
 exports.Chart = Chart;
 
 
 /***/ }),
 
-/***/ "./Client/renderChart.js":
+/***/ "./Client/renderChart.ts":
 /*!*******************************!*\
-  !*** ./Client/renderChart.js ***!
+  !*** ./Client/renderChart.ts ***!
   \*******************************/
-/*! exports provided: renderChart */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderChart", function() { return renderChart; });
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-﻿
 
+Object.defineProperty(exports, "__esModule", { value: true });
+const d3 = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
 function renderChart(ref, dataset) {
-    const svg = d3__WEBPACK_IMPORTED_MODULE_0__["select"](ref)
-    let highestValue = d3__WEBPACK_IMPORTED_MODULE_0__["max"](dataset.values.map(v => d3__WEBPACK_IMPORTED_MODULE_0__["max"](v.points.map(p => d3__WEBPACK_IMPORTED_MODULE_0__["max"]([p.value, p.confidence.upper, p.confidence.lower])))));
+    const svg = d3.select(ref);
+    svg.selectAll("g").remove();
+    let highestValue = d3.max(dataset.values.map(v => d3.max(v.points.map(p => d3.max([p.value, p.confidence.upper, p.confidence.lower])))));
     //console.log(highestValue); - left for debbuging
-
     let margin = { top: 150, right: 10, bottom: 150, left: 50 };
     let width = /*+svg.attr("width")*/ 900 - margin.left - margin.right;
     let height = /*+svg.attr("height")*/ 800 - margin.top - margin.bottom;
-
     let g = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    let yScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleLinear"]()
+    let yScale = d3.scaleLinear()
         .domain([0, highestValue])
-        .range([height, 0])
-
-    g.append("g").call(d3__WEBPACK_IMPORTED_MODULE_0__["axisLeft"](yScale))
+        .range([height, 0]);
+    g.append("g").call(d3.axisLeft(yScale))
         .attr("class", "x-axis")
-        .attr("transform", "translate(" + 0 + "," + 0 + ")")
-
+        .attr("transform", "translate(" + 0 + "," + 0 + ")");
     g.append("text")
         .attr("class", "axis-label")
         .attr("transform", "rotate(-90)")
@@ -258,15 +301,12 @@ function renderChart(ref, dataset) {
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
         .text(dataset.axis.y);
-
-
     g.append("text")
         .attr("class", "axis-label")
         .attr("y", height + 20)
         .attr("x", (width / 2))
         .attr("dy", "1em")
         .text(dataset.axis.x);
-
     g.append("text")
         .attr("class", "footnote")
         .attr("y", height + 40)
@@ -288,21 +328,16 @@ function renderChart(ref, dataset) {
         .append("tspan")
         .attr("x", 0)
         .attr("dy", 15)
-        .text("email:  phac.infobase.aspc@canada.ca")
-
-
-
+        .text("email:  phac.infobase.aspc@canada.ca");
     g.append("text")
         .attr("y", height + 60)
         .attr("x", width)
         .attr("dy", "1em")
         .style("text-anchor", "end")
         .style("font-size", "10pt")
-        .text(dataset.source)
+        .text(dataset.source);
     svg.select("#title")
-        .text(dataset.title)
-
-
+        .text(dataset.title);
     // Sends the data point to the appropriate function
     dataset.values.forEach(({ points, type }) => {
         switch (type) {
@@ -312,40 +347,34 @@ function renderChart(ref, dataset) {
                 break;
             case 1:
                 // Trend
-                drawTrend(points)
+                drawTrend(points);
                 break;
             case 2:
                 // Line
                 drawLines(points);
                 break;
         }
-    })
-
+    });
     // Let's begin with the actual bars
     function drawBars(points) {
-        let computeBarWidth = () => width / points.length
-
+        let computeBarWidth = () => width / points.length;
         let binding = g.selectAll("g.bar")
-            .data(points)
+            .data(points);
         let bar = binding
             .enter()
             .append("g")
             .attr("class", "bar")
             .attr("transform-origin", "50, 50")
-            .attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + (yScale(d.value)) + "), scale(0.5, 1)")
-
+            .attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + (yScale(d.value)) + "), scale(0.5, 1)");
         bar.append("title")
-            .text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`)
-
+            .text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`);
         //bar.append("rect").attr("height", 20).attr("width", 20)
-
         bar.append("rect")
             .attr("width", computeBarWidth())
             .attr("fill", "#cf7587")
             .transition()
             .duration((_, i) => 100 * i + 800)
-            .attr("height", d => height - yScale(d.value))
-
+            .attr("height", d => height - yScale(d.value));
         // upper
         bar
             .append("line")
@@ -357,7 +386,6 @@ function renderChart(ref, dataset) {
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.lower) - yScale(d.value))
             .attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
-
         bar
             .append("line")
             .style("stroke", "#000")
@@ -368,25 +396,17 @@ function renderChart(ref, dataset) {
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.upper) - yScale(d.value))
             .attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
-
-
-
-        let xScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleBand"]()
+        let xScale = d3.scaleBand()
             .domain(points.map(function (d) { return d.label; }))
-            .range([0, width])
-
-        g.append("g").call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](xScale).ticks(50))
+            .range([0, width]);
+        g.append("g").call(d3.axisBottom(xScale).ticks(50))
             .attr("class", "x-axis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-
-
+            .attr("transform", "translate(" + 0 + "," + height + ")");
     }
-
     function drawLines(points) {
         let bars = g.selectAll(".line").data(points);
         let enteringBar = bars.enter();
         let enteredBar = enteringBar.append("g").attr("class", "line");
-
         enteredBar
             .append("line")
             .style("stroke", "#0000FF")
@@ -397,8 +417,6 @@ function renderChart(ref, dataset) {
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.value))
             .attr("y2", d => yScale(d.value));
-
-
         enteredBar
             .append("text")
             .attr("x", 20)
@@ -412,28 +430,21 @@ function renderChart(ref, dataset) {
             .attr("stroke-width", 1)
             .attr("fill", "red");
     }
-
     function drawTrend(points) {
-        let computeBarWidth = () => width / points.length
-
+        let computeBarWidth = () => width / points.length;
         let binding = g.selectAll("g.dot")
-            .data(points)
+            .data(points);
         let dot = binding
             .enter()
             .append("g")
             .attr("class", "dot")
             .attr("transform-origin", "50, 50")
-            .attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + (yScale(d.value)) + ")")
-
+            .attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + (yScale(d.value)) + ")");
         dot.append("title")
-            .text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`)
-
-
-
-        var line = d3__WEBPACK_IMPORTED_MODULE_0__["line"]()
+            .text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`);
+        var line = d3.line()
             .x((d, i) => i * computeBarWidth() + computeBarWidth() / 2)
             .y(d => yScale(d.value));
-
         g.append("g").attr("id", "lineContainer").append("path").data([points])
             .attr("class", "line solid")
             .attr("id", "coolPath")
@@ -444,9 +455,7 @@ function renderChart(ref, dataset) {
             .transition()
             .duration((_, i) => 100 * i + 800)
             .attr("stroke-width", 2);
-
         //bar.append("rect").attr("height", 20).attr("width", 20)
-
         dot.append("circle")
             .attr("r", 0)
             .transition()
@@ -454,8 +463,7 @@ function renderChart(ref, dataset) {
             .attr("r", 5)
             .attr("cx", computeBarWidth() / 4)
             .attr("cy", 0)
-            .attr("fill", "#cf7587")
-
+            .attr("fill", "#cf7587");
         // upper
         dot
             .append("line")
@@ -467,7 +475,6 @@ function renderChart(ref, dataset) {
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.lower) - yScale(d.value))
             .attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
-
         dot
             .append("line")
             .style("stroke", "#000")
@@ -478,21 +485,16 @@ function renderChart(ref, dataset) {
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.upper) - yScale(d.value))
             .attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
-
-
-
-        let xScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleBand"]()
+        let xScale = d3.scaleBand()
             .domain(points.map(function (d) { return d.label; }))
-            .range([0, width])
-
-
-        g.append("g").call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](xScale).ticks(50))
+            .range([0, width]);
+        g.append("g").call(d3.axisBottom(xScale).ticks(50))
             .attr("class", "x-axis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-
-
+            .attr("transform", "translate(" + 0 + "," + height + ")");
     }
 }
+exports.renderChart = renderChart;
+
 
 /***/ }),
 

@@ -1,7 +1,9 @@
 ﻿import * as d3 from "d3";
 
 export function renderChart(ref, dataset) {
+    
     const svg = d3.select(ref)
+    svg.selectAll("g").remove();
     let highestValue = d3.max(dataset.values.map(v => d3.max(v.points.map(p => d3.max([p.value, p.confidence.upper, p.confidence.lower])))));
     //console.log(highestValue); - left for debbuging
 

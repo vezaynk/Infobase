@@ -43,7 +43,7 @@ namespace ReactDotNetDemo
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<PASSContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("PASSContext")));
-
+            
             return services.BuildServiceProvider();
         }
 
@@ -64,9 +64,10 @@ namespace ReactDotNetDemo
                 config
                     .SetLoadReact(true)
                     .SetLoadBabel(false)
+                    .SetReuseJavaScriptEngines(false)
                     .AddScriptWithoutTransform("~/js/app.js");
             });
-
+                    
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace ReactDotNetDemo.Controllers
 {
+
     public class StrataController : Controller
     {
         private readonly PASSContext _context;

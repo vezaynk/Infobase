@@ -8,48 +8,7 @@
 </head>
 <body>
     <div>
-        @Html.React("Components.ChartPageState", new
-      {
-          filters = new List<object>()
-          {
-              new
-              {
-                  id = "Hey",
-                  name = "Hey",
-                  items = new List<object>()
-                  {
-                      new
-                      {
-                          text = "Hey",
-                          value = "Hey",
-                          selected = true
-
-                      }
-
-                  }
-
-              }
-               }
-      }, serverOnly: false)
-    </div>
-    <div>
-    @Html.React("Components.Filter", new
-{
-    id = "Hey",
-    name = "Hey",
-    items = new List<object>()
-                  {
-                      new
-                      {
-                          text = "Hey",
-                          value = "Hey",
-                          selected = true
-
-                      }
-
-                  }
-
-}, serverOnly: false)
+        @Html.React("Components.Test", new { }, serverOnly: false)
     </div>
 
 
