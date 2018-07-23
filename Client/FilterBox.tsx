@@ -8,7 +8,7 @@ import { ReactInstance } from 'react';
 
 class ChartDataStore {
     @observable filters: FilterProps[] = [];
-    @observable chartData = [];
+    @observable chartData: ChartData = [];
     @observable loading = false;
     @observable number = 0;
     async fetchData(id, value) {
@@ -160,14 +160,14 @@ export class Chart extends React.Component<null, ChartState> {
             renderChart(svg, store.chartData)
     }
     render() {
+        console.log("Rendering data", store.chartData)
         return (
             <div>
-            <svg ref="graph" width="100%" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet">
-                <foreignObject x="12.5%" y="0" width="75%" height="100">
-                    <h3 ref="title" id="title">Hello World</h3>
+            <svg id="graph" ref="graph" width="100%" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet">
+                    <foreignObject x="12.5%" y="0" width="75%" height="100">
+                        <h3>{store.chartData.title}</h3>
                 </foreignObject>
                 </svg>
-                <pre style={{display: 'none'}}>{store.chartData ? '' : ''}</pre>
             </div>
         )
     }

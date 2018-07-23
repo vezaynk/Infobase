@@ -14,7 +14,8 @@
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "save-svg-as-png": "^1.4.5"
   },
   "devDependencies": {
     "@types/react": "^16.4.0",

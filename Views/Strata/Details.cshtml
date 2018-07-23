@@ -22,15 +22,15 @@
 
     </div>
 
-    <div class="col-md-9 mrgn-tp-md brdr-lft">
-        @Html.Partial("Partials/Chart", Model.ChartData);
+    <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
+        @Html.Partial("Partials/Chart", Model.ChartData)
+        <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.IsFrench ? "Enregistrer" : "Save Chart")</a>
     </div>
 
     <div>
         <div class="mrgn-tp-sm mrgn-bttm-xs">
             <ul class="list-inline lst-spcd text-center mrgn-bttm-xs" id="PSChart">
                 <li class=" mrgn-bttm-xs">
-                    <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.IsFrench ? "Enregistrer" : "Save Chart")</a>
                 </li>
 
             </ul>

@@ -252,11 +252,11 @@ let Chart = class Chart extends React.Component {
             renderChart_1.renderChart(svg, store.chartData);
     }
     render() {
+        console.log("Rendering data", store.chartData);
         return (React.createElement("div", null,
-            React.createElement("svg", { ref: "graph", width: "100%", viewBox: "0 0 900 800", preserveAspectRatio: "xMidYMid meet" },
+            React.createElement("svg", { id: "graph", ref: "graph", width: "100%", viewBox: "0 0 900 800", preserveAspectRatio: "xMidYMid meet" },
                 React.createElement("foreignObject", { x: "12.5%", y: "0", width: "75%", height: "100" },
-                    React.createElement("h3", { ref: "title", id: "title" }, "Hello World"))),
-            React.createElement("pre", { style: { display: 'none' } }, store.chartData ? '' : '')));
+                    React.createElement("h3", null, store.chartData.title)))));
     }
 };
 Chart = __decorate([
@@ -336,8 +336,6 @@ function renderChart(ref, dataset) {
         .style("text-anchor", "end")
         .style("font-size", "10pt")
         .text(dataset.source);
-    svg.select("#title")
-        .text(dataset.title);
     // Sends the data point to the appropriate function
     dataset.values.forEach(({ points, type }) => {
         switch (type) {
@@ -356,6 +354,7 @@ function renderChart(ref, dataset) {
         }
     });
     // Let's begin with the actual bars
+    // Let's begin with the actual bars
     function drawBars(points) {
         let computeBarWidth = () => width / points.length;
         let binding = g.selectAll("g.bar")
@@ -371,7 +370,7 @@ function renderChart(ref, dataset) {
         //bar.append("rect").attr("height", 20).attr("width", 20)
         bar.append("rect")
             .attr("width", computeBarWidth())
-            .attr("fill", "#cf7587")
+            .attr("fill", "rgb(234, 67, 53)")
             .transition()
             .duration((_, i) => 100 * i + 800)
             .attr("height", d => height - yScale(d.value));
@@ -380,8 +379,8 @@ function renderChart(ref, dataset) {
             .append("line")
             .style("stroke", "#000")
             .attr("stroke-width", 2)
-            .attr("x1", (_d, i) => 0)
-            .attr("x2", (_d, i) => computeBarWidth())
+            .attr("x1", (_d, i) => 10)
+            .attr("x2", (_d, i) => computeBarWidth() - 10)
             .transition()
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.lower) - yScale(d.value))
@@ -390,8 +389,8 @@ function renderChart(ref, dataset) {
             .append("line")
             .style("stroke", "#000")
             .attr("stroke-width", 2)
-            .attr("x1", (_d, i) => 0)
-            .attr("x2", (_d, i) => computeBarWidth())
+            .attr("x1", (_d, i) => 10)
+            .attr("x2", (_d, i) => computeBarWidth() - 10)
             .transition()
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.upper) - yScale(d.value))
@@ -463,28 +462,31 @@ function renderChart(ref, dataset) {
             .attr("r", 5)
             .attr("cx", computeBarWidth() / 4)
             .attr("cy", 0)
-            .attr("fill", "#cf7587");
+            .attr("fill", "rgb(234, 67, 53)");
         // upper
         dot
             .append("line")
+            .attr("class", "upperbound")
             .style("stroke", "#000")
             .attr("stroke-width", 1)
-            .attr("x1", (_d, i) => 10)
-            .attr("x2", (_d, i) => 35)
+            .attr("x1", (_d, i) => computeBarWidth() / 6)
+            .attr("x2", (_d, i) => computeBarWidth() / 2 - computeBarWidth() / 6)
             .transition()
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.lower) - yScale(d.value))
             .attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
         dot
             .append("line")
+            .attr("class", "lowerbound")
             .style("stroke", "#000")
             .attr("stroke-width", 1)
-            .attr("x1", (_d, i) => 10)
-            .attr("x2", (_d, i) => 35)
+            .attr("x1", (_d, i) => computeBarWidth() / 6)
+            .attr("x2", (_d, i) => computeBarWidth() / 2 - computeBarWidth() / 6)
             .transition()
             .duration((_, i) => 100 * i + 800)
             .attr("y1", d => yScale(d.confidence.upper) - yScale(d.value))
             .attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
+        console.log("Hit");
         let xScale = d3.scaleBand()
             .domain(points.map(function (d) { return d.label; }))
             .range([0, width]);
