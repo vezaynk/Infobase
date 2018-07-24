@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReactDotNetDemo.Models;
 
 namespace ReactDotNetDemo.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20180723211412_shortlongtrans")]
+    partial class shortlongtrans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

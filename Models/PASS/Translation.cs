@@ -9,7 +9,8 @@ namespace ReactDotNetDemo.Models.PASS
     {
         public int TranslationId { get; set; }
         public string LanguageCode { get; set; }
-        public string Text { get; set; }
+        public string Short { get; set; }
+        public string Long { get; set; }
 
         /* Bunch of boilerplate to enable many-to-many bindings */
         public virtual ICollection<ActivityNameTranslation> ActivityNameTranslations { get; set; }

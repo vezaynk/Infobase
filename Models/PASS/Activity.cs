@@ -13,9 +13,9 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<ActivityNameTranslation> ActivityNameTranslations { get; set; }
         public virtual ICollection<ActivityDescriptionTranslation> ActivityDescriptionTranslations { get; set; }
         /* Text getters */
-        public string GetActivityName(string lc)
+        public string GetActivityName(string lc, bool useLong=true)
         {
-            return ActivityNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return ActivityNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
     }
 

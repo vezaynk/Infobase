@@ -17,9 +17,9 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<PointLabelTranslation> PointLabelTranslations { get; set; }
 
         /* Text getters */
-        public string GetPointLabel(string lc)
+        public string GetPointLabel(string lc, bool useLong = true)
         {
-            return PointLabelTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return PointLabelTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
     }
 

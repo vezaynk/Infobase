@@ -17,17 +17,17 @@ namespace ReactDotNetDemo.Models.PASS
 
         public virtual ICollection<Strata> Stratas { get; set; }
 
-        public string GetMeasureName(string lc)
+        public string GetMeasureName(string lc, bool useLong = true)
         {
-            return MeasureNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return MeasureNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
-        public string GetMeasureDefinition(string lc)
+        public string GetMeasureDefinition(string lc, bool useLong = true)
         {
-            return MeasureDefinitionTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return MeasureDefinitionTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
-        public string GetMeasureUnit(string lc)
+        public string GetMeasureUnit(string lc, bool useLong = true)
         {
-            return MeasureUnitTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return MeasureUnitTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
     }
 

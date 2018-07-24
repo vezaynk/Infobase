@@ -17,23 +17,21 @@ namespace ReactDotNetDemo.Models.PASS
 
         public virtual ICollection<Point> Points { get; set; }
         /* Text getters */
-        public string GetStrataNotes(string lc)
+        public string GetStrataNotes(string lc, bool useLong = true)
         {
-            return StrataNotesTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return StrataNotesTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
-        public string GetStrataSource(string lc)
+        public string GetStrataSource(string lc, bool useLong = true)
         {
-            return StrataSourceTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return StrataSourceTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
-        public string GetStrataPopulation(string lc)
+        public string GetStrataPopulation(string lc, bool useLong = true)
         {
-            return StrataPopulationTranslations.Where(t => t.Translation.LanguageCode == lc)
-                .Select(t => t.Translation.Text)
-                .FirstOrDefault();
+            return StrataPopulationTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
-        public string GetStrataName(string lc)
+        public string GetStrataName(string lc, bool useLong = true)
         {
-            return StrataNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return StrataNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
     }
     

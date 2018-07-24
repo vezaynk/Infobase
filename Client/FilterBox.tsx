@@ -7,8 +7,8 @@ import * as ReactDOM from 'react-dom';
 import { ReactInstance } from 'react';
 
 class ChartDataStore {
-    @observable filters: FilterProps[] = [];
-    @observable chartData: ChartData = [];
+    @observable filters: FilterProps[];
+    @observable chartData: ChartData;
     @observable loading = false;
     @observable number = 0;
     async fetchData(id, value) {

@@ -14,9 +14,9 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<Measure> Measures { get; set; }
 
         /* Text getters */
-        public string GetIndicatorName(string lc)
+        public string GetIndicatorName(string lc, bool useLong=true)
         {
-            return IndicatorNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return IndicatorNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
     }
 

@@ -13,9 +13,9 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<IndicatorGroupNameTranslation> IndicatorGroupNameTranslations { get; set; }
         public virtual ICollection<LifeCourse> LifeCourses { get; set; }
 
-        public string GetIndicatorGroupName(string lc)
+        public string GetIndicatorGroupName(string lc, bool useLong = true)
         {
-            return IndicatorGroupNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => t.Translation.Text).FirstOrDefault();
+            return IndicatorGroupNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
         }
     }
 

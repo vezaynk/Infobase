@@ -224,7 +224,7 @@ namespace ReactDotNetDemo.Controllers
                                      .Select(ac => new DropdownItem
                                             {
                                                 Value = ac.ActivityId,
-                                                Text = ac.GetActivityName("EN")
+                                                Text = ac.GetActivityName("EN", true)
                                             });
             
             cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
