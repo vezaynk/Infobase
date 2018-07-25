@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReactDotNetDemo.Models;
 
 namespace ReactDotNetDemo.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20180724180741_trasn2")]
+    partial class trasn2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,12 +148,6 @@ namespace ReactDotNetDemo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double?>("CVSuppressAt");
-
-                    b.Property<double?>("CVWarnAt");
-
-                    b.Property<bool>("Included");
-
                     b.Property<int>("IndicatorId");
 
                     b.HasKey("MeasureId");
@@ -187,32 +183,6 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("MeasureNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasurePopulationTranslation", b =>
-                {
-                    b.Property<int>("TranslationId");
-
-                    b.Property<int>("MeasureId");
-
-                    b.HasKey("TranslationId", "MeasureId");
-
-                    b.HasIndex("MeasureId");
-
-                    b.ToTable("MeasurePopulationTranslation");
-                });
-
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureSourceTranslation", b =>
-                {
-                    b.Property<int>("TranslationId");
-
-                    b.Property<int>("MeasureId");
-
-                    b.HasKey("TranslationId", "MeasureId");
-
-                    b.HasIndex("MeasureId");
-
-                    b.ToTable("MeasureSourceTranslation");
-                });
-
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureUnitTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
@@ -233,8 +203,6 @@ namespace ReactDotNetDemo.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CVInterpretation");
-
-                    b.Property<int?>("CVValue");
 
                     b.Property<int>("StrataId");
 
@@ -303,6 +271,32 @@ namespace ReactDotNetDemo.Migrations
                     b.HasIndex("StrataId");
 
                     b.ToTable("StrataNotesTranslation");
+                });
+
+            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataPopulationTranslation", b =>
+                {
+                    b.Property<int>("TranslationId");
+
+                    b.Property<int>("StrataId");
+
+                    b.HasKey("TranslationId", "StrataId");
+
+                    b.HasIndex("StrataId");
+
+                    b.ToTable("StrataPopulationTranslation");
+                });
+
+            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataSourceTranslation", b =>
+                {
+                    b.Property<int>("TranslationId");
+
+                    b.Property<int>("StrataId");
+
+                    b.HasKey("TranslationId", "StrataId");
+
+                    b.HasIndex("StrataId");
+
+                    b.ToTable("StrataSourceTranslation");
                 });
 
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Translation", b =>
@@ -445,32 +439,6 @@ namespace ReactDotNetDemo.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasurePopulationTranslation", b =>
-                {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
-                        .WithMany("MeasurePopulationTranslations")
-                        .HasForeignKey("MeasureId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
-                        .WithMany("MeasurePopulationTranslations")
-                        .HasForeignKey("TranslationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureSourceTranslation", b =>
-                {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
-                        .WithMany("MeasureSourceTranslations")
-                        .HasForeignKey("MeasureId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
-                        .WithMany("MeasureSourceTranslations")
-                        .HasForeignKey("TranslationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureUnitTranslation", b =>
                 {
                     b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
@@ -535,6 +503,32 @@ namespace ReactDotNetDemo.Migrations
 
                     b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
                         .WithMany("StrataNotesTranslations")
+                        .HasForeignKey("TranslationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataPopulationTranslation", b =>
+                {
+                    b.HasOne("ReactDotNetDemo.Models.PASS.Strata", "Strata")
+                        .WithMany("StrataPopulationTranslations")
+                        .HasForeignKey("StrataId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                        .WithMany("StrataPopulationTranslations")
+                        .HasForeignKey("TranslationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataSourceTranslation", b =>
+                {
+                    b.HasOne("ReactDotNetDemo.Models.PASS.Strata", "Strata")
+                        .WithMany("StrataSourceTranslations")
+                        .HasForeignKey("StrataId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                        .WithMany("StrataSourceTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

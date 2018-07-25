@@ -53,11 +53,7 @@ namespace ReactDotNetDemo.Controllers
                 // Strata
                 .Include(s => s.StrataNameTranslations)
                     .ThenInclude(t => t.Translation)
-                .Include(s => s.StrataPopulationTranslations)
-                    .ThenInclude(t => t.Translation)
                 .Include(s => s.StrataNotesTranslations)
-                    .ThenInclude(t => t.Translation)
-                .Include(s => s.StrataSourceTranslations)
                     .ThenInclude(t => t.Translation)
                 // Measure
                 .Include(s => s.Measure.MeasureUnitTranslations)
@@ -66,7 +62,11 @@ namespace ReactDotNetDemo.Controllers
                     .ThenInclude(t => t.Translation)
                 .Include(s => s.Measure.MeasureDefinitionTranslations)
                     .ThenInclude(t => t.Translation)
-                
+                .Include(s => s.Measure.MeasurePopulationTranslations)
+                    .ThenInclude(t => t.Translation)
+                .Include(s => s.Measure.MeasureSourceTranslations)
+                    .ThenInclude(t => t.Translation)
+
                 // Points
                 .Include(s => s.Points)
                     .ThenInclude(p => p.PointLabelTranslations)
@@ -138,17 +138,17 @@ namespace ReactDotNetDemo.Controllers
                 {
                     axis = new ChartData.Labels
                     {
-                        x = strata.GetStrataName("EN"),
-                        y = strata.Measure.GetMeasureUnit("EN")
+                        x = strata.GetStrataName("EN", null),
+                        y = strata.Measure.GetMeasureUnit("EN", null)
                     },
-                    title = strata.Measure.GetMeasureName("EN") + ", " + strata.GetStrataPopulation("EN"),
-                    population = strata.GetStrataPopulation("EN"),
-                    notes = strata.GetStrataNotes("EN"),
-                    source = strata.GetStrataSource("EN"),
+                    title = strata.Measure.GetMeasureName("EN", null) + ", " + strata.Measure.GetMeasurePopulation("EN", null),
+                    population = strata.Measure.GetMeasurePopulation("EN", null),
+                    notes = strata.GetStrataNotes("EN", null),
+                    source = strata.Measure.GetMeasureSource("EN", null),
                     values = new List<ChartData.Values>(),
                     measure = new ChartData.MeasureDescription
                     {
-                        definition = strata.Measure.GetMeasureDefinition("EN"),
+                        definition = strata.Measure.GetMeasureDefinition("EN", null),
                         dataAvailable = "",
                         method = "",
                         additionalNotes = ""
@@ -158,7 +158,7 @@ namespace ReactDotNetDemo.Controllers
 
             var ChartDataPointsQuery = strata.Points.Select(p => new
             {
-                label = p.GetPointLabel("EN"),
+                label = p.GetPointLabel("EN", null),
                 value = p.ValueAverage ?? 0,
                     upper = p.ValueUpper ?? 0,
                     lower = p.ValueLower ?? 0,
@@ -194,7 +194,7 @@ namespace ReactDotNetDemo.Controllers
                  */
 
                 int type = 0;
-                if (strata.GetStrataName("EN").Contains("Trend"))
+                if (strata.GetStrataName("EN", null).Contains("Trend"))
                     type = 1;
 
 
@@ -224,7 +224,7 @@ namespace ReactDotNetDemo.Controllers
                                      .Select(ac => new DropdownItem
                                             {
                                                 Value = ac.ActivityId,
-                                                Text = ac.GetActivityName("EN", true)
+                                                Text = ac.GetActivityName("EN", null)
                                             });
             
             cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
@@ -232,7 +232,7 @@ namespace ReactDotNetDemo.Controllers
             var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups.Select(ig => new DropdownItem
             {
                 Value = ig.IndicatorGroupId,
-                Text = ig.GetIndicatorGroupName("EN")
+                Text = ig.GetIndicatorGroupName("EN", null)
             });
 
             cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
@@ -240,7 +240,7 @@ namespace ReactDotNetDemo.Controllers
             var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses.Select(lc => new DropdownItem
             {
                 Value = lc.LifeCourseId,
-                Text = lc.GetLifeCourseName("EN")
+                Text = lc.GetLifeCourseName("EN", null)
             });
 
             cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
@@ -248,7 +248,7 @@ namespace ReactDotNetDemo.Controllers
             var indicators = strata.Measure.Indicator.LifeCourse.Indicators.Select(i => new DropdownItem
             {
                 Value = i.IndicatorId,
-                Text = i.GetIndicatorName("EN")
+                Text = i.GetIndicatorName("EN", null)
             });
 
             cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
@@ -256,7 +256,7 @@ namespace ReactDotNetDemo.Controllers
             var measures = strata.Measure.Indicator.Measures.Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
-                Text = m.GetMeasureName("EN")
+                Text = m.GetMeasureName("EN", null)
             });
 
             cpm.filters.Add(new DropdownMenuModel("Measures", "measureId", measures, strata.MeasureId));
@@ -264,7 +264,7 @@ namespace ReactDotNetDemo.Controllers
             var stratas = strata.Measure.Stratas.Select(s => new DropdownItem
             {
                 Value = s.StrataId,
-                Text = s.GetStrataName("EN")
+                Text = s.GetStrataName("EN", null)
             });
 
             cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas, strataId));

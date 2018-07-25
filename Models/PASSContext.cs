@@ -126,30 +126,30 @@ namespace ReactDotNetDemo.Models
                 .WithMany(c => c.MeasureDefinitionTranslations)
                 .HasForeignKey(pc => pc.TranslationId);
 
-            modelBuilder.Entity<StrataSourceTranslation>()
-                .HasKey(pc => new { pc.TranslationId, pc.StrataId });
+            modelBuilder.Entity<MeasureSourceTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.MeasureId });
 
-            modelBuilder.Entity<StrataSourceTranslation>()
-                .HasOne(pc => pc.Strata)
-                .WithMany(p => p.StrataSourceTranslations)
-                .HasForeignKey(pc => pc.StrataId);
+            modelBuilder.Entity<MeasureSourceTranslation>()
+                .HasOne(pc => pc.Measure)
+                .WithMany(p => p.MeasureSourceTranslations)
+                .HasForeignKey(pc => pc.MeasureId);
 
-            modelBuilder.Entity<StrataSourceTranslation>()
+            modelBuilder.Entity<MeasureSourceTranslation>()
                 .HasOne(pc => pc.Translation)
-                .WithMany(c => c.StrataSourceTranslations)
+                .WithMany(c => c.MeasureSourceTranslations)
                 .HasForeignKey(pc => pc.TranslationId);
 
-            modelBuilder.Entity<StrataPopulationTranslation>()
-                .HasKey(pc => new { pc.TranslationId, pc.StrataId });
+            modelBuilder.Entity<MeasurePopulationTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.MeasureId });
 
-            modelBuilder.Entity<StrataPopulationTranslation>()
-                .HasOne(pc => pc.Strata)
-                .WithMany(p => p.StrataPopulationTranslations)
-                .HasForeignKey(pc => pc.StrataId);
+            modelBuilder.Entity<MeasurePopulationTranslation>()
+                .HasOne(pc => pc.Measure)
+                .WithMany(p => p.MeasurePopulationTranslations)
+                .HasForeignKey(pc => pc.MeasureId);
 
-            modelBuilder.Entity<StrataPopulationTranslation>()
+            modelBuilder.Entity<MeasurePopulationTranslation>()
                 .HasOne(pc => pc.Translation)
-                .WithMany(c => c.StrataPopulationTranslations)
+                .WithMany(c => c.MeasurePopulationTranslations)
                 .HasForeignKey(pc => pc.TranslationId);
 
 

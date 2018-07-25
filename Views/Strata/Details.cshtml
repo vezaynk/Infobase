@@ -23,18 +23,29 @@
     </div>
 
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.Partial("Partials/Chart", Model.ChartData)
+        @Html.React("Components.Chart", new { data = Model.ChartData }, clientOnly: true)
+
+        <script src="https://cdn.rawgit.com/exupero/saveSvgAsPng/gh-pages/src/saveSvgAsPng.js"></script>
+        <style type="text/css">
+
+            .bar rect:hover {
+                fill: #dfbcbd;
+            }
+
+            .footnote tspan {
+                fill: rgb(220, 20, 60);
+            }
+
+            .axis-label {
+                text-anchor: middle;
+                font-weight: bold;
+            }
+
+            #title {
+                text-align: center;
+            }
+        </style>
         <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.IsFrench ? "Enregistrer" : "Save Chart")</a>
-    </div>
-
-    <div>
-        <div class="mrgn-tp-sm mrgn-bttm-xs">
-            <ul class="list-inline lst-spcd text-center mrgn-bttm-xs" id="PSChart">
-                <li class=" mrgn-bttm-xs">
-                </li>
-
-            </ul>
-        </div>
     </div>
 </div>
 

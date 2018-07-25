@@ -13,13 +13,10 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<ActivityNameTranslation> ActivityNameTranslations { get; set; }
         public virtual ICollection<ActivityDescriptionTranslation> ActivityDescriptionTranslations { get; set; }
         /* Text getters */
-        public string GetActivityName(string lc, bool useLong=true)
-        {
-            return ActivityNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetActivityName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)ActivityNameTranslations, lc, null);
     }
 
-    public class ActivityNameTranslation
+    public class ActivityNameTranslation: ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }
@@ -28,7 +25,7 @@ namespace ReactDotNetDemo.Models.PASS
     }
 
 
-    public class ActivityDescriptionTranslation
+    public class ActivityDescriptionTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }

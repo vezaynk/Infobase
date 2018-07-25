@@ -14,13 +14,10 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<Indicator> Indicators { get; set; }
 
         /* Text getters */
-        public string GetLifeCourseName(string lc, bool useLong = true)
-        {
-            return LifeCourseNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetLifeCourseName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)LifeCourseNameTranslations, lc, null);
     }
 
-    public class LifeCourseNameTranslation
+    public class LifeCourseNameTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }

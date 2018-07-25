@@ -13,13 +13,10 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<IndicatorGroupNameTranslation> IndicatorGroupNameTranslations { get; set; }
         public virtual ICollection<LifeCourse> LifeCourses { get; set; }
 
-        public string GetIndicatorGroupName(string lc, bool useLong = true)
-        {
-            return IndicatorGroupNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetIndicatorGroupName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)IndicatorGroupNameTranslations, lc, null);
     }
 
-    public class IndicatorGroupNameTranslation
+    public class IndicatorGroupNameTranslation: ITranslation
     {
         public int IndicatorGroupId { get; set; }
         public virtual IndicatorGroup IndicatorGroup { get; set; }

@@ -13,17 +13,15 @@ namespace ReactDotNetDemo.Models.PASS
         public double? ValueUpper { get; set; }
         public double? ValueLower { get; set; }
         public int CVInterpretation { get; set; }
+        public int? CVValue { get; set; }
         public virtual Strata Strata { get; set; }
         public virtual ICollection<PointLabelTranslation> PointLabelTranslations { get; set; }
 
         /* Text getters */
-        public string GetPointLabel(string lc, bool useLong = true)
-        {
-            return PointLabelTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetPointLabel(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>) PointLabelTranslations, lc, null);
     }
 
-    public class PointLabelTranslation
+    public class PointLabelTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }

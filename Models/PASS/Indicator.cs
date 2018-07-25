@@ -14,13 +14,10 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<Measure> Measures { get; set; }
 
         /* Text getters */
-        public string GetIndicatorName(string lc, bool useLong=true)
-        {
-            return IndicatorNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetIndicatorName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)IndicatorNameTranslations, lc, null);
     }
 
-    public class IndicatorNameTranslation
+    public class IndicatorNameTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }

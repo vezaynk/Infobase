@@ -11,48 +11,16 @@ namespace ReactDotNetDemo.Models.PASS
         public int MeasureId { get; set; }
         public virtual Measure Measure { get; set; }
         public virtual ICollection<StrataNameTranslation> StrataNameTranslations { get; set; }
-        public virtual ICollection<StrataPopulationTranslation> StrataPopulationTranslations { get; set; }
-        public virtual ICollection<StrataSourceTranslation> StrataSourceTranslations { get; set; }
         public virtual ICollection<StrataNotesTranslation> StrataNotesTranslations { get; set; }
 
         public virtual ICollection<Point> Points { get; set; }
         /* Text getters */
-        public string GetStrataNotes(string lc, bool useLong = true)
-        {
-            return StrataNotesTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
-        public string GetStrataSource(string lc, bool useLong = true)
-        {
-            return StrataSourceTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
-        public string GetStrataPopulation(string lc, bool useLong = true)
-        {
-            return StrataPopulationTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
-        public string GetStrataName(string lc, bool useLong = true)
-        {
-            return StrataNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetStrataNotes(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)StrataNotesTranslations, lc, null);
+        public string GetStrataName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)StrataNameTranslations, lc, null);
     }
     
 
-    public class StrataNameTranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int StrataId { get; set; }
-        public virtual Strata Strata { get; set; }
-    }
-
-    public class StrataPopulationTranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int StrataId { get; set; }
-        public virtual Strata Strata { get; set; }
-    }
-
-    public class StrataSourceTranslation
+    public class StrataNameTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }
@@ -61,7 +29,7 @@ namespace ReactDotNetDemo.Models.PASS
     }
 
 
-    public class StrataNotesTranslation
+    public class StrataNotesTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }

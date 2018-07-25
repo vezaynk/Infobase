@@ -29992,7 +29992,7 @@ function grabStoresByName(storeNames) {
  * or a function that manually maps the available stores from the context to props:
  * storesToProps(mobxStores, props, context) => newProps
  */
-function inject() /* fn(stores, nextProps) or ...storeNames */{
+function inject() /* fn(stores, nextProps) or ..StoreNames */{
     var grabStoresFn = void 0;
     if (typeof arguments[0] === "function") {
         grabStoresFn = arguments[0];

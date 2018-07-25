@@ -10,35 +10,32 @@ namespace ReactDotNetDemo.Models.PASS
         public int MeasureId { get; set; }
         public int IndicatorId { get; set; }
         public virtual Indicator Indicator { get; set; }
+        public bool Included { get; set; }
+        public double? CVWarnAt { get; set; }
+        public double? CVSuppressAt { get; set; }
+        public virtual ICollection<MeasureNameTranslation> MeasureNameTranslations { get; set; }
         public virtual ICollection<MeasureUnitTranslation> MeasureUnitTranslations { get; set; }
+        public virtual ICollection<MeasureSourceTranslation> MeasureSourceTranslations { get; set; }
+        public virtual ICollection<MeasurePopulationTranslation> MeasurePopulationTranslations { get; set; }
         public virtual ICollection<MeasureDefinitionTranslation> MeasureDefinitionTranslations { get; set; }
-        
-       public virtual ICollection<MeasureNameTranslation> MeasureNameTranslations { get; set; }
 
         public virtual ICollection<Strata> Stratas { get; set; }
 
-        public string GetMeasureName(string lc, bool useLong = true)
-        {
-            return MeasureNameTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
-        public string GetMeasureDefinition(string lc, bool useLong = true)
-        {
-            return MeasureDefinitionTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
-        public string GetMeasureUnit(string lc, bool useLong = true)
-        {
-            return MeasureUnitTranslations.Where(t => t.Translation.LanguageCode == lc).Select(t => useLong ? t.Translation.Long : t.Translation.Short).FirstOrDefault();
-        }
+        public string GetMeasureName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)MeasureNameTranslations, lc, null);
+        public string GetMeasureDefinition(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)MeasureDefinitionTranslations, lc, null);
+        public string GetMeasureUnit(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)MeasureUnitTranslations, lc, null);
+        public string GetMeasureSource(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)MeasureSourceTranslations, lc, null);
+        public string GetMeasurePopulation(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)MeasurePopulationTranslations, lc, null);
     }
 
-    public class MeasureNameTranslation
+    public class MeasureNameTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }
         public int MeasureId { get; set; }
         public virtual Measure Measure { get; set; }
     }
-    public class MeasureUnitTranslation
+    public class MeasureUnitTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }
@@ -46,7 +43,25 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual Measure Measure { get; set; }
     }
 
-    public class MeasureDefinitionTranslation
+    public class MeasureDefinitionTranslation : ITranslation
+    {
+        public int TranslationId { get; set; }
+        public virtual Translation Translation { get; set; }
+        public int MeasureId { get; set; }
+        public virtual Measure Measure { get; set; }
+    }
+
+
+
+    public class MeasurePopulationTranslation : ITranslation
+    {
+        public int TranslationId { get; set; }
+        public virtual Translation Translation { get; set; }
+        public int MeasureId { get; set; }
+        public virtual Measure Measure { get; set; }
+    }
+
+    public class MeasureSourceTranslation : ITranslation
     {
         public int TranslationId { get; set; }
         public virtual Translation Translation { get; set; }
