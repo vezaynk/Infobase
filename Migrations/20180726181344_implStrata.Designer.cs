@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReactDotNetDemo.Models;
 
 namespace ReactDotNetDemo.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20180726181344_implStrata")]
+    partial class implStrata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,11 +27,7 @@ namespace ReactDotNetDemo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DefaultIndicatorGroupId");
-
                     b.HasKey("ActivityId");
-
-                    b.HasIndex("DefaultIndicatorGroupId");
 
                     b.ToTable("Activity");
                 });
@@ -66,13 +64,9 @@ namespace ReactDotNetDemo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DefaultMeasureId");
-
                     b.Property<int>("LifeCourseId");
 
                     b.HasKey("IndicatorId");
-
-                    b.HasIndex("DefaultMeasureId");
 
                     b.HasIndex("LifeCourseId");
 
@@ -87,13 +81,9 @@ namespace ReactDotNetDemo.Migrations
 
                     b.Property<int>("ActivityId");
 
-                    b.Property<int?>("DefaultLifeCourseId");
-
                     b.HasKey("IndicatorGroupId");
 
                     b.HasIndex("ActivityId");
-
-                    b.HasIndex("DefaultLifeCourseId");
 
                     b.ToTable("IndicatorGroup");
                 });
@@ -130,13 +120,9 @@ namespace ReactDotNetDemo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DefaultIndicatorId");
-
                     b.Property<int>("IndicatorGroupId");
 
                     b.HasKey("LifeCourseId");
-
-                    b.HasIndex("DefaultIndicatorId");
 
                     b.HasIndex("IndicatorGroupId");
 
@@ -166,15 +152,11 @@ namespace ReactDotNetDemo.Migrations
 
                     b.Property<double?>("CVWarnAt");
 
-                    b.Property<int?>("DefaultStrataId");
-
                     b.Property<bool>("Included");
 
                     b.Property<int>("IndicatorId");
 
                     b.HasKey("MeasureId");
-
-                    b.HasIndex("DefaultStrataId");
 
                     b.HasIndex("IndicatorId");
 
@@ -368,13 +350,6 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Translation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Activity", b =>
-                {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.IndicatorGroup", "DefaultIndicatorGroup")
-                        .WithMany()
-                        .HasForeignKey("DefaultIndicatorGroupId");
-                });
-
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.ActivityDescriptionTranslation", b =>
                 {
                     b.HasOne("ReactDotNetDemo.Models.PASS.Activity", "Activity")
@@ -403,10 +378,6 @@ namespace ReactDotNetDemo.Migrations
 
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Indicator", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "DefaultMeasure")
-                        .WithMany()
-                        .HasForeignKey("DefaultMeasureId");
-
                     b.HasOne("ReactDotNetDemo.Models.PASS.LifeCourse", "LifeCourse")
                         .WithMany("Indicators")
                         .HasForeignKey("LifeCourseId")
@@ -419,10 +390,6 @@ namespace ReactDotNetDemo.Migrations
                         .WithMany("IndicatorGroups")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReactDotNetDemo.Models.PASS.LifeCourse", "DefaultLifeCourse")
-                        .WithMany()
-                        .HasForeignKey("DefaultLifeCourseId");
                 });
 
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorGroupNameTranslation", b =>
@@ -453,10 +420,6 @@ namespace ReactDotNetDemo.Migrations
 
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.LifeCourse", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Indicator", "DefaultIndicator")
-                        .WithMany()
-                        .HasForeignKey("DefaultIndicatorId");
-
                     b.HasOne("ReactDotNetDemo.Models.PASS.IndicatorGroup", "IndicatorGroup")
                         .WithMany("LifeCourses")
                         .HasForeignKey("IndicatorGroupId")
@@ -478,10 +441,6 @@ namespace ReactDotNetDemo.Migrations
 
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Measure", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Strata", "DefaultStrata")
-                        .WithMany()
-                        .HasForeignKey("DefaultStrataId");
-
                     b.HasOne("ReactDotNetDemo.Models.PASS.Indicator", "Indicator")
                         .WithMany("Measures")
                         .HasForeignKey("IndicatorId")

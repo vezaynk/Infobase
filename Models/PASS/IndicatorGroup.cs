@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +11,15 @@ namespace ReactDotNetDemo.Models.PASS
         public int IndicatorGroupId { get; set; }
         public int ActivityId { get; set; }
         public virtual Activity Activity { get; set; }
+        
         public virtual ICollection<IndicatorGroupNameTranslation> IndicatorGroupNameTranslations { get; set; }
+        [InverseProperty("IndicatorGroup")]
         public virtual ICollection<LifeCourse> LifeCourses { get; set; }
 
-        public string GetIndicatorGroupName(string lc, string type) => Translation.GetTranslation((ICollection<ITranslation>)IndicatorGroupNameTranslations, lc, null);
+        public string GetIndicatorGroupName(string lc, string type) => Translation.GetTranslation(IndicatorGroupNameTranslations, lc, null);
+        public int? DefaultLifeCourseId { get; set; }
+        [ForeignKey("DefaultLifeCourseId")]
+        public virtual LifeCourse DefaultLifeCourse { get; set; }
     }
 
     public class IndicatorGroupNameTranslation: ITranslation

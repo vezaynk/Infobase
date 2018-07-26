@@ -190,6 +190,32 @@ namespace ReactDotNetDemo.Models
                 .WithMany(c => c.StrataNameTranslations)
                 .HasForeignKey(pc => pc.TranslationId);
 
+            modelBuilder.Entity<StrataSourceTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.StrataId });
+
+            modelBuilder.Entity<StrataSourceTranslation>()
+                .HasOne(pc => pc.Strata)
+                .WithMany(p => p.StrataSourceTranslations)
+                .HasForeignKey(pc => pc.StrataId);
+
+            modelBuilder.Entity<StrataSourceTranslation>()
+                .HasOne(pc => pc.Translation)
+                .WithMany(c => c.StrataSourceTranslations)
+                .HasForeignKey(pc => pc.TranslationId);
+
+            modelBuilder.Entity<StrataPopulationTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.StrataId });
+
+            modelBuilder.Entity<StrataPopulationTranslation>()
+                .HasOne(pc => pc.Strata)
+                .WithMany(p => p.StrataPopulationTranslations)
+                .HasForeignKey(pc => pc.StrataId);
+
+            modelBuilder.Entity<StrataPopulationTranslation>()
+                .HasOne(pc => pc.Translation)
+                .WithMany(c => c.StrataPopulationTranslations)
+                .HasForeignKey(pc => pc.TranslationId);
+
 
             modelBuilder.Entity<PointLabelTranslation>()
                 .HasKey(pc => new { pc.TranslationId, pc.PointId });

@@ -26,10 +26,12 @@ namespace ReactDotNetDemo.Models.PASS
 
         public virtual ICollection<PointLabelTranslation> PointLabelTranslations { get; set; }
         public virtual ICollection<StrataNameTranslation> StrataNameTranslations { get; set; }
+        public virtual ICollection<StrataPopulationTranslation> StrataPopulationTranslations { get; set; }
+        public virtual ICollection<StrataSourceTranslation> StrataSourceTranslations { get; set; }
         public virtual ICollection<MeasurePopulationTranslation> MeasurePopulationTranslations { get; set; }
 
         // Simplified process for getting wanted translation
-        public static string GetTranslation(ICollection<ITranslation> TranslationTable, string lc, string type)
+        public static string GetTranslation(IEnumerable<ITranslation> TranslationTable, string lc, string type)
         {
             return TranslationTable
                     .Where(t => (type == null || t.Translation.Type == type) 

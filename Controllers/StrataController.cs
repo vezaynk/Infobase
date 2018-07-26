@@ -31,7 +31,7 @@ namespace ReactDotNetDemo.Controllers
         // GET: Strata/Details/
         public async Task<IActionResult> Details(int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
         {
-            /* Figure out a strataId to use. Not terribly efficient but it works fam and wastes only a single query. */
+            /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
             if (activityId != null)
                 indicatorGroupId = _context.IndicatorGroup.FirstOrDefault(m => m.ActivityId == activityId).IndicatorGroupId;
 
@@ -42,7 +42,7 @@ namespace ReactDotNetDemo.Controllers
                 indicatorId = _context.Indicator.FirstOrDefault(m => m.LifeCourseId == lifeCourseId).IndicatorId;
 
             if (indicatorId != null)
-                measureId = _context.Measure.FirstOrDefault(m => m.IndicatorId == indicatorId).MeasureId;
+                measureId = _context.Measure.FirstOrDefault(m => m.IndicatorId == indicatorId && m.Included).MeasureId;
 
             if (measureId != null)
                 strataId = _context.Strata.FirstOrDefault(m => m.MeasureId == measureId).StrataId;
