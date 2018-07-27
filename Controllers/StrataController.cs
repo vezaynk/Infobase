@@ -32,20 +32,24 @@ namespace ReactDotNetDemo.Controllers
         public async Task<IActionResult> Details(int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
         {
             /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
+
             if (activityId != null)
-                indicatorGroupId = _context.IndicatorGroup.FirstOrDefault(m => m.ActivityId == activityId).IndicatorGroupId;
+                indicatorGroupId = _context.Activity.FirstOrDefault(m => m.ActivityId == activityId && m.DefaultIndicatorGroupId != null).DefaultIndicatorGroupId;
 
             if (indicatorGroupId != null)
-                lifeCourseId = _context.LifeCourse.FirstOrDefault(m => m.IndicatorGroupId == indicatorGroupId).LifeCourseId;
+                lifeCourseId = _context.IndicatorGroup.FirstOrDefault(m => m.IndicatorGroupId == indicatorGroupId && m.DefaultLifeCourseId != null).DefaultLifeCourseId;
 
             if (lifeCourseId != null)
-                indicatorId = _context.Indicator.FirstOrDefault(m => m.LifeCourseId == lifeCourseId).IndicatorId;
+                indicatorId = _context.LifeCourse.FirstOrDefault(m => m.LifeCourseId == lifeCourseId && m.DefaultIndicatorId != null).DefaultIndicatorId;
 
             if (indicatorId != null)
-                measureId = _context.Measure.FirstOrDefault(m => m.IndicatorId == indicatorId && m.Included).MeasureId;
+                measureId = _context.Indicator.FirstOrDefault(m => m.IndicatorId == indicatorId && m.DefaultMeasureId != null).DefaultMeasureId;
 
             if (measureId != null)
-                strataId = _context.Strata.FirstOrDefault(m => m.MeasureId == measureId).StrataId;
+                strataId = _context.Measure.FirstOrDefault(m => m.MeasureId == measureId && m.DefaultStrataId != null).DefaultStrataId ?? -1;
+
+            if (strataId < 0)
+                return NotFound();
             
 
             var strata = await _context.Strata
@@ -219,6 +223,7 @@ namespace ReactDotNetDemo.Controllers
             }
 
             var activities = _context.Activity
+                                     .Where(ac => ac.DefaultIndicatorGroupId != null)
                                      .Include(ac => ac.ActivityNameTranslations)
                                      .ThenInclude(at => at.Translation)
                                      .Select(ac => new DropdownItem
@@ -229,7 +234,9 @@ namespace ReactDotNetDemo.Controllers
             
             cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
 
-            var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups.Select(ig => new DropdownItem
+            var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups
+                                     .Where(ig => ig.DefaultLifeCourseId != null)
+                                     .Select(ig => new DropdownItem
             {
                 Value = ig.IndicatorGroupId,
                 Text = ig.GetIndicatorGroupName("EN", null)
@@ -237,7 +244,9 @@ namespace ReactDotNetDemo.Controllers
 
             cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
 
-            var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses.Select(lc => new DropdownItem
+            var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses
+                                     .Where(lc => lc.DefaultIndicatorId != null)
+                                     .Select(lc => new DropdownItem
             {
                 Value = lc.LifeCourseId,
                 Text = lc.GetLifeCourseName("EN", null)
@@ -245,7 +254,9 @@ namespace ReactDotNetDemo.Controllers
 
             cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
 
-            var indicators = strata.Measure.Indicator.LifeCourse.Indicators.Select(i => new DropdownItem
+            var indicators = strata.Measure.Indicator.LifeCourse.Indicators
+                                     .Where(i => i.DefaultMeasureId != null)
+                                     .Select(i => new DropdownItem
             {
                 Value = i.IndicatorId,
                 Text = i.GetIndicatorName("EN", null)
@@ -253,7 +264,9 @@ namespace ReactDotNetDemo.Controllers
 
             cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
 
-            var measures = strata.Measure.Indicator.Measures.Select(m => new DropdownItem
+            var measures = strata.Measure.Indicator.Measures
+                                     .Where(m => m.DefaultStrataId != null)
+                                     .Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
                 Text = m.GetMeasureName("EN", null)
