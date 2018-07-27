@@ -27,6 +27,7 @@ namespace ReactDotNetDemo.Models.PASS
         public string GetMeasureUnit(string lc, string type) => Translation.GetTranslation(MeasureUnitTranslations, lc, null);
         public string GetMeasureSource(string lc, string type) => Translation.GetTranslation(MeasureSourceTranslations, lc, null);
         public string GetMeasurePopulation(string lc, string type) => Translation.GetTranslation(MeasurePopulationTranslations, lc, null);
+        public Point MeasurePoint { get => DefaultStrata.Points.FirstOrDefault(p => p.Type == 2); }
 
         public int? DefaultStrataId { get; set; }
         [ForeignKey("DefaultStrataId")]

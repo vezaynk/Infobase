@@ -19,6 +19,8 @@ namespace ReactDotNetDemo.Models.PASS
 
         /* Text getters */
         public string GetPointLabel(string lc, string type) => Translation.GetTranslation( PointLabelTranslations, lc, null);
+
+        public int Type { get; set; }
     }
 
     public class PointLabelTranslation : ITranslation
