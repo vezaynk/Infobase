@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReactDotNetDemo.Models;
 
 namespace ReactDotNetDemo.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20180727170201_defaultpoint")]
+    partial class defaultpoint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,8 +260,6 @@ namespace ReactDotNetDemo.Migrations
 
                     b.Property<int>("StrataId");
 
-                    b.Property<int>("Type");
-
                     b.Property<double?>("ValueAverage");
 
                     b.Property<double?>("ValueLower");
@@ -292,9 +292,13 @@ namespace ReactDotNetDemo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("DefaultPointId");
+
                     b.Property<int>("MeasureId");
 
                     b.HasKey("StrataId");
+
+                    b.HasIndex("DefaultPointId");
 
                     b.HasIndex("MeasureId");
 
@@ -578,6 +582,10 @@ namespace ReactDotNetDemo.Migrations
 
             modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Strata", b =>
                 {
+                    b.HasOne("ReactDotNetDemo.Models.PASS.Point", "DefaultPoint")
+                        .WithMany()
+                        .HasForeignKey("DefaultPointId");
+
                     b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
                         .WithMany("Stratas")
                         .HasForeignKey("MeasureId")
