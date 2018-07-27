@@ -34,9 +34,10 @@ namespace ReactDotNetDemo.Models.PASS
         public static string GetTranslation(IEnumerable<ITranslation> TranslationTable, string lc, string type)
         {
             return TranslationTable
-                    .FirstOrDefault(t => (type == null || t.Translation.Type == type) &&
-                                        t.Translation.LanguageCode == lc)
-                    .Translation.Text;
+                    .Where(t => (type == null || t.Translation.Type == type) 
+                                && t.Translation.LanguageCode == lc)
+                                        .Select(t => t.Translation.Text)
+                                                .FirstOrDefault();
         }
     }
 
