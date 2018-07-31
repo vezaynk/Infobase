@@ -8,6 +8,7 @@
   <ItemGroup>
     <None Remove="Client\Chart.tsx" />
     <None Remove="Client\FilterBox.tsx" />
+    <None Remove="Client\Test.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -111,7 +112,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.linux-x64" Version="2.4.22" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
@@ -130,6 +130,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Client\Chart.tsx" />
     <TypeScriptCompile Include="Client\FilterBox.tsx" />
+    <TypeScriptCompile Include="Client\Test.tsx" />
   </ItemGroup>
 
   <ItemGroup>

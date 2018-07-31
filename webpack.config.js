@@ -5,8 +5,8 @@ module.exports = {
     mode: "development",
     target: 'web',
     entry: {
-        app: './Client/App.tsx',
-        vendor: './Client/Vendor.tsx'
+        app: './Client/App.jsx',
+        vendor: './Client/Vendor.jsx'
     },
     output: {
         path: path.join(__dirname, 'wwwroot', 'js'),
@@ -17,15 +17,16 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                loader: "ts-loader",
-                exclude: /node_modules/,
-                options: {
-                    transpileOnly: true
-                }
-            },
+                rules: [
+                  {
+                    test: /\.(js|jsx)$/,
+                    exclude: /node_modules/,
+                    use: ['babel-loader']
+                  }
+                ]
+              },
             {
-                test: /App.tsx/,
+                test: /App.jsx/,
                 loader: "expose-loader?Components"
             },
             {
@@ -41,11 +42,11 @@ module.exports = {
                     loader: 'expose-loader',
                     options: 'React'
                 }]
-            },
+            }
         ]
     },
     resolve: {
         modules: [path.resolve(__dirname, 'Client'), 'node_modules'],
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.jsx', '.js']
     }
 };

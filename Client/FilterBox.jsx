@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+﻿/*import * as React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, runInAction } from 'mobx';
 import * as mobx from 'mobx';
@@ -45,18 +45,7 @@ export class ChartPageState extends React.Component {
     }
 }
 
-@observer
-export class Test extends React.Component<null> {
-    constructor(props) {
-        super(props)
-        store.number++;
-    }
-    render() {
-        return <p>{store.number}</p>
-    }
-}
-
-
+/*
 @observer
 export class FilterBox extends React.Component<null> {
 
@@ -116,8 +105,8 @@ export class Filter extends React.Component<FilterProps, null> {
         )
     }
 }
-
-
+*/
+/*
 interface Point {
     "value": number,
     "label": string,
@@ -171,4 +160,4 @@ export class Chart extends React.Component<null, ChartState> {
             </div>
         )
     }
-}
+}*/

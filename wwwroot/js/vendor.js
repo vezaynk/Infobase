@@ -81,21 +81,21 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/Vendor.tsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/Vendor.jsx");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./Client/Vendor.tsx":
+/***/ "./Client/Vendor.jsx":
 /*!***************************!*\
-  !*** ./Client/Vendor.tsx ***!
+  !*** ./Client/Vendor.jsx ***!
   \***************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Workaround for setTimeout not defined issue in React 16.4.1 Issue #555 in React.NET
-__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 
+__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 
 /***/ }),
 

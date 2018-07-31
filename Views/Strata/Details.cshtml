@@ -12,18 +12,15 @@
         <h6>
             <span class="text-danger">@(Model.IsFrench ? "Sélectionner les paramètres d'intérêt" : "Select an item from each list below"):</span>
         </h6>
-        @Html.React("Components.ChartPageState", new
+        @Html.React("Components.Filters", new
    {
-       filters = Model.filters,
-       chartData = Model.ChartData
+       filters = Model.filters
    })
-
-        @Html.React("Components.FilterBox", new { Model })
 
     </div>
 
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.React("Components.Chart", new { data = Model.ChartData }, clientOnly: true)
+        @*Html.React("Components.Chart", new { data = Model.ChartData }, clientOnly: true)*@
 
         <script src="https://cdn.rawgit.com/exupero/saveSvgAsPng/gh-pages/src/saveSvgAsPng.js"></script>
         <style type="text/css">
