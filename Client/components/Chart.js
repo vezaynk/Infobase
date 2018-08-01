@@ -15,6 +15,10 @@ export type ChartData = {
             confidence: {
                 upper: number,
                 lower: number
+            },
+            cv: {
+                value: number,
+                interpretation: number
             }
         }>,
         type: number
@@ -23,7 +27,7 @@ export type ChartData = {
     source: string
 }
 
-class Chart extends React.Component<{chartData: ChartData}, {isMounted: boolean}> {
+export class Chart extends React.Component<{chartData: ChartData}, {isMounted: boolean}> {
     graph: ?Element;
 
     componentDidMount() {
@@ -35,6 +39,7 @@ class Chart extends React.Component<{chartData: ChartData}, {isMounted: boolean}
             renderChart(this.graph, this.props.chartData)
     }
     render() {
+        console.log(this.props)
         return (
             <div>
             <svg id="graph" ref={graph => this.graph = graph} width="100%" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet">

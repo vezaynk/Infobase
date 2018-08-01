@@ -13,14 +13,14 @@
             <span class="text-danger">@(Model.IsFrench ? "Sélectionner les paramètres d'intérêt" : "Select an item from each list below"):</span>
         </h6>
         @Html.React("Components.Filters", new
-   {
-       filters = Model.filters
-   })
+        {
+            filters = Model.filters
+        })
 
     </div>
 
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @*Html.React("Components.Chart", new { data = Model.ChartData }, clientOnly: true)*@
+        @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
 
         <script src="https://cdn.rawgit.com/exupero/saveSvgAsPng/gh-pages/src/saveSvgAsPng.js"></script>
         <style type="text/css">
