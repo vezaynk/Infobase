@@ -238,6 +238,7 @@ namespace ReactDotNetDemo.Controllers
                 Definition = strata.Measure.MeasureDefinition,
                 Method = new Translatable(),
                 DataAvailable = new Translatable(),
+                // TODO: Add ordering to points
                 Points = strata.Points.Select(p => new ChartData.Point {
                     CVInterpretation = p.CVInterpretation,
                     CVValue = p.CVValue,

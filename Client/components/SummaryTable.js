@@ -11,10 +11,8 @@ export type SummaryTableProps = {
 export class SummaryTable extends React.Component<SummaryTableProps> {
     componentMounted() {
         
-        console.log("Hit", this.props)
     }
     render() {
-        console.log("Hit", this.props)
         return (
             <div className="col-md-12 bg-white">
     <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">

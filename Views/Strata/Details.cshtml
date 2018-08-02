@@ -8,16 +8,17 @@
 
 
 <div class="row brdr-bttm bg-white mrgn-bttm-0">
-    <div class="col-md-3 padding-15 " id="Selections">
-        <h6>
-            <span class="text-danger">@(Model.LanguageCode == "FR" ? "Sélectionner les paramètres d'intérêt" : "Select an item from each list below"):</span>
-        </h6>
+        
         @Html.React("Components.Filters", new
-        {
-            filters = Model.filters
-        })
+   {
+       filters = Model.filters,
+       prompt = new Translatable()
+           {
+               { ("EN", null), "Select an item from each list below" },
+               { ("FR", null), "Sélectionner les paramètres d'intérêt" }
+           }
+        }, clientOnly: true)
 
-    </div>
 
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
         @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
@@ -64,7 +65,11 @@
                 *@
             </p>
 
-
+            @{ /*
+                var emptyCellText = new Translatable();
+                emptyCellText.Add(("EN", "Default"), "Cells are empty when data are missing.");
+                emptyCellText.Add(("FR", "Default"), "Les cellules vides indiquent que les données ne sont pas disponibles.");*/
+            }
             @if (Model.LanguageCode != "FR")
             {
                 <p>Cells are empty when data are missing.</p>

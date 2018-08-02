@@ -2,15 +2,16 @@
 
 import * as React from 'react';
 import { Filter } from "./Filter";
-import type { FilterData, ChartData } from "../types";
-import type { Action } from "../types";
+import { i18n } from '../Translator';
+import type { Action, FilterData, ChartData, MultilangText } from "../types";
 
 type FilterBoxProps = {
     loading: boolean,
     filters: FilterData[],
     updateLoadState: boolean => Action,
     updateFilters: FilterData[] => Action,
-    updateChartData: ChartData => Action
+    updateChartData: ChartData => Action,
+    prompt: MultilangText
 }
 
 export class FilterBox extends React.Component<FilterBoxProps> {
@@ -42,6 +43,11 @@ export class FilterBox extends React.Component<FilterBoxProps> {
     render() {
         console.log(this.props)
         return (
+
+            <div className="col-md-3 padding-15 ">
+            <h6>
+                <span className="text-danger">{i18n(this.props.prompt)}:</span>
+            </h6>
             <div className="form-group-md">
                 {
                     this.props.filters.map((filter) =>
@@ -55,7 +61,8 @@ export class FilterBox extends React.Component<FilterBoxProps> {
                             loading={this.props.loading}
                         />)
                 }
-            </div>
+                </div>
+                </div>
         );
     }
 }

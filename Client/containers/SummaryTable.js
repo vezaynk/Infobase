@@ -20,12 +20,13 @@ export const SummaryTableConnect = connect(
 )(ST)
 
 type SummaryTableProps = {
-    chartData: ChartData
+    chartData?: ChartData
 }
 export class SummaryTable extends React.Component<SummaryTableProps> {
     constructor(props: SummaryTableProps) {
         super(props);
-        dataExplorerStore.dispatch(updateChartData(props.chartData));
+        if (props.chartData)
+            dataExplorerStore.dispatch(updateChartData(props.chartData));
     }
     render() {
         return (

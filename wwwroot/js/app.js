@@ -142,14 +142,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function i18n(translatable, type, languageCode = _store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode) {
-    console.log(languageCode);
+function i18n(translatable, type = "", languageCode = _store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, substitutions = {}) {
+
+    let text = translatable[`${languageCode}, ${type}`];
     if (!type) {
         let localKeys = Object.keys(translatable).filter(t => t.startsWith("(" + languageCode));
-        if (localKeys.length) return translatable[localKeys[0]];else return "<MISSING TEXT>" + languageCode;
+        if (localKeys.length) text = translatable[localKeys[0]];else text = "<MISSING TEXT>" + languageCode;
     }
 
-    return translatable[`${languageCode}, ${type}`];
+    Object.keys(substitutions).forEach(subkey => {
+        text = text.split(`{${subkey}}`).join(substitutions[subkey].toString());
+    });
+    return text.toString();
 }
 
 /***/ }),
@@ -164,7 +168,7 @@ function i18n(translatable, type, languageCode = _store_dataExplorer__WEBPACK_IM
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Chart", function() { return Chart; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -218,7 +222,7 @@ class Chart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Filter", function() { return Filter; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -272,10 +276,12 @@ class Filter extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterBox", function() { return FilterBox; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Filter */ "./Client/components/Filter.js");
+/* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 
 
 
@@ -316,17 +322,31 @@ class FilterBox extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     render() {
         console.log(this.props);
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-            "div",
-            { className: "form-group-md" },
-            this.props.filters.map(filter => react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_Filter__WEBPACK_IMPORTED_MODULE_1__["Filter"], {
-                key: filter.id,
-                id: filter.id,
-                name: filter.name,
-                items: filter.items,
-                selected: filter.selected,
-                onSelect: this.selectFilter(filter.id),
-                loading: this.props.loading
-            }))
+            'div',
+            { className: 'col-md-3 padding-15 ' },
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'h6',
+                null,
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                    'span',
+                    { className: 'text-danger' },
+                    Object(_Translator__WEBPACK_IMPORTED_MODULE_2__["i18n"])(this.props.prompt),
+                    ':'
+                )
+            ),
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'div',
+                { className: 'form-group-md' },
+                this.props.filters.map(filter => react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_Filter__WEBPACK_IMPORTED_MODULE_1__["Filter"], {
+                    key: filter.id,
+                    id: filter.id,
+                    name: filter.name,
+                    items: filter.items,
+                    selected: filter.selected,
+                    onSelect: this.selectFilter(filter.id),
+                    loading: this.props.loading
+                }))
+            )
         );
     }
 }
@@ -343,7 +363,7 @@ class FilterBox extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummaryTable", function() { return SummaryTable; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
 
@@ -351,12 +371,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
-    componentMounted() {
-
-        console.log("Hit", this.props);
-    }
+    componentMounted() {}
     render() {
-        console.log("Hit", this.props);
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             'div',
             { className: 'col-md-12 bg-white' },
@@ -507,7 +523,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChartingConnect", function() { return ChartingConnect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Charting", function() { return Charting; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -557,7 +573,7 @@ class Charting extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterBoxConnect", function() { return FilterBoxConnect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Filters", function() { return Filters; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -577,7 +593,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const mapStateToFilterProps = (state, props) => ({ loading: state.loading, filters: state.filters });
+const mapStateToFilterProps = (state, props) => ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
 const actionCreators = { updateLoadState: _reducers_dataExplorerReducer__WEBPACK_IMPORTED_MODULE_6__["updateLoadState"], updateFilters: _reducers_dataExplorerReducer__WEBPACK_IMPORTED_MODULE_6__["updateFilters"], updateChartData: _reducers_dataExplorerReducer__WEBPACK_IMPORTED_MODULE_6__["updateChartData"] };
 const mapDispatchToProps = dispatch => Object(redux__WEBPACK_IMPORTED_MODULE_2__["bindActionCreators"])(actionCreators, dispatch);
 
@@ -587,14 +603,14 @@ const FilterBoxConnect = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connec
 class Filters extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     constructor(props) {
         super(props);
-        _store_dataExplorer__WEBPACK_IMPORTED_MODULE_5__["dataExplorerStore"].dispatch({ type: "UPDATE_FILTERS", payload: props.filters });
+        if (props.filters) _store_dataExplorer__WEBPACK_IMPORTED_MODULE_5__["dataExplorerStore"].dispatch({ type: "UPDATE_FILTERS", payload: props.filters });
     }
 
     render() {
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"],
             { store: _store_dataExplorer__WEBPACK_IMPORTED_MODULE_5__["dataExplorerStore"] },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](FilterBoxConnect, null)
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](FilterBoxConnect, { prompt: this.props.prompt })
         );
     }
 }
@@ -612,7 +628,7 @@ class Filters extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummaryTableConnect", function() { return SummaryTableConnect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummaryTable", function() { return SummaryTable; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -637,7 +653,7 @@ const SummaryTableConnect = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["con
 class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     constructor(props) {
         super(props);
-        _store_dataExplorer__WEBPACK_IMPORTED_MODULE_5__["dataExplorerStore"].dispatch(Object(_reducers_dataExplorerReducer__WEBPACK_IMPORTED_MODULE_4__["updateChartData"])(props.chartData));
+        if (props.chartData) _store_dataExplorer__WEBPACK_IMPORTED_MODULE_5__["dataExplorerStore"].dispatch(Object(_reducers_dataExplorerReducer__WEBPACK_IMPORTED_MODULE_4__["updateChartData"])(props.chartData));
     }
     render() {
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -31128,7 +31144,7 @@ if (true) {
 'use strict';
 
 var invariant = __webpack_require__(/*! fbjs/lib/invariant */ "./node_modules/fbjs/lib/invariant.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 var warning = __webpack_require__(/*! fbjs/lib/warning */ "./node_modules/fbjs/lib/warning.js");
 var ExecutionEnvironment = __webpack_require__(/*! fbjs/lib/ExecutionEnvironment */ "./node_modules/fbjs/lib/ExecutionEnvironment.js");
 var _assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
@@ -48611,7 +48627,7 @@ if (false) {} else {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return createProvider; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
@@ -48706,7 +48722,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! invariant */ "./node_modules/invariant/browser.js");
 /* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(invariant__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _utils_Subscription__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/Subscription */ "./node_modules/react-redux/es/utils/Subscription.js");
 /* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/PropTypes */ "./node_modules/react-redux/es/utils/PropTypes.js");
@@ -51244,7 +51260,19 @@ module.exports = react;
 
 /***/ }),
 
-/***/ "./node_modules/react/index.js":
+/***/ "./node_modules/react/index.js?7c21":
+/*!*************************************!*\
+  !*** ./node_modules/react/index.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js?ab5b");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/react/index.js?ab5b":
 /*!*************************************!*\
   !*** ./node_modules/react/index.js ***!
   \*************************************/
@@ -51258,18 +51286,6 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/react.development.js */ "./node_modules/react/cjs/react.development.js");
 }
 
-
-/***/ }),
-
-/***/ "./node_modules/react/index.js-exposed":
-/*!*********************************************!*\
-  !*** ./node_modules/react/index.js-exposed ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

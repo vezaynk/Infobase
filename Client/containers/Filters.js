@@ -9,11 +9,11 @@ import { FilterBox } from "../components/FilterBox";
 
 import { dataExplorerStore } from '../store/dataExplorer'
 import { updateFilters, updateChartData, updateLoadState } from '../reducers/dataExplorerReducer';
-import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData } from "../types";
+import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData, MultilangText } from "../types";
 import type { Dispatch, ActionCreators } from 'redux';
 import type { MapStateToProps, MapDispatchToProps } from 'react-redux';
 
-const mapStateToFilterProps = (state: DataExplorerState, props) => ({ loading: state.loading, filters: state.filters });
+const mapStateToFilterProps = (state: DataExplorerState, props) => ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
 const actionCreators: ActionCreators<string, Action> = { updateLoadState, updateFilters, updateChartData};
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(actionCreators, dispatch)
 
@@ -24,18 +24,20 @@ export const FilterBoxConnect = connect(
 )(FilterBox)
 
 type FiltersProp = {
-    filters: FilterData[]
+    filters?: FilterData[],
+    prompt: MultilangText
 }
 export class Filters extends React.Component<FiltersProp> {
     constructor(props: FiltersProp) {
         super(props);
-        dataExplorerStore.dispatch({type: "UPDATE_FILTERS", payload: props.filters});
+        if (props.filters)
+            dataExplorerStore.dispatch({type: "UPDATE_FILTERS", payload: props.filters});
     }
 
     render() {
         return (
             <Provider store={dataExplorerStore}>
-                <FilterBoxConnect />
+                <FilterBoxConnect prompt={this.props.prompt} />
             </Provider>
         )
     }
