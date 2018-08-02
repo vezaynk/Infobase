@@ -2,35 +2,25 @@
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { FilterBox } from "../components/FilterBox";
 
 import { dataExplorerStore } from '../store/dataExplorer'
-import type { UpdateLoadState, Action, DataExplorerState } from "../reducers/dataExplorerReducer";
-import type { FilterData } from "../components/Filter";
-import type { ChartData } from "../components/Chart";
-import type { Dispatch } from 'redux';
+import { updateFilters, updateChartData, updateLoadState } from '../reducers/dataExplorerReducer';
+import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData } from "../types";
+import type { Dispatch, ActionCreators } from 'redux';
+import type { MapStateToProps, MapDispatchToProps } from 'react-redux';
 
-const mapStateToFilterProps = (state:DataExplorerState, props) => ({ loading: state.loading, filters: state.filters });
-
-const mapDispatchToFilterProps = (dispatch: Dispatch<Action>, ownProps) => ({
-    updateFilters(filters: FilterData[]) { 
-        dispatch({ type: "UPDATE_FILTERS", payload: filters }) 
-    },
-    updateData(data: ChartData) { 
-        dispatch({ type: "UPDATE_DATA", payload: data }) 
-    },
-    updateLoadState(loading: boolean) {
-        dispatch({ type: "LOAD", payload: loading })
-    }
-});
-
+const mapStateToFilterProps = (state: DataExplorerState, props) => ({ loading: state.loading, filters: state.filters });
+const actionCreators: ActionCreators<string, Action> = { updateLoadState, updateFilters, updateChartData};
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(actionCreators, dispatch)
 
 // TODO: Fix typing issue
 export const FilterBoxConnect = connect(
     mapStateToFilterProps, 
-    mapDispatchToFilterProps
+    mapDispatchToProps
 )(FilterBox)
 
 type FiltersProp = {
@@ -41,6 +31,7 @@ export class Filters extends React.Component<FiltersProp> {
         super(props);
         dataExplorerStore.dispatch({type: "UPDATE_FILTERS", payload: props.filters});
     }
+
     render() {
         return (
             <Provider store={dataExplorerStore}>

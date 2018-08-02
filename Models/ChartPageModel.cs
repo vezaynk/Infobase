@@ -10,9 +10,10 @@ namespace ReactDotNetDemo.Models
         public ChartData ChartData { get; set; }
         public List<DropdownMenuModel> filters;
 
-        public ChartPageModel(bool IsFrench): base(IsFrench)
+        public ChartPageModel(string languageCode, ChartData chartData): base(languageCode)
         {
-            filters = new List<DropdownMenuModel>();
+            this.filters = new List<DropdownMenuModel>();
+            this.ChartData = chartData;
         }
     }
 

@@ -2,7 +2,7 @@
 
 @{
     // TODO: Add French
-    Layout = Model.IsFrench ? "~/Views/Shared/_MasterEN.cshtml" : "~/Views/Shared/_MasterEN.cshtml";
+    Layout = Model.LanguageCode == "FR" ? "~/Views/Shared/_MasterEN.cshtml" : "~/Views/Shared/_MasterEN.cshtml";
 }
 <div class="col-md-12 mrgn-tp-0">
     <div class="row brdr-bttm bg-white mrgn-bttm-0">

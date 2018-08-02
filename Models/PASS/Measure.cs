@@ -22,11 +22,11 @@ namespace ReactDotNetDemo.Models.PASS
         [InverseProperty("Measure")]
         public virtual ICollection<Strata> Stratas { get; set; }
 
-        public string GetMeasureName(string lc, string type) => Translation.GetTranslation(MeasureNameTranslations, lc, null);
-        public string GetMeasureDefinition(string lc, string type) => Translation.GetTranslation(MeasureDefinitionTranslations, lc, null);
-        public string GetMeasureUnit(string lc, string type) => Translation.GetTranslation(MeasureUnitTranslations, lc, null);
-        public string GetMeasureSource(string lc, string type) => Translation.GetTranslation(MeasureSourceTranslations, lc, null);
-        public string GetMeasurePopulation(string lc, string type) => Translation.GetTranslation(MeasurePopulationTranslations, lc, null);
+        public Translatable MeasureName => Translation.GetTranslation(MeasureNameTranslations);
+        public Translatable MeasureDefinition => Translation.GetTranslation(MeasureDefinitionTranslations);
+        public Translatable MeasureUnit => Translation.GetTranslation(MeasureUnitTranslations);
+        public Translatable MeasureSource => Translation.GetTranslation(MeasureSourceTranslations);
+        public Translatable MeasurePopulation => Translation.GetTranslation(MeasurePopulationTranslations);
         public Point MeasurePoint { get => DefaultStrata.Points.FirstOrDefault(p => p.Type == 2); }
 
         public int? DefaultStrataId { get; set; }
@@ -76,7 +76,7 @@ namespace ReactDotNetDemo.Models.PASS
     }
 }
 
-interface ITranslation
+public interface ITranslation
 {
     string Text { get; set; }
 }

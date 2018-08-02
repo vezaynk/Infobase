@@ -31,13 +31,11 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<MeasurePopulationTranslation> MeasurePopulationTranslations { get; set; }
 
         // Simplified process for getting wanted translation
-        public static string GetTranslation(IEnumerable<ITranslation> TranslationTable, string lc, string type)
+        public static Translatable GetTranslation(IEnumerable<ITranslation> TranslationTable)
         {
-            return TranslationTable
-                    .Where(t => (type == null || t.Translation.Type == type) 
-                                && t.Translation.LanguageCode == lc)
-                                        .Select(t => t.Translation.Text)
-                                                .FirstOrDefault();
+            
+            return new Translatable(TranslationTable.ToDictionary(x => (x.Translation.LanguageCode, x.Translation.Type), x => x.Translation.Text));
+        
         }
     }
 
@@ -46,4 +44,5 @@ namespace ReactDotNetDemo.Models.PASS
         int TranslationId { get; set; }
         Translation Translation { get; set; }
     }
+
 }

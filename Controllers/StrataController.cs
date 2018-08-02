@@ -59,6 +59,9 @@ namespace ReactDotNetDemo.Controllers
                     .ThenInclude(t => t.Translation)
                 .Include(s => s.StrataNotesTranslations)
                     .ThenInclude(t => t.Translation)
+                .Include(s => s.StrataSourceTranslations)
+                    .ThenInclude(t => t.Translation)
+
                 // Measure
                 .Include(s => s.Measure.MeasureUnitTranslations)
                     .ThenInclude(t => t.Translation)
@@ -136,6 +139,7 @@ namespace ReactDotNetDemo.Controllers
                 return NotFound();
             }
 
+/* 
             ChartPageModel cpm = new ChartPageModel(false)
             {
                 ChartData = new ChartData
@@ -196,7 +200,7 @@ namespace ReactDotNetDemo.Controllers
                  * 1 = trend
                  * 2 = line
                  */
-
+/* 
                 int type = 0;
                 if (strata.GetStrataName("EN", null).Contains("Trend"))
                     type = 1;
@@ -221,63 +225,99 @@ namespace ReactDotNetDemo.Controllers
                 cpm.ChartData.values.ElementAt(targetIndex).points.Add(point);
                 cpm.ChartData.values.ElementAt(targetIndex).type = type;
             }
+*/
+            
+            var chart = new ChartData {
+                XAxis = strata.StrataName,
+                YAxis = strata.Measure.MeasureUnit,
+                Source = strata.StrataSource,
+                Organization = strata.Measure.MeasureSource,
+                Population = strata.Measure.MeasurePopulation,
+                Notes = strata.StrataNotes,
+                Remarks = new Translatable(),
+                Definition = strata.Measure.MeasureDefinition,
+                Method = new Translatable(),
+                DataAvailable = new Translatable(),
+                Points = strata.Points.Select(p => new ChartData.Point {
+                    CVInterpretation = p.CVInterpretation,
+                    CVValue = p.CVValue,
+                    Value = p.ValueAverage,
+                    ValueUpper = p.ValueUpper,
+                    ValueLower = p.ValueLower,
+                    Label = p.PointLabel
+                }),
+                WarningCV = strata.Measure.CVWarnAt,
+                SuppressCV = strata.Measure.CVSuppressAt,
+                MeasureName = strata.Measure.MeasureName
+            };
 
+
+            var cpm = new ChartPageModel("EN", chart);
+
+            // top level requires a new query
             var activities = _context.Activity
                                      .Where(ac => ac.DefaultIndicatorGroupId != null)
                                      .Include(ac => ac.ActivityNameTranslations)
                                      .ThenInclude(at => at.Translation)
+                                     .AsEnumerable()
                                      .Select(ac => new DropdownItem
                                             {
                                                 Value = ac.ActivityId,
-                                                Text = ac.GetActivityName("EN", null)
+                                                Text = ac.ActivityName.Get(("EN", null))
                                             });
             
             cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
 
             var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups
                                      .Where(ig => ig.DefaultLifeCourseId != null)
+                                     .AsEnumerable()
                                      .Select(ig => new DropdownItem
-            {
-                Value = ig.IndicatorGroupId,
-                Text = ig.GetIndicatorGroupName("EN", null)
-            });
+                                            {
+                                                Value = ig.IndicatorGroupId,
+                                                Text = ig.IndicatorGroupName.Get(("EN", null))
+                                            });
 
             cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
 
             var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses
                                      .Where(lc => lc.DefaultIndicatorId != null)
+                                     .AsEnumerable()
                                      .Select(lc => new DropdownItem
             {
                 Value = lc.LifeCourseId,
-                Text = lc.GetLifeCourseName("EN", null)
+                Text = lc.LifeCourseName.Get(("EN", null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
 
             var indicators = strata.Measure.Indicator.LifeCourse.Indicators
                                      .Where(i => i.DefaultMeasureId != null)
+                                     .AsEnumerable()
                                      .Select(i => new DropdownItem
             {
                 Value = i.IndicatorId,
-                Text = i.GetIndicatorName("EN", null)
+                Text = i.IndicatorName.Get(("EN", null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
 
             var measures = strata.Measure.Indicator.Measures
                                      .Where(m => m.DefaultStrataId != null)
+                                     .AsEnumerable()
                                      .Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
-                Text = m.GetMeasureName("EN", null)
+                Text = m.MeasureName.Get(("EN", null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Measures", "measureId", measures, strata.MeasureId));
 
-            var stratas = strata.Measure.Stratas.Select(s => new DropdownItem
+            var stratas = strata.Measure.Stratas
+                                     .AsEnumerable()
+                                     .Select(s => new DropdownItem
             {
                 Value = s.StrataId,
-                Text = s.GetStrataName("EN", null)
+                Text = s.StrataName.Get(("EN", null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas, strataId));

@@ -16,7 +16,7 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<Indicator> Indicators { get; set; }
 
         /* Text getters */
-        public string GetLifeCourseName(string lc, string type) => Translation.GetTranslation(LifeCourseNameTranslations, lc, null);
+        public Translatable LifeCourseName => Translation.GetTranslation(LifeCourseNameTranslations);
 
         public int? DefaultIndicatorId { get; set; }
         [ForeignKey("DefaultIndicatorId")]

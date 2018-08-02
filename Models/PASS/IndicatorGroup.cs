@@ -16,7 +16,7 @@ namespace ReactDotNetDemo.Models.PASS
         [InverseProperty("IndicatorGroup")]
         public virtual ICollection<LifeCourse> LifeCourses { get; set; }
 
-        public string GetIndicatorGroupName(string lc, string type) => Translation.GetTranslation(IndicatorGroupNameTranslations, lc, null);
+        public Translatable IndicatorGroupName => Translation.GetTranslation(IndicatorGroupNameTranslations);
         public int? DefaultLifeCourseId { get; set; }
         [ForeignKey("DefaultLifeCourseId")]
         public virtual LifeCourse DefaultLifeCourse { get; set; }

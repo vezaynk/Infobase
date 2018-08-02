@@ -6,7 +6,7 @@
 
     ViewBag.tabs = new List<ReactDotNetDemo.Models.TabItem> {
         new ReactDotNetDemo.Models.TabItem("Index", "Index"),
-        new ReactDotNetDemo.Models.TabItem("Tool", Model.IsFrench ? "Outil" : "Tool"),
+        new ReactDotNetDemo.Models.TabItem("Tool", Model.LanguageCode == "FR" ? "Outil" : "Tool"),
         new ReactDotNetDemo.Models.TabItem("Publications", "Publications")
 
     };

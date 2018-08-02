@@ -1,17 +1,7 @@
 // @flow
 import * as React from 'react';
+import type { FilterData } from '../types';
 
-type FilterItem = {
-    value: number,
-    text: string
-}
-
-export type FilterData = {
-    id: string,
-    name: string,
-    items: FilterItem[],
-    selected: number
-}
 
 type FilterProps = FilterData & {
     loading: boolean,

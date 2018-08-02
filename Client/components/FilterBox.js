@@ -2,15 +2,15 @@
 
 import * as React from 'react';
 import { Filter } from "./Filter";
-import type { FilterData } from "./Filter";
-import type { ChartData } from "./Chart";
+import type { FilterData, ChartData } from "../types";
+import type { Action } from "../types";
 
 type FilterBoxProps = {
     loading: boolean,
     filters: FilterData[],
-    updateLoadState: boolean => void,
-    updateFilters: FilterData[] => void,
-    updateData: ChartData => void
+    updateLoadState: boolean => Action,
+    updateFilters: FilterData[] => Action,
+    updateChartData: ChartData => Action
 }
 
 export class FilterBox extends React.Component<FilterBoxProps> {
@@ -20,6 +20,7 @@ export class FilterBox extends React.Component<FilterBoxProps> {
             this.props.updateLoadState(true);
 
             history.pushState(null, document.title, `?${id}=${value}`);
+
             let request = await fetch(window.location.toString(), {
                 method: 'POST'
             })
@@ -28,7 +29,7 @@ export class FilterBox extends React.Component<FilterBoxProps> {
                 let r = await response.json();
 
                 this.props.updateFilters(r.filters);
-                this.props.updateData(r.chartData);
+                this.props.updateChartData(r.chartData);
                 this.props.updateLoadState(false);
                 return true;
             } catch (e) {

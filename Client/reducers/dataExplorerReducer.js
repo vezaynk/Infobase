@@ -1,47 +1,49 @@
 // @flow
-import type { FilterData } from "../components/Filter";
-import type { ChartData } from "../components/Chart";
+import type { FilterData, DataExplorerState, ChartData, Action } from "../types";
+import type { Reducer, ActionCreator } from 'redux';
 
-export type DataExplorerState = {
-    filters: FilterData[],
-    chartData: ChartData,
-    loading: boolean
-}
-
-export type UpdateLoadState = {
-    type: "LOAD",
-    payload: boolean
-}
-
-export type UpdateFilters = {
-    type: "UPDATE_FILTERS",
-    payload: FilterData[]
-}
-
-export type UpdateChartData = {
-    type: "UPDATE_DATA",
-    payload: ChartData
-}
-
-export type Action = UpdateLoadState | UpdateFilters | UpdateChartData;
 
 const initialState: DataExplorerState = {
     filters: [],
     chartData: {
-        axis: {
-            x: "",
-            y: ""
-        },
-        values: [],
-        title: "",
-        source: ""
+        xAxis: {},
+        yAxis: {},
+        points: [],
+        source: {},
+        organization: {},
+        population: {},
+        notes: {},
+        definition: {},
+        dataAvailable: {},
+        method: {},
+        remarks: {},
+        warningCV: null,
+        supressCV: null,
+        measureName: {}
     },
-    loading: false
+    loading: false,
+    languageCode: "EN"
 }
 
-export const dataExplorerReducer = (previousState: DataExplorerState = initialState, action: Action): DataExplorerState => {
-    let state = { ...previousState };
+export const initState: ActionCreator<Action, DataExplorerState> = (payload) => {
+    return {type: "INIT_STATE", payload};
+}
 
+export const updateLoadState: ActionCreator<Action, boolean> = (payload) => {
+    return {type: "LOAD", payload};
+}
+
+export const updateFilters: ActionCreator<Action, FilterData[]> = (payload) => {
+    return {type: "UPDATE_FILTERS", payload};
+}
+
+export const updateChartData: ActionCreator<Action, ChartData> = (payload) => {
+    return {type: "UPDATE_DATA", payload};
+}
+
+
+export const dataExplorerReducer: Reducer<DataExplorerState, Action> = (previousState = initialState, action) => {
+    let state = { ...previousState };
     switch (action.type) {
         case "LOAD":
             state.loading = action.payload;
@@ -52,6 +54,8 @@ export const dataExplorerReducer = (previousState: DataExplorerState = initialSt
         case "UPDATE_DATA":
             state.chartData = action.payload;
             break;
+        case "INIT_STATE":
+            return {previousState, ...action.payload};
     }
 
     return state;

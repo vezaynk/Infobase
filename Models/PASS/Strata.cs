@@ -18,10 +18,10 @@ namespace ReactDotNetDemo.Models.PASS
         [InverseProperty("Strata")]
         public virtual ICollection<Point> Points { get; set; }
         /* Text getters */
-        public string GetStrataNotes(string lc, string type) => Translation.GetTranslation(StrataNotesTranslations, lc, null);
-        public string GetStrataName(string lc, string type) => Translation.GetTranslation(StrataNameTranslations, lc, null);
-        public string GetStrataSource(string lc, string type) => Translation.GetTranslation(StrataSourceTranslations, lc, null);
-        public string GetStrataPopulation(string lc, string type) => Translation.GetTranslation(StrataPopulationTranslations, lc, null);
+        public Translatable StrataNotes => Translation.GetTranslation(StrataNotesTranslations);
+        public Translatable StrataName => Translation.GetTranslation(StrataNameTranslations);
+        public Translatable StrataSource => Translation.GetTranslation(StrataSourceTranslations);
+        public Translatable StrataPopulation => Translation.GetTranslation(StrataPopulationTranslations);
     }
     
 

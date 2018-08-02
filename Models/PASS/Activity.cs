@@ -16,7 +16,7 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<ActivityNameTranslation> ActivityNameTranslations { get; set; }
         public virtual ICollection<ActivityDescriptionTranslation> ActivityDescriptionTranslations { get; set; }
         /* Text getters */
-        public string GetActivityName(string lc, string type) => Translation.GetTranslation(ActivityNameTranslations, lc, null);
+        public Translatable ActivityName {get => Translation.GetTranslation(ActivityNameTranslations); }
 
         public int? DefaultIndicatorGroupId { get; set; }
         [ForeignKey("DefaultIndicatorGroupId")]

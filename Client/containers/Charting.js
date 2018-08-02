@@ -6,8 +6,8 @@ import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { Chart } from "../components/Chart";
 import { dataExplorerStore } from '../store/dataExplorer'
-import type { ChartData } from "../components/Chart";
-import type { UpdateLoadState, Action, DataExplorerState } from "../reducers/dataExplorerReducer";
+import { updateChartData } from '../reducers/dataExplorerReducer';
+import type { ChartData, UpdateLoadState, Action, DataExplorerState } from "../types";
 
 const mapStateToChartProps = (state: DataExplorerState, props) => ({
     chartData: state.chartData
@@ -15,14 +15,16 @@ const mapStateToChartProps = (state: DataExplorerState, props) => ({
 
 export const ChartingConnect = connect(mapStateToChartProps)(Chart);
 
-type TChartProps = {chartData: ChartData}
+type TChartProps = { chartData?: ChartData }
+
 export class Charting extends React.Component<TChartProps> {
     constructor(props: TChartProps) {
         super(props);
-        dataExplorerStore.dispatch({ type: "UPDATE_DATA", payload: props.chartData})
+        if (props.chartData)
+            dataExplorerStore.dispatch(updateChartData(props.chartData));
     }
     render() {
-        return (
+        return null && (
             <Provider store={dataExplorerStore}>
                 <ChartingConnect />
             </Provider>

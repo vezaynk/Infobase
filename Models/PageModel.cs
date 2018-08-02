@@ -7,10 +7,10 @@ namespace ReactDotNetDemo.Models
 {
     public class PageModel
     {
-        public bool IsFrench { get; set; }
-        public PageModel(bool IsFrench)
+        public string LanguageCode { get; set; }
+        public PageModel(string languageCode)
         {
-            this.IsFrench = IsFrench;
+            this.LanguageCode = languageCode;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ReactDotNetDemo.Models.PASS
         public virtual ICollection<Measure> Measures { get; set; }
 
         /* Text getters */
-        public string GetIndicatorName(string lc, string type) => Translation.GetTranslation(IndicatorNameTranslations, lc, null);
+        public Translatable IndicatorName => Translation.GetTranslation(IndicatorNameTranslations);
 
         public int? DefaultMeasureId { get; set; }
         [ForeignKey("DefaultMeasureId")]
