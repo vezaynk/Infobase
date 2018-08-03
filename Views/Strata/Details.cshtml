@@ -47,51 +47,30 @@
     </div>
 </div>
 
-<div class="row brdr-bttm bg-white mrgn-bttm-0">
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData }, clientOnly: true)
-    <div class="col-md-12 bg-white mrgn-tp-0 small">
+@{
+        var cellsEmptyText = new Translatable() {
+                                                {("EN", null), "Cells are empty when data are missing."},
+                                                {("FR", null), "Les cellules vides indiquent que les données ne sont pas disponibles."}
+                                                };
 
-        <br>
-        <div class="bg-warning">
-            <p>
-                @*<span class="h4 mrgn-tp-0 mrgn-rght-0 mrgn-bttm-sm">Notes:</span>
-                @Model.ChartData.notes;
-                <br>
-                <br>
-                <strong>Source: </strong>@Model.ChartData.source<br>
-                <strong>Population: </strong>@Model.ChartData.population<br>
+        var cvWarnText = new Translatable() {
+                                                {("EN", null), "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%."},
+                                                {("FR", null), "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence."},
+                                                {("FR", "alt"), "Yellow nope"},
+                                                {("EN", "alt"), "Yellow nope"}
+                                                
+                                                };
+        var cvSuppressText = new Translatable() {
+                                                {("EN", null), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."},
+                                                {("FR", null), "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées."},
+                                                {("FR", "alt"), "red nope"},
+                                                {("EN", "alt"), "red nope"}
+                                                
+                                                };
+    }
+    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: true)
 
-                <strong>@(Model.LanguageCode == "FR" ? "Édition" : "Edition"):</strong> @edition
-                *@
-            </p>
 
-            @{ /*
-                var emptyCellText = new Translatable();
-                emptyCellText.Add(("EN", "Default"), "Cells are empty when data are missing.");
-                emptyCellText.Add(("FR", "Default"), "Les cellules vides indiquent que les données ne sont pas disponibles.");*/
-            }
-            @if (Model.LanguageCode != "FR")
-            {
-                <p>Cells are empty when data are missing.</p>
-                <p><sup>E</sup>Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between 16.6% to 33.3%.</p>
-                <p>
-                    <sup>F</sup>Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than 33.3%.
-
-                </p>
-            }
-            else
-            {
-                <p>Les cellules vides indiquent que les données ne sont pas disponibles.</p>
-                <p><sup>E</sup>Les données dont le coefficient de variation (CV) se situe entre 16,6 % et 33,3 % sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence.</p>
-                <p>
-                    <sup>F</sup>Les données présentant un coefficient de variation (CV) supérieur à 33,3 % ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées.
-
-                </p>
-            }
-
-        </div>
-    </div>
-</div>
 <div class="row brdr-bttm">
     <div class="col-md-12 bg-white">
 

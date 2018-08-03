@@ -18,7 +18,7 @@ const initialState: DataExplorerState = {
         method: {},
         remarks: {},
         warningCV: null,
-        supressCV: null,
+        suppressCV: null,
         measureName: {}
     },
     loading: false,

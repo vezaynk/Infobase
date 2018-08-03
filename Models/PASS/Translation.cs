@@ -33,7 +33,7 @@ namespace ReactDotNetDemo.Models.PASS
         // Simplified process for getting wanted translation
         public static Translatable GetTranslation(IEnumerable<ITranslation> TranslationTable)
         {
-            
+            if (TranslationTable == null) return new Translatable();
             return new Translatable(TranslationTable.ToDictionary(x => (x.Translation.LanguageCode, x.Translation.Type), x => x.Translation.Text));
         
         }

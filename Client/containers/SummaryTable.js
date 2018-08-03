@@ -7,10 +7,18 @@ import { connect, Provider } from 'react-redux';
 import { SummaryTable as ST } from "../components/SummaryTable";
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import { dataExplorerStore } from '../store/dataExplorer'
-import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData } from "../types";
+import type { MultilangText, DataExplorerState, FilterData, ChartData } from "../types";
 import type { Dispatch } from 'redux';
 
-const mapStateToSummaryTableProps = (state:DataExplorerState, props) => ({ chartData: state.chartData });
+const mapStateToSummaryTableProps = (state:DataExplorerState, props) => (
+                                                                            {   chartData: state.chartData,
+                                                                                remarks: state.chartData.remarks,
+                                                                                cvWarning: props.cvWarning, 
+                                                                                cvSuppressed: props.cvSuppressed,
+                                                                                cvWarnAt: state.chartData.warningCV,
+                                                                                cvSuppressAt: state.chartData.suppressCV
+                                                                            }
+                                                                        );
 
 
 
@@ -20,7 +28,10 @@ export const SummaryTableConnect = connect(
 )(ST)
 
 type SummaryTableProps = {
-    chartData?: ChartData
+    chartData?: ChartData,
+    cvWarning: MultilangText,
+    cellsEmpty: MultilangText,
+    cvSuppressed: MultilangText
 }
 export class SummaryTable extends React.Component<SummaryTableProps> {
     constructor(props: SummaryTableProps) {
@@ -31,7 +42,9 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
     render() {
         return (
             <Provider store={dataExplorerStore}>
-                <SummaryTableConnect />
+                <SummaryTableConnect cvWarning={this.props.cvWarning}
+                                     cellsEmpty={this.props.cellsEmpty} 
+                                     cvSuppressed={this.props.cvSuppressed} />
             </Provider>
         )
     }

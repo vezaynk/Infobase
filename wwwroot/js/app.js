@@ -142,12 +142,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function i18n(translatable, type = "", languageCode = _store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, substitutions = {}) {
-
-    let text = translatable[`${languageCode}, ${type}`];
+function i18n(translatable, type, substitutions = {}) {
+    let languageCode = _store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode;
+    let text = "<MISSING TEXT>" + languageCode;
     if (!type) {
         let localKeys = Object.keys(translatable).filter(t => t.startsWith("(" + languageCode));
-        if (localKeys.length) text = translatable[localKeys[0]];else text = "<MISSING TEXT>" + languageCode;
+        if (localKeys.length) text = translatable[localKeys[0]];
+    } else {
+        text = translatable[`(${languageCode}, ${type})`];
     }
 
     Object.keys(substitutions).forEach(subkey => {
@@ -168,7 +170,7 @@ function i18n(translatable, type = "", languageCode = _store_dataExplorer__WEBPA
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Chart", function() { return Chart; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -222,7 +224,7 @@ class Chart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Filter", function() { return Filter; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -276,7 +278,7 @@ class Filter extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterBox", function() { return FilterBox; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Filter */ "./Client/components/Filter.js");
 /* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
@@ -363,7 +365,7 @@ class FilterBox extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummaryTable", function() { return SummaryTable; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
 
@@ -373,137 +375,226 @@ __webpack_require__.r(__webpack_exports__);
 class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     componentMounted() {}
     render() {
+        let warningCV = null;
+        let suppressedCV = null;
+        if (this.props.chartData.points.some(p => p.cvInterpretation == 2)) if (this.props.cvWarnAt) {
+            warningCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'p',
+                null,
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                    'sup',
+                    null,
+                    'E'
+                ),
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: this.props.cvWarnAt, suppress: this.props.cvSuppressAt })
+            );
+        } else {
+            warningCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'p',
+                null,
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                    'sup',
+                    null,
+                    'E'
+                ),
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, "alt")
+            );
+        }
+
+        if (this.props.chartData.points.some(p => p.cvInterpretation == 1)) if (this.props.cvWarnAt) {
+            suppressedCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'p',
+                null,
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                    'sup',
+                    null,
+                    'F'
+                ),
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: this.props.cvWarnAt, suppress: this.props.cvSuppressAt })
+            );
+        } else {
+            suppressedCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'p',
+                null,
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                    'sup',
+                    null,
+                    'E'
+                ),
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, "alt")
+            );
+        }
+
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             'div',
-            { className: 'col-md-12 bg-white' },
+            { className: 'row brdr-bttm bg-white mrgn-bttm-0' },
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                'table',
-                { className: 'table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm', id: 'chartgridview' },
+                'div',
+                { className: 'col-md-12 bg-white' },
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                    'caption',
-                    null,
-                    Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.measureName),
-                    ', ',
-                    Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.population)
-                ),
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                    'thead',
-                    null,
+                    'table',
+                    { className: 'table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm', id: 'chartgridview' },
                     react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                        'tr',
+                        'caption',
+                        null,
+                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.measureName),
+                        ', ',
+                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.population)
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                        'thead',
                         null,
                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                            'th',
-                            { className: 'text-left', scope: 'col' },
-                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.xAxis)
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                            'th',
-                            { className: 'text-center', scope: 'col' },
-                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.yAxis)
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                            'th',
-                            { className: 'text-center', scope: 'col' },
-                            '95% ',
+                            'tr',
+                            null,
                             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                'abbr',
-                                { title: 'Confidence Interval' },
-                                'CI'
+                                'th',
+                                { className: 'text-left', scope: 'col' },
+                                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.xAxis)
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                'th',
+                                { className: 'text-center', scope: 'col' },
+                                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.yAxis)
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                'th',
+                                { className: 'text-center', scope: 'col' },
+                                '95% ',
+                                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                    'abbr',
+                                    { title: 'Confidence Interval' },
+                                    'CI'
+                                )
                             )
                         )
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                        'tbody',
+                        null,
+                        this.props.chartData.points.map((point, index) => {
+                            switch (point.cvInterpretation) {
+
+                                // Data is in the red (66%+)
+                                case 1:
+                                    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                        'tr',
+                                        { key: index, style: { backgroundColor: "red" } },
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            { className: 'text-left' },
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(point.label)
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            null,
+                                            'Suppr.',
+                                            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                                'sup',
+                                                null,
+                                                'F'
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            null,
+                                            point.valueLower,
+                                            ' - ',
+                                            point.valueUpper
+                                        )
+                                    );
+
+                                // Data is in the red (33%+)
+                                case 2:
+                                    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                        'tr',
+                                        { key: index, style: { backgroundColor: "yellow" } },
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            { className: 'text-left' },
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(point.label)
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            null,
+                                            point.value,
+                                            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                                'sup',
+                                                null,
+                                                'E'
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            null,
+                                            point.valueLower,
+                                            ' - ',
+                                            point.valueUpper
+                                        )
+                                    );
+
+                                // Data is a Okay!
+                                default:
+                                    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                        'tr',
+                                        { key: index },
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            { className: 'text-left' },
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(point.label)
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            null,
+                                            point.value
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                                            'td',
+                                            null,
+                                            point.valueLower,
+                                            ' - ',
+                                            point.valueUpper
+                                        )
+                                    );
+
+                            }
+                        })
                     )
-                ),
+                )
+            ),
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'div',
+                { className: 'col-md-12 bg-white mrgn-tp-0 small' },
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                    'tbody',
-                    null,
-                    this.props.chartData.points.map((point, index) => {
-                        switch (point.cvInterpretation) {
-
-                            // Data is in the red (66%+)
-                            case 1:
-                                return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                    'tr',
-                                    { key: index, style: { backgroundColor: "red" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        { className: 'text-left' },
-                                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(point.label)
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        null,
-                                        'Suppr.',
-                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                            'sup',
-                                            null,
-                                            'F'
-                                        )
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        null,
-                                        point.valueLower,
-                                        ' - ',
-                                        point.valueUpper
-                                    )
-                                );
-
-                            // Data is in the red (33%+)
-                            case 2:
-                                return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                    'tr',
-                                    { key: index, style: { backgroundColor: "yellow" } },
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        { className: 'text-left' },
-                                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(point.label)
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        null,
-                                        point.value,
-                                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                            'sup',
-                                            null,
-                                            'E'
-                                        )
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        null,
-                                        point.valueLower,
-                                        ' - ',
-                                        point.valueUpper
-                                    )
-                                );
-
-                            // Data is a Okay!
-                            default:
-                                return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                    'tr',
-                                    { key: index },
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        { className: 'text-left' },
-                                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(point.label)
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        null,
-                                        point.value
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                                        'td',
-                                        null,
-                                        point.valueLower,
-                                        ' - ',
-                                        point.valueUpper
-                                    )
-                                );
-
-                        }
-                    })
+                    'div',
+                    { className: 'bg-warning' },
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                        'h4',
+                        null,
+                        'Notes:'
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                        'p',
+                        null,
+                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.remarks)
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                        'p',
+                        null,
+                        react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                            'strong',
+                            null,
+                            'Source: '
+                        ),
+                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.chartData.source)
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                        'p',
+                        null,
+                        Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cellsEmpty)
+                    ),
+                    warningCV,
+                    suppressedCV
                 )
             )
         );
@@ -523,7 +614,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChartingConnect", function() { return ChartingConnect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Charting", function() { return Charting; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -573,7 +664,7 @@ class Charting extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterBoxConnect", function() { return FilterBoxConnect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Filters", function() { return Filters; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -628,7 +719,7 @@ class Filters extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummaryTableConnect", function() { return SummaryTableConnect; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SummaryTable", function() { return SummaryTable; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
@@ -645,7 +736,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const mapStateToSummaryTableProps = (state, props) => ({ chartData: state.chartData });
+const mapStateToSummaryTableProps = (state, props) => ({ chartData: state.chartData,
+    remarks: state.chartData.remarks,
+    cvWarning: props.cvWarning,
+    cvSuppressed: props.cvSuppressed,
+    cvWarnAt: state.chartData.warningCV,
+    cvSuppressAt: state.chartData.suppressCV
+});
 
 // TODO: Fix typing issue
 const SummaryTableConnect = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToSummaryTableProps)(_components_SummaryTable__WEBPACK_IMPORTED_MODULE_3__["SummaryTable"]);
@@ -659,7 +756,9 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"],
             { store: _store_dataExplorer__WEBPACK_IMPORTED_MODULE_5__["dataExplorerStore"] },
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](SummaryTableConnect, null)
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](SummaryTableConnect, { cvWarning: this.props.cvWarning,
+                cellsEmpty: this.props.cellsEmpty,
+                cvSuppressed: this.props.cvSuppressed })
         );
     }
 }
@@ -697,7 +796,7 @@ const initialState = {
         method: {},
         remarks: {},
         warningCV: null,
-        supressCV: null,
+        suppressCV: null,
         measureName: {}
     },
     loading: false,
@@ -31144,7 +31243,7 @@ if (true) {
 'use strict';
 
 var invariant = __webpack_require__(/*! fbjs/lib/invariant */ "./node_modules/fbjs/lib/invariant.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 var warning = __webpack_require__(/*! fbjs/lib/warning */ "./node_modules/fbjs/lib/warning.js");
 var ExecutionEnvironment = __webpack_require__(/*! fbjs/lib/ExecutionEnvironment */ "./node_modules/fbjs/lib/ExecutionEnvironment.js");
 var _assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
@@ -48627,7 +48726,7 @@ if (false) {} else {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return createProvider; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
@@ -48722,7 +48821,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! invariant */ "./node_modules/invariant/browser.js");
 /* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(invariant__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _utils_Subscription__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/Subscription */ "./node_modules/react-redux/es/utils/Subscription.js");
 /* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/PropTypes */ "./node_modules/react-redux/es/utils/PropTypes.js");
@@ -51260,19 +51359,7 @@ module.exports = react;
 
 /***/ }),
 
-/***/ "./node_modules/react/index.js?7c21":
-/*!*************************************!*\
-  !*** ./node_modules/react/index.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js?ab5b");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/react/index.js?ab5b":
+/***/ "./node_modules/react/index.js":
 /*!*************************************!*\
   !*** ./node_modules/react/index.js ***!
   \*************************************/
@@ -51286,6 +51373,18 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/react.development.js */ "./node_modules/react/cjs/react.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/react/index.js-exposed":
+/*!*********************************************!*\
+  !*** ./node_modules/react/index.js-exposed ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

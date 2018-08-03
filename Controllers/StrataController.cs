@@ -24,8 +24,65 @@ namespace ReactDotNetDemo.Controllers
         // GET: Strata
         public async Task<IActionResult> Index()
         {
-            var pASSContext = _context.Strata.Include(s => s.Measure);
-            return View(await pASSContext.ToListAsync());
+            var activities = _context.Activity
+                                        // Include Measure names
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                    .ThenInclude(i => i.Measures)
+                                                        .ThenInclude(m => m.MeasureNameTranslations)
+                                                            .ThenInclude(t => t.Translation)
+
+
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                    .ThenInclude(i => i.Measures)
+                                                        .ThenInclude(m => m.MeasureUnitTranslations)
+                                                            .ThenInclude(t => t.Translation)
+
+                                        // Include latest data by including points. Will filter later.
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                .ThenInclude(i => i.Measures)
+                                                    .ThenInclude(m => m.DefaultStrata.Points)
+
+                                        // Include source name
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                .ThenInclude(i => i.Measures)
+                                                    .ThenInclude(m => m.MeasureSourceTranslations)
+                                                        .ThenInclude(t => t.Translation)
+
+                                        // Include indicator names
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                    .ThenInclude(m => m.IndicatorNameTranslations)
+                                                        .ThenInclude(t => t.Translation)
+
+                                        // Include Life Course names
+
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                    .ThenInclude(lc => lc.LifeCourseNameTranslations)
+                                                        .ThenInclude(t => t.Translation)
+
+                                        // Include indicator group names
+                                        .Include(a => a.IndicatorGroups)
+                                          .ThenInclude(a => a.IndicatorGroupNameTranslations)
+                                                        .ThenInclude(t => t.Translation)
+
+                                          // Include Activity names
+                                          .Include(a => a.ActivityNameTranslations)
+                                                        .ThenInclude(t => t.Translation);
+
+
+            
+            // Razor handles the rest
+            return View(await activities.ToListAsync());
         }
 
         // GET: Strata/Details/

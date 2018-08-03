@@ -1,10 +1,16 @@
 // @flow
 import * as React from 'react';
 import { i18n } from '../Translator';
-import type { ChartData } from '../types';
+import type { ChartData, MultilangText } from '../types';
 
 export type SummaryTableProps = {
-    chartData: ChartData
+    chartData: ChartData,
+    cvWarning: MultilangText,
+    cellsEmpty: MultilangText,
+    cvSuppressed: MultilangText,
+    remarks: MultilangText,
+    cvWarnAt: number,
+    cvSuppressAt: number
 }
 
 
@@ -13,7 +19,26 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
         
     }
     render() {
+        let warningCV = null;
+        let suppressedCV = null;
+        if (this.props.chartData.points.some(p => p.cvInterpretation == 2))
+            if (this.props.cvWarnAt) {
+                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: this.props.cvWarnAt, suppress: this.props.cvSuppressAt})}</p>
+            } else {
+                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, "alt")}</p>
+            }
+
+        if (this.props.chartData.points.some(p => p.cvInterpretation == 1))
+            if (this.props.cvWarnAt) {
+                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: this.props.cvWarnAt, suppress: this.props.cvSuppressAt})}</p>
+            } else {
+                suppressedCV = <p><sup>E</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
+
+            }
+
+        
         return (
+            <div className="row brdr-bttm bg-white mrgn-bttm-0">
             <div className="col-md-12 bg-white">
     <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">
         <caption>
@@ -62,6 +87,24 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
 
     </table>
 </div>
+<div className="col-md-12 bg-white mrgn-tp-0 small">
+        <div className="bg-warning">
+            <h4>Notes:</h4>
+            <p>
+                {i18n(this.props.chartData.remarks)}
+            </p>
+            <p>
+                <strong>Source: </strong>{i18n(this.props.chartData.source)}
+            </p>
+
+            <p>{i18n(this.props.cellsEmpty)}</p>
+            
+            {warningCV}
+            {suppressedCV}
+
+        </div>
+    </div>
+    </div>
         )
     }
 }

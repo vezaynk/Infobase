@@ -10,19 +10,15 @@
   "license": "MIT",
   "dependencies": {
     "aspnet-prerendering": "^3.0.1",
-    "autoprefixer": "^9.0.1",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "d3": "^5.5.0",
     "d3-node": "^2.0.1",
     "html-webpack-plugin": "^3.2.0",
-    "mobx": "^5.0.3",
-    "mobx-react": "^5.2.3",
     "react": "^16.4.1",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "save-svg-as-png": "^1.4.5"
   },
   "devDependencies": {
     "@types/react": "^16.4.0",

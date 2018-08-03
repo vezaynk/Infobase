@@ -37,12 +37,12 @@ export type ChartData = {
     method: MultilangText,
     remarks: MultilangText,
     warningCV: ?number,
-    supressCV: ?number,
+    suppressCV: ?number,
     measureName: MultilangText
 }
 
 export type LanguageCode =  "EN" | "FR";
-export type TranslationType = "Index" | "Datatool";
+export type TranslationType = "Index" | "Datatool" | "alt";
 
 export type DataExplorerState = {
     filters: FilterData[],

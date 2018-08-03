@@ -1,35 +1,69 @@
-﻿@model IEnumerable<ReactDotNetDemo.Models.PASS.Strata>
+﻿@model IEnumerable<ReactDotNetDemo.Models.PASS.Activity>
 
 @{
-    ViewData["Title"] = "Index";
+    Layout = "../Shared/_MasterEN.cshtml";
+    ViewBag.currentTabName = "Tool";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Measure)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measure.MeasureId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StrataId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StrataId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StrataId">Delete</a>
-            </td>
-        </tr>
+@{ 
+    // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
+    // TODO: dynamic language code
+    var lifeCourseNames = Model.SelectMany(a => a.IndicatorGroups
+                                            .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get(("EN", null))))
+                                           ).Distinct();
 }
-    </tbody>
-</table>
+@foreach (var lifeCourseName in lifeCourseNames)
+{
+
+    <h3>@lifeCourseName</h3>
+    foreach (var activity in Model)
+    {
+
+    <details>
+        <summary>@activity.ActivityName.Get(("EN", null))</summary>
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="width-20" scope="col">Indicator Group</th>
+                    <th class="width-20" scope="col">Indicator</th>
+                    <th class="width-30" scope="col">Indicator Measure(s)</th>
+                    <th class="width-10" scope="col">Latest Data</th>
+                    <th class="width-20" scope="col">Source (Year)</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var indicatorGroup in activity.IndicatorGroups)
+                {
+                    // Must only select indicators which are a subset of the desired lifecourse
+                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get(("EN", null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
+                    foreach (var indicator in indicators)
+                    {
+                        foreach (var measure in indicator.Measures)
+                        {
+                            <tr>
+                                <td>@indicatorGroup.IndicatorGroupName.Get(("EN", null))</td>
+                                <td>@indicator.IndicatorName.Get(("EN", null))</td>
+                                <td>@measure.MeasureName.Get(("EN", null))</td>
+                                @if (measure.DefaultStrataId == null)
+                                {
+                                    <td>-</td>
+                                }
+                                else
+                                {
+                                    <td>@measure.MeasurePoint.ValueAverage.ToString() @measure.MeasureUnit.Get(("EN", "Index"))</td> 
+                                }
+
+                                <td>@measure.MeasureSource.Get(("EN", null))</td>
+                                <td></td>
+                            </tr>
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+    </details>
+                                }
+
+                            }
