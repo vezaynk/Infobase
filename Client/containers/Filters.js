@@ -11,7 +11,6 @@ import { dataExplorerStore } from '../store/dataExplorer'
 import { updateFilters, updateChartData, updateLoadState } from '../reducers/dataExplorerReducer';
 import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData, MultilangText } from "../types";
 import type { Dispatch, ActionCreators } from 'redux';
-import type { MapStateToProps, MapDispatchToProps } from 'react-redux';
 
 const mapStateToFilterProps = (state: DataExplorerState, props) => ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
 const actionCreators: ActionCreators<string, Action> = { updateLoadState, updateFilters, updateChartData};

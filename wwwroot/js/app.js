@@ -81,24 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx?1f27");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx-exposed");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./Client/App.jsx?1f27":
-/*!************************!*\
-  !*** ./Client/App.jsx ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx?3052");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./Client/App.jsx?3052":
+/***/ "./Client/App.jsx":
 /*!************************!*\
   !*** ./Client/App.jsx ***!
   \************************/
@@ -124,6 +112,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/***/ }),
+
+/***/ "./Client/App.jsx-exposed":
+/*!********************************!*\
+  !*** ./Client/App.jsx-exposed ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
