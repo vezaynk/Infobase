@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ReactDotNetDemo.Migrations
+namespace Infobase.Migrations
 {
     public partial class init : Migration
     {

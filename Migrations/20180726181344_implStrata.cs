@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ReactDotNetDemo.Migrations
+namespace Infobase.Migrations
 {
     public partial class implStrata : Migration
     {

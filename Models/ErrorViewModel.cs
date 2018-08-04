@@ -1,6 +1,6 @@
 using System;
 
-namespace ReactDotNetDemo.Models
+namespace Infobase.Models
 {
     public class ErrorViewModel
     {

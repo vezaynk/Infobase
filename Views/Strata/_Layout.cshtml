@@ -1,13 +1,13 @@
-﻿@model ReactDotNetDemo.Models.PageModel
+﻿@model Infobase.Models.PageModel
 
 
 @{
     Layout = "~/Views/Shared/_TabLayout.cshtml";
 
-    ViewBag.tabs = new List<ReactDotNetDemo.Models.TabItem> {
-        new ReactDotNetDemo.Models.TabItem("Index", "Index"),
-        new ReactDotNetDemo.Models.TabItem("Tool", Model.LanguageCode == "FR" ? "Outil" : "Tool"),
-        new ReactDotNetDemo.Models.TabItem("Publications", "Publications")
+    ViewBag.tabs = new List<Infobase.Models.TabItem> {
+        new Infobase.Models.TabItem("Index", "Index"),
+        new Infobase.Models.TabItem("Tool", Model.LanguageCode == "FR" ? "Outil" : "Tool"),
+        new Infobase.Models.TabItem("Publications", "Publications")
 
     };
 

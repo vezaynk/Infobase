@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/ReactDotNetDemo.csproj"
+                "${workspaceFolder}/Infobase.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
