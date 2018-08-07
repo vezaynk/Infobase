@@ -7,6 +7,7 @@
  */
 ( function( wb ) {
 "use strict";
+
 /* main index */
 wb.i18nDict = {
 	"lang-code": "el",
@@ -71,6 +72,7 @@ wb.i18nDict = {
 	"tab-pnl-end2": "Επιστροφή για να την λίστα καρτέλα",
 	"tab-pnl-end3": "ή να συνεχίσουν προς την υπόλοιπη της σελίδας.",
 	"tab-play": "Παιχνίδι",
+
 	/* Multimedia player */
 	"mmp-play": "Παιχνίδι",
 	pause: "Παύση",
@@ -92,6 +94,7 @@ wb.i18nDict = {
 	},
 	pos: "Τρέχουσα θέση:",
 	dur: "Συνολικός χρόνος:",
+
 	/* Share widget */
 	"shr-txt": "Κοινή χρήση",
 	"shr-pg": " αυτής της σελίδας",
@@ -99,14 +102,17 @@ wb.i18nDict = {
 	"shr-aud": " αυτό το αρχείο ήχου",
 	"shr-hnt": " με {s} ",
 	"shr-disc": "Δεν οπισθογράφηση των οποιωνδήποτε τα προϊόντα ή υπηρεσίες αυτών δεν εκφράζονται ή σιωπηρή.",
+
 	/* Form validation */
 	"frm-nosubmit": "Το έντυπο θα μπορούσε να να δεν που υποβάλλονται, επειδή ",
 	"errs-fnd": " τα σφάλματα βρέθηκαν.",
 	"err-fnd": " σφάλμα ήταν που βρέθηκαν.",
+
 	/* Date picker */
 	"date-hide": "Απόκρυψη ημερολόγιο",
 	"date-show": "Επιλέξτε μια ημερομηνία από το ημερολόγιο για τον τομέα:",
 	"date-sel": "Επιλεγμένα",
+
 	/* Calendar */
 	days: [
 		"Κυριακή",
@@ -141,13 +147,17 @@ wb.i18nDict = {
 	"cal-goToBtn": "Πάω",
 	prvMnth: "Προηγούμενος Μήνας: ",
 	nxtMnth: "Επόμενος Μήνας: ",
+
 	/* Lightbox */
 	"lb-curr": "Αντικείμενο %curr% από ​​%total%",
 	"lb-xhr-err": "Αυτό το περιεχόμενο απέτυχε για να φορτώσει.",
 	"lb-img-err": "Αυτή η εικόνα απέτυχε για να φορτώσει.",
+
 	/* Charts widget */
 	"tbl-txt": "Τραπέζι",
 	"tbl-dtls": "Διάγραμμα. Λεπτομέρειες στον ακόλουθο πίνακα.",
+	"chrt-cmbslc": "Combined slice",
+
 	/* Session timeout */
 	"st-to-msg-bgn": "Η συνεδρία σας θα λήξει αυτόματα στο #min# min #sec# sec.",
 	"st-to-msg-end": "Επιλέξτε \"Συνέχεια συνεδρία\" να παρατείνει τη συνεδρία σας.",
@@ -155,12 +165,14 @@ wb.i18nDict = {
 	"st-alrdy-to-msg": "Μας συγχωρείτε συνεδρίας σας έχει ήδη λήξει. Παρακαλείστε να συνδεθείτε και πάλι.",
 	"st-btn-cont": "Συνέχιση της συνόδου",
 	"st-btn-end": "Τέλος συνόδου τώρα",
+
 	/* Toggle details */
 	"td-toggle": "Εναλλαγή όλα τα",
 	"td-open": "Ανάπτυξη όλων",
 	"td-close": "Σύμπτυξη όλων",
 	"td-ttl-open": "Αναπτύξτε το όλες τις ενότητες του περιεχόμενο",
 	"td-ttl-close": "Σύμπτυξη όλες τις ενότητες του περιεχόμενο",
+
 	/* Table enhancement */
 	sortAsc: ": την ενεργοποιήσει για την ταξινόμηση με αύξουσα σειρά",
 	sortDesc: ": την ενεργοποιήσει για την φθίνουσα είδος",
@@ -171,6 +183,7 @@ wb.i18nDict = {
 	info1000: "&#160;",
 	lenMenu: "Εμφάνιση _MENU_ καταχωρήσεις",
 	filter: "Φιλτράρισμα των στοιχείων",
+
 	/* Geomap */
 	"geo-mapctrl": "@geo-mapctrl@",
 	"geo-zmin": "Μεγέθυνση",
@@ -184,14 +197,14 @@ wb.i18nDict = {
 	"geo-allyttl": "Οδηγίες: Χάρτης πλοήγησης",
 	"geo-tgllyr": "Εναλλαγή την οθόνη του του στρώμα",
 	"geo-hdnlyr": "Αυτό το στρώμα είναι κρυφές αυτή τη στιγμή.",
-	"geo-bmapurl": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+	"geo-bmapurl": "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
 	"geo-bmapttl": "BaseMaps_CBMT3978",
-	"geo-bmapurltxt": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
-	"geo-attrlnk": "http://geogratis.gc.ca/geogratis/CBM_CBC?lang=en",
+	"geo-bmapurltxt": "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+	"geo-attrlnk": "//geogratis.gc.ca/geogratis/CBM_CBC?lang=en",
 	"geo-attrttl": "GeoGratis - Καναδάς χάρτη βάσης (αγγλικά ή γαλλικά)",
 	"geo-sel": "Επιλέξτε το",
 	"geo-lblsel": "Ελέγξτε τις για να επιλέξετε το στοιχείο σχετικά με την χάρτη",
-	"geo-locurl-geogratis": "http://geogratis.gc.ca/services/geolocation/en/locate",
+	"geo-locurl-geogratis": "//geogratis.gc.ca/services/geolocation/en/locate",
 	"geo-loc-placeholder": "Να αναφερθεί το όνομα της τοποθεσίας&#44; ταχυδρομικό κώδικα&#44; διεύθυνση (ταχυδρομική)&#44; ο αριθμός των NTS ...",
 	"geo-loc-label": "Τοποθεσία",
 	"geo-aoi-north": "βόρεια Προάστια",
@@ -205,18 +218,37 @@ wb.i18nDict = {
 	"geo-geoloc-fail": "Τοποθεσία απέτυχε. Παρακαλούμε βεβαιωθείτε ότι οι υπηρεσίες τοποθεσίας ενεργοποιημένη.",
 	"geo-geoloc-uncapable": "Localization δεν υποστηρίζεται από το πρόγραμμα περιήγησής σας.",
 	"geo-lgnd-grphc": "Γραφικό Υπόμνημα για χάρτη στρώμα.",
+
 	/* Disable/enable WET plugins and polyfills */
-	"wb-disable": "Βασικές έκδοση HTML",
-	"wb-enable": "Βασική έκδοση",
+	"wb-disable": "Switch to basic HTML version",
+	"wb-enable": "Switch to standard version",
+	"disable-notice-h": "Notice: Basic HTML",
+	"disable-notice": "You are viewing Basic HTML view. Some features may be disabled.",
+
 	/* Dismissable content */
 	"dismiss": "Dismiss",
+
 	/* Template */
-	"tmpl-signin": "Σύνδεση Σε"
+	"tmpl-signin": "Σύνδεση Σε",
+
+	/* Filter */
+	"fltr-lbl": "Filter<span class=\"wb-inv\"> content: results appear below as you type.</span>",
+	"fltr-info": "Showing _NBITEM_ filtered from _TOTAL_ total entries"
 };
 
 } )( wb );
 
 wb.doc.one( "formLanguages.wb", function() {
+(function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+		define( ["jquery", "../jquery.validate"], factory );
+	} else if (typeof module === "object" && module.exports) {
+		module.exports = factory( require( "jquery" ) );
+	} else {
+		factory( jQuery );
+	}
+}(function( $ ) {
+
 /*
  * Translated default messages for the jQuery validation plugin.
  * Locale: EL (Greek; ελληνικά)
@@ -241,5 +273,6 @@ $.extend( $.validator.messages, {
 	min: $.validator.format( "Παρακαλώ εισάγετε μια τιμή μεγαλύτερη ή ίση του {0}." )
 } );
 
+}));
 
 });

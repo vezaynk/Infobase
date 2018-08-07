@@ -7,6 +7,7 @@
  */
 ( function( wb ) {
 "use strict";
+
 /* main index */
 wb.i18nDict = {
 	"lang-code": "is",
@@ -71,6 +72,7 @@ wb.i18nDict = {
 	"tab-pnl-end2": "Fara aftur á flipann lista",
 	"tab-pnl-end3": "eða halda áfram til the hvíla af síðunni.",
 	"tab-play": "Spila",
+
 	/* Multimedia player */
 	"mmp-play": "Spila",
 	pause: "Brot",
@@ -92,6 +94,7 @@ wb.i18nDict = {
 	},
 	pos: "Núverandi staða:",
 	dur: "Samtals tími:",
+
 	/* Share widget */
 	"shr-txt": "Deila",
 	"shr-pg": " þessari síðu",
@@ -99,14 +102,17 @@ wb.i18nDict = {
 	"shr-aud": " þetta hljóðskrá",
 	"shr-hnt": " með {s} ",
 	"shr-disc": "Engin áritun allar vörur eða þjónustu er gefið eða gefið í skyn.",
+
 	/* Form validation */
 	"frm-nosubmit": "Eyðublaðið var ekki hægt að skila því ",
 	"errs-fnd": " villur fundust.",
 	"err-fnd": " villa fannst.",
+
 	/* Date picker */
 	"date-hide": "Fela dagatal",
 	"date-show": "Veldu dagsetningu af dagatali fyrir akur:",
 	"date-sel": "Valin",
+
 	/* Calendar */
 	days: [
 		"Sunnudagur",
@@ -141,13 +147,17 @@ wb.i18nDict = {
 	"cal-goToBtn": "Farðu",
 	prvMnth: "Fyrri mánuður: ",
 	nxtMnth: "Næsti mánuður: ",
+
 	/* Lightbox */
 	"lb-curr": "Item %curr% af %total%",
 	"lb-xhr-err": "Þetta efni tókst að hlaða.",
 	"lb-img-err": "Þessi mynd tókst að hlaða.",
+
 	/* Charts widget */
 	"tbl-txt": "Tafla",
 	"tbl-dtls": "Töfluna. Upplýsingar í eftirfarandi töflu.",
+	"chrt-cmbslc": "Combined slice",
+
 	/* Session timeout */
 	"st-to-msg-bgn": "Fundur mun renna sjálfkrafa í #min# mín #sec# sek.",
 	"st-to-msg-end": "Sækja Veldu \"Áfram fundur\" til að lengja setu.",
@@ -155,12 +165,14 @@ wb.i18nDict = {
 	"st-alrdy-to-msg": "Því miður fundur hefur þegar útrunninn. Vinsamlegast skráðu þig inn aftur.",
 	"st-btn-cont": "Halda áfram setu",
 	"st-btn-end": "Endir setu nú",
+
 	/* Toggle details */
 	"td-toggle": "Gera alla",
 	"td-open": "Stækka allt",
 	"td-close": "Draga allt",
 	"td-ttl-open": "Stækka alla hluta af efni",
 	"td-ttl-close": "Fella alla hluta af efni",
+
 	/* Table enhancement */
 	sortAsc: ": virkja til hækkandi raða",
 	sortDesc: ": virkja til lækkandi konar",
@@ -171,6 +183,7 @@ wb.i18nDict = {
 	info1000: ",",
 	lenMenu: "Sýna _MENU_ færslur",
 	filter: "Sía atriði",
+
 	/* Geomap */
 	"geo-mapctrl": "@geo-mapctrl@",
 	"geo-zmin": "Auka aðdrátt",
@@ -184,14 +197,14 @@ wb.i18nDict = {
 	"geo-allyttl": "Leiðbeiningar: Kort flakk",
 	"geo-tgllyr": "Víxla birtingu lag",
 	"geo-hdnlyr": "Þetta lag er nú falin.",
-	"geo-bmapurl": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+	"geo-bmapurl": "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
 	"geo-bmapttl": "BaseMaps_CBMT3978",
-	"geo-bmapurltxt": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
-	"geo-attrlnk": "http://geogratis.gc.ca/geogratis/CBM_CBC?lang=en",
+	"geo-bmapurltxt": "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+	"geo-attrlnk": "//geogratis.gc.ca/geogratis/CBM_CBC?lang=en",
 	"geo-attrttl": "GeoGratis - Kanada stöð kort (enska eða franska aðeins)",
 	"geo-sel": "Veldu",
 	"geo-lblsel": "Athugaðu að velja atriði á kortinu",
-	"geo-locurl-geogratis": "http://geogratis.gc.ca/services/geolocation/en/locate",
+	"geo-locurl-geogratis": "//geogratis.gc.ca/services/geolocation/en/locate",
 	"geo-loc-placeholder": "Tilgreina nafn staðsetningu&#44; póstnúmer&#44; heimilisfang (Postal)&#44; fjölda NTS ...",
 	"geo-loc-label": "Staðsetning",
 	"geo-aoi-north": "Norður",
@@ -205,18 +218,37 @@ wb.i18nDict = {
 	"geo-geoloc-fail": "Staðsetning mistókst. Skaltu tryggja að staðsetningu þjónustu eru virk.",
 	"geo-geoloc-uncapable": "Staðsetning er ekki stutt af vafranum þínum.",
 	"geo-lgnd-grphc": "Legend grafík fyrir kortinu lag.",
+
 	/* Disable/enable WET plugins and polyfills */
-	"wb-disable": "Undirstöðu HTML útgáfa",
-	"wb-enable": "Standard útgáfa",
+	"wb-disable": "Switch to basic HTML version",
+	"wb-enable": "Switch to standard version",
+	"disable-notice-h": "Notice: Basic HTML",
+	"disable-notice": "You are viewing Basic HTML view. Some features may be disabled.",
+
 	/* Dismissable content */
 	"dismiss": "Dismiss",
+
 	/* Template */
-	"tmpl-signin": "Skrá inn"
+	"tmpl-signin": "Skrá inn",
+
+	/* Filter */
+	"fltr-lbl": "Filter<span class=\"wb-inv\"> content: results appear below as you type.</span>",
+	"fltr-info": "Showing _NBITEM_ filtered from _TOTAL_ total entries"
 };
 
 } )( wb );
 
 wb.doc.one( "formLanguages.wb", function() {
+(function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+		define( ["jquery", "../jquery.validate"], factory );
+	} else if (typeof module === "object" && module.exports) {
+		module.exports = factory( require( "jquery" ) );
+	} else {
+		factory( jQuery );
+	}
+}(function( $ ) {
+
 /*
  * Translated default messages for the jQuery validation plugin.
  * Locale: IS (Icelandic; íslenska)
@@ -239,5 +271,6 @@ $.extend( $.validator.messages, {
 	creditcard: "Sláðu inn gilt greiðslukortanúmer."
 } );
 
+}));
 
 });

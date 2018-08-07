@@ -131,12 +131,13 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************!*\
   !*** ./Client/Translator.js ***!
   \******************************/
-/*! exports provided: i18n */
+/*! exports provided: i18n, numberFormat */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i18n", function() { return i18n; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "numberFormat", function() { return numberFormat; });
 /* harmony import */ var _store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/dataExplorer */ "./Client/store/dataExplorer.js");
 
 
@@ -156,6 +157,11 @@ function i18n(translatable, type, substitutions = {}) {
         text = text.split(`{${subkey}}`).join(substitutions[subkey].toString());
     });
     return text.toString();
+}
+
+function numberFormat(number) {
+    if (number == null) return "";
+    return new Intl.NumberFormat(_store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number);
 }
 
 /***/ }),
@@ -385,7 +391,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     null,
                     'E'
                 ),
-                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: Math.round(this.props.cvWarnAt * 100) / 100, suppress: Math.round(this.props.cvSuppressAt * 100) / 100 })
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.warnAt), suppress: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.suppressAt) })
             );
         } else {
             warningCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -409,7 +415,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     null,
                     'F'
                 ),
-                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: Math.round(this.props.cvWarnAt * 100) / 100, suppress: Math.round(this.props.cvSuppressAt * 100) / 100 })
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.warnAt), suppress: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.suppressAt) })
             );
         } else {
             suppressedCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -498,9 +504,10 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
                                             ' - ',
-                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
+                                            ' '
                                         )
                                     );
 
@@ -517,7 +524,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Math.round(point.value * 100) / 100,
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.value),
                                             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                                 'sup',
                                                 null,
@@ -527,9 +534,10 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
                                             ' - ',
-                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
+                                            ' '
                                         )
                                     );
 
@@ -546,14 +554,15 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Math.round(point.value * 100) / 100
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.value)
                                         ),
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
                                             ' - ',
-                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100
+                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
+                                            ' '
                                         )
                                     );
 

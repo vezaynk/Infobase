@@ -18,3 +18,9 @@ export function i18n(translatable: MultilangText, type?: TranslationType, substi
     })
     return text.toString();
 }
+
+export function numberFormat(number: number): string {
+    if (number == null)
+        return "";
+    return new Intl.NumberFormat(dataExplorerStore.getState().languageCode, {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(number)
+}

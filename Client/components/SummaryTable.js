@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { i18n } from '../Translator';
+import { i18n, numberFormat } from '../Translator';
 import type { ChartData, MultilangText } from '../types';
 
 export type SummaryTableProps = {
@@ -23,14 +23,14 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
         let suppressedCV = null;
         if (this.props.chartData.points.some(p => p.cvInterpretation == 2))
             if (this.props.cvWarnAt) {
-                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: Math.round(this.props.cvWarnAt*100)/100, suppress: Math.round(this.props.cvSuppressAt*100)/100 })}</p>
+                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: numberFormat(this.props.warnAt), suppress: numberFormat(this.props.suppressAt) })}</p>
             } else {
                 warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, "alt")}</p>
             }
 
         if (this.props.chartData.points.some(p => p.cvInterpretation == 1))
             if (this.props.cvWarnAt) {
-                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: Math.round(this.props.cvWarnAt*100)/100, suppress: Math.round(this.props.cvSuppressAt*100)/100 })}</p>
+                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: numberFormat(this.props.warnAt), suppress: numberFormat(this.props.suppressAt) })}</p>
             } else {
                 suppressedCV = <p><sup>E</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
 
@@ -63,23 +63,23 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                         return (<tr key={index} style={({backgroundColor: "red"})}>
                             <td className="text-left">{i18n(point.label)}</td>
                             <td>Suppr.<sup>F</sup></td>
-                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
+                            <td>{numberFormat(point.valueLower)} - {numberFormat(point.valueUpper)} </td>
                         </tr>)
 
                     // Data is in the red (33%+)
                     case 2:
                         return (<tr key={index} style={({backgroundColor: "yellow"})}>
                             <td className="text-left">{i18n(point.label)}</td>
-                            <td>{Math.round(point.value*100)/100}<sup>E</sup></td>
-                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
+                            <td>{numberFormat(point.value)}<sup>E</sup></td>
+                            <td>{numberFormat(point.valueLower)} - {numberFormat(point.valueUpper)} </td>
                         </tr>)
 
                     // Data is a Okay!
                     default:
                         return (<tr key={index}>
                             <td className="text-left">{i18n(point.label)}</td>
-                            <td>{Math.round(point.value*100)/100}</td>
-                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
+                            <td>{numberFormat(point.value)}</td>
+                            <td>{numberFormat(point.valueLower)} - {numberFormat(point.valueUpper)} </td>
                         </tr>)
 
                 }

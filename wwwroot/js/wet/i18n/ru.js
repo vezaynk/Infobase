@@ -7,6 +7,7 @@
  */
 ( function( wb ) {
 "use strict";
+
 /* main index */
 wb.i18nDict = {
 	"lang-code": "ru",
@@ -71,6 +72,7 @@ wb.i18nDict = {
 	"tab-pnl-end2": "Вернитесь на вкладку список",
 	"tab-pnl-end3": "или продолжать остальной страницы.",
 	"tab-play": "Проиграть",
+
 	/* Multimedia player */
 	"mmp-play": "Проиграть",
 	pause: "Пауза",
@@ -92,6 +94,7 @@ wb.i18nDict = {
 	},
 	pos: "Текущая позиция:",
 	dur: "Общее время:",
+
 	/* Share widget */
 	"shr-txt": "Поделиться",
 	"shr-pg": " ссылкой на страницу",
@@ -99,14 +102,17 @@ wb.i18nDict = {
 	"shr-aud": " это аудио",
 	"shr-hnt": " с {s} ",
 	"shr-disc": "Нет одобрение любых продуктов или услуг, выраженных или подразумеваемых.",
+
 	/* Form validation */
 	"frm-nosubmit": "Формы не могут быть представлены, потому что ",
 	"errs-fnd": " были обнаружены ошибки.",
 	"err-fnd": " была обнаружена ошибка.",
+
 	/* Date picker */
 	"date-hide": "Скрыть календарь",
 	"date-show": "Выберите дату из календаря для поля:",
 	"date-sel": "Выбранный",
+
 	/* Calendar */
 	days: [
 		"Воскресенье",
@@ -141,13 +147,17 @@ wb.i18nDict = {
 	"cal-goToBtn": "Перейти",
 	prvMnth: "Предыдущий месяц: ",
 	nxtMnth: "Следующий месяц: ",
+
 	/* Lightbox */
 	"lb-curr": "Пункт %curr% из %total%",
 	"lb-xhr-err": "Этот контент не удалось загрузить.",
 	"lb-img-err": "Это изображение не удалось загрузить.",
+
 	/* Charts widget */
 	"tbl-txt": "Таблица",
 	"tbl-dtls": "График. Подробности в таблице ниже.",
+	"chrt-cmbslc": "Combined slice",
+
 	/* Session timeout */
 	"st-to-msg-bgn": "Ваш сеанс закончится автоматически в #min# мин #sec# сек.",
 	"st-to-msg-end": "Выберите \"Продолжить сеанс\" продлить сессию.",
@@ -155,12 +165,14 @@ wb.i18nDict = {
 	"st-alrdy-to-msg": "Извините сеанс уже истек. Пожалуйста, войдите снова.",
 	"st-btn-cont": "Продолжить сеанс",
 	"st-btn-end": "Завершить сеанс сейчас",
+
 	/* Toggle details */
 	"td-toggle": "Свернуть все",
 	"td-open": "Развернуть все",
 	"td-close": "Свернуть все",
 	"td-ttl-open": "Развернуть все разделы содержания",
 	"td-ttl-close": "Свернуть все разделы содержания",
+
 	/* Table enhancement */
 	sortAsc: ": aктивировать для сортировке по возрастанию",
 	sortDesc: ": aктивировать для сортировки по убыванию",
@@ -171,6 +183,7 @@ wb.i18nDict = {
 	info1000: ",",
 	lenMenu: "Показать _MENU_ записей",
 	filter: "Фильтровать",
+
 	/* Geomap */
 	"geo-mapctrl": "@geo-mapctrl@",
 	"geo-zmin": "Приблизить",
@@ -184,14 +197,14 @@ wb.i18nDict = {
 	"geo-allyttl": "Инструкция: Карта навигации",
 	"geo-tgllyr": "Включить показ слоя",
 	"geo-hdnlyr": "Этот слой скрыт.",
-	"geo-bmapurl": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+	"geo-bmapurl": "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
 	"geo-bmapttl": "BaseMaps_CBMT3978",
-	"geo-bmapurltxt": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
-	"geo-attrlnk": "http://geogratis.gc.ca/geogratis/CBM_CBC?lang=en",
+	"geo-bmapurltxt": "//geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT3978/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+	"geo-attrlnk": "//geogratis.gc.ca/geogratis/CBM_CBC?lang=en",
 	"geo-attrttl": "GeoGratis - Канада базовой карты (на английском или французском языке)",
 	"geo-sel": "Выбирать",
 	"geo-lblsel": "Проверьте, чтобы выбрать элемент на карте",
-	"geo-locurl-geogratis": "http://geogratis.gc.ca/services/geolocation/en/locate",
+	"geo-locurl-geogratis": "//geogratis.gc.ca/services/geolocation/en/locate",
 	"geo-loc-placeholder": "Укажите название места&#44; почтовый индекс&#44; адрес (почтовый)&#44; количество НТС ...",
 	"geo-loc-label": "Pасположение",
 	"geo-aoi-north": "К северу",
@@ -205,18 +218,37 @@ wb.i18nDict = {
 	"geo-geoloc-fail": "Расположение не удалось. Пожалуйста, убедитесь, что услуги определения местоположения включены.",
 	"geo-geoloc-uncapable": "Локализация не поддерживается браузером.",
 	"geo-lgnd-grphc": "Легенда графика для слоя карты.",
+
 	/* Disable/enable WET plugins and polyfills */
-	"wb-disable": "Базовая версия HTML",
-	"wb-enable": "Стандартная версия",
+	"wb-disable": "Switch to basic HTML version",
+	"wb-enable": "Switch to standard version",
+	"disable-notice-h": "Notice: Basic HTML",
+	"disable-notice": "You are viewing Basic HTML view. Some features may be disabled.",
+
 	/* Dismissable content */
 	"dismiss": "Dismiss",
+
 	/* Template */
-	"tmpl-signin": "Войти"
+	"tmpl-signin": "Войти",
+
+	/* Filter */
+	"fltr-lbl": "Filter<span class=\"wb-inv\"> content: results appear below as you type.</span>",
+	"fltr-info": "Showing _NBITEM_ filtered from _TOTAL_ total entries"
 };
 
 } )( wb );
 
 wb.doc.one( "formLanguages.wb", function() {
+(function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+		define( ["jquery", "../jquery.validate"], factory );
+	} else if (typeof module === "object" && module.exports) {
+		module.exports = factory( require( "jquery" ) );
+	} else {
+		factory( jQuery );
+	}
+}(function( $ ) {
+
 /*
  * Translated default messages for the jQuery validation plugin.
  * Locale: RU (Russian; русский язык)
@@ -241,5 +273,6 @@ $.extend( $.validator.messages, {
 	min: $.validator.format( "Пожалуйста, введите число, большее или равное {0}." )
 } );
 
+}));
 
 });
