@@ -12,6 +12,8 @@
                                             .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get(("EN", null))))
                                            ).Distinct();
 }
+
+<MiniTex>Hello \superscript{World}</MiniTex>
 @foreach (var lifeCourseName in lifeCourseNames)
 {
 
@@ -35,27 +37,38 @@
             <tbody>
                 @foreach (var indicatorGroup in activity.IndicatorGroups)
                 {
+
+                    var igFirst = true;
                     // Must only select indicators which are a subset of the desired lifecourse
                     var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get(("EN", null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
                     foreach (var indicator in indicators)
                     {
+                        var indicatorFirst = true;
                         foreach (var measure in indicator.Measures)
                         {
                             <tr>
-                                <td>@indicatorGroup.IndicatorGroupName.Get(("EN", null))</td>
-                                <td>@indicator.IndicatorName.Get(("EN", null))</td>
-                                <td>@measure.MeasureName.Get(("EN", null))</td>
+                                @if (igFirst)
+                                {
+                                    igFirst = false;
+                                    <td rowspan="@indicators.Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get(("EN", null)) </MiniTex></td>
+                                }
+                                @if (indicatorFirst)
+                                {
+                                    indicatorFirst = false;
+                                    <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get(("EN", null))</MiniTex></td>
+                                }
+                                <td><MiniTex>@measure.MeasureName.Get(("EN", null))</MiniTex></td>
                                 @if (measure.DefaultStrataId == null)
                                 {
-                                    <td>-</td>
+                                    <td><MiniTex>-</MiniTex></td>
                                 }
                                 else
                                 {
-                                    <td>@measure.MeasurePoint.ValueAverage.ToString() @measure.MeasureUnit.Get(("EN", "Index"))</td> 
+                                    <td><MiniTex>@measure.MeasurePoint.ValueAverage.ToString() @measure.MeasureUnit.Get(("EN", "Index"))</MiniTex></td>
                                 }
 
-                                <td>@measure.MeasureSource.Get(("EN", null))</td>
-                                <td></td>
+                                <td><MiniTex>@measure.MeasureSource.Get(("EN", null))</MiniTex></td>
+                                <td><MiniTex></MiniTex></td>
                             </tr>
                         }
 
