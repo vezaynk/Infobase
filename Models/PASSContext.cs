@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ReactDotNetDemo.Models.PASS;
+using Infobase.Models.PASS;
 
-namespace ReactDotNetDemo.Models
+namespace Infobase.Models
 {
     public class PASSContext : DbContext
     {

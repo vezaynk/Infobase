@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReactDotNetDemo.Models.PASS
+namespace Infobase.Models.PASS
 {
     public class Strata
     {

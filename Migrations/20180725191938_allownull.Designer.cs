@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ReactDotNetDemo.Models;
+using Infobase.Models;
 
-namespace ReactDotNetDemo.Migrations
+namespace Infobase.Migrations
 {
     [DbContext(typeof(PASSContext))]
     [Migration("20180725191938_allownull")]
@@ -21,7 +21,7 @@ namespace ReactDotNetDemo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Activity", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Activity", b =>
                 {
                     b.Property<int>("ActivityId")
                         .ValueGeneratedOnAdd()
@@ -32,7 +32,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Activity");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.ActivityDescriptionTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.ActivityDescriptionTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -45,7 +45,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("ActivityDescriptionTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.ActivityNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.ActivityNameTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -58,7 +58,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("ActivityNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Indicator", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Indicator", b =>
                 {
                     b.Property<int>("IndicatorId")
                         .ValueGeneratedOnAdd()
@@ -73,7 +73,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Indicator");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorGroup", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.IndicatorGroup", b =>
                 {
                     b.Property<int>("IndicatorGroupId")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("IndicatorGroup");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorGroupNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.IndicatorGroupNameTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -101,7 +101,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("IndicatorGroupNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.IndicatorNameTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -114,7 +114,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("IndicatorNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.LifeCourse", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.LifeCourse", b =>
                 {
                     b.Property<int>("LifeCourseId")
                         .ValueGeneratedOnAdd()
@@ -129,7 +129,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("LifeCourse");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.LifeCourseNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.LifeCourseNameTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -142,7 +142,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("LifeCourseNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Measure", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Measure", b =>
                 {
                     b.Property<int>("MeasureId")
                         .ValueGeneratedOnAdd()
@@ -163,7 +163,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Measure");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureDefinitionTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureDefinitionTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -176,7 +176,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("MeasureDefinitionTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureNameTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -189,7 +189,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("MeasureNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasurePopulationTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasurePopulationTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -202,7 +202,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("MeasurePopulationTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureSourceTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureSourceTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -215,7 +215,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("MeasureSourceTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureUnitTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureUnitTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -228,7 +228,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("MeasureUnitTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Point", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Point", b =>
                 {
                     b.Property<int>("PointId")
                         .ValueGeneratedOnAdd()
@@ -253,7 +253,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Point");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.PointLabelTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.PointLabelTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -266,7 +266,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("PointLabelTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Strata", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Strata", b =>
                 {
                     b.Property<int>("StrataId")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Strata");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.StrataNameTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -294,7 +294,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("StrataNameTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataNotesTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.StrataNotesTranslation", b =>
                 {
                     b.Property<int>("TranslationId");
 
@@ -307,7 +307,7 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("StrataNotesTranslation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Translation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Translation", b =>
                 {
                     b.Property<int>("TranslationId")
                         .ValueGeneratedOnAdd()
@@ -324,218 +324,218 @@ namespace ReactDotNetDemo.Migrations
                     b.ToTable("Translation");
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.ActivityDescriptionTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.ActivityDescriptionTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Activity", "Activity")
+                    b.HasOne("Infobase.Models.PASS.Activity", "Activity")
                         .WithMany("ActivityDescriptionTranslations")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("ActivityDescriptionTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.ActivityNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.ActivityNameTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Activity", "Activity")
+                    b.HasOne("Infobase.Models.PASS.Activity", "Activity")
                         .WithMany("ActivityNameTranslations")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("ActivityNameTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Indicator", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Indicator", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.LifeCourse", "LifeCourse")
+                    b.HasOne("Infobase.Models.PASS.LifeCourse", "LifeCourse")
                         .WithMany("Indicators")
                         .HasForeignKey("LifeCourseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorGroup", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.IndicatorGroup", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Activity", "Activity")
+                    b.HasOne("Infobase.Models.PASS.Activity", "Activity")
                         .WithMany("IndicatorGroups")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorGroupNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.IndicatorGroupNameTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.IndicatorGroup", "IndicatorGroup")
+                    b.HasOne("Infobase.Models.PASS.IndicatorGroup", "IndicatorGroup")
                         .WithMany("IndicatorGroupNameTranslations")
                         .HasForeignKey("IndicatorGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("IndicatorGroupNameTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.IndicatorNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.IndicatorNameTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Indicator", "Indicator")
+                    b.HasOne("Infobase.Models.PASS.Indicator", "Indicator")
                         .WithMany("IndicatorNameTranslations")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("IndicatorNameTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.LifeCourse", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.LifeCourse", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.IndicatorGroup", "IndicatorGroup")
+                    b.HasOne("Infobase.Models.PASS.IndicatorGroup", "IndicatorGroup")
                         .WithMany("LifeCourses")
                         .HasForeignKey("IndicatorGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.LifeCourseNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.LifeCourseNameTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.LifeCourse", "LifeCourse")
+                    b.HasOne("Infobase.Models.PASS.LifeCourse", "LifeCourse")
                         .WithMany("LifeCourseNameTranslations")
                         .HasForeignKey("LifeCourseId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("LifeCourseNameTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Measure", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Measure", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Indicator", "Indicator")
+                    b.HasOne("Infobase.Models.PASS.Indicator", "Indicator")
                         .WithMany("Measures")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureDefinitionTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureDefinitionTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
+                    b.HasOne("Infobase.Models.PASS.Measure", "Measure")
                         .WithMany("MeasureDefinitionTranslations")
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("MeasureDefinitionTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureNameTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
+                    b.HasOne("Infobase.Models.PASS.Measure", "Measure")
                         .WithMany("MeasureNameTranslations")
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("MeasureNameTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasurePopulationTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasurePopulationTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
+                    b.HasOne("Infobase.Models.PASS.Measure", "Measure")
                         .WithMany("MeasurePopulationTranslations")
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("MeasurePopulationTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureSourceTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureSourceTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
+                    b.HasOne("Infobase.Models.PASS.Measure", "Measure")
                         .WithMany("MeasureSourceTranslations")
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("MeasureSourceTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.MeasureUnitTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.MeasureUnitTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
+                    b.HasOne("Infobase.Models.PASS.Measure", "Measure")
                         .WithMany("MeasureUnitTranslations")
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("MeasureUnitTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Point", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Point", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Strata", "Strata")
+                    b.HasOne("Infobase.Models.PASS.Strata", "Strata")
                         .WithMany("Points")
                         .HasForeignKey("StrataId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.PointLabelTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.PointLabelTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Point", "Point")
+                    b.HasOne("Infobase.Models.PASS.Point", "Point")
                         .WithMany("PointLabelTranslations")
                         .HasForeignKey("PointId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("PointLabelTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.Strata", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.Strata", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Measure", "Measure")
+                    b.HasOne("Infobase.Models.PASS.Measure", "Measure")
                         .WithMany("Stratas")
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataNameTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.StrataNameTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Strata", "Strata")
+                    b.HasOne("Infobase.Models.PASS.Strata", "Strata")
                         .WithMany("StrataNameTranslations")
                         .HasForeignKey("StrataId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("StrataNameTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactDotNetDemo.Models.PASS.StrataNotesTranslation", b =>
+            modelBuilder.Entity("Infobase.Models.PASS.StrataNotesTranslation", b =>
                 {
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Strata", "Strata")
+                    b.HasOne("Infobase.Models.PASS.Strata", "Strata")
                         .WithMany("StrataNotesTranslations")
                         .HasForeignKey("StrataId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactDotNetDemo.Models.PASS.Translation", "Translation")
+                    b.HasOne("Infobase.Models.PASS.Translation", "Translation")
                         .WithMany("StrataNotesTranslations")
                         .HasForeignKey("TranslationId")
                         .OnDelete(DeleteBehavior.Cascade);

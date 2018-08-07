@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
-using ReactDotNetDemo.Models;
+using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReactDotNetDemo
+namespace Infobase
 {
     public class Startup
     {

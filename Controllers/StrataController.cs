@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ReactDotNetDemo.Models;
-using ReactDotNetDemo.Models.PASS;
+using Infobase.Models;
+using Infobase.Models.PASS;
 using Newtonsoft.Json;
 
-namespace ReactDotNetDemo.Controllers
+namespace Infobase.Controllers
 {
 
     public class StrataController : Controller

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReactDotNetDemo.Models
+namespace Infobase.Models
 {
     public class Translatable: Dictionary<(string, string), string> {
         public Translatable(IDictionary<(string, string), string> dict): base(dict) {

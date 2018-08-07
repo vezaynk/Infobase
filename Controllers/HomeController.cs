@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ReactDotNetDemo.Models;
+using Infobase.Models;
 
-namespace ReactDotNetDemo.Controllers
+namespace Infobase.Controllers
 {
     public class HomeController : Controller
     {
