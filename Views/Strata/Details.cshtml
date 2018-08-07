@@ -17,7 +17,7 @@
                { ("EN", null), "Select an item from each list below" },
                { ("FR", null), "Sélectionner les paramètres d'intérêt" }
            }
-        }, clientOnly: true)
+        }, clientOnly: false)
 
 
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
@@ -68,7 +68,7 @@
                                                 
                                                 };
     }
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: true)
+    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: false)
 
 
 <div class="row brdr-bttm">
