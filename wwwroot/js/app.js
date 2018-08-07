@@ -322,7 +322,6 @@ class FilterBox extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         })();
     }
     render() {
-        console.log(this.props);
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             'div',
             { className: 'col-md-3 padding-15 ' },
@@ -386,7 +385,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     null,
                     'E'
                 ),
-                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: this.props.cvWarnAt, suppress: this.props.cvSuppressAt })
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: Math.round(this.props.cvWarnAt * 100) / 100, suppress: Math.round(this.props.cvSuppressAt * 100) / 100 })
             );
         } else {
             warningCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -410,7 +409,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     null,
                     'F'
                 ),
-                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: this.props.cvWarnAt, suppress: this.props.cvSuppressAt })
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: Math.round(this.props.cvWarnAt * 100) / 100, suppress: Math.round(this.props.cvSuppressAt * 100) / 100 })
             );
         } else {
             suppressedCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -473,6 +472,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                         'tbody',
                         null,
                         this.props.chartData.points.map((point, index) => {
+
                             switch (point.cvInterpretation) {
 
                                 // Data is in the red (66%+)
@@ -498,9 +498,10 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.valueLower,
-                                            ' - ',
-                                            point.valueUpper
+                                            point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
+                                            ')} - ',
+                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100,
+                                            ')}'
                                         )
                                     );
 
@@ -527,9 +528,10 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.valueLower,
-                                            ' - ',
-                                            point.valueUpper
+                                            point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
+                                            ')} - ',
+                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100,
+                                            ')}'
                                         )
                                     );
 
@@ -551,9 +553,10 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.valueLower,
-                                            ' - ',
-                                            point.valueUpper
+                                            point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
+                                            ')} - ',
+                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100,
+                                            ')}'
                                         )
                                     );
 

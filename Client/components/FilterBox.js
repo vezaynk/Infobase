@@ -41,7 +41,6 @@ export class FilterBox extends React.Component<FilterBoxProps> {
         }
     }
     render() {
-        console.log(this.props)
         return (
 
             <div className="col-md-3 padding-15 ">
