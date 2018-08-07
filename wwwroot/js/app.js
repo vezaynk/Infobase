@@ -499,9 +499,8 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                             'td',
                                             null,
                                             point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
-                                            ')} - ',
-                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100,
-                                            ')}'
+                                            ' - ',
+                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100
                                         )
                                     );
 
@@ -529,9 +528,8 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                             'td',
                                             null,
                                             point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
-                                            ')} - ',
-                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100,
-                                            ')}'
+                                            ' - ',
+                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100
                                         )
                                     );
 
@@ -554,9 +552,8 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                             'td',
                                             null,
                                             point.valueLower == null ? '' : Math.round(point.valueLower * 100) / 100,
-                                            ')} - ',
-                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100,
-                                            ')}'
+                                            ' - ',
+                                            point.valueUpper == null ? '' : Math.round(point.valueUpper * 100) / 100
                                         )
                                     );
 

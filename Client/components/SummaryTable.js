@@ -23,14 +23,14 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
         let suppressedCV = null;
         if (this.props.chartData.points.some(p => p.cvInterpretation == 2))
             if (this.props.cvWarnAt) {
-                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: Math.round(this.props.cvWarnAt*100)/100, suppress: Math.round(this.props.cvSuppressAt*100)/100})}</p>
+                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: Math.round(this.props.cvWarnAt*100)/100, suppress: Math.round(this.props.cvSuppressAt*100)/100 })}</p>
             } else {
                 warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, "alt")}</p>
             }
 
         if (this.props.chartData.points.some(p => p.cvInterpretation == 1))
             if (this.props.cvWarnAt) {
-                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: Math.round(this.props.cvWarnAt*100)/100, suppress: Math.round(this.props.cvSuppressAt*100)/100})}</p>
+                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: Math.round(this.props.cvWarnAt*100)/100, suppress: Math.round(this.props.cvSuppressAt*100)/100 })}</p>
             } else {
                 suppressedCV = <p><sup>E</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
 
@@ -63,7 +63,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                         return (<tr key={index} style={({backgroundColor: "red"})}>
                             <td className="text-left">{i18n(point.label)}</td>
                             <td>Suppr.<sup>F</sup></td>
-                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100})} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100})}</td>
+                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
                         </tr>)
 
                     // Data is in the red (33%+)
@@ -71,7 +71,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                         return (<tr key={index} style={({backgroundColor: "yellow"})}>
                             <td className="text-left">{i18n(point.label)}</td>
                             <td>{point.value}<sup>E</sup></td>
-                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100})} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100})}</td>
+                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
                         </tr>)
 
                     // Data is a Okay!
@@ -79,7 +79,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                         return (<tr key={index}>
                             <td className="text-left">{i18n(point.label)}</td>
                             <td>{point.value}</td>
-                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100})} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100})}</td>
+                            <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
                         </tr>)
 
                 }
