@@ -517,7 +517,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.value,
+                                            Math.round(point.value * 100) / 100,
                                             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                                 'sup',
                                                 null,
@@ -546,7 +546,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            point.value
+                                            Math.round(point.value * 100) / 100
                                         ),
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',

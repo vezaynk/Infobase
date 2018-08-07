@@ -70,7 +70,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                     case 2:
                         return (<tr key={index} style={({backgroundColor: "yellow"})}>
                             <td className="text-left">{i18n(point.label)}</td>
-                            <td>{point.value}<sup>E</sup></td>
+                            <td>{Math.round(point.value*100)/100}<sup>E</sup></td>
                             <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
                         </tr>)
 
@@ -78,7 +78,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                     default:
                         return (<tr key={index}>
                             <td className="text-left">{i18n(point.label)}</td>
-                            <td>{point.value}</td>
+                            <td>{Math.round(point.value*100)/100}</td>
                             <td>{point.valueLower == null ? '' : Math.round(point.valueLower*100)/100} - {point.valueUpper == null ? '' : Math.round(point.valueUpper*100)/100}</td>
                         </tr>)
 
