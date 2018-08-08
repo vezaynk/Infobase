@@ -86,7 +86,7 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata/Details/
-        public async Task<IActionResult> Details(int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
+        public async Task<IActionResult> Datatool(int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
         {
             /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
 

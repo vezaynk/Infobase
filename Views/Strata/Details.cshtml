@@ -1,142 +1,20 @@
-﻿@model Infobase.Models.ChartPageModel
+@model Infobase.Models.ChartPageModel
 @{
-    Layout = "_Layout.cshtml";
-    ViewBag.currentTabName = "Tool";
-    string edition = "2018";
+    Layout = "../Shared/_Layout.cshtml";
 }
 
 
-
-<div class="row brdr-bttm bg-white mrgn-bttm-0">
-        
-        @Html.React("Components.Filters", new
-   {
-       filters = Model.filters,
-       prompt = new Translatable()
-           {
-               { ("EN", null), "Select an item from each list below" },
-               { ("FR", null), "Sélectionner les paramètres d'intérêt" }
-           }
-        }, clientOnly: false)
-
-
-    <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
-        @Newtonsoft.Json.JsonConvert.SerializeObject(Model)
-        <script src="https://cdn.rawgit.com/exupero/saveSvgAsPng/gh-pages/src/saveSvgAsPng.js"></script>
-        <style type="text/css">
-
-            .bar rect:hover {
-                fill: #dfbcbd;
-            }
-
-            .footnote tspan {
-                fill: rgb(220, 20, 60);
-            }
-
-            .axis-label {
-                text-anchor: middle;
-                font-weight: bold;
-            }
-
-            #title {
-                text-align: center;
-            }
-        </style>
-        <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.LanguageCode == "FR" ? "Enregistrer" : "Save Chart")</a>
-    </div>
-</div>
-
-@{
-        var cellsEmptyText = new Translatable() {
-                                                {("EN", null), "Cells are empty when data are missing."},
-                                                {("FR", null), "Les cellules vides indiquent que les données ne sont pas disponibles."}
-                                                };
-
-        var cvWarnText = new Translatable() {
-                                                {("EN", null), "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%."},
-                                                {("FR", null), "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence."},
-                                                {("FR", "alt"), "Yellow nope"},
-                                                {("EN", "alt"), "Yellow nope"}
-                                                
-                                                };
-        var cvSuppressText = new Translatable() {
-                                                {("EN", null), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."},
-                                                {("FR", null), "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées."},
-                                                {("FR", "alt"), "red nope"},
-                                                {("EN", "alt"), "red nope"}
-                                                
-                                                };
-    }
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: false)
-
-
-<div class="row brdr-bttm">
-    <div class="col-md-12 bg-white">
-
-        <h4 id="desc">
-            <span class="mrgn-tp-0 mrgn-rght-0 mrgn-bttm-sm">
-                @if (Model.LanguageCode == "FR")
-                {
-                    <span>Descriptions des mesures</span>
-                }
-                else
-                {
-                    <span>Measure Description</span>
-                }
-
-            </span>
-        </h4>
-
-        <div>
-
-@*
-            <table class="table table-striped table-hover table-condensed table-bordered">
-                <tbody>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Définition" : "Definition")</strong></td>
-                        <td>@Model.ChartData.measure.definition</td>
-                    </tr>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Ventilation des données" : "Data Available")</strong></td>
-                        <td>@Model.ChartData.measure.dataAvailable</td>
-                    </tr>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Méthodes de calculs" : "Methods Calculation")</strong></td>
-                        <td>@Model.ChartData.measure.method</td>
-                    </tr>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Remarques supplémentaires" : "Additional Notes")</strong></td>
-                        <td>@Model.ChartData.measure.additionalNotes</td>
-                    </tr>
-                </tbody>
-            </table>
-*@
-
-
-
-
-        </div>
-
-    </div>
-</div>
-<div class="row brdr-bttm">
-    <div class="col-md-12 bg-white">
-
-        <h3 id="cit" class="h4">
-            <span id="ContentPlaceHolder_Body_LabelCit" class="panel-title">Suggested Citation :</span>
-        </h3>
-        <div class="bg-info">
-            @if (Model.LanguageCode == "FR")
-            {
-                <p>Centre de la surveillance et de la recherche appliquée, Agence de la santé publique du Canada.Cadre d'indicateurs des maladies chroniques et des blessures : édition @edition. Ottawa (Ont.), @edition.</p>
-            }
-
-            else
-            {
-                <p>Centre for Surveillance and Applied Research, Public Health Agency of Canada. Canadian Chronic Disease Indicators, @edition Edition. Ottawa (ON), @edition.</p>
-            }
-
-        </div>
-    </div>
-</div>
+<table class="table table-striped table-hover table-condensed table-bordered">
+<tbody><tr><td><strong>Name</strong></td>
+<td>Average number of hours per day spent sedentary, excluding sleep time, population aged 18 to 79 years</td></tr>
+<tr><td><strong>Definition</strong></td>
+<td>This indicator uses data collected from accelerometers. Sedentary time is determined using an intensity cut-point that is theoretically equivalent to &lt; 2 metabolic equivalents (METs). Average daily sedentary time was calculated by summing time spent sedentary on all valid days, and dividing by the number of valid days for each respondent. Sedentary time was identified as activity levels &lt; 2 METs. The metabolic equivalent (MET) is a value of metabolic energy cost expressed as a multiple of the resting metabolic rate with 1 MET representing a body at rest. The variable AMMDXSA is used to measure sedentary time.</td></tr>
+<tr><td><strong>Data Source</strong></td>
+<td>Canadian Health Measures Survey (CHMS), Statistics Canada</td></tr>
+<tr><td><strong>Population</strong></td>
+<td>Population aged 18 to 79 years</td></tr>
+<tr><td><strong>Methods Calculation</strong></td><td>
+Statistics Canada derived variable AMMDXSA was used to calculate this indicator for adults aged 18 to 79 years. AMMDXSA provides the average daily amount of sedentary time. It was calculated by summing the time spent in sedentary on all valid days of accelerometer wear, and dividing by the number of valid days.</td></tr>
+<tr><td><strong>Additional Notes</strong></td><td>
+</td></tr>
+</tbody></table>
