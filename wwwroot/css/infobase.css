@@ -348,7 +348,7 @@ summary::-webkit-details-marker {
 
 
 summary:after {
-    background: url('../img/Collapse.gif');
+    background: url('../assets/collapse.gif');
     background-repeat: no-repeat;
     float: left;
     height: 15px;
@@ -359,6 +359,6 @@ summary:after {
 }
 
 details[open] summary:after {
-    background: url('../img/Expand.gif');
+    background: url('../assets/expand.gif');
     background-repeat: no-repeat;
 }
