@@ -64,7 +64,7 @@
                                 }
                                 else
                                 {
-                                    <td><MiniTex>@measure.MeasurePoint.ValueAverage.ToString() @measure.MeasureUnit.Get(("EN", "Index"))</MiniTex></td>
+                                    <td><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? -1, "EN") @measure.MeasureUnit.Get(("EN", "Index"))</MiniTex></td>
                                 }
 
                                 <td><MiniTex>@measure.MeasureSource.Get(("EN", null))</MiniTex></td>
