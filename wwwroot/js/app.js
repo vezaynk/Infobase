@@ -252,7 +252,7 @@ class Filter extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'select',
                 { disabled: this.props.loading,
-                    className: 'form-control input-sm',
+                    className: 'form-control input-sm w-100',
                     value: this.props.selected,
                     name: this.props.id,
                     id: this.props.id,
@@ -266,7 +266,7 @@ class Filter extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'div',
                 { ref: noscript => this.noscript = noscript },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('input', { type: 'submit' })
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('input', { 'class': 'btn btn-xs w-100', type: 'submit' })
             )
         );
     }
