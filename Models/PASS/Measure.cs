@@ -19,11 +19,17 @@ namespace Infobase.Models.PASS
         public virtual ICollection<MeasureSourceTranslation> MeasureSourceTranslations { get; set; }
         public virtual ICollection<MeasurePopulationTranslation> MeasurePopulationTranslations { get; set; }
         public virtual ICollection<MeasureDefinitionTranslation> MeasureDefinitionTranslations { get; set; }
+        public virtual ICollection<MeasureMethodTranslation> MeasureMethodTranslations { get; set; }
+        public virtual ICollection<MeasureDataAvailableTranslation> MeasureDataAvailableTranslations { get; set; }
+        public virtual ICollection<MeasureAdditionalRemarksTranslation> MeasureAdditionalRemarksTranslations { get; set; }
         [InverseProperty("Measure")]
         public virtual ICollection<Strata> Stratas { get; set; }
 
         public Translatable MeasureName => Translation.GetTranslation(MeasureNameTranslations);
         public Translatable MeasureDefinition => Translation.GetTranslation(MeasureDefinitionTranslations);
+        public Translatable MeasureMethod => Translation.GetTranslation(MeasureMethodTranslations);
+        public Translatable MeasureAdditionalRemarks => Translation.GetTranslation(MeasureAdditionalRemarksTranslations);
+public Translatable MeasureDataAvailable => Translation.GetTranslation(MeasureDataAvailableTranslations);
         public Translatable MeasureUnit => Translation.GetTranslation(MeasureUnitTranslations);
         public Translatable MeasureSource => Translation.GetTranslation(MeasureSourceTranslations);
         public Translatable MeasurePopulation => Translation.GetTranslation(MeasurePopulationTranslations);
@@ -41,6 +47,20 @@ namespace Infobase.Models.PASS
         public int MeasureId { get; set; }
         public virtual Measure Measure { get; set; }
     }
+    public class MeasureDataAvailableTranslation : ITranslation
+    {
+        public int TranslationId { get; set; }
+        public virtual Translation Translation { get; set; }
+        public int MeasureId { get; set; }
+        public virtual Measure Measure { get; set; }
+    }
+    public class MeasureAdditionalRemarksTranslation : ITranslation
+    {
+        public int TranslationId { get; set; }
+        public virtual Translation Translation { get; set; }
+        public int MeasureId { get; set; }
+        public virtual Measure Measure { get; set; }
+    }
     public class MeasureUnitTranslation : ITranslation
     {
         public int TranslationId { get; set; }
@@ -49,6 +69,13 @@ namespace Infobase.Models.PASS
         public virtual Measure Measure { get; set; }
     }
 
+    public class MeasureMethodTranslation : ITranslation
+    {
+        public int TranslationId { get; set; }
+        public virtual Translation Translation { get; set; }
+        public int MeasureId { get; set; }
+        public virtual Measure Measure { get; set; }
+    }
     public class MeasureDefinitionTranslation : ITranslation
     {
         public int TranslationId { get; set; }

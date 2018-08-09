@@ -152,6 +152,45 @@ namespace Infobase.Models
                 .WithMany(c => c.MeasurePopulationTranslations)
                 .HasForeignKey(pc => pc.TranslationId);
 
+            modelBuilder.Entity<MeasureDataAvailableTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.MeasureId });
+
+            modelBuilder.Entity<MeasureDataAvailableTranslation>()
+                .HasOne(pc => pc.Measure)
+                .WithMany(p => p.MeasureDataAvailableTranslations)
+                .HasForeignKey(pc => pc.MeasureId);
+
+            modelBuilder.Entity<MeasureDataAvailableTranslation>()
+                .HasOne(pc => pc.Translation)
+                .WithMany(c => c.MeasureDataAvailableTranslations)
+                .HasForeignKey(pc => pc.TranslationId);
+
+            modelBuilder.Entity<MeasureAdditionalRemarksTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.MeasureId });
+
+            modelBuilder.Entity<MeasureAdditionalRemarksTranslation>()
+                .HasOne(pc => pc.Measure)
+                .WithMany(p => p.MeasureAdditionalRemarksTranslations)
+                .HasForeignKey(pc => pc.MeasureId);
+
+            modelBuilder.Entity<MeasureAdditionalRemarksTranslation>()
+                .HasOne(pc => pc.Translation)
+                .WithMany(c => c.MeasureAdditionalRemarksTranslations)
+                .HasForeignKey(pc => pc.TranslationId);
+
+            modelBuilder.Entity<MeasureMethodTranslation>()
+                .HasKey(pc => new { pc.TranslationId, pc.MeasureId });
+
+            modelBuilder.Entity<MeasureMethodTranslation>()
+                .HasOne(pc => pc.Measure)
+                .WithMany(p => p.MeasureMethodTranslations)
+                .HasForeignKey(pc => pc.MeasureId);
+
+            modelBuilder.Entity<MeasureMethodTranslation>()
+                .HasOne(pc => pc.Translation)
+                .WithMany(c => c.MeasureMethodTranslations)
+                .HasForeignKey(pc => pc.TranslationId);
+
 
 
             modelBuilder.Entity<MeasureNameTranslation>()

@@ -29,6 +29,9 @@ namespace Infobase.Models.PASS
         public virtual ICollection<StrataPopulationTranslation> StrataPopulationTranslations { get; set; }
         public virtual ICollection<StrataSourceTranslation> StrataSourceTranslations { get; set; }
         public virtual ICollection<MeasurePopulationTranslation> MeasurePopulationTranslations { get; set; }
+        public virtual ICollection<MeasureDataAvailableTranslation> MeasureDataAvailableTranslations { get; set; }
+public virtual ICollection<MeasureMethodTranslation> MeasureMethodTranslations { get; set; }
+public virtual ICollection<MeasureAdditionalRemarksTranslation> MeasureAdditionalRemarksTranslations { get; set; }
 
         // Simplified process for getting wanted translation
         public static Translatable GetTranslation(IEnumerable<ITranslation> TranslationTable)

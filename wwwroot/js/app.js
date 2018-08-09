@@ -391,7 +391,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     null,
                     'E'
                 ),
-                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.warnAt), suppress: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.suppressAt) })
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvWarning, undefined, { warn: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.cvWarnAt), suppress: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.cvSuppressAt) })
             );
         } else {
             warningCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -415,7 +415,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     null,
                     'F'
                 ),
-                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.warnAt), suppress: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.suppressAt) })
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(this.props.cvSuppressed, undefined, { warn: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.cvWarnAt), suppress: Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(this.props.cvSuppressAt) })
             );
         } else {
             suppressedCV = react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -504,9 +504,9 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
+                                            typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
                                             ' - ',
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
+                                            typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
                                             ' '
                                         )
                                     );
@@ -524,7 +524,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.value),
+                                            typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.value),
                                             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                                 'sup',
                                                 null,
@@ -534,9 +534,9 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
+                                            typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
                                             ' - ',
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
+                                            typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
                                             ' '
                                         )
                                     );
@@ -554,14 +554,14 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.value)
+                                            typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.value)
                                         ),
                                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                                             'td',
                                             null,
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
+                                            typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueLower),
                                             ' - ',
-                                            Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
+                                            typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(point.valueUpper),
                                             ' '
                                         )
                                     );

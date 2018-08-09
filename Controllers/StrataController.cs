@@ -196,94 +196,6 @@ namespace Infobase.Controllers
                 return NotFound();
             }
 
-/* 
-            ChartPageModel cpm = new ChartPageModel(false)
-            {
-                ChartData = new ChartData
-                {
-                    axis = new ChartData.Labels
-                    {
-                        x = strata.GetStrataName("EN", null),
-                        y = strata.Measure.GetMeasureUnit("EN", null)
-                    },
-                    title = strata.Measure.GetMeasureName("EN", null) + ", " + strata.Measure.GetMeasurePopulation("EN", null),
-                    population = strata.Measure.GetMeasurePopulation("EN", null),
-                    notes = strata.GetStrataNotes("EN", null),
-                    source = strata.Measure.GetMeasureSource("EN", null),
-                    values = new List<ChartData.Values>(),
-                    measure = new ChartData.MeasureDescription
-                    {
-                        definition = strata.Measure.GetMeasureDefinition("EN", null),
-                        dataAvailable = "",
-                        method = "",
-                        additionalNotes = ""
-                    }
-                }
-            };
-
-            var ChartDataPointsQuery = strata.Points.Select(p => new
-            {
-                label = p.GetPointLabel("EN", null),
-                value = p.ValueAverage ?? 0,
-                    upper = p.ValueUpper ?? 0,
-                    lower = p.ValueLower ?? 0,
-                    cv = 0,
-                    CV_interpretation = p.CVInterpretation
-            });
-
-            foreach (var item in ChartDataPointsQuery)
-            {
-
-                // Build point from retrieved data
-                var point = new ChartData.Point
-                {
-                    label = item.label,
-                    value = item.value,
-                    confidence = new ChartData.Point.Interval
-                    {
-                        upper = item.upper,
-                        lower = item.lower
-                    },
-                    cv = new ChartData.Point.CV
-                    {
-                        value = item.cv,
-                        interpretation = item.CV_interpretation
-                    }
-                };
-
-                // Assume the type to be a bar
-                /*
-                 * 0 = bar
-                 * 1 = trend
-                 * 2 = line
-                 */
-/* 
-                int type = 0;
-                if (strata.GetStrataName("EN", null).Contains("Trend"))
-                    type = 1;
-
-
-                // If the label is "total" or "canada", it's a line across the chart
-                string label = item.label;
-                if (label.ToLower().Contains("total") || label.ToLower().Contains("canada"))
-                    type = 2;
-
-                // if value type is not yet included in the dataset, create it
-                int targetIndex = cpm.ChartData.values.FindIndex(value => value.type == type);
-                if (targetIndex == -1)
-                {
-                    // Chart type not present yet
-                    targetIndex = cpm.ChartData.values.Count();
-                    cpm.ChartData.values.Add(new ChartData.Values());
-                    cpm.ChartData.values.ElementAt(targetIndex).points = new List<ChartData.Point>();
-                }
-
-                // place point into values
-                cpm.ChartData.values.ElementAt(targetIndex).points.Add(point);
-                cpm.ChartData.values.ElementAt(targetIndex).type = type;
-            }
-*/
-            
             var chart = new ChartData {
                 XAxis = strata.StrataName,
                 YAxis = strata.Measure.MeasureUnit,
@@ -389,115 +301,38 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata/Create
-        public IActionResult Create()
-        {
-            ViewData["MeasureId"] = new SelectList(_context.Measure, "MeasureId", "MeasureId");
-            return View();
-        }
-
-        // POST: Strata/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StrataId,MeasureId")] Strata strata)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(strata);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MeasureId"] = new SelectList(_context.Measure, "MeasureId", "MeasureId", strata.MeasureId);
-            return View(strata);
-        }
-
+        
         // GET: Strata/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var strata = await _context.Strata.FindAsync(id);
-            if (strata == null)
+            var measure = await _context.Measure
+                                    .Include(m => m.MeasureNameTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    .Include(m => m.MeasureDefinitionTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    .Include(m => m.MeasureSourceTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    .Include(m => m.MeasurePopulationTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    .Include(m => m.MeasureMethodTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    .Include(m => m.MeasureAdditionalRemarksTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    .Include(m => m.MeasureDataAvailableTranslations)
+                                        .ThenInclude(t => t.Translation)
+                                    
+                            .FirstOrDefaultAsync(m => m.MeasureId == id);
+            if (measure == null)
             {
                 return NotFound();
             }
-            ViewData["MeasureId"] = new SelectList(_context.Measure, "MeasureId", "MeasureId", strata.MeasureId);
-            return View(strata);
-        }
-
-        // POST: Strata/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StrataId,MeasureId")] Strata strata)
-        {
-            if (id != strata.StrataId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(strata);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StrataExists(strata.StrataId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MeasureId"] = new SelectList(_context.Measure, "MeasureId", "MeasureId", strata.MeasureId);
-            return View(strata);
-        }
-
-        // GET: Strata/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var strata = await _context.Strata
-                .Include(s => s.Measure)
-                .FirstOrDefaultAsync(m => m.StrataId == id);
-            if (strata == null)
-            {
-                return NotFound();
-            }
-
-            return View(strata);
-        }
-
-        // POST: Strata/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var strata = await _context.Strata.FindAsync(id);
-            _context.Strata.Remove(strata);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool StrataExists(int id)
-        {
-            return _context.Strata.Any(e => e.StrataId == id);
+            ViewData["MeasureId"] = new SelectList(_context.Measure, "MeasureId", "MeasureId", measure.MeasureId);
+            return View(measure);
         }
     }
 }

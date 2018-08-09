@@ -9,6 +9,7 @@ namespace Infobase.Models.PASS
     {
         public int PointId { get; set; }
         public int StrataId { get; set; }
+        public int Index {get;set;}
         public double? ValueAverage { get; set; }
         public double? ValueUpper { get; set; }
         public double? ValueLower { get; set; }

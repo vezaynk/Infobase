@@ -23,14 +23,14 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
         let suppressedCV = null;
         if (this.props.chartData.points.some(p => p.cvInterpretation == 2))
             if (this.props.cvWarnAt) {
-                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: numberFormat(this.props.warnAt), suppress: numberFormat(this.props.suppressAt) })}</p>
+                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, {warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
             } else {
                 warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, "alt")}</p>
             }
 
         if (this.props.chartData.points.some(p => p.cvInterpretation == 1))
             if (this.props.cvWarnAt) {
-                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: numberFormat(this.props.warnAt), suppress: numberFormat(this.props.suppressAt) })}</p>
+                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
             } else {
                 suppressedCV = <p><sup>E</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
 
@@ -63,23 +63,23 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                         return (<tr key={index} style={({backgroundColor: "red"})}>
                             <td className="text-left">{i18n(point.label)}</td>
                             <td>Suppr.<sup>F</sup></td>
-                            <td>{numberFormat(point.valueLower)} - {numberFormat(point.valueUpper)} </td>
+                            <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
 
                     // Data is in the red (33%+)
                     case 2:
                         return (<tr key={index} style={({backgroundColor: "yellow"})}>
                             <td className="text-left">{i18n(point.label)}</td>
-                            <td>{numberFormat(point.value)}<sup>E</sup></td>
-                            <td>{numberFormat(point.valueLower)} - {numberFormat(point.valueUpper)} </td>
+                            <td>{typeof point.value != "number" ? "-" :numberFormat(point.value)}<sup>E</sup></td>
+                            <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
 
                     // Data is a Okay!
                     default:
                         return (<tr key={index}>
                             <td className="text-left">{i18n(point.label)}</td>
-                            <td>{numberFormat(point.value)}</td>
-                            <td>{numberFormat(point.valueLower)} - {numberFormat(point.valueUpper)} </td>
+                            <td>{typeof point.value != "number" ? "-" :numberFormat(point.value)}</td>
+                            <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
 
                 }
