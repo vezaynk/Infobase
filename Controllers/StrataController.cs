@@ -331,7 +331,7 @@ namespace Infobase.Controllers
             {
                 return NotFound();
             }
-            ViewData["MeasureId"] = new SelectList(_context.Measure, "MeasureId", "MeasureId", measure.MeasureId);
+            
             return View(measure);
         }
     }

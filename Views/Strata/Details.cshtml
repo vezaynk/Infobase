@@ -1,4 +1,4 @@
-@model Infobase.Models.ChartPageModel
+@model Infobase.Models.PASS.Measure
 @{
     Layout = "_Layout.cshtml";
 }
@@ -6,15 +6,19 @@
 
 <table class="table table-striped table-hover table-condensed table-bordered">
 <tbody><tr><td><strong>Name</strong></td>
-<td>Average number of hours per day spent sedentary, excluding sleep time, population aged 18 to 79 years</td></tr>
+<td>@Model.MeasureName.Get(("EN", null))</td></tr>
 <tr><td><strong>Definition</strong></td>
-<td>This indicator uses data collected from accelerometers. Sedentary time is determined using an intensity cut-point that is theoretically equivalent to &lt; 2 metabolic equivalents (METs). Average daily sedentary time was calculated by summing time spent sedentary on all valid days, and dividing by the number of valid days for each respondent. Sedentary time was identified as activity levels &lt; 2 METs. The metabolic equivalent (MET) is a value of metabolic energy cost expressed as a multiple of the resting metabolic rate with 1 MET representing a body at rest. The variable AMMDXSA is used to measure sedentary time.</td></tr>
+    <td>@Model.MeasureDefinition.Get(("EN", null))</td></tr>
 <tr><td><strong>Data Source</strong></td>
-<td>Canadian Health Measures Survey (CHMS), Statistics Canada</td></tr>
+    <td>@Model.MeasureSource.Get(("EN", null))</td></tr>
 <tr><td><strong>Population</strong></td>
-<td>Population aged 18 to 79 years</td></tr>
+    <td>@Model.MeasurePopulation.Get(("EN", null))</td></tr>
 <tr><td><strong>Methods Calculation</strong></td><td>
-Statistics Canada derived variable AMMDXSA was used to calculate this indicator for adults aged 18 to 79 years. AMMDXSA provides the average daily amount of sedentary time. It was calculated by summing the time spent in sedentary on all valid days of accelerometer wear, and dividing by the number of valid days.</td></tr>
+    @Model.MeasureMethod.Get(("EN", null))
+</td></tr>
 <tr><td><strong>Additional Notes</strong></td><td>
+    @Model.MeasureAdditionalRemarks.Get(("EN", null))
 </td></tr>
 </tbody></table>
+
+<a asp-action="Datatool" asp-route-measureId="@Model.MeasureId" class="btn btn-default">Open in Datatool</a>
