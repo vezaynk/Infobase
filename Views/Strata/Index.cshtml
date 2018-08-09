@@ -72,7 +72,7 @@
                                 @if (igFirst)
                                 {
                                     igFirst = false;
-                                    <td rowspan="@indicators.Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get(("EN", null)) </MiniTex></td>
+                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get(("EN", null)) </MiniTex></td>
                                 }
                                 @if (indicatorFirst)
                                 {
