@@ -208,7 +208,7 @@ namespace Infobase.Controllers
                 Method = new Translatable(),
                 DataAvailable = new Translatable(),
                 // TODO: Add ordering to points
-                Points = strata.Points.Select(p => new ChartData.Point {
+                Points = strata.Points.OrderBy(p => p.Index).Select(p => new ChartData.Point {
                     CVInterpretation = p.CVInterpretation,
                     CVValue = p.CVValue,
                     Value = p.ValueAverage,
