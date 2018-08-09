@@ -81,12 +81,24 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx-exposed");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx?1f27");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./Client/App.jsx":
+/***/ "./Client/App.jsx?1f27":
+/*!************************!*\
+  !*** ./Client/App.jsx ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx?3052");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./Client/App.jsx?3052":
 /*!************************!*\
   !*** ./Client/App.jsx ***!
   \************************/
@@ -112,18 +124,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-/***/ }),
-
-/***/ "./Client/App.jsx-exposed":
-/*!********************************!*\
-  !*** ./Client/App.jsx-exposed ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -252,7 +252,7 @@ class Filter extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'select',
                 { disabled: this.props.loading,
-                    className: 'form-control input-sm w-100',
+                    className: 'form-control input-sm full-width',
                     value: this.props.selected,
                     name: this.props.id,
                     id: this.props.id,
@@ -265,8 +265,8 @@ class Filter extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
             ),
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'div',
-                { ref: noscript => this.noscript = noscript },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('input', { 'class': 'btn btn-xs w-100', type: 'submit' })
+                { ref: noscript => this.noscript = noscript, className: 'full-width text-center' },
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('input', { className: 'btn btn-xs btn-default full-width', type: 'submit' })
             )
         );
     }

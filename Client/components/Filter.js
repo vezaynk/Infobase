@@ -20,7 +20,7 @@ export class Filter extends React.Component<FilterProps> {
             <form className="form-group-sm">
                 <label className="control-label" htmlFor={this.props.id}>{this.props.name}</label>
                 <select disabled={this.props.loading} 
-                        className="form-control input-sm w-100" 
+                        className="form-control input-sm full-width" 
                         value={this.props.selected} 
                         name={this.props.id} 
                         id={this.props.id} 
@@ -28,8 +28,8 @@ export class Filter extends React.Component<FilterProps> {
                 }>
                     {this.props.items.map(item => <option key={item.value} value={item.value}>{item.text}</option>)}
                 </select>
-                <div ref={noscript => this.noscript = noscript}>
-                    <input class="btn btn-xs w-100" type="submit" />
+                <div ref={noscript => this.noscript = noscript} className="full-width text-center">
+                    <input className="btn btn-xs btn-default full-width" type="submit" />
                 </div>
             </form>
         )
