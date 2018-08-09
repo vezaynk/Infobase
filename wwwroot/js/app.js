@@ -81,24 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx?1f27");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx-exposed");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./Client/App.jsx?1f27":
-/*!************************!*\
-  !*** ./Client/App.jsx ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx?3052");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./Client/App.jsx?3052":
+/***/ "./Client/App.jsx":
 /*!************************!*\
   !*** ./Client/App.jsx ***!
   \************************/
@@ -124,6 +112,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/***/ }),
+
+/***/ "./Client/App.jsx-exposed":
+/*!********************************!*\
+  !*** ./Client/App.jsx-exposed ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -188,33 +188,29 @@ __webpack_require__.r(__webpack_exports__);
 
 class Chart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
-    componentDidMount() {
-        Object(_renderChart__WEBPACK_IMPORTED_MODULE_2__["renderChart"])(this.graph, this.props.chartData);
-        this.setState({ isMounted: true });
+    /*componentDidMount() {
+        renderChart(this.graph, this.props.chartData)
+        this.setState({isMounted: true})
     }
     componentDidUpdate() {
-        if (this.state.isMounted) Object(_renderChart__WEBPACK_IMPORTED_MODULE_2__["renderChart"])(this.graph, this.props.chartData);
-    }
+        if (this.state.isMounted)
+            renderChart(this.graph, this.props.chartData)
+    }*/
     render() {
-        console.log(this.props);
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-            'div',
+            'p',
             null,
-            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                'svg',
-                { id: 'graph', ref: graph => this.graph = graph, width: '100%', viewBox: '0 0 900 800', preserveAspectRatio: 'xMidYMid meet' },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                    'foreignObject',
-                    { x: '12.5%', y: '0', width: '75%', height: '100' },
-                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                        'h3',
-                        null,
-                        this.props.chartData.measureName["(EN, )"],
-                        ', '
-                    )
-                )
-            )
+            JSON.stringify(this.props.chartData, null, 4)
         );
+        /* (
+            <div>
+            <svg id="graph" ref={graph => this.graph = graph} width="100%" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet">
+                    <foreignObject x="12.5%" y="0" width="75%" height="100">
+                        <h3>{this.props.chartData.measureName["(EN, )"]}, </h3>
+                    </foreignObject>
+                </svg>
+            </div>
+        )*/
     }
 }
 
@@ -652,7 +648,7 @@ class Charting extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         if (props.chartData) _store_dataExplorer__WEBPACK_IMPORTED_MODULE_4__["dataExplorerStore"].dispatch(Object(_reducers_dataExplorerReducer__WEBPACK_IMPORTED_MODULE_5__["updateChartData"])(props.chartData));
     }
     render() {
-        return null && react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"],
             { store: _store_dataExplorer__WEBPACK_IMPORTED_MODULE_4__["dataExplorerStore"] },
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](ChartingConnect, null)

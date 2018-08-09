@@ -24,7 +24,7 @@ export class Charting extends React.Component<TChartProps> {
             dataExplorerStore.dispatch(updateChartData(props.chartData));
     }
     render() {
-        return null && (
+        return (
             <Provider store={dataExplorerStore}>
                 <ChartingConnect />
             </Provider>

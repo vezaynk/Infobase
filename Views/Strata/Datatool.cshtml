@@ -21,7 +21,6 @@
 
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
         @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
-        @Newtonsoft.Json.JsonConvert.SerializeObject(Model)
         <script src="https://cdn.rawgit.com/exupero/saveSvgAsPng/gh-pages/src/saveSvgAsPng.js"></script>
         <style type="text/css">
 
