@@ -11,13 +11,13 @@ namespace Infobase.Common
         static RouteLocalizer() {
             
             // Add Index
-            dict.Add(("FR", "index"), "Index");
+            dict.Add(("FR", "index"), "index");
 
             // Add measure details
-            dict.Add(("FR", "détails"), "Details");
+            dict.Add(("FR", "détails"), "details");
 
             // Add measure details
-            dict.Add(("FR", "outil"), "Datatool");
+            dict.Add(("FR", "outil"), "datatool");
 
             // Add strata controller
             dict.Add(("FR", "stratafr"), "strata");

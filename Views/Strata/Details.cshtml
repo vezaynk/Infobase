@@ -20,5 +20,4 @@
     @Model.MeasureAdditionalRemarks.Get(("EN", null))
 </td></tr>
 </tbody></table>
-
-<a asp-action="Datatool" asp-route-measureId="@Model.MeasureId" class="btn btn-default">Open in Datatool</a>
+<a asp-action="@RouteLocalizer.ReverseLookup(ViewContext.RouteData.Values["culture"].ToString(), "datatool")" asp-route-id="@Model.MeasureId" class="btn btn-default">Open in Datatool</a>
