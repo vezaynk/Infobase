@@ -59,7 +59,7 @@
                             <li>
                                 <a asp-action="@RouteLocalizer.ReverseLookup("FR", ViewContext.RouteData.Values["action"].ToString().ToLower())" 
                                 asp-controller="@RouteLocalizer.ReverseLookup("FR", ViewContext.RouteData.Values["controller"].ToString())" 
-                                asp-route-culture="FR" asp-route-id="@((ViewContext.RouteData.Values["id"] ?? "").ToString())">Francais</a>
+                                asp-route-culture="FR" asp-route-id="@ViewContext.RouteData.Values["id"]?.ToString()">Francais</a>
 
                             </li>
                         </ul>
