@@ -21,6 +21,7 @@ namespace Infobase.Models
                 return this.ToLookup(i => i.Key.Item1)[language].FirstOrDefault().Value;
             }
             return this.TryGetValue(key, out value) ? value : null;
+            
         }
     }
 }

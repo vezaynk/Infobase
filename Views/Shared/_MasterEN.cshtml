@@ -57,7 +57,7 @@
                     <div class="col-md-12">
                         <ul class="list-inline margin-bottom-none">
                             <li>
-                                @Html.ActionLink("Francais", ViewContext.RouteData.Values["action"].ToString(), new { language = "FR" });
+                                <a asp-action="@RouteLocalizer.ReverseLookup("FR", "Datatool")"asp-route-culture="FR">Francais</a>
                             </li>
                         </ul>
                     </div>

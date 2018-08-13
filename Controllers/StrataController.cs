@@ -22,7 +22,7 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string culture)
         {
             var activities = _context.Activity
                                         // Include Measure names
@@ -86,7 +86,7 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata/Details/
-        public async Task<IActionResult> Datatool(int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
+        public async Task<IActionResult> Datatool(string culture, int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
         {
             /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
 
@@ -222,7 +222,7 @@ namespace Infobase.Controllers
             };
 
 
-            var cpm = new ChartPageModel("EN", chart);
+            var cpm = new ChartPageModel(culture, chart);
 
             // top level requires a new query
             var activities = _context.Activity
@@ -233,7 +233,7 @@ namespace Infobase.Controllers
                                      .Select(ac => new DropdownItem
                                             {
                                                 Value = ac.ActivityId,
-                                                Text = ac.ActivityName.Get(("EN", null))
+                                                Text = ac.ActivityName.Get((culture, null))
                                             });
             
             cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
@@ -244,7 +244,7 @@ namespace Infobase.Controllers
                                      .Select(ig => new DropdownItem
                                             {
                                                 Value = ig.IndicatorGroupId,
-                                                Text = ig.IndicatorGroupName.Get(("EN", null))
+                                                Text = ig.IndicatorGroupName.Get((culture, null))
                                             });
 
             cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
@@ -255,7 +255,7 @@ namespace Infobase.Controllers
                                      .Select(lc => new DropdownItem
             {
                 Value = lc.LifeCourseId,
-                Text = lc.LifeCourseName.Get(("EN", null))
+                Text = lc.LifeCourseName.Get((culture, null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
@@ -266,7 +266,7 @@ namespace Infobase.Controllers
                                      .Select(i => new DropdownItem
             {
                 Value = i.IndicatorId,
-                Text = i.IndicatorName.Get(("EN", null))
+                Text = i.IndicatorName.Get((culture, null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
@@ -277,7 +277,7 @@ namespace Infobase.Controllers
                                      .Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
-                Text = m.MeasureName.Get(("EN", null))
+                Text = m.MeasureName.Get((culture, null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Measures", "measureId", measures, strata.MeasureId));
@@ -287,7 +287,7 @@ namespace Infobase.Controllers
                                      .Select(s => new DropdownItem
             {
                 Value = s.StrataId,
-                Text = s.StrataName.Get(("EN", null))
+                Text = s.StrataName.Get((culture, null))
             });
 
             cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas, strataId));
@@ -303,7 +303,7 @@ namespace Infobase.Controllers
         // GET: Strata/Create
         
         // GET: Strata/Edit/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string culture, int? id)
         {
             if (id == null)
             {

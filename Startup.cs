@@ -15,6 +15,7 @@ using React.AspNet;
 using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
+using Infobase.Common;
 
 namespace Infobase
 {
@@ -73,13 +74,11 @@ namespace Infobase
             app.UseStaticFiles();
             app.UseCookiePolicy();
             
-            app.UseMvc(routes =>
-            {
-                routes.Routes.Add(new CustomRouter(routes.DefaultHandler));
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+               app.UseMvc(routes =>
+                {
+                    routes.MapRoute("default", "{culture=EN}/{controller=Strata}/{action=Index}/{id?}");
+                    routes.Routes.Add(new CustomRouter(routes.DefaultHandler));
+                });
         }
     }
 
@@ -100,32 +99,43 @@ namespace Infobase
     public async Task RouteAsync(RouteContext context)
     {
 
-        var requestedController = context.RouteData.Values["controller"];
-        var requestedAction = context.RouteData.Values["action"];
-        var requestedLanguage = context.RouteData.Values["culture"];
-        Console.WriteLine(requestedController);
-        //context.RouteData.Values["controller"] = "Strata";
-          //  context.RouteData.Values["action"] = "Index";
+        var path = context.HttpContext.Request.Path.Value.Trim('/').Split('/');
+        string culture = "EN";
+        string action = "Index";
+        string controller = "Strata";
+        string id = null;
+        
+        // Culture code has to be decided early
+        if (path.Length > 0)
+            culture = path[0].ToUpper();
 
-            await _defaultRouter.RouteAsync(context);
-        // Look for the User-Agent Header and Check if the Request comes from a Mobile 
-        /*if (headers.ContainsKey("User-Agent") &&
-            headers["User-Agent"].ToString().Contains("Mobile"))
+        switch (path.Length) {
+            case 2:
+                controller = RouteLocalizer.LocalizeRouteElement(culture, path[1].ToLower());
+                break;
+            case 3:
+                action = RouteLocalizer.LocalizeRouteElement(culture, path[2].ToLower());
+                goto case 2;
+            case 4:
+                id = RouteLocalizer.LocalizeRouteElement(culture, path[3].ToLower());
+                goto case 3;
+            default:
+                break;
+        }
+
+        context.RouteData.Values["controller"] = controller;
+        context.RouteData.Values["action"] = action;
+        try
         {
-            var action = "Index";
-            var controller = "";
-            if (path.Length > 1)
-            {
-                controller = path[1];
-                if (path.Length > 2)
-                    action = path[2];
-            }
-
-            context.RouteData.Values["controller"] = $"Mobile{controller}";
-            context.RouteData.Values["action"] = action;
-
-            await _defaultRouter.RouteAsync(context);
-        }*/
+            context.RouteData.Values["id"] = int.Parse(id);
+        }
+        catch (System.Exception)
+        {
+            
+        }
+        
+ 
+        await _defaultRouter.RouteAsync(context);
     }
 }
 }
