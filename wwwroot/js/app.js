@@ -428,10 +428,10 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             'div',
-            { className: 'row brdr-bttm bg-white mrgn-bttm-0' },
+            { className: 'row brdr-bttm mrgn-bttm-0' },
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'div',
-                { className: 'col-md-12 bg-white' },
+                { className: 'col-md-12' },
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                     'table',
                     { className: 'table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm', id: 'chartgridview' },
@@ -569,7 +569,7 @@ class SummaryTable extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
             ),
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'div',
-                { className: 'col-md-12 bg-white mrgn-tp-0 small' },
+                { className: 'col-md-12 mrgn-tp-0 small' },
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                     'div',
                     { className: 'bg-warning' },

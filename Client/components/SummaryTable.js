@@ -38,8 +38,8 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
 
         
         return (
-            <div className="row brdr-bttm bg-white mrgn-bttm-0">
-            <div className="col-md-12 bg-white">
+            <div className="row brdr-bttm mrgn-bttm-0">
+            <div className="col-md-12">
     <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">
         <caption>
             {i18n(this.props.chartData.measureName)}, {i18n(this.props.chartData.population)}
@@ -88,7 +88,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
 
     </table>
 </div>
-<div className="col-md-12 bg-white mrgn-tp-0 small">
+<div className="col-md-12 mrgn-tp-0 small">
         <div className="bg-warning">
             <h4>Notes:</h4>
             <p>
