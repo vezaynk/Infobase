@@ -15,6 +15,7 @@ namespace Infobase.Models
             public Translatable Label { get; set; }
             public double? CVValue { get; set; }
             public int CVInterpretation { get; set; }
+            public int Type {get;set;}
 
         }
 

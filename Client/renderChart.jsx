@@ -17,9 +17,11 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         
         let isTrend = dataset.xAxis["(EN, )"].includes("Trend");
         
-        
+        let points = dataset.points.filter(point => point.type == 0 || isTrend)
+        let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
+
         let x = d3.scaleBand()
-            .domain(dataset.points.map(point => point.label["(EN, )"]))
+            .domain(points.map(point => point.label["(EN, )"]))
             .range([0,width]);
         
             
@@ -27,9 +29,9 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .domain([0,d3.max(dataset.points, point => point.value)])
             .range([height,0]);
         
-        
-        let binding = select.selectAll('rect').data(dataset.points)
-        console.log(binding)
+        console.log(points)
+        let pointBinding = select.selectAll('rect.point').data(points);
+        let averageBinding = select.selectAll('rect.average').data(averages);
         
         chart.selectAll("g.y-axis")
             .attr("transform", "translate(" + margin + "," + margin + ")")
@@ -54,31 +56,62 @@ export function updateChart(ref: Element, dataset: ChartData): void {
               .text(dataset.yAxis["(EN, Datatool)"]); 
               
         
-            binding.enter().append("rect")
-            .attr("x", (d,i) => (i+0.5)*(width/dataset.points.length)-25/2 )
-            .attr("y", (d) => y(d.value))
-            .attr("width", (_, notFirst) => (!isTrend && !notFirst) ? width : (isTrend ? 10 : 25))
-            .style("fill", (_, notFirst) => (!isTrend && !notFirst) ? "url(#gradient)" : "steelblue")
+              pointBinding.enter().append("rect")
+            .attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
+            .attr("class", "point")
+            
+            .attr("width", isTrend ? 10 : 25)
+            .style("fill", "steelblue")
             .attr("ry",(isTrend ? 10 : 0))
             .attr("rx", (isTrend ? 10 : 0))
+            .attr("y", height)
             .transition()
             .duration((_, i) => 600)
+            .attr("y", (d) => y(d.value))
             .attr("height", d => isTrend ? 25 : height - y(d.value));
               
             
-            binding
+            pointBinding
             .transition()
             .duration(600)
             .attr("ry",(isTrend ? 10 : 0))
             .attr("rx", (isTrend ? 10 : 0))
-            .attr("height", d => isTrend ? 10 : height - y(d.value))
-            .attr("width", (_, notFirst) => (!isTrend && !notFirst) ? width-margin : (isTrend ? 10 : 25))
-            .attr("x", (d,i) => (i+0.5)*(width/dataset.points.length)-(isTrend ? 10 : 25)/2 )
+            .attr("width", isTrend ? 10 : 25)
+            .attr("x", (d,i) => (i+0.5)*(width/points.length)-(isTrend ? 10 : 25)/2 )
+            .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
             .attr("y", (d) => y(d.value))
             
-            .style("fill", (_, notFirst) => (!isTrend && !notFirst) ? "url(#gradient)" : "steelblue");
+            .style("fill", "steelblue");
             
-            binding.exit().remove();
+            pointBinding.exit().remove();
+
+            averageBinding.enter().append("rect")
+            .attr("height", d => 1)
+            .attr("class", "average")
+            .attr("x", 0 )
+            .attr("width", width)
+            .style("fill", "red")
+            .attr("ry",(isTrend ? 10 : 0))
+            .attr("rx", (isTrend ? 10 : 0))
+            .attr("y", height)
+            .transition()
+            .duration((_, i) => 600)
+            .attr("y", (d) => y(d.value))
+              
+            
+            averageBinding
+            .transition()
+            .duration(600)
+            .attr("y", (d) => y(d.value))
+            
+            .style("fill", "red");
+            
+            averageBinding.exit()
+            .transition()
+            .duration(600)
+            .attr("y", -margin)
+            .style("opacity", 0)
+            .remove();
 }
 
 export function initChart(ref: Element, dataset: ChartData) {

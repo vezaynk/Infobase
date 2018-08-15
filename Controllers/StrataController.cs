@@ -214,7 +214,8 @@ namespace Infobase.Controllers
                     Value = p.ValueAverage,
                     ValueUpper = p.ValueUpper,
                     ValueLower = p.ValueLower,
-                    Label = p.PointLabel
+                    Label = p.PointLabel,
+                    Type = p.Type
                 }),
                 WarningCV = strata.Measure.CVWarnAt,
                 SuppressCV = strata.Measure.CVSuppressAt,
