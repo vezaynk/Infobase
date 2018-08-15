@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {i18n} from "../Translator";
 import { initChart, updateChart } from '../renderChart';
 import type { ChartData } from '../types';
 
@@ -19,15 +20,9 @@ export class Chart extends React.Component<{chartData: ChartData}, {isMounted: b
     render() {
         return (
             <div>
-                <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 620 420" preserveAspectRatio="xMidYMid meet" style={{width: 100 + "%"}}>
-                    <foreignObject>
-                        <h6 id="chartTitle" style={{
-                    marginLeft: 60,
-                    marginTop: 0,
-                    width: 500,
-                    textAlign: "center"
-                }}></h6>
-                    </foreignObject>
+                <h4>{i18n(this.props.chartData.measureName)}, {i18n(this.props.chartData.population)}</h4>
+                <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 820 520" preserveAspectRatio="xMidYMid meet" style={{width: 100 + "%"}}>
+                    
                     <g className="y-axis"></g>
                     <g className="x-axis"></g>
                 </svg>

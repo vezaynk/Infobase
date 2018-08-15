@@ -180,7 +180,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _renderChart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../renderChart */ "./Client/renderChart.jsx");
+/* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
+/* harmony import */ var _renderChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../renderChart */ "./Client/renderChart.jsx");
+
 
 
 
@@ -189,29 +191,26 @@ __webpack_require__.r(__webpack_exports__);
 class Chart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
     componentDidMount() {
-        if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_2__["initChart"])(this.graph, this.props.chartData);
+        if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_3__["initChart"])(this.graph, this.props.chartData);
         this.setState({ isMounted: true });
     }
     componentDidUpdate() {
-        if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_2__["updateChart"])(this.graph, this.props.chartData);
+        if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_3__["updateChart"])(this.graph, this.props.chartData);
     }
     render() {
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
             'div',
             null,
             react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'h4',
+                null,
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_2__["i18n"])(this.props.chartData.measureName),
+                ', ',
+                Object(_Translator__WEBPACK_IMPORTED_MODULE_2__["i18n"])(this.props.chartData.population)
+            ),
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
                 'svg',
-                { className: 'chart', ref: self => this.graph = self, id: 'graph', zoomAndPan: 'magnify', viewBox: '0 0 620 420', preserveAspectRatio: 'xMidYMid meet', style: { width: 100 + "%" } },
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-                    'foreignObject',
-                    null,
-                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('h6', { id: 'chartTitle', style: {
-                            marginLeft: 60,
-                            marginTop: 0,
-                            width: 500,
-                            textAlign: "center"
-                        } })
-                ),
+                { className: 'chart', ref: self => this.graph = self, id: 'graph', zoomAndPan: 'magnify', viewBox: '0 0 820 520', preserveAspectRatio: 'xMidYMid meet', style: { width: 100 + "%" } },
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('g', { className: 'y-axis' }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('g', { className: 'x-axis' })
             )
@@ -867,8 +866,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const margin = 60;
-const width = 500;
-const height = 300;
+const width = 700;
+const height = 400;
 
 let xAxisLabel, yAxisLabel;
 

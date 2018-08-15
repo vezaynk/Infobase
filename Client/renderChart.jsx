@@ -2,8 +2,8 @@
 import * as d3 from "d3";
 import type { ChartData } from './types';
 const margin = 60;
-const width = 500;
-const height = 300;
+const width = 700;
+const height = 400;
 
 let xAxisLabel, yAxisLabel;
 
