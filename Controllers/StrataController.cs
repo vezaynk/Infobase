@@ -230,6 +230,7 @@ namespace Infobase.Controllers
                                      .Include(ac => ac.ActivityNameTranslations)
                                      .ThenInclude(at => at.Translation)
                                      .AsEnumerable()
+                                     .OrderBy(x => x.Index)
                                      .Select(ac => new DropdownItem
                                             {
                                                 Value = ac.ActivityId,
@@ -241,6 +242,7 @@ namespace Infobase.Controllers
             var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups
                                      .Where(ig => ig.DefaultLifeCourseId != null)
                                      .AsEnumerable()
+                                     .OrderBy(x => x.Index)
                                      .Select(ig => new DropdownItem
                                             {
                                                 Value = ig.IndicatorGroupId,
@@ -252,6 +254,7 @@ namespace Infobase.Controllers
             var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses
                                      .Where(lc => lc.DefaultIndicatorId != null)
                                      .AsEnumerable()
+                                     .OrderBy(x => x.Index)
                                      .Select(lc => new DropdownItem
             {
                 Value = lc.LifeCourseId,
@@ -263,6 +266,7 @@ namespace Infobase.Controllers
             var indicators = strata.Measure.Indicator.LifeCourse.Indicators
                                      .Where(i => i.DefaultMeasureId != null)
                                      .AsEnumerable()
+                                     .OrderBy(x => x.Index)
                                      .Select(i => new DropdownItem
             {
                 Value = i.IndicatorId,
@@ -274,6 +278,7 @@ namespace Infobase.Controllers
             var measures = strata.Measure.Indicator.Measures
                                      .Where(m => m.DefaultStrataId != null)
                                      .AsEnumerable()
+                                     .OrderBy(x => x.Index)
                                      .Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
@@ -284,6 +289,7 @@ namespace Infobase.Controllers
 
             var stratas = strata.Measure.Stratas
                                      .AsEnumerable()
+                                     .OrderBy(x => x.Index)
                                      .Select(s => new DropdownItem
             {
                 Value = s.StrataId,

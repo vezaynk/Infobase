@@ -886,17 +886,17 @@ function updateChart(ref, dataset) {
     let binding = select.selectAll('rect').data(dataset.points);
     console.log(binding);
 
-    chart.selectAll("g.y-axis").attr("transform", "translate(" + margin + "," + margin + ")").transition().duration(300).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisLeft"](y));
+    chart.selectAll("g.y-axis").attr("transform", "translate(" + margin + "," + margin + ")").transition().duration(600).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisLeft"](y));
 
-    chart.selectAll("g.x-axis").attr("transform", "translate(" + margin + "," + (height + margin) + ")").transition().duration(300).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](x)).selectAll("text").attr("transform", "rotate(15)").style("text-anchor", "start");
+    chart.selectAll("g.x-axis").attr("transform", "translate(" + margin + "," + (height + margin) + ")").transition().duration(600).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](x)).selectAll("text").attr("transform", "rotate(15)").style("text-anchor", "start");
 
     xAxisLabel.text(dataset.xAxis["(EN, )"]);
 
     yAxisLabel.text(dataset.yAxis["(EN, Datatool)"]);
 
-    binding.enter().append("rect").attr("width", (_, notFirst) => !isTrend && !notFirst ? width : isTrend ? 10 : 25).style("fill", (_, notFirst) => !isTrend && !notFirst ? "url(#gradient)" : "steelblue").attr("x", (d, i) => (i + 0.5) * (width / dataset.points.length) - 25 / 2).attr("y", d => y(d.value)).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).transition().duration((_, i) => Math.log(i + 1) * 500).attr("height", d => isTrend ? 25 : height - y(d.value));
+    binding.enter().append("rect").attr("x", (d, i) => (i + 0.5) * (width / dataset.points.length) - 25 / 2).attr("y", d => y(d.value)).attr("width", (_, notFirst) => !isTrend && !notFirst ? width : isTrend ? 10 : 25).style("fill", (_, notFirst) => !isTrend && !notFirst ? "url(#gradient)" : "steelblue").attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).transition().duration((_, i) => 600).attr("height", d => isTrend ? 25 : height - y(d.value));
 
-    binding.transition().duration(300).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("height", d => isTrend ? 10 : height - y(d.value)).attr("width", (_, notFirst) => !isTrend && !notFirst ? width - margin : isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / dataset.points.length) - (isTrend ? 10 : 25) / 2).attr("y", d => y(d.value)).style("fill", (_, notFirst) => !isTrend && !notFirst ? "url(#gradient)" : "steelblue");
+    binding.transition().duration(600).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("height", d => isTrend ? 10 : height - y(d.value)).attr("width", (_, notFirst) => !isTrend && !notFirst ? width - margin : isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / dataset.points.length) - (isTrend ? 10 : 25) / 2).attr("y", d => y(d.value)).style("fill", (_, notFirst) => !isTrend && !notFirst ? "url(#gradient)" : "steelblue");
 
     binding.exit().remove();
 }

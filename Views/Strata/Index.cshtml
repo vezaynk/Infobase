@@ -7,8 +7,10 @@
 @{ 
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
     // TODO: dynamic language code
-    var lifeCourseNames = Model.SelectMany(a => a.IndicatorGroups
-                                            .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get(("EN", null))))
+    var lifeCourseNames = Model.OrderBy(x => x.Index)
+                                .SelectMany(a => a.IndicatorGroups
+                                                    .OrderBy(x => x.Index)
+                                                    .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get(("EN", null))))
                                            ).Distinct();
 }
 
@@ -40,7 +42,7 @@
 {
 
     <h3>@lifeCourseName</h3>
-    foreach (var activity in Model)
+    foreach (var activity in Model.OrderBy(x => x.Index))
     {
 
     <details>
@@ -57,16 +59,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var indicatorGroup in activity.IndicatorGroups)
+                @foreach (var indicatorGroup in activity.IndicatorGroups.OrderBy(x => x.Index))
                 {
 
                     var igFirst = true;
                     // Must only select indicators which are a subset of the desired lifecourse
                     var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get(("EN", null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
-                    foreach (var indicator in indicators)
+                    foreach (var indicator in indicators.OrderBy(x => x.Index))
                     {
                         var indicatorFirst = true;
-                        foreach (var measure in indicator.Measures)
+                        foreach (var measure in indicator.Measures.OrderBy(x => x.Index))
                         {
                             <tr>
                                 @if (igFirst)

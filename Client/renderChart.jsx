@@ -34,13 +34,13 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         chart.selectAll("g.y-axis")
             .attr("transform", "translate(" + margin + "," + margin + ")")
             .transition()
-            .duration(300)
+            .duration(600)
             .call(d3.axisLeft(y));
         
         chart.selectAll("g.x-axis")
             .attr("transform", "translate(" + margin + "," + (height+margin) + ")")
             .transition()
-            .duration(300)
+            .duration(600)
             .call(d3.axisBottom(x))
             
           .selectAll("text")
@@ -55,20 +55,20 @@ export function updateChart(ref: Element, dataset: ChartData): void {
               
         
             binding.enter().append("rect")
-            .attr("width", (_, notFirst) => (!isTrend && !notFirst) ? width : (isTrend ? 10 : 25))
-            .style("fill", (_, notFirst) => (!isTrend && !notFirst) ? "url(#gradient)" : "steelblue")
             .attr("x", (d,i) => (i+0.5)*(width/dataset.points.length)-25/2 )
             .attr("y", (d) => y(d.value))
+            .attr("width", (_, notFirst) => (!isTrend && !notFirst) ? width : (isTrend ? 10 : 25))
+            .style("fill", (_, notFirst) => (!isTrend && !notFirst) ? "url(#gradient)" : "steelblue")
             .attr("ry",(isTrend ? 10 : 0))
             .attr("rx", (isTrend ? 10 : 0))
             .transition()
-            .duration((_, i) => Math.log(i+1)*500)
+            .duration((_, i) => 600)
             .attr("height", d => isTrend ? 25 : height - y(d.value));
               
             
             binding
             .transition()
-            .duration(300)
+            .duration(600)
             .attr("ry",(isTrend ? 10 : 0))
             .attr("rx", (isTrend ? 10 : 0))
             .attr("height", d => isTrend ? 10 : height - y(d.value))
