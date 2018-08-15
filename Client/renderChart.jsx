@@ -1,5 +1,6 @@
 ﻿// @flow
 import * as d3 from "d3";
+import { i18n } from "./Translator";
 import type { ChartData } from './types';
 const margin = 60;
 const width = 700;
@@ -30,8 +31,8 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .range([height,0]);
         
         console.log(points)
-        let pointBinding = select.selectAll('rect.point').data(points);
-        let averageBinding = select.selectAll('rect.average').data(averages);
+        let pointBinding = select.selectAll('g.point').data(points);
+        let averageBinding = select.selectAll('g.average').data(averages);
         
         chart.selectAll("g.y-axis")
             .attr("transform", "translate(" + margin + "," + margin + ")")
@@ -56,9 +57,9 @@ export function updateChart(ref: Element, dataset: ChartData): void {
               .text(dataset.yAxis["(EN, Datatool)"]); 
               
         
-              pointBinding.enter().append("rect")
+              pointBinding.enter().append("g").attr("class", "point").append("rect")
             .attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
-            .attr("class", "point")
+            
             
             .attr("width", isTrend ? 10 : 25)
             .style("fill", "steelblue")
@@ -72,6 +73,7 @@ export function updateChart(ref: Element, dataset: ChartData): void {
               
             
             pointBinding
+            .select("rect")
             .transition()
             .duration(600)
             .attr("ry",(isTrend ? 10 : 0))
@@ -85,9 +87,12 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             
             pointBinding.exit().remove();
 
-            averageBinding.enter().append("rect")
-            .attr("height", d => 1)
+            let entered = averageBinding.enter().append("g");
+            
+            entered
             .attr("class", "average")
+            .append("rect")
+            .attr("height", 1)
             .attr("x", 0 )
             .attr("width", width)
             .style("fill", "red")
@@ -97,20 +102,43 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .transition()
             .duration((_, i) => 600)
             .attr("y", (d) => y(d.value))
+
+            entered
+            .append("text")
+            .attr("x", () => (width/points.length)*(points.map(p=>p.value).indexOf(Math.min(...points.map(p=>p.value)))) )
+            .attr("y", height )
+            .transition()
+            .duration((_, i) => 600)
+            .attr("y", d => y(d.value) - 5)
+            .text(d => i18n(d.label) + ": " + d.value)
+            
               
             
             averageBinding
+            .select("rect")
             .transition()
             .duration(600)
             .attr("y", (d) => y(d.value))
-            
-            .style("fill", "red");
+            .style("fill", "red")
+
+            averageBinding
+            .select("text")
+            .transition()
+            .duration(600)
+            .attr("x", () => (width/points.length)*(points.map(p=>p.value).indexOf(Math.min(...points.map(p=>p.value)))) )
+            .attr("y", d => y(d.value) - 5)
+            .text(d => i18n(d.label) + ": " + d.value)
             
             averageBinding.exit()
+            .selectAll("rect, text")
             .transition()
             .duration(600)
             .attr("y", -margin)
             .style("opacity", 0)
+            
+            averageBinding.exit()
+            .transition()
+            .duration(800)
             .remove();
 }
 
@@ -148,9 +176,9 @@ gradient.append("stop")
 .style("text-anchor", "middle");
 
 yAxisLabel = chart.append("text")
-.attr("transform", "rotate(90)")
-.attr("x", height/2+margin)
-.attr("y", -10)
+.attr("transform", "rotate(-90)")
+.attr("x", -(height/2+margin))
+.attr("y", margin-30)
 .style("text-anchor", "middle");	 
 
 let select = chart

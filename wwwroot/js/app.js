@@ -863,6 +863,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChart", function() { return updateChart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initChart", function() { return initChart; });
 /* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Translator */ "./Client/Translator.js");
+
 
 
 const margin = 60;
@@ -887,8 +889,8 @@ function updateChart(ref, dataset) {
     let y = d3__WEBPACK_IMPORTED_MODULE_0__["scaleLinear"]().domain([0, d3__WEBPACK_IMPORTED_MODULE_0__["max"](dataset.points, point => point.value)]).range([height, 0]);
 
     console.log(points);
-    let pointBinding = select.selectAll('rect.point').data(points);
-    let averageBinding = select.selectAll('rect.average').data(averages);
+    let pointBinding = select.selectAll('g.point').data(points);
+    let averageBinding = select.selectAll('g.average').data(averages);
 
     chart.selectAll("g.y-axis").attr("transform", "translate(" + margin + "," + margin + ")").transition().duration(600).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisLeft"](y));
 
@@ -898,17 +900,25 @@ function updateChart(ref, dataset) {
 
     yAxisLabel.text(dataset.yAxis["(EN, Datatool)"]);
 
-    pointBinding.enter().append("rect").attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2).attr("class", "point").attr("width", isTrend ? 10 : 25).style("fill", "steelblue").attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value)).attr("height", d => isTrend ? 25 : height - y(d.value));
+    pointBinding.enter().append("g").attr("class", "point").append("rect").attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2).attr("width", isTrend ? 10 : 25).style("fill", "steelblue").attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value)).attr("height", d => isTrend ? 25 : height - y(d.value));
 
-    pointBinding.transition().duration(600).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("width", isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2).attr("height", (d, i) => isTrend ? 10 : height - y(d.value)).attr("y", d => y(d.value)).style("fill", "steelblue");
+    pointBinding.select("rect").transition().duration(600).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("width", isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2).attr("height", (d, i) => isTrend ? 10 : height - y(d.value)).attr("y", d => y(d.value)).style("fill", "steelblue");
 
     pointBinding.exit().remove();
 
-    averageBinding.enter().append("rect").attr("height", d => 1).attr("class", "average").attr("x", 0).attr("width", width).style("fill", "red").attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value));
+    let entered = averageBinding.enter().append("g");
 
-    averageBinding.transition().duration(600).attr("y", d => y(d.value)).style("fill", "red");
+    entered.attr("class", "average").append("rect").attr("height", 1).attr("x", 0).attr("width", width).style("fill", "red").attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value));
 
-    averageBinding.exit().transition().duration(600).attr("y", -margin).style("opacity", 0).remove();
+    entered.append("text").attr("x", () => width / points.length * points.map(p => p.value).indexOf(Math.min(...points.map(p => p.value)))).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value) - 5).text(d => Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(d.label) + ": " + d.value);
+
+    averageBinding.select("rect").transition().duration(600).attr("y", d => y(d.value)).style("fill", "red");
+
+    averageBinding.select("text").transition().duration(600).attr("x", () => width / points.length * points.map(p => p.value).indexOf(Math.min(...points.map(p => p.value)))).attr("y", d => y(d.value) - 5).text(d => Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(d.label) + ": " + d.value);
+
+    averageBinding.exit().selectAll("rect, text").transition().duration(600).attr("y", -margin).style("opacity", 0);
+
+    averageBinding.exit().transition().duration(800).remove();
 }
 
 function initChart(ref, dataset) {
@@ -925,7 +935,7 @@ function initChart(ref, dataset) {
 
     xAxisLabel = chart.append("text").attr("y", height + margin + 40).attr("x", (margin + width) / 2).attr("dy", "1em").style("text-anchor", "middle");
 
-    yAxisLabel = chart.append("text").attr("transform", "rotate(90)").attr("x", height / 2 + margin).attr("y", -10).style("text-anchor", "middle");
+    yAxisLabel = chart.append("text").attr("transform", "rotate(-90)").attr("x", -(height / 2 + margin)).attr("y", margin - 30).style("text-anchor", "middle");
 
     let select = chart.append("g").attr('class', 'main').attr("transform", "translate(" + margin + "," + margin + ")");
 
