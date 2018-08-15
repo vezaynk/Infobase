@@ -10,6 +10,7 @@ namespace Infobase.Models.PASS
     {
         public int StrataId { get; set; }
         public int MeasureId { get; set; }
+        public int Index {get;set;}
         public virtual Measure Measure { get; set; }
         public virtual ICollection<StrataNameTranslation> StrataNameTranslations { get; set; }
         public virtual ICollection<StrataNotesTranslation> StrataNotesTranslations { get; set; }

@@ -10,7 +10,7 @@ namespace Infobase.Models.PASS
     public class Activity
     {
         public int ActivityId { get; set; }
-
+        public int Index {get;set;}
         [InverseProperty("Activity")]
         public virtual ICollection<IndicatorGroup> IndicatorGroups { get; set; }
         public virtual ICollection<ActivityNameTranslation> ActivityNameTranslations { get; set; }

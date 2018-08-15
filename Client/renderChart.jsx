@@ -1,268 +1,130 @@
-﻿import * as d3 from "d3";
+﻿// @flow
+import * as d3 from "d3";
+import type { ChartData } from './types';
+const margin = 60;
+const width = 500;
+const height = 300;
 
-export function renderChart(ref, dataset) {
+let xAxisLabel, yAxisLabel;
+
+export function updateChart(ref: Element, dataset: ChartData): void {
+        let chart = d3.select(ref);
+        let select = chart.select(".main")
+  
+
+        chart.select("#chartTitle")
+            .text(dataset.measureName["(EN, Datatool)"] + ", " + dataset.population["(EN, Index)"])
+        
+        let isTrend = dataset.xAxis["(EN, )"].includes("Trend");
+        
+        
+        let x = d3.scaleBand()
+            .domain(dataset.points.map(point => point.label["(EN, )"]))
+            .range([0,width]);
+        
+            
+        let y = d3.scaleLinear()
+            .domain([0,d3.max(dataset.points, point => point.value)])
+            .range([height,0]);
+        
+        
+        let binding = select.selectAll('rect').data(dataset.points)
+        console.log(binding)
+        
+        chart.selectAll("g.y-axis")
+            .attr("transform", "translate(" + margin + "," + margin + ")")
+            .transition()
+            .duration(300)
+            .call(d3.axisLeft(y));
+        
+        chart.selectAll("g.x-axis")
+            .attr("transform", "translate(" + margin + "," + (height+margin) + ")")
+            .transition()
+            .duration(300)
+            .call(d3.axisBottom(x))
+            
+          .selectAll("text")
+            .attr("transform", "rotate(15)")
+            .style("text-anchor", "start");
+        
+        xAxisLabel
+              .text(dataset.xAxis["(EN, )"]); 
+        
+        yAxisLabel
+              .text(dataset.yAxis["(EN, Datatool)"]); 
+              
+        
+            binding.enter().append("rect")
+            .attr("width", (_, notFirst) => (!isTrend && !notFirst) ? width : (isTrend ? 10 : 25))
+            .style("fill", (_, notFirst) => (!isTrend && !notFirst) ? "url(#gradient)" : "steelblue")
+            .attr("x", (d,i) => (i+0.5)*(width/dataset.points.length)-25/2 )
+            .attr("y", (d) => y(d.value))
+            .attr("ry",(isTrend ? 10 : 0))
+            .attr("rx", (isTrend ? 10 : 0))
+            .transition()
+            .duration((_, i) => Math.log(i+1)*500)
+            .attr("height", d => isTrend ? 25 : height - y(d.value));
+              
+            
+            binding
+            .transition()
+            .duration(300)
+            .attr("ry",(isTrend ? 10 : 0))
+            .attr("rx", (isTrend ? 10 : 0))
+            .attr("height", d => isTrend ? 10 : height - y(d.value))
+            .attr("width", (_, notFirst) => (!isTrend && !notFirst) ? width-margin : (isTrend ? 10 : 25))
+            .attr("x", (d,i) => (i+0.5)*(width/dataset.points.length)-(isTrend ? 10 : 25)/2 )
+            .attr("y", (d) => y(d.value))
+            
+            .style("fill", (_, notFirst) => (!isTrend && !notFirst) ? "url(#gradient)" : "steelblue");
+            
+            binding.exit().remove();
+}
+
+export function initChart(ref: Element, dataset: ChartData) {
     
     const svg = d3.select(ref)
-    svg.selectAll("g").remove();
-    let highestValue = d3.max(dataset.values.map(v => d3.max(v.points.map(p => d3.max([p.value, p.confidence.upper, p.confidence.lower])))));
-    //console.log(highestValue); - left for debbuging
 
-    let margin = { top: 150, right: 10, bottom: 150, left: 50 };
-    let width = /*+svg.attr("width")*/ 900 - margin.left - margin.right;
-    let height = /*+svg.attr("height")*/ 800 - margin.top - margin.bottom;
+var chart = svg
+		.attr("width",width + 2*margin)
+	    .attr("height",height + 2*margin);
+	    
+var gradient = chart.append("defs")
+  .append("linearGradient")
+    .attr("id", "gradient")
+    .attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "0")
+    .attr("spreadMethod", "pad");
+    
+    gradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "steelblue")
+    .attr("stop-opacity", 1);
 
-    let g = svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+gradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#56a0dd")
+    .attr("stop-opacity", 0);
 
-    let yScale = d3.scaleLinear()
-        .domain([0, highestValue])
-        .range([height, 0])
+    xAxisLabel = chart.append("text")
+.attr("y", height+margin+40)
+.attr("x", (margin+width)/2)
+.attr("dy", "1em")
+.style("text-anchor", "middle");
 
-    g.append("g").call(d3.axisLeft(yScale))
-        .attr("class", "x-axis")
-        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+yAxisLabel = chart.append("text")
+.attr("transform", "rotate(90)")
+.attr("x", height/2+margin)
+.attr("y", -10)
+.style("text-anchor", "middle");	 
 
-    g.append("text")
-        .attr("class", "axis-label")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .text(dataset.axis.y);
-
-
-    g.append("text")
-        .attr("class", "axis-label")
-        .attr("y", height + 20)
-        .attr("x", (width / 2))
-        .attr("dy", "1em")
-        .text(dataset.axis.x);
-
-    g.append("text")
-        .attr("class", "footnote")
-        .attr("y", height + 40)
-        .attr("x", 0)
-        .attr("dy", "1em")
-        .style("text-anchor", "start")
-        .style("font-size", "10pt")
-        .append("tspan")
-        .attr("x", 0)
-        .text("Public Health Infobase")
-        .append("tspan")
-        .attr("x", 0)
-        .attr("dy", 15)
-        .text("Public Health Agency of Canada")
-        .append("tspan")
-        .attr("x", 0)
-        .attr("dy", 15)
-        .text("https://infobase.phac-aspc.gc.ca")
-        .append("tspan")
-        .attr("x", 0)
-        .attr("dy", 15)
-        .text("email:  phac.infobase.aspc@canada.ca")
-
-
-
-    g.append("text")
-        .attr("y", height + 60)
-        .attr("x", width)
-        .attr("dy", "1em")
-        .style("text-anchor", "end")
-        .style("font-size", "10pt")
-        .text(dataset.source)
-
-
-
-    // Sends the data point to the appropriate function
-    dataset.values.forEach(({ points, type }) => {
-        switch (type) {
-            case 0:
-                // Bars
-                drawBars(points);
-                break;
-            case 1:
-                // Trend
-                drawTrend(points)
-                break;
-            case 2:
-                // Line
-                drawLines(points);
-                break;
-        }
-    })
-
-    // Let's begin with the actual bars
-    // Let's begin with the actual bars
-    function drawBars(points) {
-        let computeBarWidth = () => width / points.length
-
-        let binding = g.selectAll("g.bar")
-            .data(points)
-        let bar = binding
-            .enter()
-            .append("g")
-            .attr("class", "bar")
-            .attr("transform-origin", "50, 50")
-            .attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + (yScale(d.value)) + "), scale(0.5, 1)")
-
-        bar.append("title")
-            .text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`)
-
-        //bar.append("rect").attr("height", 20).attr("width", 20)
-
-        bar.append("rect")
-            .attr("width", computeBarWidth())
-            .attr("fill", "rgb(234, 67, 53)")
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("height", d => height - yScale(d.value))
-
-        // upper
-        bar
-            .append("line")
-            .style("stroke", "#000")
-            .attr("stroke-width", 2)
-            .attr("x1", (_d, i) => 10)
-            .attr("x2", (_d, i) => computeBarWidth() - 10)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("y1", d => yScale(d.confidence.lower) - yScale(d.value))
-            .attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
-
-        bar
-            .append("line")
-            .style("stroke", "#000")
-            .attr("stroke-width", 2)
-            .attr("x1", (_d, i) => 10)
-            .attr("x2", (_d, i) => computeBarWidth() - 10)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("y1", d => yScale(d.confidence.upper) - yScale(d.value))
-            .attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
-
-
-
-        let xScale = d3.scaleBand()
-            .domain(points.map(function (d) { return d.label; }))
-            .range([0, width])
-
-        g.append("g").call(d3.axisBottom(xScale).ticks(50))
-            .attr("class", "x-axis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-
-
-    }
-
-    function drawLines(points) {
-        let bars = g.selectAll(".line").data(points);
-        let enteringBar = bars.enter();
-        let enteredBar = enteringBar.append("g").attr("class", "line");
-
-        enteredBar
-            .append("line")
-            .style("stroke", "#0000FF")
-            .attr("stroke-width", 2)
-            .attr("x1", 0)
-            .attr("x2", width)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("y1", d => yScale(d.value))
-            .attr("y2", d => yScale(d.value));
-
-
-        enteredBar
-            .append("text")
-            .attr("x", 20)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("y", d => yScale(d.value) - 5)
-            .text(d => d.label + ", " + d.value)
-            .style("text-anchor", "left")
-            .attr("stroke", "blue")
-            .attr("font-size", 15)
-            .attr("stroke-width", 1)
-            .attr("fill", "red");
-    }
-
-    function drawTrend(points) {
-        let computeBarWidth = () => width / points.length
-
-        let binding = g.selectAll("g.dot")
-            .data(points)
-        let dot = binding
-            .enter()
-            .append("g")
-            .attr("class", "dot")
-            .attr("transform-origin", "50, 50")
-            .attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + (yScale(d.value)) + ")")
-
-        dot.append("title")
-            .text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`)
-
-
-
-        var line = d3.line()
-            .x((d, i) => i * computeBarWidth() + computeBarWidth() / 2)
-            .y(d => yScale(d.value));
-
-        g.append("g").attr("id", "lineContainer").append("path").data([points])
-            .attr("class", "line solid")
-            .attr("id", "coolPath")
-            .attr("d", line)
-            .attr("fill", "none")
-            .attr("stroke", "#dfbcbd")
-            .attr("stroke-width", 0)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("stroke-width", 2);
-
-        //bar.append("rect").attr("height", 20).attr("width", 20)
-
-        dot.append("circle")
-            .attr("r", 0)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("r", 5)
-            .attr("cx", computeBarWidth() / 4)
-            .attr("cy", 0)
-            .attr("fill", "rgb(234, 67, 53)")
-
-        // upper
-        dot
-            .append("line")
-            .attr("class", "upperbound")
-            .style("stroke", "#000")
-            .attr("stroke-width", 1)
-            .attr("x1", (_d, i) => computeBarWidth() / 6)
-            .attr("x2", (_d, i) => computeBarWidth() / 2 - computeBarWidth() / 6)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("y1", d => yScale(d.confidence.lower) - yScale(d.value))
-            .attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
-
-        dot
-            .append("line")
-            .attr("class", "lowerbound")
-            .style("stroke", "#000")
-            .attr("stroke-width", 1)
-            .attr("x1", (_d, i) => computeBarWidth() / 6)
-            .attr("x2", (_d, i) => computeBarWidth() / 2 - computeBarWidth() / 6)
-            .transition()
-            .duration((_, i) => 100 * i + 800)
-            .attr("y1", d => yScale(d.confidence.upper) - yScale(d.value))
-            .attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
-
-        console.log("Hit")
-
-        let xScale = d3.scaleBand()
-            .domain(points.map(function (d) { return d.label; }))
-            .range([0, width])
-
-
-        g.append("g").call(d3.axisBottom(xScale).ticks(50))
-            .attr("class", "x-axis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-
-
-    }
+let select = chart
+	    .append("g")
+	    .attr('class', 'main')
+	        .attr("transform","translate(" + margin + "," + margin + ")")
+ 
+	    
+updateChart(ref, dataset);
 }

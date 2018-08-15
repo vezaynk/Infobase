@@ -81,12 +81,24 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx-exposed");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/App.jsx?1f27");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./Client/App.jsx":
+/***/ "./Client/App.jsx?1f27":
+/*!************************!*\
+  !*** ./Client/App.jsx ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx?3052");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./Client/App.jsx?3052":
 /*!************************!*\
   !*** ./Client/App.jsx ***!
   \************************/
@@ -112,18 +124,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-/***/ }),
-
-/***/ "./Client/App.jsx-exposed":
-/*!********************************!*\
-  !*** ./Client/App.jsx-exposed ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Components"] = __webpack_require__(/*! -!./App.jsx */ "./Client/App.jsx");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -188,29 +188,36 @@ __webpack_require__.r(__webpack_exports__);
 
 class Chart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
-    /*componentDidMount() {
-        renderChart(this.graph, this.props.chartData)
-        this.setState({isMounted: true})
+    componentDidMount() {
+        if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_2__["initChart"])(this.graph, this.props.chartData);
+        this.setState({ isMounted: true });
     }
     componentDidUpdate() {
-        if (this.state.isMounted)
-            renderChart(this.graph, this.props.chartData)
-    }*/
+        if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_2__["updateChart"])(this.graph, this.props.chartData);
+    }
     render() {
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
-            'p',
+            'div',
             null,
-            JSON.stringify(this.props.chartData, null, 4)
+            react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                'svg',
+                { className: 'chart', ref: self => this.graph = self, id: 'graph', zoomAndPan: 'magnify', viewBox: '0 0 620 420', preserveAspectRatio: 'xMidYMid meet', style: { width: 100 + "%" } },
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
+                    'foreignObject',
+                    null,
+                    react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('h6', { id: 'chartTitle', style: {
+                            marginLeft: 60,
+                            marginTop: 0,
+                            width: 500,
+                            textAlign: "center"
+                        } })
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('g', { className: 'y-axis' }),
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('g', { className: 'x-axis' })
+            )
         );
-        /* (
-            <div>
-            <svg id="graph" ref={graph => this.graph = graph} width="100%" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet">
-                    <foreignObject x="12.5%" y="0" width="75%" height="100">
-                        <h3>{this.props.chartData.measureName["(EN, )"]}, </h3>
-                    </foreignObject>
-                </svg>
-            </div>
-        )*/
+
+        //<p>{JSON.stringify(this.props.chartData, null, 4)}</p>
     }
 }
 
@@ -849,123 +856,71 @@ const dataExplorerReducer = (previousState = initialState, action) => {
 /*!********************************!*\
   !*** ./Client/renderChart.jsx ***!
   \********************************/
-/*! exports provided: renderChart */
+/*! exports provided: updateChart, initChart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderChart", function() { return renderChart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChart", function() { return updateChart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initChart", function() { return initChart; });
 /* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
 
 
-function renderChart(ref, dataset) {
+const margin = 60;
+const width = 500;
+const height = 300;
+
+let xAxisLabel, yAxisLabel;
+
+function updateChart(ref, dataset) {
+    let chart = d3__WEBPACK_IMPORTED_MODULE_0__["select"](ref);
+    let select = chart.select(".main");
+
+    chart.select("#chartTitle").text(dataset.measureName["(EN, Datatool)"] + ", " + dataset.population["(EN, Index)"]);
+
+    let isTrend = dataset.xAxis["(EN, )"].includes("Trend");
+
+    let x = d3__WEBPACK_IMPORTED_MODULE_0__["scaleBand"]().domain(dataset.points.map(point => point.label["(EN, )"])).range([0, width]);
+
+    let y = d3__WEBPACK_IMPORTED_MODULE_0__["scaleLinear"]().domain([0, d3__WEBPACK_IMPORTED_MODULE_0__["max"](dataset.points, point => point.value)]).range([height, 0]);
+
+    let binding = select.selectAll('rect').data(dataset.points);
+    console.log(binding);
+
+    chart.selectAll("g.y-axis").attr("transform", "translate(" + margin + "," + margin + ")").transition().duration(300).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisLeft"](y));
+
+    chart.selectAll("g.x-axis").attr("transform", "translate(" + margin + "," + (height + margin) + ")").transition().duration(300).call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](x)).selectAll("text").attr("transform", "rotate(15)").style("text-anchor", "start");
+
+    xAxisLabel.text(dataset.xAxis["(EN, )"]);
+
+    yAxisLabel.text(dataset.yAxis["(EN, Datatool)"]);
+
+    binding.enter().append("rect").attr("width", (_, notFirst) => !isTrend && !notFirst ? width : isTrend ? 10 : 25).style("fill", (_, notFirst) => !isTrend && !notFirst ? "url(#gradient)" : "steelblue").attr("x", (d, i) => (i + 0.5) * (width / dataset.points.length) - 25 / 2).attr("y", d => y(d.value)).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).transition().duration((_, i) => Math.log(i + 1) * 500).attr("height", d => isTrend ? 25 : height - y(d.value));
+
+    binding.transition().duration(300).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("height", d => isTrend ? 10 : height - y(d.value)).attr("width", (_, notFirst) => !isTrend && !notFirst ? width - margin : isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / dataset.points.length) - (isTrend ? 10 : 25) / 2).attr("y", d => y(d.value)).style("fill", (_, notFirst) => !isTrend && !notFirst ? "url(#gradient)" : "steelblue");
+
+    binding.exit().remove();
+}
+
+function initChart(ref, dataset) {
 
     const svg = d3__WEBPACK_IMPORTED_MODULE_0__["select"](ref);
-    svg.selectAll("g").remove();
-    let highestValue = d3__WEBPACK_IMPORTED_MODULE_0__["max"](dataset.values.map(v => d3__WEBPACK_IMPORTED_MODULE_0__["max"](v.points.map(p => d3__WEBPACK_IMPORTED_MODULE_0__["max"]([p.value, p.confidence.upper, p.confidence.lower])))));
-    //console.log(highestValue); - left for debbuging
 
-    let margin = { top: 150, right: 10, bottom: 150, left: 50 };
-    let width = /*+svg.attr("width")*/900 - margin.left - margin.right;
-    let height = /*+svg.attr("height")*/800 - margin.top - margin.bottom;
+    var chart = svg.attr("width", width + 2 * margin).attr("height", height + 2 * margin);
 
-    let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var gradient = chart.append("defs").append("linearGradient").attr("id", "gradient").attr("x1", "0%").attr("y1", "0%").attr("x2", "100%").attr("y2", "0").attr("spreadMethod", "pad");
 
-    let yScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleLinear"]().domain([0, highestValue]).range([height, 0]);
+    gradient.append("stop").attr("offset", "0%").attr("stop-color", "steelblue").attr("stop-opacity", 1);
 
-    g.append("g").call(d3__WEBPACK_IMPORTED_MODULE_0__["axisLeft"](yScale)).attr("class", "x-axis").attr("transform", "translate(" + 0 + "," + 0 + ")");
+    gradient.append("stop").attr("offset", "100%").attr("stop-color", "#56a0dd").attr("stop-opacity", 0);
 
-    g.append("text").attr("class", "axis-label").attr("transform", "rotate(-90)").attr("y", 0 - margin.left).attr("x", 0 - height / 2).attr("dy", "1em").text(dataset.axis.y);
+    xAxisLabel = chart.append("text").attr("y", height + margin + 40).attr("x", (margin + width) / 2).attr("dy", "1em").style("text-anchor", "middle");
 
-    g.append("text").attr("class", "axis-label").attr("y", height + 20).attr("x", width / 2).attr("dy", "1em").text(dataset.axis.x);
+    yAxisLabel = chart.append("text").attr("transform", "rotate(90)").attr("x", height / 2 + margin).attr("y", -10).style("text-anchor", "middle");
 
-    g.append("text").attr("class", "footnote").attr("y", height + 40).attr("x", 0).attr("dy", "1em").style("text-anchor", "start").style("font-size", "10pt").append("tspan").attr("x", 0).text("Public Health Infobase").append("tspan").attr("x", 0).attr("dy", 15).text("Public Health Agency of Canada").append("tspan").attr("x", 0).attr("dy", 15).text("https://infobase.phac-aspc.gc.ca").append("tspan").attr("x", 0).attr("dy", 15).text("email:  phac.infobase.aspc@canada.ca");
+    let select = chart.append("g").attr('class', 'main').attr("transform", "translate(" + margin + "," + margin + ")");
 
-    g.append("text").attr("y", height + 60).attr("x", width).attr("dy", "1em").style("text-anchor", "end").style("font-size", "10pt").text(dataset.source);
-
-    // Sends the data point to the appropriate function
-    dataset.values.forEach(({ points, type }) => {
-        switch (type) {
-            case 0:
-                // Bars
-                drawBars(points);
-                break;
-            case 1:
-                // Trend
-                drawTrend(points);
-                break;
-            case 2:
-                // Line
-                drawLines(points);
-                break;
-        }
-    });
-
-    // Let's begin with the actual bars
-    // Let's begin with the actual bars
-    function drawBars(points) {
-        let computeBarWidth = () => width / points.length;
-
-        let binding = g.selectAll("g.bar").data(points);
-        let bar = binding.enter().append("g").attr("class", "bar").attr("transform-origin", "50, 50").attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + yScale(d.value) + "), scale(0.5, 1)");
-
-        bar.append("title").text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`);
-
-        //bar.append("rect").attr("height", 20).attr("width", 20)
-
-        bar.append("rect").attr("width", computeBarWidth()).attr("fill", "rgb(234, 67, 53)").transition().duration((_, i) => 100 * i + 800).attr("height", d => height - yScale(d.value));
-
-        // upper
-        bar.append("line").style("stroke", "#000").attr("stroke-width", 2).attr("x1", (_d, i) => 10).attr("x2", (_d, i) => computeBarWidth() - 10).transition().duration((_, i) => 100 * i + 800).attr("y1", d => yScale(d.confidence.lower) - yScale(d.value)).attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
-
-        bar.append("line").style("stroke", "#000").attr("stroke-width", 2).attr("x1", (_d, i) => 10).attr("x2", (_d, i) => computeBarWidth() - 10).transition().duration((_, i) => 100 * i + 800).attr("y1", d => yScale(d.confidence.upper) - yScale(d.value)).attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
-
-        let xScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleBand"]().domain(points.map(function (d) {
-            return d.label;
-        })).range([0, width]);
-
-        g.append("g").call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](xScale).ticks(50)).attr("class", "x-axis").attr("transform", "translate(" + 0 + "," + height + ")");
-    }
-
-    function drawLines(points) {
-        let bars = g.selectAll(".line").data(points);
-        let enteringBar = bars.enter();
-        let enteredBar = enteringBar.append("g").attr("class", "line");
-
-        enteredBar.append("line").style("stroke", "#0000FF").attr("stroke-width", 2).attr("x1", 0).attr("x2", width).transition().duration((_, i) => 100 * i + 800).attr("y1", d => yScale(d.value)).attr("y2", d => yScale(d.value));
-
-        enteredBar.append("text").attr("x", 20).transition().duration((_, i) => 100 * i + 800).attr("y", d => yScale(d.value) - 5).text(d => d.label + ", " + d.value).style("text-anchor", "left").attr("stroke", "blue").attr("font-size", 15).attr("stroke-width", 1).attr("fill", "red");
-    }
-
-    function drawTrend(points) {
-        let computeBarWidth = () => width / points.length;
-
-        let binding = g.selectAll("g.dot").data(points);
-        let dot = binding.enter().append("g").attr("class", "dot").attr("transform-origin", "50, 50").attr("transform", (d, i) => "translate(" + computeBarWidth() * (i + 0.25) + "," + yScale(d.value) + ")");
-
-        dot.append("title").text(d => `${dataset.axis.x}: ${d.label}\n${dataset.axis.y}: ${d.value}`);
-
-        var line = d3__WEBPACK_IMPORTED_MODULE_0__["line"]().x((d, i) => i * computeBarWidth() + computeBarWidth() / 2).y(d => yScale(d.value));
-
-        g.append("g").attr("id", "lineContainer").append("path").data([points]).attr("class", "line solid").attr("id", "coolPath").attr("d", line).attr("fill", "none").attr("stroke", "#dfbcbd").attr("stroke-width", 0).transition().duration((_, i) => 100 * i + 800).attr("stroke-width", 2);
-
-        //bar.append("rect").attr("height", 20).attr("width", 20)
-
-        dot.append("circle").attr("r", 0).transition().duration((_, i) => 100 * i + 800).attr("r", 5).attr("cx", computeBarWidth() / 4).attr("cy", 0).attr("fill", "rgb(234, 67, 53)");
-
-        // upper
-        dot.append("line").attr("class", "upperbound").style("stroke", "#000").attr("stroke-width", 1).attr("x1", (_d, i) => computeBarWidth() / 6).attr("x2", (_d, i) => computeBarWidth() / 2 - computeBarWidth() / 6).transition().duration((_, i) => 100 * i + 800).attr("y1", d => yScale(d.confidence.lower) - yScale(d.value)).attr("y2", d => yScale(d.confidence.lower) - yScale(d.value));
-
-        dot.append("line").attr("class", "lowerbound").style("stroke", "#000").attr("stroke-width", 1).attr("x1", (_d, i) => computeBarWidth() / 6).attr("x2", (_d, i) => computeBarWidth() / 2 - computeBarWidth() / 6).transition().duration((_, i) => 100 * i + 800).attr("y1", d => yScale(d.confidence.upper) - yScale(d.value)).attr("y2", d => yScale(d.confidence.upper) - yScale(d.value));
-
-        console.log("Hit");
-
-        let xScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleBand"]().domain(points.map(function (d) {
-            return d.label;
-        })).range([0, width]);
-
-        g.append("g").call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](xScale).ticks(50)).attr("class", "x-axis").attr("transform", "translate(" + 0 + "," + height + ")");
-    }
+    updateChart(ref, dataset);
 }
 
 /***/ }),

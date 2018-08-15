@@ -10,6 +10,7 @@ namespace Infobase.Models.PASS
     {
         public int IndicatorGroupId { get; set; }
         public int ActivityId { get; set; }
+        public int Index {get;set;}
         public virtual Activity Activity { get; set; }
         
         public virtual ICollection<IndicatorGroupNameTranslation> IndicatorGroupNameTranslations { get; set; }

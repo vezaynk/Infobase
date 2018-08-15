@@ -4,14 +4,16 @@ using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infobase.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20180814194548_indexeverywhere")]
+    partial class indexeverywhere
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

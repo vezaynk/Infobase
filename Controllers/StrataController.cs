@@ -78,7 +78,7 @@ namespace Infobase.Controllers
                                           // Include Activity names
                                           .Include(a => a.ActivityNameTranslations)
                                                         .ThenInclude(t => t.Translation);
-
+                                                        
 
             
             // Razor handles the rest

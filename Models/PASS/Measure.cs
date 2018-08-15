@@ -10,6 +10,7 @@ namespace Infobase.Models.PASS
     {
         public int MeasureId { get; set; }
         public int IndicatorId { get; set; }
+        public int Index {get;set;}
         public virtual Indicator Indicator { get; set; }
         public bool Included { get; set; }
         public double? CVWarnAt { get; set; }

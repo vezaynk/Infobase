@@ -10,6 +10,7 @@ namespace Infobase.Models.PASS
     {
         public int LifeCourseId { get; set; }
         public int IndicatorGroupId { get; set; }
+        public int Index {get;set;}
         public virtual IndicatorGroup IndicatorGroup { get; set; }
         public virtual ICollection<LifeCourseNameTranslation> LifeCourseNameTranslations { get; set; }
         [InverseProperty("LifeCourse")]
