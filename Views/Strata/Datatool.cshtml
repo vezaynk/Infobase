@@ -5,8 +5,8 @@
 }
 
 
-
-<div class="row brdr-bttm mrgn-bttm-0">
+<div class="col-sm-12">
+<div class="row brdr-bttm mrgn-bttm-0" style="margin: 0">
         
         @Html.React("Components.Filters", new
    {
@@ -66,54 +66,48 @@
                                                 
                                                 };
     }
+    <div class="row">
+<div class="col-sm-12">
     @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: false)
-
-
+</div>
+</div>
 <div class="row brdr-bttm">
     <div class="col-md-12">
 
-        <h4 id="desc">
-            <span class="mrgn-tp-0 mrgn-rght-0 mrgn-bttm-sm">
+        <h4 id="desc" class="row">
                 @if (Model.LanguageCode == "FR")
                 {
-                    <span>Descriptions des mesures</span>
+                    <span class="col-sm-12">Descriptions des mesures</span>
                 }
                 else
                 {
-                    <span>Measure Description</span>
+                    <span class="col-sm-12">Measure Description</span>
                 }
-
-            </span>
         </h4>
 
-        <div>
-
-@*
+        <div class="row">
+        <div class="col-sm-12">
             <table class="table table-striped table-hover table-condensed table-bordered">
                 <tbody>
                     <tr>
                         <td><strong>@(Model.LanguageCode == "FR" ? "Définition" : "Definition")</strong></td>
-                        <td>@Model.ChartData.measure.definition</td>
+                        <td>@Model.ChartData.Definition.Get(("EN", null))</td>
                     </tr>
                     <tr>
                         <td><strong>@(Model.LanguageCode == "FR" ? "Ventilation des données" : "Data Available")</strong></td>
-                        <td>@Model.ChartData.measure.dataAvailable</td>
+                        <td>@Model.ChartData.DataAvailable.Get(("EN", null))</td>
                     </tr>
                     <tr>
                         <td><strong>@(Model.LanguageCode == "FR" ? "Méthodes de calculs" : "Methods Calculation")</strong></td>
-                        <td>@Model.ChartData.measure.method</td>
+                        <td>@Model.ChartData.Method.Get(("EN", null))</td>
                     </tr>
                     <tr>
                         <td><strong>@(Model.LanguageCode == "FR" ? "Remarques supplémentaires" : "Additional Notes")</strong></td>
-                        <td>@Model.ChartData.measure.additionalNotes</td>
+                        <td>@Model.ChartData.Remarks.Get(("EN", null))</td>
                     </tr>
                 </tbody>
             </table>
-*@
-
-
-
-
+</div>
         </div>
 
     </div>
@@ -137,4 +131,5 @@
 
         </div>
     </div>
+</div>
 </div>

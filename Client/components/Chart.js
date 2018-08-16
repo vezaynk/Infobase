@@ -21,7 +21,7 @@ export class Chart extends React.Component<{chartData: ChartData}, {isMounted: b
         return (
             <figure>
                 <figcaption style={{margin: "0 60px"}}><strong>{i18n(this.props.chartData.measureName)}, {i18n(this.props.chartData.population)}</strong></figcaption>
-                <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 820 520" preserveAspectRatio="xMidYMid meet" style={{width: 100 + "%"}}>
+                <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 820 540" preserveAspectRatio="xMidYMid meet" style={{width: 100 + "%"}}>
                 <defs>
                     <filter x="0" y="0" width="1" height="1" id="solid">
                     <feFlood floodColor="#ffffff"/>

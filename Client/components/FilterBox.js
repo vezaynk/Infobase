@@ -42,11 +42,8 @@ export class FilterBox extends React.Component<FilterBoxProps> {
     }
     render() {
         return (
-
             <div className="col-md-3 padding-15 ">
-            <h6>
-                <span className="text-danger">{i18n(this.props.prompt)}:</span>
-            </h6>
+            <span className="text-info">{i18n(this.props.prompt)}:</span>
             <div className="form-group-md">
                 {
                     this.props.filters.map((filter) =>

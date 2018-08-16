@@ -38,6 +38,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
 
         
         return (
+            <div className="container">
             <div className="row brdr-bttm mrgn-bttm-0">
             <div className="col-md-12">
     <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">
@@ -104,6 +105,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
             {suppressedCV}
 
         </div>
+    </div>
     </div>
     </div>
         )
