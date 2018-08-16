@@ -69,7 +69,7 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .transition()
             .duration((_, i) => 600)
             .attr("y", (d) => y(d.value))
-            .attr("height", d => isTrend ? 25 : height - y(d.value));
+            .attr("height", d => isTrend ? 10 : height - y(d.value));
               
             
             pointBinding
@@ -110,7 +110,7 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .transition()
             .duration((_, i) => 600)
             .attr("y", d => y(d.value) - 5)
-            .text(d => i18n(d.label) + ": " + d.value)
+            .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10)
             
               
             
@@ -121,14 +121,16 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .attr("y", (d) => y(d.value))
             .style("fill", "red")
 
+            let lowestValueIndex = (points.map(p=>p.value).indexOf(Math.min(...points.map(p=>p.value).filter(p => p))));
             averageBinding
             .select("text")
             .transition()
             .duration(600)
-            .attr("x", () => (width/points.length)*(points.map(p=>p.value).indexOf(Math.min(...points.map(p=>p.value)))) )
+            .attr("x", () => (width/points.length) * (lowestValueIndex))
             .attr("y", d => y(d.value) - 5)
-            .text(d => i18n(d.label) + ": " + d.value)
-            
+            .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10)
+            .attr("text-anchor", lowestValueIndex < points.length ? "start" : "end")
+
             averageBinding.exit()
             .selectAll("rect, text")
             .transition()
@@ -139,6 +141,38 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             averageBinding.exit()
             .transition()
             .duration(800)
+            .remove();
+
+            window.datum = points;
+
+            let myLine = d3.line().x((d, i) => ((i+0.5)*(width/points.length)-10/2 + 2.5)).y(d => y(d.value) + 5)
+
+            
+             let paths = chart.selectAll("path.line").data(isTrend ? [points] : []);
+
+            paths.enter().append("path")
+            .attr("class", "line")
+            .attr("d", myLine)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2)
+            .attr("opacity", 0)
+            .attr("transform", "translate(" + (margin) + ",-" + 10 + ")")
+            .transition()
+            .duration(600)
+            .attr("transform", "translate(" + (margin) + "," + margin + ")")
+            .attr("opacity", 1)
+
+            paths.attr("class", "line")
+            .attr("d", myLine)
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2)
+
+            paths.exit()
+            .transition()
+            .duration(600)
+            .attr("transform", "translate(" + (margin+2.5) + ",-" + 10 + ")")
+            .attr("opacity", 0)
             .remove();
 }
 
