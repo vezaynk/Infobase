@@ -37,7 +37,7 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         
             
         let y = d3.scaleLinear()
-            .domain([0,d3.max(dataset.points, point => point.value)])
+            .domain([0,d3.max(dataset.points, point => point.valueUpper || point.value)])
             .range([height,0]);
         chart.selectAll("g.y-axis")
             .attr("transform", "translate(" + margin + "," + margin + ")")
@@ -167,15 +167,15 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             
             pointBinding.exit().remove();
 
-            let entered = averageBinding.enter().append("g");
+            let enteredAverage = averageBinding.enter().append("g");
             
-            entered
+            enteredAverage
             .attr("class", "average")
             .append("rect")
-            .attr("height", 1)
+            .attr("height", 2)
             .attr("x", 0 )
             .attr("width", width)
-            .style("fill", "red")
+            .style("fill", "url(#linePattern)")
             .attr("ry",(isTrend ? 10 : 0))
             .attr("rx", (isTrend ? 10 : 0))
             .attr("y", height)
@@ -189,15 +189,15 @@ export function updateChart(ref: Element, dataset: ChartData): void {
 
             let leftLabel = lowestValueIndex < points.length/2;
 
-            entered
+            enteredAverage
             .append("text")
-            .attr("x", () => (width/points.length) * lowestValueIndex )
+            .attr("x", () => width )
             .attr("y", height )
             .transition()
             .duration((_, i) => 600)
             .attr("y", d => y(d.value) - 5)
             .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10 + " " + i18n(dataset.yAxis, "Index"))
-            .attr("text-anchor", leftLabel ? "start" : "end")
+            .attr("text-anchor", "end")
             
               
             
@@ -206,16 +206,18 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .transition()
             .duration(600)
             .attr("y", (d) => y(d.value))
-            .style("fill", "red")
+            .style("fill", "url(#linePattern)")
 
             averageBinding
             .select("text")
             .transition()
             .duration(600)
-            .attr("x", () => (width/points.length) * (lowestValueIndex))
+            .attr("filter", "url(#solid)")
+            .attr("x", () => width )
             .attr("y", d => y(d.value) - 5)
             .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10 + " " + i18n(dataset.yAxis, "Index"))
-            .attr("text-anchor", leftLabel ? "start" : "end")
+            .attr("text-anchor", "end")
+            .style("font-weight", "bold")
 
             averageBinding.exit()
             .selectAll("rect, text")

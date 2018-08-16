@@ -32,7 +32,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
             if (this.props.cvWarnAt) {
                 suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, {warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
             } else {
-                suppressedCV = <p><sup>E</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
+                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
 
             }
 
