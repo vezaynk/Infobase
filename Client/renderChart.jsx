@@ -8,6 +8,20 @@ const height = 400;
 
 let xAxisLabel, yAxisLabel;
 
+d3.selection.prototype.moveToFront = function() {  
+    return this.each(function(){
+      this.parentNode.appendChild(this);
+    });
+  };
+  d3.selection.prototype.moveToBack = function() {  
+      return this.each(function() { 
+          var firstChild = this.parentNode.firstChild; 
+          if (firstChild) { 
+              this.parentNode.insertBefore(this, firstChild); 
+          } 
+      });
+  };
+
 export function updateChart(ref: Element, dataset: ChartData): void {
         let chart = d3.select(ref);
         let select = chart.select(".main")
@@ -42,25 +56,27 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         
         chart.selectAll("g.x-axis")
             .attr("transform", "translate(" + margin + "," + (height+margin) + ")")
+            .style("font-size", 14)
             .transition()
             .duration(600)
             .call(d3.axisBottom(x))
             
           .selectAll("text")
-            .attr("transform", "rotate(15)")
+            .attr("transform", "rotate(10)")
             .style("text-anchor", "start");
         
         xAxisLabel
               .text(dataset.xAxis["(EN, )"]); 
         
         yAxisLabel
-              .text(dataset.yAxis["(EN, Datatool)"]); 
+              .text(dataset.yAxis["(EN, Datatool)"])
+              .style("font-weight", "bold") 
               
         
-              pointBinding.enter().append("g").attr("class", "point").append("rect")
-            .attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
+            let enteredRect = pointBinding.enter().append("g").moveToBack().attr("class", "point").append("rect")
             
             
+            enteredRect.attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
             .attr("width", isTrend ? 10 : 25)
             .style("fill", "steelblue")
             .attr("ry",(isTrend ? 10 : 0))
@@ -69,7 +85,10 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .transition()
             .duration((_, i) => 600)
             .attr("y", (d) => y(d.value))
-            .attr("height", d => isTrend ? 10 : height - y(d.value));
+            .attr("height", d => isTrend ? 10 : height - y(d.value))
+
+            enteredRect.append("title")
+            .text(d => i18n(d.label) + ": " + d.value + " " + i18n(dataset.yAxis, "Index"));
               
             
             pointBinding
@@ -82,8 +101,9 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .attr("x", (d,i) => (i+0.5)*(width/points.length)-(isTrend ? 10 : 25)/2 )
             .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
             .attr("y", (d) => y(d.value))
-            
-            .style("fill", "steelblue");
+            .style("fill", "steelblue")
+            .select("title")
+            .text(d => i18n(d.label) + ": " + d.value + " " + i18n(dataset.yAxis, "Index"));
             
             pointBinding.exit().remove();
 
@@ -103,14 +123,17 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .duration((_, i) => 600)
             .attr("y", (d) => y(d.value))
 
+            let lowestValueIndex = (points.map(p=>p.value).indexOf(Math.min(...points.filter(p => p.value).map(p=>p.value))));
+            
             entered
             .append("text")
-            .attr("x", () => (width/points.length)*(points.map(p=>p.value).indexOf(Math.min(...points.map(p=>p.value)))) )
+            .attr("x", () => (width/points.length) * lowestValueIndex )
             .attr("y", height )
             .transition()
             .duration((_, i) => 600)
             .attr("y", d => y(d.value) - 5)
-            .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10)
+            .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10 + " " + i18n(dataset.yAxis, "Index"))
+            .attr("text-anchor", lowestValueIndex <= points.length/2 ? "start" : "end")
             
               
             
@@ -121,15 +144,14 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .attr("y", (d) => y(d.value))
             .style("fill", "red")
 
-            let lowestValueIndex = (points.map(p=>p.value).indexOf(Math.min(...points.map(p=>p.value).filter(p => p))));
             averageBinding
             .select("text")
             .transition()
             .duration(600)
             .attr("x", () => (width/points.length) * (lowestValueIndex))
             .attr("y", d => y(d.value) - 5)
-            .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10)
-            .attr("text-anchor", lowestValueIndex < points.length ? "start" : "end")
+            .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10 + " " + i18n(dataset.yAxis, "Index"))
+            .attr("text-anchor", lowestValueIndex <= points.length/2 ? "start" : "end")
 
             averageBinding.exit()
             .selectAll("rect, text")
@@ -204,10 +226,11 @@ gradient.append("stop")
     .attr("stop-opacity", 0);
 
     xAxisLabel = chart.append("text")
-.attr("y", height+margin+40)
+.attr("y", height+margin+55)
 .attr("x", (margin+width)/2)
 .attr("dy", "1em")
-.style("text-anchor", "middle");
+.style("text-anchor", "middle")
+.style("font-weight", "bold");
 
 yAxisLabel = chart.append("text")
 .attr("transform", "rotate(-90)")
