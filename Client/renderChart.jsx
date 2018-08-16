@@ -73,6 +73,8 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         let pointBinding = select.selectAll('g.point').data(points);
         let averageBinding = select.selectAll('g.average').data(averages);
         let cvUpperBinding = select.selectAll('g.cvUpper').data(points);
+        let cvLowerBinding = select.selectAll('g.cvLower').data(points);
+        let cvConnectBinding = select.selectAll('g.cvLower').data(points);
         /////
 
         let enteredcvUpper = pointBinding.enter().append("g").moveToBack().attr("class", "cvUpper").append("rect")
@@ -103,7 +105,34 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             
             cvUpperBinding.exit().remove();
 
-            let cvLowerBinding = select.selectAll('g.cvLower').data(points);
+            let enteredcvConnect = pointBinding.enter().append("g").moveToBack().attr("class", "cvConnect").append("rect")
+            
+            
+            enteredcvConnect.attr("x", (d,i) => (i+0.5)*(width/points.length)-2/2 )
+            .attr("width", 2)
+            .style("fill", "black")
+            .attr("y", height)
+            .transition()
+            .duration((_, i) => 600)
+            .attr("height", d => y(d.valueLower) - y(d.valueUpper))
+            .attr("y", (d) => y(d.valueUpper))
+
+            
+              
+            
+            cvConnectBinding
+            .select("rect")
+            .transition()
+            .duration(600)
+            .attr("width", 2)
+            .attr("x", (d,i) => (i+0.5)*(width/points.length)-2/2 )
+            .attr("height", d => y(d.valueLower) - y(d.valueUpper))
+            .attr("y", (d) => y(d.valueUpper))
+            .style("fill", "black")
+            
+            
+            cvConnectBinding.exit().remove();
+
         /////
 
         let enteredcvLower = pointBinding.enter().append("g").moveToBack().attr("class", "cvLower").append("rect")
