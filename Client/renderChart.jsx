@@ -26,10 +26,6 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         let chart = d3.select(ref);
         let select = chart.select(".main")
   
-
-        chart.select("#chartTitle")
-            .text(dataset.measureName["(EN, Datatool)"] + ", " + dataset.population["(EN, Index)"])
-        
         let isTrend = dataset.xAxis["(EN, )"].includes("Trend");
         
         let points = dataset.points.filter(point => point.type == 0 || isTrend)
@@ -43,11 +39,6 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         let y = d3.scaleLinear()
             .domain([0,d3.max(dataset.points, point => point.value)])
             .range([height,0]);
-        
-        console.log(points)
-        let pointBinding = select.selectAll('g.point').data(points);
-        let averageBinding = select.selectAll('g.average').data(averages);
-        
         chart.selectAll("g.y-axis")
             .attr("transform", "translate(" + margin + "," + margin + ")")
             .transition()
@@ -71,8 +62,77 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         yAxisLabel
               .text(dataset.yAxis["(EN, Datatool)"])
               .style("font-weight", "bold") 
-              
+
+        chart.select("#chartTitle")
+            .text(dataset.measureName["(EN, Datatool)"] + ", " + dataset.population["(EN, Index)"])
         
+        
+        console.log(points)
+        let pointBinding = select.selectAll('g.point').data(points);
+        let averageBinding = select.selectAll('g.average').data(averages);
+        let cvUpperBinding = select.selectAll('g.cvUpper').data(points);
+        /////
+
+        let enteredcvUpper = pointBinding.enter().append("g").moveToBack().attr("class", "cvUpper").append("rect")
+            
+            
+            enteredcvUpper.attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
+            .attr("width", 25)
+            .style("fill", "black")
+            .attr("y", height)
+            .transition()
+            .duration((_, i) => 600)
+            .attr("y", (d) => y(d.valueUpper))
+            .attr("height", 2)
+
+            
+              
+            
+            cvUpperBinding
+            .select("rect")
+            .transition()
+            .duration(600)
+            .attr("width", 25)
+            .attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
+            .attr("height", 2)
+            .attr("y", (d) => y(d.valueUpper))
+            .style("fill", "black")
+            
+            
+            cvUpperBinding.exit().remove();
+
+            let cvLowerBinding = select.selectAll('g.cvLower').data(points);
+        /////
+
+        let enteredcvLower = pointBinding.enter().append("g").moveToBack().attr("class", "cvLower").append("rect")
+            
+            
+            enteredcvLower.attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
+            .attr("width", 25)
+            .style("fill", "black")
+            .attr("y", height)
+            .transition()
+            .duration((_, i) => 600)
+            .attr("y", (d) => y(d.valueLower))
+            .attr("height", 2)
+
+            
+              
+            
+            cvLowerBinding
+            .select("rect")
+            .transition()
+            .duration(600)
+            .attr("width", 25)
+            .attr("x", (d,i) => (i+0.5)*(width/points.length)-25/2 )
+            .attr("height", 2)
+            .attr("y", (d) => y(d.valueLower))
+            .style("fill", "black")
+            
+            
+            cvLowerBinding.exit().remove();
+              
+        /////
             let enteredRect = pointBinding.enter().append("g").moveToBack().attr("class", "point").append("rect")
             
             
@@ -123,8 +183,12 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .duration((_, i) => 600)
             .attr("y", (d) => y(d.value))
 
-            let lowestValueIndex = (points.map(p=>p.value).indexOf(Math.min(...points.filter(p => p.value).map(p=>p.value))));
-            
+            let lowestValueIndex = (points.map(p=>+p.value).indexOf(Math.min(...points.map(p=>+p.value))));
+            if (points.length == 2)
+                lowestValueIndex = 1.5;
+
+            let leftLabel = lowestValueIndex < points.length/2;
+
             entered
             .append("text")
             .attr("x", () => (width/points.length) * lowestValueIndex )
@@ -133,7 +197,7 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .duration((_, i) => 600)
             .attr("y", d => y(d.value) - 5)
             .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10 + " " + i18n(dataset.yAxis, "Index"))
-            .attr("text-anchor", lowestValueIndex <= points.length/2 ? "start" : "end")
+            .attr("text-anchor", leftLabel ? "start" : "end")
             
               
             
@@ -151,7 +215,7 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .attr("x", () => (width/points.length) * (lowestValueIndex))
             .attr("y", d => y(d.value) - 5)
             .text(d => i18n(d.label) + ": " + Math.round(d.value*10)/10 + " " + i18n(dataset.yAxis, "Index"))
-            .attr("text-anchor", lowestValueIndex <= points.length/2 ? "start" : "end")
+            .attr("text-anchor", leftLabel ? "start" : "end")
 
             averageBinding.exit()
             .selectAll("rect, text")
