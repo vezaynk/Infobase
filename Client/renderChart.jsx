@@ -43,8 +43,10 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .attr("transform", "translate(" + margin + "," + margin + ")")
             .transition()
             .duration(600)
-            .call(d3.axisLeft(y));
-        
+            .call(d3.axisLeft(y))
+            .selectAll("text")
+            .attr("font-size", 14);
+
         chart.selectAll("g.x-axis")
             .attr("transform", "translate(" + margin + "," + (height+margin) + ")")
             .style("font-size", 14)
@@ -53,8 +55,8 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .call(d3.axisBottom(x))
             
           .selectAll("text")
-            .attr("transform", "rotate(10)")
-            .style("text-anchor", "start");
+            .attr("transform", "rotate(-25)")
+            .style("text-anchor", "end");
         
         xAxisLabel
               .text(dataset.xAxis["(EN, )"]); 
