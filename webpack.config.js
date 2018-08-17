@@ -8,6 +8,7 @@ module.exports = {
         app: './Client/App.jsx',
         vendor: './Client/Vendor.jsx'
     },
+    devtool: "source-map",
     output: {
         path: path.join(__dirname, 'wwwroot', 'js'),
         filename: '[name].js',

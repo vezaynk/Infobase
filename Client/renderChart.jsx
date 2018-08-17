@@ -26,13 +26,13 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         let chart = d3.select(ref);
         let select = chart.select(".main")
   
-        let isTrend = dataset.xAxis["(EN, )"].includes("Trend");
+        let isTrend = i18n(dataset.xAxis).includes("Trend");
         
         let points = dataset.points.filter(point => point.type == 0 || isTrend)
         let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
 
         let x = d3.scaleBand()
-            .domain(points.map(point => point.label["(EN, )"]))
+            .domain(points.map(point => i18n(point.label)))
             .range([0,width]);
         
             
@@ -59,14 +59,11 @@ export function updateChart(ref: Element, dataset: ChartData): void {
             .style("text-anchor", "end");
         
         xAxisLabel
-              .text(dataset.xAxis["(EN, )"]); 
+              .text(i18n(dataset.xAxis)); 
         
         yAxisLabel
-              .text(dataset.yAxis["(EN, Datatool)"])
+              .text(i18n(dataset.yAxis, "Datatool"))
               .style("font-weight", "bold") 
-
-        chart.select("#chartTitle")
-            .text(dataset.measureName["(EN, Datatool)"] + ", " + dataset.population["(EN, Index)"])
         
         
         console.log(points)

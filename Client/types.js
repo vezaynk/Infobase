@@ -26,7 +26,8 @@ export type ChartData = {
         valueLower: ?number,
         label: MultilangText,
         cvValue: ?number,
-        cvInterpretation: 1 | 2 | 3
+        cvInterpretation: 1 | 2 | 3,
+        type: 0 | 1 | 2
     }>,
     source: MultilangText,
     organization: MultilangText,

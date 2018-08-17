@@ -86,7 +86,7 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata/Details/
-        public async Task<IActionResult> Datatool(string culture, int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1)
+        public async Task<IActionResult> Datatool(string culture, int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1, bool api = false)
         {
             /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
 
@@ -118,7 +118,10 @@ namespace Infobase.Controllers
                     .ThenInclude(t => t.Translation)
                 .Include(s => s.StrataSourceTranslations)
                     .ThenInclude(t => t.Translation)
-
+                .Include(s => s.StrataPopulationTranslations)
+                    .ThenInclude(t => t.Translation)
+            
+            
                 // Measure
                 .Include(s => s.Measure.MeasureUnitTranslations)
                     .ThenInclude(t => t.Translation)
@@ -129,6 +132,12 @@ namespace Infobase.Controllers
                 .Include(s => s.Measure.MeasurePopulationTranslations)
                     .ThenInclude(t => t.Translation)
                 .Include(s => s.Measure.MeasureSourceTranslations)
+                    .ThenInclude(t => t.Translation)
+                .Include(s => s.Measure.MeasureAdditionalRemarksTranslations)
+                    .ThenInclude(t => t.Translation)
+                .Include(s => s.Measure.MeasureMethodTranslations)
+                    .ThenInclude(t => t.Translation)
+                .Include(s => s.Measure.MeasureDataAvailableTranslations)
                     .ThenInclude(t => t.Translation)
 
                 // Points
@@ -199,15 +208,14 @@ namespace Infobase.Controllers
             var chart = new ChartData {
                 XAxis = strata.StrataName,
                 YAxis = strata.Measure.MeasureUnit,
-                Source = strata.StrataSource,
-                Organization = strata.Measure.MeasureSource,
-                Population = strata.Measure.MeasurePopulation,
+                Source = new Translatable(strata.Measure.MeasureSource.Union(strata.StrataSource).ToDictionary(p => p.Key, p => p.Value)),
+                // Both stratas AND measure contain populations. They must be merged.
+                Population = new Translatable(strata.Measure.MeasurePopulation.Union(strata.StrataPopulation).ToDictionary(p => p.Key, p => p.Value)),
                 Notes = strata.StrataNotes,
-                Remarks = new Translatable(),
+                Remarks = strata.Measure.MeasureAdditionalRemarks,
                 Definition = strata.Measure.MeasureDefinition,
-                Method = new Translatable(),
-                DataAvailable = new Translatable(),
-                // TODO: Add ordering to points
+                Method = strata.Measure.MeasureMethod,
+                DataAvailable = strata.Measure.MeasureDataAvailable,
                 Points = strata.Points.OrderBy(p => p.Index).Select(p => new ChartData.Point {
                     CVInterpretation = p.CVInterpretation,
                     CVValue = p.CVValue,
@@ -300,7 +308,7 @@ namespace Infobase.Controllers
             cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas, strataId));
 
 
-            if (Request.Method == "GET")
+            if (Request.Method == "GET" && !api)
                 return View(cpm);
             else
                 return Json(cpm);

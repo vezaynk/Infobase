@@ -82,7 +82,7 @@
                                     indicatorFirst = false;
                                     <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get(("EN", null))</MiniTex></td>
                                 }
-                                <td><MiniTex>@measure.MeasureName.Get(("EN", null))</MiniTex></td>
+                                <td><MiniTex>@measure.MeasureName.Get(("EN", "Index"))</MiniTex></td>
                                 @if (measure.DefaultStrataId == null)
                                 {
                                     <td><MiniTex>-</MiniTex></td>
@@ -96,7 +96,7 @@
                                     }
                                 }
 
-                                <td><MiniTex>@measure.MeasureSource.Get(("EN", null))</MiniTex></td>
+                                <td><MiniTex>@measure.MeasureSource.Get(("EN", "Index"))</MiniTex></td>
                                 <td>
                                     @if (measure.Included)
                                     {

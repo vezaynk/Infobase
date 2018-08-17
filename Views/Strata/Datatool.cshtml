@@ -61,14 +61,14 @@
         var cvSuppressText = new Translatable() {
                                                 {("EN", null), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."},
                                                 {("FR", null), "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées."},
-                                                {("FR", "alt"), "red nope"},
-                                                {("EN", "alt"), "red nope"}
+                                                {("FR", "alt"), "cannot be displayed but red"},
+                                                {("EN", "alt"), "cannot be displayed but red en francais"}
                                                 
                                                 };
     }
     <div class="row">
 <div class="col-sm-12">
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: false)
+    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: true)
 </div>
 </div>
 <div class="row brdr-bttm">
@@ -87,26 +87,25 @@
 
         <div class="row">
         <div class="col-sm-12">
-            <table class="table table-striped table-hover table-condensed table-bordered">
-                <tbody>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Définition" : "Definition")</strong></td>
-                        <td>@Model.ChartData.Definition.Get(("EN", null))</td>
-                    </tr>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Ventilation des données" : "Data Available")</strong></td>
-                        <td>@Model.ChartData.DataAvailable.Get(("EN", null))</td>
-                    </tr>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Méthodes de calculs" : "Methods Calculation")</strong></td>
-                        <td>@Model.ChartData.Method.Get(("EN", null))</td>
-                    </tr>
-                    <tr>
-                        <td><strong>@(Model.LanguageCode == "FR" ? "Remarques supplémentaires" : "Additional Notes")</strong></td>
-                        <td>@Model.ChartData.Remarks.Get(("EN", null))</td>
-                    </tr>
-                </tbody>
-            </table>
+            @Html.React("Components.DescriptionTable", new { definitionText = new Translatable() {
+                {("EN", null), "Definition"},
+                {("FR", null), "Définition"}
+            },
+            dataAvailableText = new Translatable() {
+                {("EN", null), "Data Available"},
+                {("FR", null), "Ventilation des données"}
+            },
+            
+            methodsText = new Translatable() {
+                {("EN", null), "Methods Calculation"},
+                {("FR", null), "Méthodes de calculs"}
+            },
+            remarksText = new Translatable() {
+                {("EN", null), "Additional Notes"},
+                {("FR", null), "Remarques supplémentaires"}
+            }
+            }, clientOnly: true)
+            
 </div>
         </div>
 

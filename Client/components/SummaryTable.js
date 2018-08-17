@@ -43,13 +43,14 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
             <div className="col-md-12">
     <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">
         <caption>
-            {i18n(this.props.chartData.measureName)}, {i18n(this.props.chartData.population)}
+            {i18n(this.props.chartData.measureName)},
+             {i18n(this.props.chartData.population, "Datatool")}
         </caption>
 
         <thead>
             <tr>
                 <th className="text-left" scope="col">{i18n(this.props.chartData.xAxis)}</th>
-                <th className="text-center" scope="col">{i18n(this.props.chartData.yAxis)}</th>
+                <th className="text-center" scope="col">{i18n(this.props.chartData.yAxis, "Datatool")}</th>
                 <th className="text-center" scope="col">95% <abbr title="Confidence Interval">CI</abbr></th>
             </tr>
         </thead>
@@ -96,7 +97,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                 {i18n(this.props.chartData.remarks)}
             </p>
             <p>
-                <strong>Source: </strong>{i18n(this.props.chartData.source)}
+                <strong>Source: </strong>{i18n(this.props.chartData.source, "Datatool")}
             </p>
 
             <p>{i18n(this.props.cellsEmpty)}</p>
