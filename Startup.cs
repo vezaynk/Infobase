@@ -51,6 +51,10 @@ namespace Infobase
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Remove me
+            //app.UseDeveloperExceptionPage();
+
+            // Uncomment
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -60,7 +64,7 @@ namespace Infobase
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            //
             app.UseReact(config =>
             {
                 config
@@ -70,11 +74,14 @@ namespace Infobase
                     .AddScriptWithoutTransform("~/js/app.js");
             });
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
-            app.Use(async (context, next) =>
+            // Uncomment is needed (cookies, https), probably unnecessary behind IIS
+            /*app.UseHttpsRedirection();
+            app.UseCookiePolicy();*/
+
+            // Uncomment me at the very end when everything works. It MIGHT break things. This is the last thing to uncomment.
+            /*app.Use(async (context, next) =>
                 {
                     var path = context.Request.Path.Value.Trim('/').Split('/');
                     string culture = "EN";
@@ -104,7 +111,8 @@ namespace Infobase
                     context.Request.Path = $"/{culture}/{controller}/{action}/{id}";
 
                     await next.Invoke();
-                });
+                });*/
+
             app.UseMvc(routes =>
              {
                  routes.MapRoute("default", "{culture=EN}/{controller=Strata}/{action=Index}/{id?}");

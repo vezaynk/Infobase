@@ -25,7 +25,7 @@ namespace Infobase
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://0.0.0.0:" +  Program.Port.ToString())
+                //.UseUrls("http://0.0.0.0:" +  Program.Port.ToString())
                 .UseStartup<Startup>();
     }
 }

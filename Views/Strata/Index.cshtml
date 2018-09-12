@@ -4,7 +4,7 @@
     Layout = "_Layout.cshtml";
 }
 
-@{ 
+@{
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
     // TODO: dynamic language code
     var lifeCourseNames = Model.OrderBy(x => x.Index)
@@ -15,120 +15,129 @@
 }
 
 <section class="col-sm-12">
-<div class="row">
-<div class="col-md-8">
+    <div class="row">
+        <div class="col-md-8">
             <p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provide surveillance information on physical activity, sedentary behaviour and sleep behaviour risk and protective factors among Canadians. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: Individual, Family/social environment, and Built/society environment. Pan-Canadian statistics are presented where data are available.</p>
 
             <p>For a quick overview of the PASS Indicators click on any of the three activities listed below. A list of all indicator groups, indicators and their measures, for children and youth (aged 5 to 17) and adults (aged 18+), with their corresponding pan-Canadian estimates, will unfold. Additionally, a detailed description of each measure can be obtained by clicking on the “Description” link next to each measure. Printer-friendly PDF “Quick Stats” documents of the PASS Indicators for both <a href="/src/doc/pass_childrenyouth_en.pdf">children and youth</a>, and <a href="/src/doc/pass_adults_en.pdf">adults</a> are also available.</p>
 
             <p>Once developed, the interactive PASS Indicators “Data Tool”, will provide data breakdowns by key demographic and socioeconomic variables for each of the measures within the Framework.</p>
             <p><a asp-action="Datatool" class="btn btn-success">Use the PASS Data Tool</a></p>
-</div>
+        </div>
 
-<div class="col-md-4">
-<figure class="thumbnail"><a href="/src/doc/pass_childrenyouth_en.pdf"><img src="~/assets/pass2017_eng.png" width="350" height="350" alt="PASS Quick Stats is also available in a printer-friendly format (PDF document). For an accessible equivalent, please use the table below."></a>
-<figcaption class="caption">
-<p><strong>PASS Quick Stats is also available in a printer-friendly format (<a href="/src/doc/pass_adults_en.pdf">Adult (.pdf)</a> and <a href="/src/doc/pass_childrenyouth_en.pdf">Children and Youth (.pdf)</a>)</strong></p>
-</figcaption>
-</figure>
-</div>
-</div>
-<br>
+        <div class="col-md-4">
+            <figure class="thumbnail">
+                <a href="/src/doc/pass_childrenyouth_en.pdf"><img src="~/assets/pass2017_eng.png" width="350" height="350" alt="PASS Quick Stats is also available in a printer-friendly format (PDF document). For an accessible equivalent, please use the table below."></a>
+                <figcaption class="caption">
+                    <p><strong>PASS Quick Stats is also available in a printer-friendly format (<a href="/src/doc/pass_adults_en.pdf">Adult (.pdf)</a> and <a href="/src/doc/pass_childrenyouth_en.pdf">Children and Youth (.pdf)</a>)</strong></p>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+    <br>
 
-<h2>Quick Stats Overview</h2>
-<p>For more information about each indicator, click on the domains below:</p>
-        </section>
-@foreach (var lifeCourseName in lifeCourseNames)
-{
+    <h2>Quick Stats Overview</h2>
+    <p>For more information about each indicator, click on the domains below:</p>
+</section>
+<div class="row">
+    <div class="col-sm-12">
+        @foreach (var lifeCourseName in lifeCourseNames)
+        {
 
-    <h3>@lifeCourseName</h3>
-    foreach (var activity in Model.OrderBy(x => x.Index))
-    {
+            <h3>@lifeCourseName</h3>
 
-    <details>
-        <summary>@activity.ActivityName.Get(("EN", null))</summary>
-        <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th class="width-20" scope="col">Indicator Group</th>
-                    <th class="width-20" scope="col">Indicator</th>
-                    <th class="width-30" scope="col">Indicator Measure(s)</th>
-                    <th class="width-10" scope="col">Latest Data</th>
-                    <th class="width-20" scope="col">Source (Year)</th>
-                    <th scope="col">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var indicatorGroup in activity.IndicatorGroups.OrderBy(x => x.Index))
-                {
+            foreach (var activity in Model.OrderBy(x => x.Index))
+            {
 
-                    var igFirst = true;
-                    // Must only select indicators which are a subset of the desired lifecourse
-                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get(("EN", null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
-                    foreach (var indicator in indicators.OrderBy(x => x.Index))
-                    {
-                        var indicatorFirst = true;
-                        foreach (var measure in indicator.Measures.OrderBy(x => x.Index))
-                        {
-                            <tr>
-                                @if (igFirst)
+                <details>
+                    <summary>@activity.ActivityName.Get(("EN", null))</summary>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="width-20" scope="col">Indicator Group</th>
+                                    <th class="width-20" scope="col">Indicator</th>
+                                    <th class="width-30" scope="col">Indicator Measure(s)</th>
+                                    <th class="width-10" scope="col">Latest Data</th>
+                                    <th class="width-20" scope="col">Source (Year)</th>
+                                    <th scope="col">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var indicatorGroup in activity.IndicatorGroups.OrderBy(x => x.Index))
                                 {
-                                    igFirst = false;
-                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get(("EN", null)) </MiniTex></td>
-                                }
-                                @if (indicatorFirst)
-                                {
-                                    indicatorFirst = false;
-                                    <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get(("EN", null))</MiniTex></td>
-                                }
-                                <td><MiniTex>@measure.MeasureName.Get(("EN", "Index"))</MiniTex></td>
-                                @if (measure.DefaultStrataId == null)
-                                {
-                                    <td><MiniTex>-</MiniTex></td>
-                                }
-                                else
-                                {
-                                    if (measure.MeasurePoint.ValueAverage == null) {
-                                        <td>-</td>
-                                    } else {
-                                        <td><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, "EN") @measure.MeasureUnit.Get(("EN", "Index"))</MiniTex></td>
-                                    }
-                                }
 
-                                <td><MiniTex>@measure.MeasureSource.Get(("EN", "Index"))</MiniTex></td>
-                                <td>
-                                    @if (measure.Included)
+                                    var igFirst = true;
+                                    // Must only select indicators which are a subset of the desired lifecourse
+                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get(("EN", null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
+                                    foreach (var indicator in indicators.OrderBy(x => x.Index))
                                     {
-                                        <a asp-action="Details" asp-route-id="@measure.MeasureId" class="btn btn-default">Description</a>
+                                        var indicatorFirst = true;
+                                        foreach (var measure in indicator.Measures.OrderBy(x => x.Index))
+                                        {
+                                            <tr>
+                                                @if (igFirst)
+                                                {
+                                                    igFirst = false;
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get(("EN", null)) </MiniTex></td>
+                                                }
+                                                @if (indicatorFirst)
+                                                {
+                                                    indicatorFirst = false;
+                                                    <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get(("EN", null))</MiniTex></td>
+                                                }
+                                                <td><MiniTex>@measure.MeasureName.Get(("EN", "Index"))</MiniTex></td>
+                                                @if (measure.DefaultStrataId == null)
+                                                {
+                                                    <td><MiniTex>-</MiniTex></td>
+                                                }
+                                                else
+                                                {
+                                                    if (measure.MeasurePoint.ValueAverage == null)
+                                                    {
+                                                        <td>-</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, "EN") @measure.MeasureUnit.Get(("EN", "Index"))</MiniTex></td>
+                                                    }
+                                                }
+
+                                                <td><MiniTex>@measure.MeasureSource.Get(("EN", "Index"))</MiniTex></td>
+                                                <td>
+                                                    @if (measure.Included)
+                                                    {
+                                                        <a asp-action="Details" asp-route-id="@measure.MeasureId" class="btn btn-default">Description</a>
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+
                                     }
-
-                                </td>
-                            </tr>
-                        }
-
-                    }
-                }
-            </tbody>
-        </table>
-        </div>
-    </details>
                                 }
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
 
-                            }
-                            <br>
-                            <div class="panel panel-info">
-            <div class="panel-heading">
-                <h2 class="panel-title">Notes</h2>
-            </div>
-            <div class="panel-body small">
-<ul class="list-unstyled">
-<li><strong>Abbreviations:</strong> CCHS, Canadian Community Health Survey; CCHS RR, Canadian Community Health Survey Rapid Response; CHMS, Canadian Health Measures Survey;GSS, General Social Survey; HBSC, Health Behaviours in School-aged Children; HBSC-Admin, Health Behaviours in School-aged Children Administrator Survey; PAM, Physical Activity Monitor.</li>
-<li><strong>Note:</strong> “In development” refers to measures that are under development either because a data source is currently not available or because more research has to be done to identify a promising measure and data source.</li>
-<li><strong>Correspondence:</strong> Behaviours, Environments and Lifespan Team, Centre for Surveillance and Applied Research, Public Health Agency of Canada, 785 Carling Avenue, Ottawa, ON K1A 0K9; Email: <a href="mailto:Infobase@phac-aspc.gc.ca">Infobase@phac-aspc.gc.ca</a></li>
-<li><strong>Suggested citation (Adults):</strong> Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators: Quick Stats, adults (18 years of age and older), Canada, 2017 edition. Ottawa (ON): Public Health Agency of Canada; 2017.</li>
-<li><strong>Suggested citation (Children and Youth):</strong> Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) indicators: Quick Stats, children (aged 5 to 11) and youth (aged 12 to 17), Canada, 2017 edition. Ottawa (ON): Public Health Agency of Canada; 2017.</li>
-<li><a href="https://www.canada.ca/en/services/health/monitoring-surveillance/physical-activity-sedentary-behaviour-sleep.html">Learn more about PASS</a></li>
-</ul>
-            </div>
-        </div>
+            }
+        }
+    </div>
+</div>
+<br/>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title">Notes</h2>
+    </div>
+    <div class="panel-body small">
+        <ul class="list-unstyled">
+            <li><strong>Abbreviations:</strong> CCHS, Canadian Community Health Survey; CCHS RR, Canadian Community Health Survey Rapid Response; CHMS, Canadian Health Measures Survey;GSS, General Social Survey; HBSC, Health Behaviours in School-aged Children; HBSC-Admin, Health Behaviours in School-aged Children Administrator Survey; PAM, Physical Activity Monitor.</li>
+            <li><strong>Note:</strong> “In development” refers to measures that are under development either because a data source is currently not available or because more research has to be done to identify a promising measure and data source.</li>
+            <li><strong>Correspondence:</strong> Behaviours, Environments and Lifespan Team, Centre for Surveillance and Applied Research, Public Health Agency of Canada, 785 Carling Avenue, Ottawa, ON K1A 0K9; Email: <a href="mailto:Infobase@phac-aspc.gc.ca">Infobase@phac-aspc.gc.ca</a></li>
+            <li><strong>Suggested citation (Adults):</strong> Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators: Quick Stats, adults (18 years of age and older), Canada, 2017 edition. Ottawa (ON): Public Health Agency of Canada; 2017.</li>
+            <li><strong>Suggested citation (Children and Youth):</strong> Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) indicators: Quick Stats, children (aged 5 to 11) and youth (aged 12 to 17), Canada, 2017 edition. Ottawa (ON): Public Health Agency of Canada; 2017.</li>
+            <li><a href="https://www.canada.ca/en/services/health/monitoring-surveillance/physical-activity-sedentary-behaviour-sleep.html">Learn more about PASS</a></li>
+        </ul>
+    </div>
+</div>
