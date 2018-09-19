@@ -15,6 +15,7 @@
     "d3": "^5.5.0",
     "d3-tip": "^0.9.1",
     "html-webpack-plugin": "^3.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^16.4.1",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.1",
@@ -40,12 +41,14 @@
     "webpack-cli": "^3.1.0"
   },
   "babel": {
-    "plugins": [ "transform-class-properties" ],
+    "plugins": [
+      "transform-class-properties"
+    ],
     "presets": [
       "env",
       "react",
-      "stage-2"
-      ,"es2015"
+      "stage-2",
+      "es2015"
     ]
   }
 }

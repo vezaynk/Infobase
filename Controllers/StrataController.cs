@@ -86,7 +86,7 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata/Details/
-        public async Task<IActionResult> Datatool(string culture, int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = 1, bool api = false)
+        public async Task<IActionResult> Datatool(string culture, int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = -1, bool api = false)
         {
             /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
 
@@ -104,9 +104,6 @@ namespace Infobase.Controllers
 
             if (measureId != null)
                 strataId = _context.Measure.FirstOrDefault(m => m.MeasureId == measureId && m.DefaultStrataId != null).DefaultStrataId ?? -1;
-
-            if (strataId < 0)
-                return NotFound();
             
 
             var strata = await _context.Strata
@@ -196,8 +193,9 @@ namespace Infobase.Controllers
                     .ThenInclude(p => p.IndicatorGroups)
                         .ThenInclude(p => p.IndicatorGroupNameTranslations)
                             .ThenInclude(t => t.Translation)
-
-                .FirstOrDefaultAsync(m => m.StrataId == strataId);
+                .OrderBy(m => m.StrataId == strataId ? 0 : 1)
+                .ThenBy(m => m.Index)
+                .FirstOrDefaultAsync();
 
 
             if (strata == null)
