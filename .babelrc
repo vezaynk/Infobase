@@ -3,8 +3,8 @@
   "presets": [
     "react",
     "stage-0",
-    "flow"
-      //,"es2015"
+    "flow",
+    "es2015"
     
   ]
 }

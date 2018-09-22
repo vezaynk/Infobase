@@ -333,3 +333,4 @@ ASALocalRun/
 .DS_Store
 
 flow-typed
+appsettings.*
