@@ -18,6 +18,7 @@ namespace Infobase.Controllers
 
         public StrataController(PASSContext context)
         {
+            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _context = context;
         }
 
