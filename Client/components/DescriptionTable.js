@@ -39,6 +39,6 @@ export class DescriptionTable extends React.Component<DescriptionTableProps> {
                     </tr>
                 </tbody>
             </table>
-        )
+        );
     }
 }

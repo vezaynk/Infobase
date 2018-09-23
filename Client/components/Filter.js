@@ -32,6 +32,6 @@ export class Filter extends React.Component<FilterProps> {
                     <input className="btn btn-xs btn-default full-width" type="submit" />
                 </div>
             </form>
-        )
+        );
     }
 }

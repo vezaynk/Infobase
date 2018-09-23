@@ -46,7 +46,7 @@ export class FilterBox extends React.Component<FilterBoxProps> {
             <span className="text-info">{i18n(this.props.prompt)}:</span>
             <div className="form-group-md">
                 {
-                    this.props.filters.map((filter) =>
+                    this.props.filters.map(filter =>
                         <Filter
                             key={filter.id}
                             id={filter.id}
