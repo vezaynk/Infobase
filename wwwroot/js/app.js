@@ -168,10 +168,7 @@ function i18n(translatable, type, substitutions = {}) {
     return text.toString();
 }
 
-function numberFormat(number) {
-    if (number == null) return "";
-    return new Intl.NumberFormat(_store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number);
-}
+const numberFormat = new Intl.NumberFormat(_store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format;
 
 /***/ }),
 

@@ -7,7 +7,7 @@ import { connect, Provider } from 'react-redux';
 import { Chart } from "../components/Chart";
 import { dataExplorerStore } from '../store/dataExplorer'
 import { updateChartData } from '../reducers/dataExplorerReducer';
-import type { ChartData, UpdateLoadState, Action, DataExplorerState } from "../types";
+import type { ChartData, DataExplorerState } from "../types";
 
 const mapStateToChartProps = (state: DataExplorerState, props) => ({
     chartData: state.chartData
