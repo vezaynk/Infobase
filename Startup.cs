@@ -51,8 +51,9 @@ namespace Infobase
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UsePathBase("/test");
             // Remove me
-            //app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
 
             // Uncomment
             if (env.IsDevelopment())
@@ -81,7 +82,7 @@ namespace Infobase
             app.UseCookiePolicy();*/
 
             // Uncomment me at the very end when everything works. It MIGHT break things. This is the last thing to uncomment.
-            /*app.Use(async (context, next) =>
+            app.Use(async (context, next) =>
                 {
                     var path = context.Request.Path.Value.Trim('/').Split('/');
                     string culture = "EN";
@@ -111,10 +112,11 @@ namespace Infobase
                     context.Request.Path = $"/{culture}/{controller}/{action}/{id}";
 
                     await next.Invoke();
-                });*/
-
+                });
+            
             app.UseMvc(routes =>
              {
+                 //new Route(routes.DefaultHandler, "{culture=EN}/{controller=Strata}/{action=Index}/{id?}", routes.);
                  routes.MapRoute("default", "{culture=EN}/{controller=Strata}/{action=Index}/{id?}");
              });
         }

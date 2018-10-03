@@ -17,18 +17,20 @@ export type FilterData = {
     selected: number
 }
 
+export type TPoint = {
+    value: ?number,
+    valueUpper: ?number,
+    valueLower: ?number,
+    label: MultilangText,
+    cvValue: ?number,
+    cvInterpretation: 1 | 2 | 3,
+    type: 0 | 1 | 2
+};
+
 export type ChartData = {
     xAxis: MultilangText,
     yAxis: MultilangText,
-    points: Array<{
-        value: ?number,
-        valueUpper: ?number,
-        valueLower: ?number,
-        label: MultilangText,
-        cvValue: ?number,
-        cvInterpretation: 1 | 2 | 3,
-        type: 0 | 1 | 2
-    }>,
+    points: Array<TPoint>,
     source: MultilangText,
     organization: MultilangText,
     population: MultilangText,

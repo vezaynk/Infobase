@@ -1,7 +1,7 @@
 ﻿// @flow
 import * as d3 from "d3";
 import { i18n, numberFormat } from "./Translator";
-import type { ChartData } from './types';
+import type { ChartData, TPoint } from './types';
 const margin = 60;
 const width = 700;
 const height = 600;
@@ -22,7 +22,24 @@ d3.selection.prototype.moveToBack = function () {
     });
 };
 
-export function updateChart(ref: Element, dataset: ChartData): void {
+const isBetween = (val, up, low) => val >= low && val <= up;
+const isPointInRange = (upper, lower, point: TPoint) => {
+    let checkRange = val => isBetween(val, upper, lower);
+    console.log(upper, lower, point)
+    debugger;
+    if (checkRange(point.valueUpper) || checkRange(point.value) || checkRange(point.valueLower))
+        return true;
+
+    checkRange = val => isBetween(val, point.valueUpper, point.valueLower);
+    if (checkRange(upper) || checkRange(lower))
+        return true;
+
+    return false;
+}
+
+let updateHighlight = (index: number, upper: number, lower: number): void => console.error("Must init graph");
+
+export function updateChart(ref: Element, dataset: ChartData, highlightIndex: number, highlightUpper: number, highlightLower: number): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
@@ -160,10 +177,9 @@ export function updateChart(ref: Element, dataset: ChartData): void {
     /////
     let enteredRect = pointBinding.enter().append("g").moveToBack().attr("class", "point").append("rect")
 
-
     enteredRect.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("width", isTrend ? 10 : 25)
-        .style("fill", "steelblue")
+        //.style("fill", "steelblue")
         .attr("ry", (isTrend ? 10 : 0))
         .attr("rx", (isTrend ? 10 : 0))
         .attr("y", height)
@@ -171,6 +187,8 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         .duration((_, i) => 600)
         .attr("y", (d) => y(d.value))
         .attr("height", d => isTrend ? 10 : height - y(d.value))
+        .attr("fill", "steelblue")
+        .attr("opacity", (d, i)=> !isPointInRange(highlightUpper, highlightLower, d) ? 1 : 0.2)
 
     enteredRect.append("title")
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
@@ -186,10 +204,14 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2)
         .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
         .attr("y", (d) => y(d.value))
-        .style("fill", "steelblue")
+        .attr("fill", "steelblue")
+        .attr("opacity", (d, i)=> !isPointInRange(highlightUpper, highlightLower, d) ? 1 : 0.2)
         .select("title")
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
 
+
+        pointBinding.on("mouseover", (_, i) => updateHighlight(i))
+        pointBinding.on("mouseout", (_, i) => updateHighlight(-1))
     pointBinding.exit().remove();
 
     let enteredAverage = averageBinding.enter().append("g");
@@ -289,8 +311,8 @@ export function updateChart(ref: Element, dataset: ChartData): void {
         .remove();
 }
 
-export function initChart(ref: Element, dataset: ChartData) {
-
+export function initChart(ref: Element, dataset: ChartData, update) {
+    updateHighlight = update;
     const svg = d3.select(ref)
 
     var chart = svg
@@ -335,5 +357,5 @@ export function initChart(ref: Element, dataset: ChartData) {
         .attr("transform", "translate(" + margin + "," + margin + ")")
 
 
-    updateChart(ref, dataset);
+    updateChart(ref, dataset, -1, 0, 0);
 }

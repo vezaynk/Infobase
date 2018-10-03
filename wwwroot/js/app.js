@@ -168,7 +168,10 @@ function i18n(translatable, type, substitutions = {}) {
     return text.toString();
 }
 
-const numberFormat = new Intl.NumberFormat(_store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format;
+function numberFormat(number) {
+    if (number == null) return "";
+    return new Intl.NumberFormat(_store_dataExplorer__WEBPACK_IMPORTED_MODULE_0__["dataExplorerStore"].getState().languageCode, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number);
+}
 
 /***/ }),
 
@@ -187,7 +190,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
-/* harmony import */ var _renderChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../renderChart */ "./Client/renderChart.jsx");
+/* harmony import */ var _renderChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../renderChart */ "./Client/renderChart.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -196,13 +201,28 @@ __webpack_require__.r(__webpack_exports__);
 
 class Chart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
+    constructor(props) {
+        super(props);
+    }
     componentDidMount() {
-        if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_3__["initChart"])(this.graph, this.props.chartData);
+        this.setState({ isMounted: false, highlightIndex: -1, highlightUpper: 0, highlightLower: 0 });
+        if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_3__["initChart"])(this.graph, this.props.chartData, highlightIndex => this.setState(_extends({}, this.state, {
+            highlightIndex
+        })));
 
-        this.setState({ isMounted: true });
+        this.setState(_extends({}, this.state, { isMounted: true }));
     }
     componentDidUpdate() {
-        if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_3__["updateChart"])(this.graph, this.props.chartData);
+        let valueUpper = 0;
+        let valueLower = 0;
+
+        let highlighted = this.props.chartData.points[this.state.highlightIndex];
+        if (highlighted) {
+            if (highlighted.valueUpper) valueUpper = highlighted.valueUpper;
+            if (highlighted.valueLower) valueLower = highlighted.valueLower;
+        }
+
+        if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_3__["updateChart"])(this.graph, this.props.chartData, this.state.highlightIndex, valueUpper, valueLower);
     }
     render() {
         return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](
@@ -1025,10 +1045,10 @@ const dataExplorerReducer = (previousState = initialState, action) => {
 
 /***/ }),
 
-/***/ "./Client/renderChart.jsx":
-/*!********************************!*\
-  !*** ./Client/renderChart.jsx ***!
-  \********************************/
+/***/ "./Client/renderChart.js":
+/*!*******************************!*\
+  !*** ./Client/renderChart.js ***!
+  \*******************************/
 /*! exports provided: updateChart, initChart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1061,7 +1081,22 @@ d3__WEBPACK_IMPORTED_MODULE_0__["selection"].prototype.moveToBack = function () 
     });
 };
 
-function updateChart(ref, dataset) {
+const isBetween = (val, up, low) => val >= low && val <= up;
+const isPointInRange = (upper, lower, point) => {
+    let checkRange = val => isBetween(val, upper, lower);
+    console.log(upper, lower, point);
+    debugger;
+    if (checkRange(point.valueUpper) || checkRange(point.value) || checkRange(point.valueLower)) return true;
+
+    checkRange = val => isBetween(val, point.valueUpper, point.valueLower);
+    if (checkRange(upper) || checkRange(lower)) return true;
+
+    return false;
+};
+
+let updateHighlight = (index, upper, lower) => console.error("Must init graph");
+
+function updateChart(ref, dataset, highlightIndex, highlightUpper, highlightLower) {
     let chart = d3__WEBPACK_IMPORTED_MODULE_0__["select"](ref);
     let select = chart.select(".main");
 
@@ -1118,12 +1153,16 @@ function updateChart(ref, dataset) {
     /////
     let enteredRect = pointBinding.enter().append("g").moveToBack().attr("class", "point").append("rect");
 
-    enteredRect.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2).attr("width", isTrend ? 10 : 25).style("fill", "steelblue").attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value)).attr("height", d => isTrend ? 10 : height - y(d.value));
+    enteredRect.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2).attr("width", isTrend ? 10 : 25)
+    //.style("fill", "steelblue")
+    .attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration((_, i) => 600).attr("y", d => y(d.value)).attr("height", d => isTrend ? 10 : height - y(d.value)).attr("fill", "steelblue").attr("opacity", (d, i) => !isPointInRange(highlightUpper, highlightLower, d) ? 1 : 0.2);
 
     enteredRect.append("title").text(d => Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(d.label) + ": " + Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(d.value) + " " + Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(dataset.yAxis, "Index"));
 
-    pointBinding.select("rect").transition().duration(600).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("width", isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2).attr("height", (d, i) => isTrend ? 10 : height - y(d.value)).attr("y", d => y(d.value)).style("fill", "steelblue").select("title").text(d => Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(d.label) + ": " + Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(d.value) + " " + Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(dataset.yAxis, "Index"));
+    pointBinding.select("rect").transition().duration(600).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("width", isTrend ? 10 : 25).attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2).attr("height", (d, i) => isTrend ? 10 : height - y(d.value)).attr("y", d => y(d.value)).attr("fill", "steelblue").attr("opacity", (d, i) => !isPointInRange(highlightUpper, highlightLower, d) ? 1 : 0.2).select("title").text(d => Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(d.label) + ": " + Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["numberFormat"])(d.value) + " " + Object(_Translator__WEBPACK_IMPORTED_MODULE_1__["i18n"])(dataset.yAxis, "Index"));
 
+    pointBinding.on("mouseover", (_, i) => updateHighlight(i));
+    pointBinding.on("mouseout", (_, i) => updateHighlight(-1));
     pointBinding.exit().remove();
 
     let enteredAverage = averageBinding.enter().append("g");
@@ -1158,8 +1197,8 @@ function updateChart(ref, dataset) {
     paths.exit().transition().duration(600).attr("transform", "translate(" + (margin + 2.5) + ",-" + 10 + ")").attr("opacity", 0).remove();
 }
 
-function initChart(ref, dataset) {
-
+function initChart(ref, dataset, update) {
+    updateHighlight = update;
     const svg = d3__WEBPACK_IMPORTED_MODULE_0__["select"](ref);
 
     var chart = svg.attr("width", width + 2 * margin).attr("height", height + 2 * margin);
@@ -1176,7 +1215,7 @@ function initChart(ref, dataset) {
 
     let select = chart.append("g").attr('class', 'main').attr("transform", "translate(" + margin + "," + margin + ")");
 
-    updateChart(ref, dataset);
+    updateChart(ref, dataset, -1, 0, 0);
 }
 
 /***/ }),
