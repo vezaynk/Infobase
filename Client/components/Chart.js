@@ -10,22 +10,23 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
 
     componentDidMount() {
         this.setState({ isMounted: false, highlightIndex: -1 });
+        let isTrend = i18n(this.props.chartData.xAxis).includes("Trend");
         if (this.graph)
             initChart(this.graph, this.props.chartData, (highlightIndex) => this.setState(
                 {
                     ...this.state,
                     highlightIndex
                 }
-            )
+            ), isTrend
             );
 
         this.setState({ ...this.state, isMounted: true })
     }
     componentDidUpdate() {
-        let valueUpper = 0;
-        let valueLower = 0;
-
-        let highlighted = this.props.chartData.points[this.state.highlightIndex];
+        let valueUpper = -1;
+        let valueLower = -2;
+        let isTrend = i18n(this.props.chartData.xAxis).includes("Trend");
+        let highlighted = this.props.chartData.points.filter(p => p.type == 0 || isTrend)[this.state.highlightIndex];
         if (highlighted) {
             if (highlighted.valueUpper)
                 valueUpper = highlighted.valueUpper;
@@ -33,9 +34,9 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
                 valueLower = highlighted.valueLower;
         }
 
-
+        console.log(this.state.highlightIndex, valueUpper, valueLower, highlighted, this.props.chartData.points)
         if (this.state.isMounted && this.graph)
-            updateChart(this.graph, this.props.chartData, this.state.highlightIndex, valueUpper, valueLower);
+            updateChart(this.graph, this.props.chartData, this.state.highlightIndex, valueUpper, valueLower, isTrend);
 
     }
     render() {

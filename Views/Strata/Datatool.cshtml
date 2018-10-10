@@ -13,8 +13,8 @@
        filters = Model.filters,
        prompt = new Translatable()
            {
-               { ("EN", null), "Select an item from each list below" },
-               { ("FR", null), "Sélectionner les paramètres d'intérêt" }
+               { ("en-ca", null), "Select an item from each list below" },
+               { ("fr-ca", null), "Sélectionner les paramètres d'intérêt" }
            }
         }, clientOnly: false)
 
@@ -41,28 +41,28 @@
                 text-align: center;
             }
         </style>
-        <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.LanguageCode == "FR" ? "Enregistrer" : "Save Chart")</a>
+        <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.LanguageCode == "fr-ca" ? "Enregistrer" : "Save Chart")</a>
     </div>
 </div>
 
 @{
         var cellsEmptyText = new Translatable() {
-                                                {("EN", null), "Cells are empty when data are missing."},
-                                                {("FR", null), "Les cellules vides indiquent que les données ne sont pas disponibles."}
+                                                {("en-ca", null), "Cells are empty when data are missing."},
+                                                {("fr-ca", null), "Les cellules vides indiquent que les données ne sont pas disponibles."}
                                                 };
 
         var cvWarnText = new Translatable() {
-                                                {("EN", null), "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%."},
-                                                {("FR", null), "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence."},
-                                                {("FR", "alt"), "Yellow nope"},
-                                                {("EN", "alt"), "Yellow nope"}
+                                                {("en-ca", null), "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%."},
+                                                {("fr-ca", null), "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence."},
+                                                {("fr-ca", "alt"), "Yellow nope"},
+                                                {("en-ca", "alt"), "Yellow nope"}
                                                 
                                                 };
         var cvSuppressText = new Translatable() {
-                                                {("EN", null), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."},
-                                                {("FR", null), "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées."},
-                                                {("FR", "alt"), "cannot be displayed but red"},
-                                                {("EN", "alt"), "cannot be displayed but red en francais"}
+                                                {("en-ca", null), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."},
+                                                {("fr-ca", null), "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées."},
+                                                {("fr-ca", "alt"), "cannot be displayed but red"},
+                                                {("en-ca", "alt"), "cannot be displayed but red en francais"}
                                                 
                                                 };
     }
@@ -75,7 +75,7 @@
     <div class="col-md-12">
 
         <h4 id="desc" class="row">
-                @if (Model.LanguageCode == "FR")
+                @if (Model.LanguageCode == "fr-ca")
                 {
                     <span class="col-sm-12">Descriptions des mesures</span>
                 }
@@ -88,21 +88,21 @@
         <div class="row">
         <div class="col-sm-12">
             @Html.React("Components.DescriptionTable", new { definitionText = new Translatable() {
-                {("EN", null), "Definition"},
-                {("FR", null), "Définition"}
+                {("en-ca", null), "Definition"},
+                {("fr-ca", null), "Définition"}
             },
             dataAvailableText = new Translatable() {
-                {("EN", null), "Data Available"},
-                {("FR", null), "Ventilation des données"}
+                {("en-ca", null), "Data Available"},
+                {("fr-ca", null), "Ventilation des données"}
             },
             
             methodsText = new Translatable() {
-                {("EN", null), "Estimate Calculation"},
-                {("FR", null), "Méthodes de calculs"}
+                {("en-ca", null), "Estimate Calculation"},
+                {("fr-ca", null), "Méthodes de calculs"}
             },
             remarksText = new Translatable() {
-                {("EN", null), "Additional Remarks"},
-                {("FR", null), "Remarques supplémentaires"}
+                {("en-ca", null), "Additional Remarks"},
+                {("fr-ca", null), "Remarques supplémentaires"}
             }
             }, clientOnly: true)
             
@@ -118,7 +118,7 @@
             <span id="ContentPlaceHolder_Body_LabelCit" class="panel-title">Suggested Citation :</span>
         </h3>
         <div class="bg-info">
-            @if (Model.LanguageCode == "FR")
+            @if (Model.LanguageCode == "fr-ca")
             {
                 <p>Centre de la surveillance et de la recherche appliquée, Agence de la santé publique du Canada.Cadre d'indicateurs des maladies chroniques et des blessures : édition @edition. Ottawa (Ont.), @edition.</p>
             }

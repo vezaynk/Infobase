@@ -1,23 +1,24 @@
 @model Infobase.Models.PASS.Measure
 @{
     Layout = "_Layout.cshtml";
+    string language = ViewContext.RouteData.Values["language"].ToString();
 }
 
 
 <table class="table table-striped table-hover table-condensed table-bordered">
 <tbody><tr><td><strong>Name</strong></td>
-<td>@Model.MeasureName.Get(("EN", null))</td></tr>
+<td>@Model.MeasureName.Get((language, null))</td></tr>
 <tr><td><strong>Definition</strong></td>
-    <td>@Model.MeasureDefinition.Get(("EN", null))</td></tr>
+    <td>@Model.MeasureDefinition.Get((language, null))</td></tr>
 <tr><td><strong>Data Source</strong></td>
-    <td>@Model.MeasureSource.Get(("EN", "Measure"))</td></tr>
+    <td>@Model.MeasureSource.Get((language, "Measure"))</td></tr>
 <tr><td><strong>Population</strong></td>
-    <td>@Model.MeasurePopulation.Get(("EN", null))</td></tr>
+    <td>@Model.MeasurePopulation.Get((language, null))</td></tr>
 <tr><td><strong>Methods Calculation</strong></td><td>
-    @Model.MeasureMethod.Get(("EN", null))
+    @Model.MeasureMethod.Get((language, null))
 </td></tr>
 <tr><td><strong>Additional Notes</strong></td><td>
-    @Model.MeasureAdditionalRemarks.Get(("EN", null))
+    @Model.MeasureAdditionalRemarks.Get((language, null))
 </td></tr>
 </tbody></table>
 <a asp-action="Datatool" asp-route-measureid="@Model.MeasureId" class="btn btn-default">Open in Datatool</a>

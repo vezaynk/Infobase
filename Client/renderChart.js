@@ -22,28 +22,43 @@ d3.selection.prototype.moveToBack = function () {
     });
 };
 
-const isBetween = (val, up, low) => val >= low && val <= up;
-const isPointInRange = (upper, lower, point: TPoint) => {
-    let checkRange = val => isBetween(val, upper, lower);
-    console.log(upper, lower, point)
-    debugger;
-    if (checkRange(point.valueUpper) || checkRange(point.value) || checkRange(point.valueLower))
-        return true;
+const isBetween = (val: number, up: number, low: number) => val >= low && val <= up;
+const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
+    // break out if missing data
+    console.log(point);
+    if (point.value == 1.2) {
+        debugger;
+        console.log("Hit")
+    
+    }
 
-    checkRange = val => isBetween(val, point.valueUpper, point.valueLower);
-    if (checkRange(upper) || checkRange(lower))
-        return true;
+    if (!(upper && lower)) return false;
+    const pUpper = point.valueUpper;
+    const pLower = point.valueLower;
+    const pVal = point.value;
+    if (!(pUpper && pLower && pVal)) return false;
+
+    // check if the selected bound is within the points bounds
+    if (isBetween(upper, pUpper, pLower)) return true;
+    if (isBetween(lower, pUpper, pLower)) return true;
+
+    
+    // check if point upper and lower bound is within selected bounds
+    if (isBetween(pVal, upper, lower)) return true;
+    if (isBetween(pLower, upper, lower)) return true;
+    if (isBetween(pUpper, upper, lower)) return true;
 
     return false;
+    
 }
 
-let updateHighlight = (index: number, upper: number, lower: number): void => console.error("Must init graph");
+let updateHighlight: number => void = (index) => console.error("Must init graph");
 
-export function updateChart(ref: Element, dataset: ChartData, highlightIndex: number, highlightUpper: number, highlightLower: number): void {
+export function updateChart(ref: Element, dataset: ChartData, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
-    let isTrend = i18n(dataset.xAxis).includes("Trend");
+    
 
     let points = dataset.points.filter(point => point.type == 0 || isTrend)
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
@@ -188,7 +203,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("y", (d) => y(d.value))
         .attr("height", d => isTrend ? 10 : height - y(d.value))
         .attr("fill", "steelblue")
-        .attr("opacity", (d, i)=> !isPointInRange(highlightUpper, highlightLower, d) ? 1 : 0.2)
+        .attr("opacity", (d, i)=> isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
 
     enteredRect.append("title")
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
@@ -205,7 +220,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
         .attr("y", (d) => y(d.value))
         .attr("fill", "steelblue")
-        .attr("opacity", (d, i)=> !isPointInRange(highlightUpper, highlightLower, d) ? 1 : 0.2)
+        .attr("opacity", (d, i)=> isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
         .select("title")
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
 
@@ -311,7 +326,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .remove();
 }
 
-export function initChart(ref: Element, dataset: ChartData, update) {
+export function initChart(ref: Element, dataset: ChartData, update: number => void, isTrend: boolean) {
     updateHighlight = update;
     const svg = d3.select(ref)
 
@@ -357,5 +372,5 @@ export function initChart(ref: Element, dataset: ChartData, update) {
         .attr("transform", "translate(" + margin + "," + margin + ")")
 
 
-    updateChart(ref, dataset, -1, 0, 0);
+    updateChart(ref, dataset, -1, 0, 0, isTrend);
 }
