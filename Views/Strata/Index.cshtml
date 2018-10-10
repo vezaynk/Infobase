@@ -6,11 +6,11 @@
 
 @{
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
-    // TODO: dynamic language code
+    string language = ViewContext.RouteData.Values["language"].ToString();
     var lifeCourseNames = Model.OrderBy(x => x.Index)
                                 .SelectMany(a => a.IndicatorGroups
                                                     .OrderBy(x => x.Index)
-                                                    .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get(("EN", null))))
+                                                    .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get((language, null))))
                                            ).Distinct();
 }
 
@@ -50,7 +50,7 @@
             {
 
                 <details>
-                    <summary>@activity.ActivityName.Get(("EN", null))</summary>
+                    <summary>@activity.ActivityName.Get((language, null))</summary>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
@@ -69,7 +69,7 @@
 
                                     var igFirst = true;
                                     // Must only select indicators which are a subset of the desired lifecourse
-                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get(("EN", null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
+                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get((language, null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
                                     foreach (var indicator in indicators.OrderBy(x => x.Index))
                                     {
                                         var indicatorFirst = true;
@@ -79,14 +79,14 @@
                                                 @if (igFirst)
                                                 {
                                                     igFirst = false;
-                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get(("EN", null)) </MiniTex></td>
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get((language, null)) </MiniTex></td>
                                                 }
                                                 @if (indicatorFirst)
                                                 {
                                                     indicatorFirst = false;
-                                                    <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get(("EN", null))</MiniTex></td>
+                                                    <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get((language, null))</MiniTex></td>
                                                 }
-                                                <td><MiniTex>@measure.MeasureName.Get(("EN", "Index"))</MiniTex></td>
+                                                <td><MiniTex>@measure.MeasureName.Get((language, "Index"))</MiniTex></td>
                                                 @if (measure.DefaultStrataId == null)
                                                 {
                                                     <td><MiniTex>-</MiniTex></td>
@@ -99,11 +99,11 @@
                                                     }
                                                     else
                                                     {
-                                                        <td><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, "EN") @measure.MeasureUnit.Get(("EN", "Index"))</MiniTex></td>
+                                                        <td><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language) @measure.MeasureUnit.Get((language, "Index"))</MiniTex></td>
                                                     }
                                                 }
 
-                                                <td><MiniTex>@measure.MeasureSource.Get(("EN", "Index"))</MiniTex></td>
+                                                <td><MiniTex>@measure.MeasureSource.Get((language, "Index"))</MiniTex></td>
                                                 <td>
                                                     @if (measure.Included)
                                                     {

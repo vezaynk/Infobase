@@ -77,47 +77,42 @@ namespace Infobase
 
             app.UseStaticFiles();
 
-            // Uncomment is needed (cookies, https), probably unnecessary behind IIS
-            /*app.UseHttpsRedirection();
-            app.UseCookiePolicy();*/
-
-            // Uncomment me at the very end when everything works. It MIGHT break things. This is the last thing to uncomment.
-            app.Use(async (context, next) =>
+            var translations = new Dictionary<string, Translations>(StringComparer.OrdinalIgnoreCase)
+            {
                 {
-                    var path = context.Request.Path.Value.Trim('/').Split('/');
-                    string culture = "EN";
-                    string action = "Index";
-                    string controller = "Strata";
-                    string id = "";
-
-                    // Culture code has to be decided early
-                    if (path.Length > 0 && path[0] != "")
-                        culture = path[0].ToUpper();
-
-                    switch (path.Length)
+                    "en-ca",
+                    new Translations(new (string, string)[]
                     {
-                        case 2:
-                            controller = RouteLocalizer.LocalizeRouteElement(culture, path[1].ToLower());
-                            break;
-                        case 3:
-                            action = RouteLocalizer.LocalizeRouteElement(culture, path[2].ToLower());
-                            goto case 2;
-                        case 4:
-                            id = RouteLocalizer.LocalizeRouteElement(culture, path[3].ToLower());
-                            goto case 3;
-                        default:
-                            break;
-                    }
+                        ("Strata", "Strata"),
+                        ("Datatool", "Datatool"),
+                        ("Index", "Index"),
+                        ("Details", "Details")
+                    })
+                },
+                {
+                    "fr",
+                    new Translations(new (string, string)[]
+                    {
+                        ("Strata", "StrataFr"),
+                        ("Datatool", "DatatoolFr"),
+                        ("Index", "IndexFr"),
+                        ("Details", "DetailsFr")
+                    })
+                },
+            };
 
-                    context.Request.Path = $"/{culture}/{controller}/{action}/{id}";
-
-                    await next.Invoke();
-                });
-            
             app.UseMvc(routes =>
              {
-                 //new Route(routes.DefaultHandler, "{culture=EN}/{controller=Strata}/{action=Index}/{id?}", routes.);
-                 routes.MapRoute("default", "{culture=EN}/{controller=Strata}/{action=Index}/{id?}");
+                 routes.Routes.Add(new TranslationRoute(
+                    translations,
+                    routes.DefaultHandler,
+                    routeName: null,
+                    routeTemplate: "{language=en-ca}/{controller=Strata}/{action=Index}/{id?}",
+                    defaults: new RouteValueDictionary(new {  }),
+                    constraints: null,
+                    dataTokens: null,
+                    inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));
+                 
              });
         }
     }

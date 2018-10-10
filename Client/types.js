@@ -44,7 +44,7 @@ export type ChartData = {
     measureName: MultilangText
 }
 
-export type LanguageCode =  "EN" | "FR";
+export type LanguageCode =  "en-ca" | "fr-ca";
 export type TranslationType = "Index" | "Datatool" | "alt";
 
 export type DataExplorerState = {

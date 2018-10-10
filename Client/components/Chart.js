@@ -8,11 +8,8 @@ import type { ChartData } from '../types';
 export class Chart extends React.Component<{ chartData: ChartData }, { isMounted: boolean, highlightIndex: number }> {
     graph: ?Element;
 
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
-        this.setState({ isMounted: false, highlightIndex: -1, highlightUpper: 0, highlightLower: 0 });
+        this.setState({ isMounted: false, highlightIndex: -1 });
         if (this.graph)
             initChart(this.graph, this.props.chartData, (highlightIndex) => this.setState(
                 {

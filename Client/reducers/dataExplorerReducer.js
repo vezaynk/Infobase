@@ -22,7 +22,7 @@ const initialState: DataExplorerState = {
         measureName: {}
     },
     loading: false,
-    languageCode: "EN"
+    languageCode: "en-ca"
 }
 
 export const initState: ActionCreator<Action, DataExplorerState> = (payload) => {
