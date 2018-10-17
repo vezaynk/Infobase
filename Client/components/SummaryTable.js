@@ -93,7 +93,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
         <div className="bg-warning">
             <h4>Notes:</h4>
             <p>
-                {i18n(this.props.chartData.remarks)}
+                {i18n(this.props.chartData.notes)}
             </p>
             <p>
                 <strong>Source: </strong>{i18n(this.props.chartData.source, "Datatool")}

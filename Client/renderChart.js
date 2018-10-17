@@ -24,13 +24,6 @@ d3.selection.prototype.moveToBack = function () {
 
 const isBetween = (val: number, up: number, low: number) => val >= low && val <= up;
 const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
-    // break out if missing data
-    console.log(point);
-    if (point.value == 1.2) {
-        debugger;
-        console.log("Hit")
-    
-    }
 
     if (!(upper && lower)) return false;
     const pUpper = point.valueUpper;
