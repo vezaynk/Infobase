@@ -16,6 +16,7 @@ using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
 using Infobase.Common;
+using System.IO;
 
 namespace Infobase
 {
@@ -44,14 +45,16 @@ namespace Infobase
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<PASSContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("PASSContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("PASSDB")));
 
+            string createText = "Hello and Welcome " + Configuration.GetConnectionString("PASSDB");
+            File.WriteAllText("./test.txt", createText);
             return services.BuildServiceProvider();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UsePathBase("/test");
+            app.UsePathBase("/pass");
             // Remove me
             app.UseDeveloperExceptionPage();
 
