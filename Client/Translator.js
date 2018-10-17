@@ -22,5 +22,5 @@ export function i18n(translatable: MultilangText, type?: TranslationType, substi
 export function numberFormat(number: number): string {
     if (number == null)
         return "";
-    return new Intl.NumberFormat(dataExplorerStore.getState().languageCode, {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(number)
+    return new Intl.NumberFormat(dataExplorerStore.getState().languageCode, {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(number)
 }
