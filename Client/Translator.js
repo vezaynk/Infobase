@@ -10,8 +10,11 @@ export function i18n(translatable: MultilangText, type?: TranslationType, substi
         if (localKeys.length)
             text = translatable[localKeys[0]]
     } else {
-        text = translatable[`(${languageCode}, ${type})`]
+        text = translatable[`(${languageCode}, ${type})`];
+        if (text === undefined)
+            return i18n(translatable);
     }
+
 
     Object.keys(substitutions).forEach(subkey => {
         text = text.split(`{${subkey}}`).join(substitutions[subkey].toString());

@@ -12,6 +12,7 @@
                                                     .OrderBy(x => x.Index)
                                                     .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get((language, null))))
                                            ).Distinct();
+
 }
 
 <section class="col-sm-12">
@@ -46,7 +47,7 @@
 
             <h3>@lifeCourseName</h3>
 
-            foreach (var activity in Model.OrderBy(x => x.Index))
+            foreach (var activity in Model.OrderBy(x => x.DefaultIndicatorGroup.Index))
             {
 
                 <details>
@@ -79,7 +80,7 @@
                                                 @if (igFirst)
                                                 {
                                                     igFirst = false;
-                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get((language, null)) </MiniTex></td>
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get((language, null)) </MiniTex> @indicatorGroup.Index</td>
                                                 }
                                                 @if (indicatorFirst)
                                                 {

@@ -27,6 +27,7 @@ namespace Infobase.Controllers
         {
             var activities = _context.Activity
                                         // Include Measure names
+                                        .Include(a => a.DefaultIndicatorGroup)
                                         .Include(a => a.IndicatorGroups)
                                                 .ThenInclude(ig => ig.LifeCourses)
                                                 .ThenInclude(lc => lc.Indicators)
