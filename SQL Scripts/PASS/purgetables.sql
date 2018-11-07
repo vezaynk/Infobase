@@ -1,33 +1,33 @@
-Drop table PointLabelTranslation;
-Drop table Point;
+drop table tmp;
 
-Drop Table StrataNotesTranslation;
-Drop Table StrataNameTranslation;
-Drop Table Strata;
+delete from ActivityDescriptionTranslation
+delete from ActivityNameTranslation;
+delete from IndicatorGroupNameTranslation;
+delete from LifeCourseNameTranslation;
+delete from MeasureAdditionalRemarksTranslation;
+delete from MeasureDataAvailableTranslation;
+delete from MeasureDefinitionTranslation;
+delete from MeasureMethodTranslation;
+delete from MeasureNameTranslation;
+delete from MeasurePopulationTranslation;
+delete from MeasureSourceTranslation;
+delete from MeasureUnitTranslation;
+
+delete from IndicatorNameTranslation;
+delete from StrataNameTranslation;
+delete from StrataNotesTranslation;
+delete from StrataPopulationTranslation;
+delete from StrataSourceTranslation;
+
+delete from PointLabelTranslation;
+
+delete from Translation;
 
 
-Drop table MeasureDefinitionTranslation;
-Drop table MeasureNameTranslation;
-Drop table MeasureUnitTranslation;
-Drop Table MeasureSourceTranslation;
-Drop Table MeasurePopulationTranslation;
-Drop Table Measure;
-
-Drop table IndicatorNameTranslation;
-Drop table Indicator;
-
-Drop table LifeCourseNameTranslation;
-Drop table LifeCourse;
-
-Drop table IndicatorGroupNameTranslation;
-Drop Table IndicatorGroup;
-
-
-Drop table ActivityNameTranslation;
-Drop table ActivityDescriptionTranslation;
-Drop table Activity;
-
-Drop table Translation;
-Drop table __EFMigrationsHistory;
-
-Drop table Tmp;
+delete from activity;
+delete from indicatorgroup;
+delete from LifeCourse;
+delete from Indicator;
+delete from Measure;
+delete from Strata;
+delete from Point;
