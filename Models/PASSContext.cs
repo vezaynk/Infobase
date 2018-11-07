@@ -26,6 +26,30 @@ namespace Infobase.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            /* Make the Indexes unique. Conflcits must FAIL. */
+            modelBuilder.Entity<Activity>()
+                .HasAlternateKey(entity => entity.Index);
+
+            modelBuilder.Entity<IndicatorGroup>()
+                .HasAlternateKey(entity => entity.Index);
+
+            modelBuilder.Entity<Indicator>()
+                .HasAlternateKey(entity => entity.Index);
+
+            modelBuilder.Entity<LifeCourse>()
+                .HasAlternateKey(entity => entity.Index);
+
+            modelBuilder.Entity<Measure>()
+                .HasAlternateKey(entity => entity.Index);
+
+            modelBuilder.Entity<Strata>()
+                .HasAlternateKey(entity => entity.Index);
+
+            modelBuilder.Entity<Point>()
+                .HasAlternateKey(entity => entity.Index);
+
+            
             /* Bunch of boilerplate to enable many-to-many bindings */
             modelBuilder.Entity<ActivityNameTranslation>()
                 .HasKey(pc => new { pc.TranslationId, pc.ActivityId });
