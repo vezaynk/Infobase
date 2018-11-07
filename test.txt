@@ -1,1 +1,0 @@
-Hello and Welcome Data Source=10.50.2.20;Initial Catalog=PASSDEV;User ID=Infobase_Web;Password=Ncd!-368@hcSsDm
