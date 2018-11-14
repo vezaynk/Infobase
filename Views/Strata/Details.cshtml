@@ -21,4 +21,6 @@
     @Model.MeasureAdditionalRemarks.Get((language, null))
 </td></tr>
 </tbody></table>
-<a asp-action="Datatool" asp-route-measureid="@Model.MeasureId" class="btn btn-default">Open in Datatool</a>
+@if (Model.Included) {
+    <a asp-action="Datatool" asp-route-measureid="@Model.MeasureId" class="btn btn-default">Open in Data Tool</a>
+}

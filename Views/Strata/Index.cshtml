@@ -40,8 +40,8 @@
     <h2>Quick Stats Overview</h2>
     <p>For more information about each indicator, click on the domains below:</p>
 </section>
-<div class="row">
-    <div class="col-sm-12">
+<div class="col-sm-12">
+    <div>
         @foreach (var lifeCourseName in lifeCourseNames)
         {
 
@@ -80,14 +80,14 @@
                                                 @if (igFirst)
                                                 {
                                                     igFirst = false;
-                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()"><MiniTex>@indicatorGroup.IndicatorGroupName.Get((language, null)) </MiniTex></td>
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupName.Get((language, null)) </MiniTex></td>
                                                 }
                                                 @if (indicatorFirst)
                                                 {
                                                     indicatorFirst = false;
-                                                    <td rowspan="@indicator.Measures.Count()"><MiniTex>@indicator.IndicatorName.Get((language, null))</MiniTex></td>
+                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorName.Get((language, null))</MiniTex></td>
                                                 }
-                                                <td><MiniTex>@measure.MeasureName.Get((language, "Index"))</MiniTex></td>
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureName.Get((language, "Index"))</MiniTex></td>
                                                 @if (measure.DefaultStrataId == null)
                                                 {
                                                     <td><MiniTex>-</MiniTex></td>
@@ -100,11 +100,11 @@
                                                     }
                                                     else
                                                     {
-                                                        <td><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language) @measure.MeasureUnit.Get((language, "Index"))</MiniTex></td>
+                                                        <td data-index="@measure.MeasurePoint.Index"><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language) @measure.MeasureUnit.Get((language, "Index"))</MiniTex></td>
                                                     }
                                                 }
 
-                                                <td><MiniTex>@measure.MeasureSource.Get((language, "Index"))</MiniTex></td>
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSource.Get((language, "Index"))</MiniTex></td>
                                                 <td>
                                                     @if (measure.Included)
                                                     {
@@ -127,6 +127,7 @@
     </div>
 </div>
 <br/>
+<div  class="col-sm-12">
 <div class="panel panel-info">
     <div class="panel-heading">
         <h2 class="panel-title">Notes</h2>
@@ -141,4 +142,5 @@
             <li><a href="https://www.canada.ca/en/services/health/monitoring-surveillance/physical-activity-sedentary-behaviour-sleep.html">Learn more about PASS</a></li>
         </ul>
     </div>
+</div>
 </div>

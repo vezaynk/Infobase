@@ -1,0 +1,1 @@
+Hello and Welcome Data Source=10.50.2.20;Initial Catalog=PASSTEST;Integrated Security=True

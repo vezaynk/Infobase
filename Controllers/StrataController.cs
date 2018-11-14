@@ -285,7 +285,7 @@ namespace Infobase.Controllers
             cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
 
             var measures = strata.Measure.Indicator.Measures
-                                     .Where(m => m.DefaultStrataId != null)
+                                     .Where(m => m.DefaultStrataId != null && m.Included)
                                      .AsEnumerable()
                                      .OrderBy(x => x.Index)
                                      .Select(m => new DropdownItem
