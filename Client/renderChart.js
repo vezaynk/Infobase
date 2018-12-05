@@ -201,7 +201,6 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     enteredRect.append("title")
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
 
-
     pointBinding
         .select("rect")
         .transition()

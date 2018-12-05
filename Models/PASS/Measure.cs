@@ -13,6 +13,7 @@ namespace Infobase.Models.PASS
         public int Index {get;set;}
         public virtual Indicator Indicator { get; set; }
         public bool Included { get; set; }
+        public bool Aggregator { get; set; }
         public double? CVWarnAt { get; set; }
         public double? CVSuppressAt { get; set; }
         public virtual ICollection<MeasureNameTranslation> MeasureNameTranslations { get; set; }
