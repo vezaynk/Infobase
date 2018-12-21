@@ -35,14 +35,14 @@ const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
     if (isBetween(upper, pUpper, pLower)) return true;
     if (isBetween(lower, pUpper, pLower)) return true;
 
-    
+
     // check if point upper and lower bound is within selected bounds
     if (isBetween(pVal, upper, lower)) return true;
     if (isBetween(pLower, upper, lower)) return true;
     if (isBetween(pUpper, upper, lower)) return true;
 
     return false;
-    
+
 }
 
 let updateHighlight: number => void = (index) => console.error("Must init graph");
@@ -51,19 +51,16 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
-    
-
     let points = dataset.points.filter(point => point.type == 0 || isTrend)
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
-
     let x = d3.scaleBand()
         .domain(points.map(point => i18n(point.label)))
         .range([0, width]);
 
-
     let y = d3.scaleLinear()
         .domain([0, d3.max(dataset.points, point => (point.valueUpper || point.value) * 1.1)])
         .range([height, 0]);
+
     chart.selectAll("g.y-axis")
         .attr("transform", "translate(" + margin + "," + margin + ")")
         .transition()
@@ -79,7 +76,6 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration(600)
         .call(d3.axisBottom(x))
 
-
     xAxisLabel
         .text(i18n(dataset.xAxis));
 
@@ -87,16 +83,52 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .text(i18n(dataset.yAxis, "Datatool"))
         .style("font-weight", "bold")
 
-
     console.log(points)
     let pointBinding = select.selectAll('g.point').data(points);
     let averageBinding = select.selectAll('g.average').data(averages);
     let cvUpperBinding = select.selectAll('g.cvUpper').data(points);
     let cvLowerBinding = select.selectAll('g.cvLower').data(points);
     let cvConnectBinding = select.selectAll('g.cvConnect').data(points);
-    /////
 
-    let enteredcvUpper = pointBinding.enter().append("g").moveToBack().attr("class", "cvUpper").append("rect")
+    let enteredcvUpper = pointBinding.enter().append("g").attr("class", "cvUpper").append("rect")
+
+    let enteredRect = pointBinding.enter().append("g").attr("class", "point").append("rect")
+
+    enteredRect.attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2)
+        .attr("width", isTrend ? 10 : 25)
+        //.style("fill", "steelblue")
+        .attr("ry", (isTrend ? 10 : 0))
+        .attr("rx", (isTrend ? 10 : 0))
+        .attr("y", height)
+        .transition()
+        .duration((_, i) => 600)
+        .attr("y", (d) => isTrend ? y(d.value) - 5 : y(d.value))
+        .attr("height", d => isTrend ? 10 : height - y(d.value))
+        .attr("fill", "steelblue")
+        .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
+
+    enteredRect.append("title")
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
+
+    pointBinding
+        .select("rect")
+        .transition()
+        .duration(600)
+        .attr("ry", (isTrend ? 10 : 0))
+        .attr("rx", (isTrend ? 10 : 0))
+        .attr("width", isTrend ? 10 : 25)
+        .attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2)
+        .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
+        .attr("y", (d) => isTrend ? y(d.value) - 5 : y(d.value))
+        .attr("fill", "steelblue")
+        .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
+        .select("title")
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
+
+
+    pointBinding.on("mouseover", (_, i) => updateHighlight(i))
+    pointBinding.on("mouseout", (_, i) => updateHighlight(-1))
+    pointBinding.exit().remove();
 
 
     enteredcvUpper.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
@@ -107,9 +139,6 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration((_, i) => 600)
         .attr("y", (d) => y(d.valueUpper))
         .attr("height", 2)
-
-
-
 
     cvUpperBinding
         .select("rect")
@@ -124,7 +153,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
 
     cvUpperBinding.exit().remove();
 
-    let enteredcvConnect = cvConnectBinding.enter().append("g").moveToBack().attr("class", "cvConnect").append("rect")
+    let enteredcvConnect = cvConnectBinding.enter().append("g").attr("class", "cvConnect").append("rect")
 
 
     enteredcvConnect.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 2 / 2)
@@ -135,9 +164,6 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration((_, i) => 600)
         .attr("height", d => y(d.valueLower) - y(d.valueUpper))
         .attr("y", (d) => y(d.valueUpper))
-
-
-
 
     cvConnectBinding
         .select("rect")
@@ -152,9 +178,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
 
     cvConnectBinding.exit().remove();
 
-    /////
-
-    let enteredcvLower = pointBinding.enter().append("g").moveToBack().attr("class", "cvLower").append("rect")
+    let enteredcvLower = pointBinding.enter().append("g").attr("class", "cvLower").append("rect")
 
 
     enteredcvLower.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
@@ -165,9 +189,6 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration((_, i) => 600)
         .attr("y", (d) => y(d.valueLower))
         .attr("height", 2)
-
-
-
 
     cvLowerBinding
         .select("rect")
@@ -182,45 +203,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
 
     cvLowerBinding.exit().remove();
 
-    /////
-    let enteredRect = pointBinding.enter().append("g").moveToBack().attr("class", "point").append("rect")
-
-    enteredRect.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
-        .attr("width", isTrend ? 10 : 25)
-        //.style("fill", "steelblue")
-        .attr("ry", (isTrend ? 10 : 0))
-        .attr("rx", (isTrend ? 10 : 0))
-        .attr("y", height)
-        .transition()
-        .duration((_, i) => 600)
-        .attr("y", (d) => y(d.value))
-        .attr("height", d => isTrend ? 10 : height - y(d.value))
-        .attr("fill", "steelblue")
-        .attr("opacity", (d, i)=> isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
-
-    enteredRect.append("title")
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
-
-    pointBinding
-        .select("rect")
-        .transition()
-        .duration(600)
-        .attr("ry", (isTrend ? 10 : 0))
-        .attr("rx", (isTrend ? 10 : 0))
-        .attr("width", isTrend ? 10 : 25)
-        .attr("x", (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2)
-        .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
-        .attr("y", (d) => y(d.value))
-        .attr("fill", "steelblue")
-        .attr("opacity", (d, i)=> isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
-        .select("title")
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
-
-
-        pointBinding.on("mouseover", (_, i) => updateHighlight(i))
-        pointBinding.on("mouseout", (_, i) => updateHighlight(-1))
-    pointBinding.exit().remove();
-
+    
     let enteredAverage = averageBinding.enter().append("g");
 
     enteredAverage
@@ -229,13 +212,13 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("height", 2)
         .attr("x", 0)
         .attr("width", width)
-        .style("fill", "url(#linePattern)")
         .attr("ry", (isTrend ? 10 : 0))
         .attr("rx", (isTrend ? 10 : 0))
         .attr("y", height)
         .transition()
         .duration((_, i) => 600)
         .attr("y", (d) => y(d.value))
+
 
     let lowestValueIndex = (points.map(p => +p.value).indexOf(Math.min(...points.map(p => +p.value))));
     if (points.length == 2)
@@ -247,26 +230,25 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .append("text")
         .attr("x", () => width)
         .attr("y", height)
+        .attr("filter", "url(#solid)")
         .transition()
         .duration((_, i) => 600)
         .attr("y", d => y(d.value) - 5)
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"))
         .attr("text-anchor", "end")
-
-
+        .style("font-weight", "bold")
 
     averageBinding
         .select("rect")
         .transition()
         .duration(600)
         .attr("y", (d) => y(d.value))
-        .style("fill", "url(#linePattern)")
 
     averageBinding
         .select("text")
+        .attr("filter", "url(#solid)")
         .transition()
         .duration(600)
-        .attr("filter", "url(#solid)")
         .attr("x", () => width)
         .attr("y", d => y(d.value) - 5)
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"))
@@ -285,9 +267,10 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration(800)
         .remove();
 
-    window.datum = points;
+    averageBinding.moveToFront();
 
-    let myLine = d3.line().x((d, i) => ((i + 0.5) * (width / points.length) - 10 / 2 + 2.5)).y(d => y(d.value) + 5)
+
+    let myLine = d3.line().x((d, i) => ((i + 0.5) * (width / points.length) - 10 / 2 + 2.5)).y(d => y(d.value))
 
 
     let paths = chart.selectAll("path.line").data(isTrend ? [points] : []);
@@ -322,9 +305,7 @@ export function initChart(ref: Element, dataset: ChartData, update: number => vo
     updateHighlight = update;
     const svg = d3.select(ref)
 
-    var chart = svg
-        .attr("width", width + 2 * margin)
-        .attr("height", height + 2 * margin);
+    var chart = svg;
 
     var gradient = chart.append("defs")
         .append("linearGradient")

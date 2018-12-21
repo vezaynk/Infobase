@@ -71,6 +71,10 @@ div.example {
     right: 100px;
     background-color: #CEDFFF;
 }
+
+g.average rect {
+    fill: url(#linePattern);
+}
 /*table.table-layout table, table.table-xCondensed table, .table-xCondensed>table
 {
   border: 1px solid #C0C0C0;
