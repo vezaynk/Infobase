@@ -45,7 +45,7 @@ namespace Infobase
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<PASSContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("PASSDB")));
+                    options.UseNpgsql(Configuration.GetConnectionString("PASSDB")));
 
             string createText = "Hello and Welcome " + Configuration.GetConnectionString("PASSDB");
             File.WriteAllText("./test.txt", createText);
