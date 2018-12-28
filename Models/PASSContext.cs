@@ -26,6 +26,8 @@ namespace Infobase.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // AutoIncrement the indexes
+            modelBuilder.ForNpgsqlUseIdentityColumns();
 
             /* Make the Indexes unique. Conflcits must FAIL. */
             modelBuilder.Entity<Activity>()
