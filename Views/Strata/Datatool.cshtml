@@ -68,7 +68,7 @@
     }
     <div class="row">
 <div class="col-sm-12">
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: true)
+    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: false)
 </div>
 </div>
 <div class="row brdr-bttm">
