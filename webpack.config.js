@@ -5,7 +5,7 @@ module.exports = {
     mode: "development",
     target: 'web',
     entry: {
-        app: './Client/App.jsx',
+        app: ['@babel/polyfill', './Client/App.jsx'],
         vendor: './Client/Vendor.jsx'
     },
     devtool: "source-map",
