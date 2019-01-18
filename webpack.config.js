@@ -5,8 +5,8 @@ module.exports = {
     mode: "development",
     target: 'web',
     entry: {
-        app: ['@babel/polyfill', './Client/App.jsx'],
-        vendor: './Client/Vendor.jsx'
+        app: ['@babel/polyfill', './Client/App.js'],
+        vendor: './Client/Vendor.js'
     },
     devtool: "source-map",
     output: {
@@ -27,7 +27,7 @@ module.exports = {
                 ]
               },
             {
-                test: /App.jsx/,
+                test: /App.js/,
                 loader: "expose-loader?Components"
             },
             {
