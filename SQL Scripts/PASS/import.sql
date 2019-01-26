@@ -155,7 +155,7 @@ update
 	inner join "Strata" s on
 		s."Index" = a."Index"
 	where
-		s."MeasureId" = m."MeasureId";
+		s."MeasureId" = m."MeasureId" and m."Included";
 			   
 update
 	"Indicator" m set
