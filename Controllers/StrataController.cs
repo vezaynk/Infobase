@@ -246,7 +246,9 @@ namespace Infobase.Controllers
                                                 Text = ac.ActivityName.Get((language, null))
                                             });
             
-            cpm.filters.Add(new DropdownMenuModel("Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
+			Console.Write("String",language);
+			
+            cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Activité":"Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
 
             var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups
                                      .Where(ig => ig.DefaultLifeCourseId != null)
@@ -258,7 +260,7 @@ namespace Infobase.Controllers
                                                 Text = ig.IndicatorGroupName.Get((language, null))
                                             });
 
-            cpm.filters.Add(new DropdownMenuModel("Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
+            cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Groupe d'indicateur":"Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
 
             var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses
                                      .Where(lc => lc.DefaultIndicatorId != null)
@@ -270,7 +272,7 @@ namespace Infobase.Controllers
                 Text = lc.LifeCourseName.Get((language, null))
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
+            cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Cours de la vie":"Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
 
             var indicators = strata.Measure.Indicator.LifeCourse.Indicators
                                      .Where(i => i.DefaultMeasureId != null)
@@ -282,7 +284,7 @@ namespace Infobase.Controllers
                 Text = i.IndicatorName.Get((language, null))
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
+            cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Indicateurs":"Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
 
             var measures = strata.Measure.Indicator.Measures
                                      .Where(m => m.DefaultStrataId != null && m.Included)
@@ -294,7 +296,7 @@ namespace Infobase.Controllers
                 Text = m.MeasureName.Get((language, null))
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Measures", "measureId", measures, strata.MeasureId));
+            cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Mesures":"Measures", "measureId", measures, strata.MeasureId));
 
             var stratas = strata.Measure.Stratas
                                      .AsEnumerable()
@@ -305,7 +307,7 @@ namespace Infobase.Controllers
                 Text = s.StrataName.Get((language, null))
             });
 
-            cpm.filters.Add(new DropdownMenuModel("Data Breakdowns", "strataId", stratas, strataId));
+            cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Répartition des données":"Data Breakdowns", "strataId", stratas, strataId));
 
 
             if (Request.Method == "GET" && !api)

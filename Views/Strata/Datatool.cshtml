@@ -3,13 +3,13 @@
     Layout = "_Layout.cshtml";
     string edition = "2018";
 }
+@Html.React("Components.InitializeChartDataStore", new {
+            state = Model
+        }, clientOnly: false)
 
-
-<div class="col-sm-12">
-<div class="row brdr-bttm mrgn-bttm-0" style="margin: 0">
-        
+<div class="row brdr-bttm" style="padding-bottom:50px;">        
         @Html.React("Components.Filters", new
-   {
+		{
        filters = Model.filters,
        prompt = new Translatable()
            {
@@ -17,26 +17,24 @@
                { ("fr-ca", null), "Sélectionner les paramètres d'intérêt" }
            }
         }, clientOnly: false)
-
-
+	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
         @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
         <script src="https://cdn.jsdelivr.net/gh/exupero/saveSvgAsPng@gh-pages/src/saveSvgAsPng.js"></script>
         <style type="text/css">
-
+			.form-group-sm {
+			margin: 20px 0px;
+			}
             .bar rect:hover {
                 fill: #dfbcbd;
             }
-
             .footnote tspan {
                 fill: rgb(220, 20, 60);
             }
-
             .axis-label {
                 text-anchor: middle;
                 font-weight: bold;
             }
-
             #title {
                 text-align: center;
             }
@@ -46,9 +44,10 @@
 </div>
 
 @{
+    // todo remove
         var cellsEmptyText = new Translatable() {
-                                                {("en-ca", null), "Cells are empty when data are missing."},
-                                                {("fr-ca", null), "Les cellules vides indiquent que les données ne sont pas disponibles."}
+                                                {("en-ca", null), ""},
+                                                {("fr-ca", null), ""}
                                                 };
 
         var cvWarnText = new Translatable() {
@@ -68,7 +67,7 @@
     }
     <div class="row">
 <div class="col-sm-12">
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: false)
+    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: true)
 </div>
 </div>
 <div class="row brdr-bttm">
@@ -111,24 +110,14 @@
 
     </div>
 </div>
-<div class="row brdr-bttm">
-    <div class="col-md-12">
-
-        <h3 id="cit" class="h4">
-            <span id="ContentPlaceHolder_Body_LabelCit" class="panel-title">Suggested Citation :</span>
-        </h3>
-        <div class="bg-info">
-            @if (Model.LanguageCode == "fr-ca")
-            {
-                <p>Centre de la surveillance et de la recherche appliquée, Agence de la santé publique du Canada.Cadre d'indicateurs des maladies chroniques et des blessures : édition @edition. Ottawa (Ont.), @edition.</p>
+<br/>
+    <section class="panel panel-info">
+		<header class="panel-heading"><h3 class="panel-title"><span id="ContentPlaceHolder_Body_LabelCit">@if (Model.LanguageCode == "fr-ca"){<text>Citation suggérée</text>}else{<text>Suggested Citation</text>}</span></h3></header>
+        <div class="panel-body">
+            @if (Model.LanguageCode == "fr-ca"){
+                <p>Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Outil des données de L'indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</p>
+            }else{
+                <p>Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators Data Tool, 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</p>
             }
-
-            else
-            {
-                <p>Citation (Adults): Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators: Quick Stats, adults (18 years of age and older), Canada, 2017 edition. Ottawa (ON): Public Health Agency of Canada; 2017.</p>
-            }
-
         </div>
-    </div>
-</div>
-</div>
+    </section>

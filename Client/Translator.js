@@ -3,8 +3,9 @@ import type { MultilangText, LanguageCode, TranslationType } from "./types"
 import { dataExplorerStore } from './store/dataExplorer';
 
 export function i18n(translatable: MultilangText, type?: TranslationType, substitutions?: { [string]: string | number } = {}): string {
-    let languageCode = dataExplorerStore.getState().languageCode;
+    let languageCode = dataExplorerStore.getState().languageCode;		
     let text = ""
+	
     if (!type) {
         let localKeys = Object.keys(translatable).filter(t => t.startsWith("(" + languageCode));
         if (localKeys.length)

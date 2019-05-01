@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { Chart } from "../components/Chart";
-import { dataExplorerStore } from '../store/dataExplorer'
+import { dataExplorerStore } from '../store/dataExplorer';
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import type { ChartData, DataExplorerState } from "../types";
 

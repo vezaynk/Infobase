@@ -17,10 +17,13 @@ namespace Infobase.Common
             dict.Add(("FR", "détails"), "details");
 
             // Add measure details
-            dict.Add(("FR", "outil"), "datatool");
+            dict.Add(("FR", "outil-de-donnees"), "datatool");
 
             // Add strata controller
             dict.Add(("FR", "stratafr"), "strata");
+			
+			// Add language controller
+            dict.Add(("FR", "fr-ca"), "en-ca");
         }
         public static string LocalizeRouteElement(string culture, string part) {
         try

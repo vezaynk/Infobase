@@ -2,7 +2,6 @@
 import type { FilterData, DataExplorerState, ChartData, Action } from "../types";
 import type { Reducer, ActionCreator } from 'redux';
 
-
 const initialState: DataExplorerState = {
     filters: [],
     chartData: {

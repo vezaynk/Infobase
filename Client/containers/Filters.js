@@ -7,7 +7,7 @@ import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { FilterBox } from "../components/FilterBox";
 
-import { dataExplorerStore } from '../store/dataExplorer'
+import { dataExplorerStore } from '../store/dataExplorer';
 import { updateFilters, updateChartData, updateLoadState } from '../reducers/dataExplorerReducer';
 import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData, MultilangText } from "../types";
 import type { Dispatch, ActionCreators } from 'redux';

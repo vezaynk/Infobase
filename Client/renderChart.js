@@ -2,15 +2,10 @@
 import * as d3 from "d3";
 import { i18n, numberFormat } from "./Translator";
 import type { ChartData, TPoint } from './types';
-const margin = 60;
-const width = 700;
-const height = 600;
-
 let xAxisLabel, yAxisLabel;
 
 d3.selection.prototype.moveToFront = function () {
     return this.each(function () {
-        this.parentNode.appendChild(this);
     });
 };
 d3.selection.prototype.moveToBack = function () {
@@ -62,7 +57,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .range([height, 0]);
 
     chart.selectAll("g.y-axis")
-        .attr("transform", "translate(" + margin + "," + margin + ")")
+        .attr("transform", "translate(" + marginX + "," + marginY + ")")
         .transition()
         .duration(600)
         .call(d3.axisLeft(y))
@@ -70,8 +65,8 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("font-size", 14);
 
     chart.selectAll("g.x-axis")
-        .attr("transform", "translate(" + margin + "," + (height + margin) + ")")
-        .style("font-size", 10)
+        .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
+        .style("font-size", 14)
         .transition()
         .duration(600)
         .call(d3.axisBottom(x))
@@ -83,7 +78,8 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .text(i18n(dataset.yAxis, "Datatool"))
         .style("font-weight", "bold")
 
-    console.log(points)
+	
+    console.log(points);
     let pointBinding = select.selectAll('g.point').data(points);
     let averageBinding = select.selectAll('g.average').data(averages);
     let cvUpperBinding = select.selectAll('g.cvUpper').data(points);
@@ -121,7 +117,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("height", (d, i) => isTrend ? 10 : height - y(d.value))
         .attr("y", (d) => isTrend ? y(d.value) - 5 : y(d.value))
         .attr("fill", "steelblue")
-        .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
+        .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 1 : 1) //Point A to 0.2 to bring back functionality
         .select("title")
         .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
 
@@ -234,7 +230,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .transition()
         .duration((_, i) => 600)
         .attr("y", d => y(d.value) - 5)
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"))
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + i18n(dataset.yAxis, "Index"))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
@@ -251,7 +247,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration(600)
         .attr("x", () => width)
         .attr("y", d => y(d.value) - 5)
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"))
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + i18n(dataset.yAxis, "Index"))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
@@ -259,7 +255,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .selectAll("rect, text")
         .transition()
         .duration(600)
-        .attr("y", -margin)
+        .attr("y", -marginY)
         .style("opacity", 0)
 
     averageBinding.exit()
@@ -282,10 +278,10 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2)
         .attr("opacity", 0)
-        .attr("transform", "translate(" + (margin) + ",-" + 10 + ")")
+        .attr("transform", "translate(" + (marginX) + ",-" + 10 + ")")
         .transition()
         .duration(600)
-        .attr("transform", "translate(" + (margin) + "," + margin + ")")
+        .attr("transform", "translate(" + (marginX) + "," + marginY + ")")
         .attr("opacity", 1)
 
     paths.attr("class", "line")
@@ -296,7 +292,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     paths.exit()
         .transition()
         .duration(600)
-        .attr("transform", "translate(" + (margin + 2.5) + ",-" + 10 + ")")
+        .attr("transform", "translate(" + (marginX + 2.5) + ",-" + 10 + ")")
         .attr("opacity", 0)
         .remove();
 }
@@ -327,23 +323,15 @@ export function initChart(ref: Element, dataset: ChartData, update: number => vo
         .attr("stop-opacity", 0);
 
     xAxisLabel = chart.append("text")
-        .attr("y", height + margin + 55)
-        .attr("x", (margin + width) / 2)
+        .attr("x", (marginX + width) / 2)
         .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .style("font-weight", "bold");
-
-    yAxisLabel = chart.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("x", -(height / 2 + margin))
-        .attr("y", margin - 40)
+        .attr("x", -(height/2))
+        .attr("y", 20)
         .style("text-anchor", "middle");
 
     let select = chart
         .append("g")
         .attr('class', 'main')
-        .attr("transform", "translate(" + margin + "," + margin + ")")
-
-
     updateChart(ref, dataset, -1, 0, 0, isTrend);
 }
