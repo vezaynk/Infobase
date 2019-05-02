@@ -1,4 +1,4 @@
-// @flow
+//      
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -9,12 +9,12 @@ import { FilterBox } from "../components/FilterBox";
 
 import { dataExplorerStore } from '../store/dataExplorer';
 import { updateFilters, updateChartData, updateLoadState } from '../reducers/dataExplorerReducer';
-import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData, MultilangText } from "../types";
-import type { Dispatch, ActionCreators } from 'redux';
+                                                                                                                 
+                                                      
 
-const mapStateToFilterProps = (state: DataExplorerState, props) => ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
-const actionCreators: ActionCreators<string, Action> = { updateLoadState, updateFilters, updateChartData};
-const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(actionCreators, dispatch)
+const mapStateToFilterProps = (state                   , props) => ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
+const actionCreators                                 = { updateLoadState, updateFilters, updateChartData};
+const mapDispatchToProps = (dispatch                  ) => bindActionCreators(actionCreators, dispatch)
 
 // TODO: Fix typing issue
 export const FilterBoxConnect = connect(
@@ -22,12 +22,12 @@ export const FilterBoxConnect = connect(
     mapDispatchToProps
 )(FilterBox)
 
-type FiltersProp = {
-    filters?: FilterData[],
-    prompt: MultilangText
-}
-export class Filters extends React.Component<FiltersProp> {
-    constructor(props: FiltersProp) {
+                    
+                           
+                         
+ 
+export class Filters extends React.Component              {
+    constructor(props             ) {
         super(props);
         if (props.filters)
             dataExplorerStore.dispatch({type: "UPDATE_FILTERS", payload: props.filters});

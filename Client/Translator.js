@@ -1,8 +1,8 @@
-// @flow
-import type { MultilangText, LanguageCode, TranslationType } from "./types"
+//      
+                                                                           
 import { dataExplorerStore } from './store/dataExplorer';
 
-export function i18n(translatable: MultilangText, type?: TranslationType, substitutions?: { [string]: string | number } = {}): string {
+export function i18n(translatable               , type                  , substitutions                                 = {})         {
     let languageCode = dataExplorerStore.getState().languageCode;		
     let text = ""
 	
@@ -23,7 +23,7 @@ export function i18n(translatable: MultilangText, type?: TranslationType, substi
     return text.toString();
 }
 
-export function numberFormat(number: number): string {
+export function numberFormat(number        )         {
     if (number == null)
         return "";
     return new Intl.NumberFormat(dataExplorerStore.getState().languageCode, {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(number)

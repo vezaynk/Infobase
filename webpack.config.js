@@ -1,12 +1,10 @@
 const path = require('path');
 
-module.exports = {
-    devtool: false,
+module.exports = [{
     mode: "development",
     target: 'web',
     entry: {
-        app: ['@babel/polyfill', './Client/App.js'],
-        vendor: './Client/Vendor.js'
+        app: './Client/App.js'
     },
     devtool: "source-map",
     output: {
@@ -22,13 +20,19 @@ module.exports = {
                   {
                     test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
-                    use: ['babel-loader']
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"]
+                    }
                   }
                 ]
               },
             {
                 test: /App.js/,
-                loader: "expose-loader?Components"
+                use: [{
+                    loader: 'expose-loader',
+                    options: 'Components'
+                }]
             },
             {
                 test: require.resolve('react-dom'),
@@ -50,4 +54,4 @@ module.exports = {
         modules: [path.resolve(__dirname, 'Client'), 'node_modules'],
         extensions: ['.ts', '.jsx', '.js']
     }
-};
+}];

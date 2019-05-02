@@ -1,4 +1,4 @@
-// @flow
+//      
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -8,14 +8,14 @@ import { FilterBox } from "../components/FilterBox";
 
 import { dataExplorerStore } from '../store/dataExplorer'
 import { initState } from '../reducers/dataExplorerReducer'
-import type { DataExplorerState, InitState } from '../types'
+                                                            
 
-type StateProp = {
-    state: DataExplorerState
-}
+                  
+                            
+ 
 
-export class InitializeChartDataStore extends React.Component<StateProp> {
-    constructor(props: StateProp) {
+export class InitializeChartDataStore extends React.Component            {
+    constructor(props           ) {
         super(props);
         dataExplorerStore.dispatch(initState(this.props.state));
     }

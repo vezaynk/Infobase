@@ -16,7 +16,7 @@
                { ("en-ca", null), "Select an item from each list below" },
                { ("fr-ca", null), "Sélectionner les paramètres d'intérêt" }
            }
-        }, clientOnly: false)
+        }, clientOnly: true)
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
         @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)

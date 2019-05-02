@@ -1,4 +1,4 @@
-// @flow
+//      
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -7,10 +7,10 @@ import { connect, Provider } from 'react-redux';
 import { DescriptionTable as ST } from "../components/DescriptionTable";
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import { dataExplorerStore } from '../store/dataExplorer'
-import type { MultilangText, DataExplorerState, FilterData, ChartData } from "../types";
-import type { Dispatch } from 'redux';
+                                                                                        
+                                      
 
-const mapStateToDescriptionTableProps = (state:DataExplorerState, props) => (
+const mapStateToDescriptionTableProps = (state                  , props) => (
                                                                             {
                                                                                 definitionText: props.definitionText,
                                                                                 dataAvailableText: props.dataAvailableText,
@@ -30,17 +30,17 @@ export const DescriptionTableConnect = connect(
     mapStateToDescriptionTableProps
 )(ST)
 
-type DescriptionTableProps = {
-    definitionText: MultilangText,
-    dataAvailableText: MultilangText,
-    methodsText: MultilangText,
-    remarksText: MultilangText,
-    remarks: MultilangText,
-    methods: MultilangText,
-    dataAvailable: MultilangText,
-    definition: MultilangText
-}
-export class DescriptionTable extends React.Component<DescriptionTableProps> {
+                              
+                                  
+                                     
+                               
+                               
+                           
+                           
+                                 
+                             
+ 
+export class DescriptionTable extends React.Component                        {
     render() {
         console.log(this.props, dataExplorerStore)
         return (

@@ -1,11 +1,17 @@
-﻿// @flow
+﻿//      
 import * as d3 from "d3";
 import { i18n, numberFormat } from "./Translator";
-import type { ChartData, TPoint } from './types';
+                                                 
+const marginY = 10;
+const marginX = 60;
+const width = 700;
+const height = 400;
+
 let xAxisLabel, yAxisLabel;
 
 d3.selection.prototype.moveToFront = function () {
     return this.each(function () {
+        this.parentNode.appendChild(this);
     });
 };
 d3.selection.prototype.moveToBack = function () {
@@ -17,8 +23,8 @@ d3.selection.prototype.moveToBack = function () {
     });
 };
 
-const isBetween = (val: number, up: number, low: number) => val >= low && val <= up;
-const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
+const isBetween = (val        , up        , low        ) => val >= low && val <= up;
+const isPointInRange = (upper         , lower         , point        ) => {
 
     if (!(upper && lower)) return false;
     const pUpper = point.valueUpper;
@@ -40,9 +46,9 @@ const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
 
 }
 
-let updateHighlight: number => void = (index) => console.error("Must init graph");
+let updateHighlight                 = (index) => console.error("Must init graph");
 
-export function updateChart(ref: Element, dataset: ChartData, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean): void {
+export function updateChart(ref         , dataset           , highlightIndex        , highlightUpper        , highlightLower        , isTrend         )       {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
@@ -297,7 +303,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .remove();
 }
 
-export function initChart(ref: Element, dataset: ChartData, update: number => void, isTrend: boolean) {
+export function initChart(ref         , dataset           , update                , isTrend         ) {
     updateHighlight = update;
     const svg = d3.select(ref)
 
@@ -323,8 +329,13 @@ export function initChart(ref: Element, dataset: ChartData, update: number => vo
         .attr("stop-opacity", 0);
 
     xAxisLabel = chart.append("text")
+        .attr("y", height + marginY + 40)
         .attr("x", (marginX + width) / 2)
         .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-weight", "bold");
+
+    yAxisLabel = chart.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -(height/2))
         .attr("y", 20)
@@ -333,5 +344,8 @@ export function initChart(ref: Element, dataset: ChartData, update: number => vo
     let select = chart
         .append("g")
         .attr('class', 'main')
+        .attr("transform", "translate(" + marginX + "," + marginY + ")")
+
+
     updateChart(ref, dataset, -1, 0, 0, isTrend);
 }

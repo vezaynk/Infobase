@@ -25,15 +25,15 @@ else
 		<div class="btn-group btn-group-lg btn-group-justified" style="padding:20px 0px;">
 		@if (language == "fr-ca")
                 {
-			<a href="https://infobase.phac-aspc.gc.ca/pass-test2/?l=fra" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
-			<a href="https://infobase.phac-aspc.gc.ca/pass-test2/data-tool/?l=fra" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "datatool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
-			<a href="#" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
+			<a asp-action="index" asp-route-l="fra" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
+			<a asp-action="datatool" asp-route-l="fra" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "datatool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
+			<a asp-action="index" asp-route-l="fra" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
                 else
                 {
-			<a href="https://infobase.phac-aspc.gc.ca/pass-test2/" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
-			<a href="https://infobase.phac-aspc.gc.ca/pass-test2/data-tool/" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "datatool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
-			<a href="#" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
+			<a asp-action="index" asp-route-l="eng" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
+			<a asp-action="datatool" asp-route-l="eng" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "datatool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
+			<a asp-action="index" asp-route-l="eng" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
 		</div>
 		</div>

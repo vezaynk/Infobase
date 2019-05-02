@@ -1,20 +1,20 @@
-// @flow
+//      
 import * as React from 'react';
 import { i18n, numberFormat } from '../Translator';
-import type { ChartData, MultilangText } from '../types';
+                                                         
 
-export type SummaryTableProps = {
-    chartData: ChartData,
-    cvWarning: MultilangText,
-    cellsEmpty: MultilangText,
-    cvSuppressed: MultilangText,
-    remarks: MultilangText,
-    cvWarnAt: number,
-    cvSuppressAt: number
-}
+                                 
+                         
+                             
+                              
+                                
+                           
+                     
+                        
+ 
 
 
-export class SummaryTable extends React.Component<SummaryTableProps> {
+export class SummaryTable extends React.Component                    {
     componentMounted() {
         
     }

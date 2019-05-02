@@ -1,20 +1,20 @@
-// @flow
+//      
 import * as React from 'react';
-import type { MultilangText } from '../types';
+                                              
 import { i18n } from "../Translator";
 
-type DescriptionTableProps = {
-    definitionText: MultilangText,
-    dataAvailableText: MultilangText,
-    methodsText: MultilangText,
-    remarksText: MultilangText,
-    remarks: MultilangText,
-    methods: MultilangText,
-    dataAvailable: MultilangText,
-    definition: MultilangText
-}
+                              
+                                  
+                                     
+                               
+                               
+                           
+                           
+                                 
+                             
+ 
 
-export class DescriptionTable extends React.Component<DescriptionTableProps> {
+export class DescriptionTable extends React.Component                        {
     
     render() {
 
