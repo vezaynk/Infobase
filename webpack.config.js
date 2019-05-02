@@ -4,7 +4,7 @@ module.exports = [{
     mode: "development",
     target: 'web',
     entry: {
-        app: './Client/App.js'
+        app: './Client/app.ts'
     },
     devtool: "source-map",
     output: {
@@ -18,17 +18,26 @@ module.exports = [{
             {
                 rules: [
                   {
-                    test: /\.(js|jsx)$/,
+                    test: /\.(js|jsx|ts|tsx)$/,
                     exclude: /node_modules/,
                     loader: "babel-loader",
                     options: {
-                        presets: ["@babel/preset-env"]
+                        presets: ["@babel/env", "@babel/react"],
+                        plugins: []
+                    }
+                  },
+                  {
+                    test: /\.(ts|tsx)$/,
+                    exclude: /node_modules/,
+                    loader: "ts-loader",
+                    options: {
+                        
                     }
                   }
                 ]
               },
             {
-                test: /App.js/,
+                test: /app.ts/,
                 use: [{
                     loader: 'expose-loader',
                     options: 'Components'
@@ -52,6 +61,6 @@ module.exports = [{
     },
     resolve: {
         modules: [path.resolve(__dirname, 'Client'), 'node_modules'],
-        extensions: ['.ts', '.jsx', '.js']
+        extensions: ['.ts', '.jsx', '.js', '.tsx']
     }
 }];

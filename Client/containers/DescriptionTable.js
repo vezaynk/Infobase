@@ -7,21 +7,21 @@ import { connect, Provider } from 'react-redux';
 import { DescriptionTable as ST } from "../components/DescriptionTable";
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import { dataExplorerStore } from '../store/dataExplorer'
-                                                                                        
-                                      
 
-const mapStateToDescriptionTableProps = (state                  , props) => (
-                                                                            {
-                                                                                definitionText: props.definitionText,
-                                                                                dataAvailableText: props.dataAvailableText,
-                                                                                methodsText: props.methodsText,
-                                                                                remarksText: props.remarksText,
-                                                                                remarks: state.chartData.remarks,
-                                                                                methods: state.chartData.method,
-                                                                                dataAvailable: state.chartData.dataAvailable,
-                                                                                definition: state.chartData.definition
-                                                                            }
-                                                                        );
+
+
+const mapStateToDescriptionTableProps = (state, props) => (
+    {
+        definitionText: props.definitionText,
+        dataAvailableText: props.dataAvailableText,
+        methodsText: props.methodsText,
+        remarksText: props.remarksText,
+        remarks: state.chartData.remarks,
+        methods: state.chartData.method,
+        dataAvailable: state.chartData.dataAvailable,
+        definition: state.chartData.definition
+    }
+);
 
 
 
@@ -30,17 +30,17 @@ export const DescriptionTableConnect = connect(
     mapStateToDescriptionTableProps
 )(ST)
 
-                              
-                                  
-                                     
-                               
-                               
-                           
-                           
-                                 
-                             
- 
-export class DescriptionTable extends React.Component                        {
+
+
+
+
+
+
+
+
+
+
+export class DescriptionTable extends React.Component {
     render() {
         console.log(this.props, dataExplorerStore)
         return (

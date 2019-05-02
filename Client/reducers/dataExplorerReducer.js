@@ -1,8 +1,6 @@
-//      
-                                                                                 
-                                                    
 
-const initialState                    = {
+
+const initialState = {
     filters: [],
     chartData: {
         xAxis: {},
@@ -24,24 +22,24 @@ const initialState                    = {
     languageCode: "en-ca"
 }
 
-export const initState                                           = (payload) => {
-    return {type: "INIT_STATE", payload};
+export const initState = (payload) => {
+    return { type: "INIT_STATE", payload };
 }
 
-export const updateLoadState                                 = (payload) => {
-    return {type: "LOAD", payload};
+export const updateLoadState = (payload) => {
+    return { type: "LOAD", payload };
 }
 
-export const updateFilters                                      = (payload) => {
-    return {type: "UPDATE_FILTERS", payload};
+export const updateFilters = (payload) => {
+    return { type: "UPDATE_FILTERS", payload };
 }
 
-export const updateChartData                                   = (payload) => {
-    return {type: "UPDATE_DATA", payload};
+export const updateChartData = (payload) => {
+    return { type: "UPDATE_DATA", payload };
 }
 
 
-export const dataExplorerReducer                                     = (previousState = initialState, action) => {
+export const dataExplorerReducer = (previousState = initialState, action) => {
     let state = { ...previousState };
     switch (action.type) {
         case "LOAD":
@@ -54,7 +52,7 @@ export const dataExplorerReducer                                     = (previous
             state.chartData = action.payload;
             break;
         case "INIT_STATE":
-            return {previousState, ...action.payload};
+            return { previousState, ...action.payload };
     }
 
     return state;
