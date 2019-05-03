@@ -6,9 +6,10 @@
 <div id="root">
 
 </div>
+@Html.React("Components.App", new {}, clientOnly: true)
 <script>
 setTimeout(() => {
-    ReactDOM.render(React.createElement(Components.App), document.getElementById("root"));
+    //ReactDOM.render(React.createElement(Components.App), document.getElementById("root"));
 
 }, 1000);
 </script>

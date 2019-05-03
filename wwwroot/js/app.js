@@ -130,26 +130,23 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 
 
-exports.__esModule = true; //import { useChartData, useFilters } from '../hooks/hooks';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); //import { useChartData, useFilters } from '../hooks/hooks';
 
-var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/*export function InitializeChartDataStore(props) {
+    //const [filters, setFilters] = useFilters();
+    //const [chartData, setChartData] = useChartData();
+    //setFilters(props.filters);
+    //setChartData(props.chartData);
+    //const [get, set] = useState(0);
+    //console.log("HAAA")
+    //return <span>Hello World</span>;
+}*/
 
-function InitializeChartDataStore(props) {
-  //const [filters, setFilters] = useFilters();
-  //const [chartData, setChartData] = useChartData();
-  //setFilters(props.filters);
-  //setChartData(props.chartData);
-  var _a = react_1.useState(0),
-      get = _a[0],
-      set = _a[1];
-
-  console.log("HAAA");
-  return React.createElement("span", null, "Hello World");
-}
-
-exports.InitializeChartDataStore = InitializeChartDataStore;
 
 function App() {
   var _a = react_1.useState(0),
@@ -2320,19 +2317,7 @@ module.exports = react;
 
 /***/ }),
 
-/***/ "./node_modules/react/index.js?7c21":
-/*!*************************************!*\
-  !*** ./node_modules/react/index.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js?ab5b");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/react/index.js?ab5b":
+/***/ "./node_modules/react/index.js":
 /*!*************************************!*\
   !*** ./node_modules/react/index.js ***!
   \*************************************/
@@ -2346,6 +2331,18 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/react.development.js */ "./node_modules/react/cjs/react.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/react/index.js-exposed":
+/*!*********************************************!*\
+  !*** ./node_modules/react/index.js-exposed ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

@@ -28,7 +28,7 @@ export function useFilters() {
     return useState([]);
 }
 
-export async function loadSelection(filter, option) {
+/*export async function loadSelection(filter, option) {
     const [filters, setFilters] = useFilters();
     const [chartData, setChartData] = useChartData();
     const [loading, setLoading] = useLoading();
@@ -45,4 +45,4 @@ export async function loadSelection(filter, option) {
     setFilters(r.filters);
     setChartData(r.chartData);
     setLoading(false);
-}
+}*/

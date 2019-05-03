@@ -1,6 +1,11 @@
 {
     "compilerOptions": {
         "sourceMap": true,
-        "jsx": "react"
+        "jsx": "react",
+        "noImplicitAny": true,
+        "target": "es5",
+        "lib": ["es5", "es6", "dom"],
+        "allowJs": true,
+        "moduleResolution": "node"
     }
   }

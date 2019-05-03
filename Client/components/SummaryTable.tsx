@@ -3,22 +3,22 @@ import * as React from 'react';
 import { i18n, numberFormat } from '../Translator';
 import { useChartData } from '../hooks/hooks';
 
-export function SummaryTable(props) {
+export function SummaryTable(props: { cvWarnAt: any; cvWarning: any; cvSuppressAt: any; cvSuppressed: any; }) {
     const [chartData, setChartData] = useChartData(); 
     let warningCV = null;
     let suppressedCV = null;
     if (chartData.points.some(p => p.cvInterpretation == 2))
-        if (this.props.cvWarnAt) {
-            warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, { warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
+        if (props.cvWarnAt) {
+            warningCV = <p><sup>E</sup>{i18n(props.cvWarning, undefined, { warn: numberFormat(props.cvWarnAt), suppress: numberFormat(props.cvSuppressAt) })}</p>
         } else {
-            warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, "alt")}</p>
+            warningCV = <p><sup>E</sup>{i18n(props.cvWarning, "alt")}</p>
         }
 
     if (chartData.points.some(p => p.cvInterpretation == 1))
-        if (this.props.cvWarnAt) {
-            suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, { warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
+        if (props.cvWarnAt) {
+            suppressedCV = <p><sup>F</sup>{i18n(props.cvSuppressed, undefined, { warn: numberFormat(props.cvWarnAt), suppress: numberFormat(props.cvSuppressAt) })}</p>
         } else {
-            suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
+            suppressedCV = <p><sup>F</sup>{i18n(props.cvSuppressed, "alt")}</p>
 
         }
 
