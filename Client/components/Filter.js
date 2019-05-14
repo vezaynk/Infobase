@@ -22,7 +22,7 @@ export class Filter extends React.Component<FilterProps> {
                 <select disabled={this.props.loading} 
                         className="form-control input-sm full-width" 
                         value={this.props.selected} 
-                        name={this.props.id} 
+                        name="index"
                         id={this.props.id} 
                         onChange={(e) => this.props.onSelect(Number.parseInt(e.currentTarget.value))
                 }>

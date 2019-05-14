@@ -479,7 +479,7 @@ function (_React$Component) {
         disabled: this.props.loading,
         className: "form-control input-sm full-width",
         value: this.props.selected,
-        name: this.props.id,
+        name: "index",
         id: this.props.id,
         onChange: function onChange(e) {
           return _this2.props.onSelect(Number.parseInt(e.currentTarget.value));
@@ -557,73 +557,63 @@ function (_React$Component) {
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(FilterBox, [{
     key: "selectFilter",
-    value: function selectFilter(id) {
-      var _this = this;
+    value: function () {
+      var _selectFilter = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(selected) {
+        var request, response, r;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.props.updateLoadState(true);
+                history.pushState(null, document.title, "?index=".concat(selected));
+                _context.next = 4;
+                return fetch(window.location.toString(), {
+                  method: 'POST'
+                });
 
-      return (
-        /*#__PURE__*/
-        function () {
-          var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-          /*#__PURE__*/
-          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(value) {
-            var request, response, r;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    _this.props.updateLoadState(true);
+              case 4:
+                request = _context.sent;
+                _context.prev = 5;
+                _context.next = 8;
+                return request;
 
-                    history.pushState(null, document.title, "?".concat(id, "=").concat(value));
-                    _context.next = 4;
-                    return fetch(window.location.toString(), {
-                      method: 'POST'
-                    });
+              case 8:
+                response = _context.sent;
+                _context.next = 11;
+                return response.json();
 
-                  case 4:
-                    request = _context.sent;
-                    _context.prev = 5;
-                    _context.next = 8;
-                    return request;
+              case 11:
+                r = _context.sent;
+                this.props.updateFilters(r.filters);
+                this.props.updateChartData(r.chartData);
+                this.props.updateLoadState(false);
+                return _context.abrupt("return", true);
 
-                  case 8:
-                    response = _context.sent;
-                    _context.next = 11;
-                    return response.json();
+              case 18:
+                _context.prev = 18;
+                _context.t0 = _context["catch"](5);
+                return _context.abrupt("return", false);
 
-                  case 11:
-                    r = _context.sent;
+              case 21:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[5, 18]]);
+      }));
 
-                    _this.props.updateFilters(r.filters);
+      function selectFilter(_x) {
+        return _selectFilter.apply(this, arguments);
+      }
 
-                    _this.props.updateChartData(r.chartData);
-
-                    _this.props.updateLoadState(false);
-
-                    return _context.abrupt("return", true);
-
-                  case 18:
-                    _context.prev = 18;
-                    _context.t0 = _context["catch"](5);
-                    return _context.abrupt("return", false);
-
-                  case 21:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee, this, [[5, 18]]);
-          }));
-
-          return function (_x) {
-            return _ref.apply(this, arguments);
-          };
-        }()
-      );
-    }
+      return selectFilter;
+    }()
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
       return react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
         className: "col-md-3 padding-15 "
@@ -631,15 +621,16 @@ function (_React$Component) {
         className: "text-info"
       }, Object(_Translator__WEBPACK_IMPORTED_MODULE_9__["i18n"])(this.props.prompt), ":"), react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
         className: "form-group-md"
-      }, this.props.filters.map(function (filter) {
+      }, this.props.filters.map(function (filter, i) {
         return react__WEBPACK_IMPORTED_MODULE_7__["createElement"](_Filter__WEBPACK_IMPORTED_MODULE_8__["Filter"], {
-          key: filter.id,
-          id: filter.id,
-          name: filter.name,
+          key: i,
+          id: "drop" + i,
           items: filter.items,
           selected: filter.selected,
-          onSelect: _this2.selectFilter(filter.id),
-          loading: _this2.props.loading
+          onSelect: function onSelect(selected) {
+            return _this.selectFilter(selected);
+          },
+          loading: _this.props.loading
         });
       })));
     }

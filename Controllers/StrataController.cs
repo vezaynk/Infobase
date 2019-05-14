@@ -18,7 +18,7 @@ namespace Infobase.Controllers
 
         public StrataController(PASSContext context)
         {
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _context = context;
         }
 
@@ -46,29 +46,11 @@ namespace Infobase.Controllers
         }
 
         // GET: Strata/Details/
-        public async Task<IActionResult> Datatool(string language, int? measureId, int? indicatorId, int? lifeCourseId, int? indicatorGroupId, int? activityId, int strataId = -1, bool api = false)
+        public async Task<IActionResult> Datatool(string language, int index=1, bool api = false)
         {
-            /* Figure out a strataId to use. Not terribly efficient. A better solution is needed. */
-
-            if (activityId != null)
-                indicatorGroupId = _context.Activity.FirstOrDefault(m => m.ActivityId == activityId && m.DefaultIndicatorGroupId != null).DefaultIndicatorGroupId;
-
-            if (indicatorGroupId != null)
-                lifeCourseId = _context.IndicatorGroup.FirstOrDefault(m => m.IndicatorGroupId == indicatorGroupId && m.DefaultLifeCourseId != null).DefaultLifeCourseId;
-
-            if (lifeCourseId != null)
-                indicatorId = _context.LifeCourse.FirstOrDefault(m => m.LifeCourseId == lifeCourseId && m.DefaultIndicatorId != null).DefaultIndicatorId;
-
-            if (indicatorId != null)
-                measureId = _context.Indicator.FirstOrDefault(m => m.IndicatorId == indicatorId && m.DefaultMeasureId != null).DefaultMeasureId;
-
-            if (measureId != null)
-                strataId = _context.Measure.FirstOrDefault(m => m.MeasureId == measureId && m.DefaultStrataId != null).DefaultStrataId ?? -1;
-
-
             var strata = await _context.Strata
 
-
+/*
                 // Measure
                 .Include(s => s.Measure)
 
@@ -108,9 +90,11 @@ namespace Infobase.Controllers
                 // Include associated indicator groups
                 .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.Activity)
                     .ThenInclude(p => p.IndicatorGroups)
-                .OrderBy(m => m.StrataId == strataId ? 0 : 1)
-                .ThenBy(m => m.Index)
-                .FirstOrDefaultAsync();
+                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups)
+                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses)
+                .Include(s => s.Measure.Indicator.LifeCourse.Indicators)
+                .Include(s => s.Measure.Indicator.Measures) */
+                .FirstOrDefaultAsync(m => m.Index == index);
 
 
             if (strata == null)
@@ -190,11 +174,11 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(ac => new DropdownItem
                                      {
-                                         Value = ac.ActivityId,
+                                         Value = ac.Index,
                                          Text = ac.ActivityNameEn
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", "activityId", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", "index", activities, strata.Index));
 
             var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups
                                      .Where(ig => ig.DefaultLifeCourseId != null)
@@ -202,11 +186,11 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(ig => new DropdownItem
                                      {
-                                         Value = ig.IndicatorGroupId,
+                                         Value = ig.Index,
                                          Text = ig.IndicatorGroupNameEn
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", "indicatorGroupId", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroupId));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", "index", indicatorGroups, strata.Index));
 
             var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses
                                      .Where(lc => lc.DefaultIndicatorId != null)
@@ -214,11 +198,11 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(lc => new DropdownItem
                                      {
-                                         Value = lc.LifeCourseId,
+                                         Value = lc.Index,
                                          Text = lc.LifeCourseNameEn
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", "lifeCourseId", lifeCourses, strata.Measure.Indicator.LifeCourseId));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", "index", lifeCourses, strata.Index));
 
             var indicators = strata.Measure.Indicator.LifeCourse.Indicators
                                      .Where(i => i.DefaultMeasureId != null)
@@ -226,11 +210,11 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(i => new DropdownItem
                                      {
-                                         Value = i.IndicatorId,
+                                         Value = i.Index,
                                          Text = i.IndicatorNameEn
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", "indicatorId", indicators, strata.Measure.IndicatorId));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", "index", indicators, strata.Index));
 
             var measures = strata.Measure.Indicator.Measures
                                      .Where(m => m.DefaultStrataId != null && m.Included)
@@ -238,22 +222,22 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(m => new DropdownItem
                                      {
-                                         Value = m.MeasureId,
+                                         Value = m.Index,
                                          Text = m.MeasureNameIndexEn
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", "measureId", measures, strata.MeasureId));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", "index", measures, strata.Index));
 
             var stratas = strata.Measure.Stratas
                                      .AsEnumerable()
                                      .OrderBy(x => x.Index)
                                      .Select(s => new DropdownItem
                                      {
-                                         Value = s.StrataId,
+                                         Value = s.Index,
                                          Text = s.StrataNameEn
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Répartition des données" : "Data Breakdowns", "strataId", stratas, strataId));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Répartition des données" : "Data Breakdowns", "index", stratas, strata.Index));
 
 
             if (Request.Method == "GET" && !api)

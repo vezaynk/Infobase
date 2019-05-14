@@ -13,6 +13,10 @@ namespace Infobase.Models
             : base(options)
         {
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 
         public DbSet<Activity> Activity { get; set; }
 
