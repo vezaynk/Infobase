@@ -297,7 +297,7 @@ function (_React$Component) {
         style: {
           margin: "0 10px"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("strong", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_10__["i18n"])(this.props.chartData.measureName), ", ", Object(_Translator__WEBPACK_IMPORTED_MODULE_10__["i18n"])(this.props.chartData.population, "Datatool"))), react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("svg", {
+      }, react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("strong", null, this.props.chartData.title)), react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("svg", {
         className: "chart",
         ref: function ref(self) {
           return _this3.graph = self;
@@ -728,7 +728,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("table", {
         className: "table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm",
         id: "chartgridview"
-      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("caption", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.measureName), ", ", Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.population, "Datatool")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("thead", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
+      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("caption", null, this.props.chartData.title), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("thead", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
         className: "text-left",
         scope: "col"
       }, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.xAxis)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {

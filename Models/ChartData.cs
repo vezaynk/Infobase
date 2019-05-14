@@ -38,5 +38,6 @@ namespace Infobase.Models
         public double? SuppressCV {get;set;}
 
         public string MeasureName {get;set;}
+        public string Title { get; set; }
     }
 }

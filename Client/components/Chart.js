@@ -43,7 +43,7 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
         return (
             <figure>
                 <figcaption style={{ margin: "0 10px" }}>
-                    <strong>{i18n(this.props.chartData.measureName)}, {i18n(this.props.chartData.population, "Datatool")}</strong>
+                    <strong>{this.props.chartData.title}</strong>
                 </figcaption>
 
                 <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 820 500" width="820" height="500" preserveAspectRatio="xMidYMid meet" style={{ width: 100 + "%" }}>

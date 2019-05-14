@@ -43,7 +43,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
             <div className="col-md-12">
     <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">
         <caption>
-            {i18n(this.props.chartData.measureName)}, {i18n(this.props.chartData.population, "Datatool")}
+            {this.props.chartData.title}
         </caption>
 
         <thead>
