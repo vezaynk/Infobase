@@ -22,6 +22,7 @@ namespace Infobase.Models
 
         public string XAxis { get; set; }
         public string YAxis { get; set; }
+        public string Unit { get; set; }
         public IEnumerable<Point> Points { get; set; }
         public string Source { get; set; }
         public string Organization { get; set; }

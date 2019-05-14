@@ -121,6 +121,7 @@ namespace Infobase.Controllers
             var chart = new ChartData {
                 XAxis = strata.StrataNameEn,
                 YAxis = strata.Measure.MeasureUnitLongEn,
+                Unit = strata.Measure.MeasureUnitShortEn,
                 Source = strata.StrataSourceEn,
                 // Both stratas AND measure contain populations. They must be merged.
                 // Population = new Translatable(strata.Measure.MeasurePopulation.Union(strata.StrataPopulation).ToDictionary(p => p.Key, p => p.Value)),
@@ -204,7 +205,7 @@ namespace Infobase.Controllers
                                      .Select(m => new DropdownItem
             {
                 Value = m.MeasureId,
-                Text = m.MeasureNameDataToolEn
+                Text = m.MeasureNameIndexEn
             });
 
             cpm.filters.Add(new DropdownMenuModel(language=="fr-ca"?"Mesures":"Measures", "measureId", measures, strata.MeasureId));

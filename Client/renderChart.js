@@ -115,7 +115,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
 
     enteredRect.append("title")
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + /*" " +*/ i18n(dataset.unit, "Index"));
 
     pointBinding
         .select("rect")
@@ -130,7 +130,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("fill", "steelblue")
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 1 : 1) //Point A to 0.2 to bring back functionality
         .select("title")
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.yAxis, "Index"));
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.unit, "Index"));
 
 
     pointBinding.on("mouseover", (_, i) => updateHighlight(i))
@@ -258,7 +258,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration(600)
         .attr("x", () => width)
         .attr("y", d => y(d.value) - 5)
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + i18n(dataset.yAxis, "Index"))
+        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + i18n(dataset.unit, "Index"))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
