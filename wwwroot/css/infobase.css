@@ -366,3 +366,8 @@ details[open] summary:after {
     background: url('../assets/expand.gif');
     background-repeat: no-repeat;
 }
+
+#graph {
+    width: 100%;
+    height: 100%;
+}
