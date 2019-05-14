@@ -1,15 +1,15 @@
-//      
+// @flow
 import * as React from 'react';
-                                           
+import type { FilterData } from '../types';
 
 
-                                 
-                     
-                                         
- 
+type FilterProps = FilterData & {
+    loading: boolean,
+    onSelect: number => Promise<boolean> 
+}
 
-export class Filter extends React.Component              {
-                              
+export class Filter extends React.Component<FilterProps> {
+    noscript: ?HTMLDivElement;
 
     componentDidMount() {
         if (this.noscript)

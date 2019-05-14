@@ -1,8 +1,8 @@
-//      
-                                                                                 
-                                                    
+// @flow
+import type { FilterData, DataExplorerState, ChartData, Action } from "../types";
+import type { Reducer, ActionCreator } from 'redux';
 
-const initialState                    = {
+const initialState: DataExplorerState = {
     filters: [],
     chartData: {
         xAxis: {},
@@ -24,24 +24,24 @@ const initialState                    = {
     languageCode: "en-ca"
 }
 
-export const initState                                           = (payload) => {
+export const initState: ActionCreator<Action, DataExplorerState> = (payload) => {
     return {type: "INIT_STATE", payload};
 }
 
-export const updateLoadState                                 = (payload) => {
+export const updateLoadState: ActionCreator<Action, boolean> = (payload) => {
     return {type: "LOAD", payload};
 }
 
-export const updateFilters                                      = (payload) => {
+export const updateFilters: ActionCreator<Action, FilterData[]> = (payload) => {
     return {type: "UPDATE_FILTERS", payload};
 }
 
-export const updateChartData                                   = (payload) => {
+export const updateChartData: ActionCreator<Action, ChartData> = (payload) => {
     return {type: "UPDATE_DATA", payload};
 }
 
 
-export const dataExplorerReducer                                     = (previousState = initialState, action) => {
+export const dataExplorerReducer: Reducer<DataExplorerState, Action> = (previousState = initialState, action) => {
     let state = { ...previousState };
     switch (action.type) {
         case "LOAD":

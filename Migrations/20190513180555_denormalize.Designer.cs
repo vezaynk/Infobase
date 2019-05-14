@@ -3,15 +3,17 @@ using System;
 using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infobase.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20190513180555_denormalize")]
+    partial class denormalize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,31 +156,21 @@ namespace Infobase.Migrations
 
                     b.Property<string>("MeasureMethodFr");
 
-                    b.Property<string>("MeasureNameDataToolEn");
+                    b.Property<string>("MeasureNameEn");
 
-                    b.Property<string>("MeasureNameDataToolFr");
+                    b.Property<string>("MeasureNameFr");
 
-                    b.Property<string>("MeasureNameIndexEn");
+                    b.Property<string>("MeasurePopulationEn");
 
-                    b.Property<string>("MeasureNameIndexFr");
+                    b.Property<string>("MeasurePopulationFr");
 
-                    b.Property<string>("MeasurePopulationGroupEn");
-
-                    b.Property<string>("MeasurePopulationGroupFr");
+                    b.Property<string>("MeasureSourceEn");
 
                     b.Property<string>("MeasureSourceFr");
-
-                    b.Property<string>("MeasureSourceLongEn");
-
-                    b.Property<string>("MeasureSourceShortEn");
 
                     b.Property<string>("MeasureUnitEn");
 
                     b.Property<string>("MeasureUnitFr");
-
-                    b.Property<string>("MeasureUnitLongEn");
-
-                    b.Property<string>("MeasureUnitShortEn");
 
                     b.HasKey("MeasureId");
 
@@ -242,9 +234,9 @@ namespace Infobase.Migrations
 
                     b.Property<string>("StrataNotesFr");
 
-                    b.Property<string>("StrataPopulationTitleFragmentEn");
+                    b.Property<string>("StrataPopulationEn");
 
-                    b.Property<string>("StrataPopulationTitleFragmentFr");
+                    b.Property<string>("StrataPopulationFr");
 
                     b.Property<string>("StrataSourceEn");
 

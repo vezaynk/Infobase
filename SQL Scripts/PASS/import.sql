@@ -1,4 +1,9 @@
 /**
+PASS-DB Normalization Script v4
+ - Denormalized languages
+	- Removed most tables
+	- Data and text are not together
+
 PASS-DB Normalization Script v3
  - First-class PostgreSQL support
  - Added safe-guards against fake nulls (Nulls wrongly imported as empty strings) using coalesce and case
@@ -10,14 +15,15 @@ PASS-DB Normalization Script v2
  - Always defaults to the correct option
 **/
 
-insert into "Activity" ("Index")
-	select min(id::Integer) from master group by Activity;
+insert into "Activity" ("Index", "ActivityNameEn")
+	select min(id::Integer), Activity from master group by Activity;
 
 
-insert into "IndicatorGroup"("ActivityId", "Index")
+insert into "IndicatorGroup"("ActivityId", "Index", "IndicatorGroupNameEn")
 	select
 		"ActivityId",
-		min(masterA.id::Integer)
+		min(masterA.id::Integer),
+		MasterA."indicator_group"
 	from
 		master masterA, 
 		master masterB,
@@ -30,10 +36,11 @@ insert into "IndicatorGroup"("ActivityId", "Index")
 		MasterA."indicator_group";
 
 
-insert into "LifeCourse"("IndicatorGroupId", "Index")
+insert into "LifeCourse"("IndicatorGroupId", "Index", "LifeCourseNameEn")
 	select
 		"IndicatorGroupId",
-		min(masterA.id::Integer)
+		min(masterA.id::Integer),
+		masterA."life_course"
 	from
 		master masterA, 
 		master masterB,
@@ -46,10 +53,11 @@ insert into "LifeCourse"("IndicatorGroupId", "Index")
 		"IndicatorGroupId",
 		masterA."life_course";
 
-insert into "Indicator"("LifeCourseId", "Index")
+insert into "Indicator"("LifeCourseId", "Index", "IndicatorNameEn")
 	select
 		"LifeCourseId",
-		min(masterA.id::Integer)
+		min(masterA.id::Integer),
+		masterA."indicator"
 	from
 		master masterA, 
 		master masterB,
@@ -63,14 +71,25 @@ insert into "Indicator"("LifeCourseId", "Index")
 		"LifeCourseId",
 		masterA."indicator";
 
-insert into "Measure"("IndicatorId", "Index", "CVWarnAt", "CVSuppressAt", "Included", "Aggregator")
+insert into "Measure"("IndicatorId", "Index", "CVWarnAt", "CVSuppressAt", "Included", "Aggregator", "MeasureNameIndexEn", "MeasureNameDataToolEn", "MeasureAdditionalRemarksEn", "MeasureDataAvailableEn", "MeasureMethodEn", "MeasureDefinitionEn", "MeasurePopulationGroupEn", "MeasureSourceShortEn", "MeasureSourceLongEn", "MeasureUnitLongEn", "MeasureUnitShortEn")
 	select
-		"IndicatorId",		
+		"IndicatorId",
 		min(masterA.id::Integer),
 		case coalesce(mastera."cv_range_1", '') when '' then null else mastera."cv_range_1"::double precision end,
 		case coalesce(masterA."cv_range_2", '') when '' then null else mastera."cv_range_2"::double precision end,
 		case mastera.include_dt when 'Y' then true else false end,
-		masterA."other_dt_display" is not null
+		masterA."other_dt_display" is not null,
+		trim(masterA."specific_measure_1"),
+		trim(masterA."specific_measure_2"),
+		trim(masterA."additional_remarks"),
+		trim(masterA."data_available"),
+		trim(masterA."defintion"),
+		trim(masterA."estimate_calculation"),
+		trim(masterA."population_2"),
+		trim(masterA."data_source_2"),
+		trim(masterA."data_source_3"),
+		trim(masterA."unit_label_1"),
+		trim(masterA."unit_label_2")
 	from
 		master masterA, 
 		master masterB,
@@ -85,14 +104,26 @@ insert into "Measure"("IndicatorId", "Index", "CVWarnAt", "CVSuppressAt", "Inclu
 		"IndicatorId",
 		mastera."cv_range_1",
 		mastera."cv_range_2",
-		masterA."specific_measure_1",
-		masterA."include_dt",
-		masterA."other_dt_display";
+		mastera.include_dt,
+		masterA."other_dt_display",
+		trim(masterA."specific_measure_1"),
+		trim(masterA."specific_measure_2"),
+		trim(masterA."additional_remarks"),
+		trim(masterA."data_available"),
+		trim(masterA."defintion"),
+		trim(masterA."estimate_calculation"),
+		trim(masterA."population_2"),
+		trim(masterA."data_source_2"),
+		trim(masterA."data_source_3"),
+		trim(masterA."unit_label_1"),
+		trim(masterA."unit_label_2");
 
-insert into "Strata"("MeasureId", "Index")
+
+insert into "Strata"("MeasureId", "Index", "StrataNameEn")
 select
 		"MeasureId",		
-		min(masterA.id::Integer)
+		min(masterA.id::Integer),
+		masterA.data_breakdowns
 	from
 		master masterA, 
 		master masterB,
@@ -106,10 +137,10 @@ select
 		masterb.Activity = mastera.Activity
 	group by 
 		"MeasureId",
-		masterA."data_breakdowns";
+		masterA.data_breakdowns;
 
 
-insert into "Point"("StrataId", "CVInterpretation", "CVValue", "ValueAverage", "ValueUpper", "ValueLower", "Type", "Index")
+insert into "Point"("StrataId", "CVInterpretation", "CVValue", "ValueAverage", "ValueUpper", "ValueLower", "Type", "Index", "PointLabelEn")
 	select
 		"StrataId",
 		case coalesce(masterA.CV_Interpretation, '') when '' then null else masterA.CV_Interpretation::Integer end,
@@ -118,7 +149,8 @@ insert into "Point"("StrataId", "CVInterpretation", "CVValue", "ValueAverage", "
 		case coalesce(masterA.CI_Upper_95, '') when '' then null else round(masterA.CI_Upper_95::numeric, 1) end,
 		case coalesce(masterA.CI_low_95, '') when '' then null else round(masterA.CI_low_95::numeric, 1) end,
 		case coalesce(masterA."display_data", '') when '' then 0 else masterA."display_data"::Integer end,
-		masterA.id::Integer
+		masterA.id::Integer,
+		masterA.disaggregation
 	from
 		master masterA,
 		master masterB,
@@ -239,7 +271,7 @@ update
 		s."ActivityId" = m."ActivityId";
 
 /* Prepare "Translation" table */
-
+/*
 INSERT INTO "Translation" ("LanguageCode", "Text")
 	SELECT DISTINCT 'en-ca', "activity" FROM Master A
 		WHERE  A."activity" != '' AND A."activity" NOT IN (SELECT "Text" FROM "Translation" WHERE "Text" is NOT null);
@@ -415,4 +447,4 @@ insert into "PointLabelTranslation"("PointId", "TranslationId")
 select "PointId", "TranslationId" from "master"
 inner join "Point" on "Index" = "master".id::Integer
 inner join "Translation" on "disaggregation" = "Text";
-
+*/

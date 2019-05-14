@@ -9,7 +9,7 @@
     var lifeCourseNames = Model.OrderBy(x => x.Index)
                                 .SelectMany(a => a.IndicatorGroups
                                                     .OrderBy(x => x.Index)
-                                                    .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseName.Get((language, null))))
+                                                    .SelectMany(ig => ig.LifeCourses.Select(lc => lc.LifeCourseNameEn))
                                            ).Distinct();
 
 }
@@ -17,6 +17,7 @@
     <div class="row">
         <div class="col-md-8">
 		@if (language == "en-ca") {
+            <p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provides important surveillance information on physical activity, sedentary and sleep behaviours in Canadians as well as factors that influence them. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: individual, family/social environment, and built/society environment.</p>
             <p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provides important surveillance information on physical activity, sedentary and sleep behaviours in Canadians as well as factors that influence them. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: individual, family/social environment, and built/society environment.</p>
 
             <p>For an overview of the 2018 edition of the PASS Indicators, see the Quick Stats Overview below. Click on any of the three activities listed under adults (aged 18+ years) or children and youth (aged 5 to 17 years). A list of all indicator groups, indicators and their measures with their corresponding pan-Canadian estimates, where available, will unfold. Additionally, a detailed description of each measure, excluding those considered “In development”, can be obtained by clicking on the “Description” link next to each measure.</p>
@@ -68,7 +69,7 @@
             {
 
                 <details>
-                    <summary>@activity.ActivityName.Get((language, null))</summary>
+                    <summary>@activity.ActivityNameEn</summary>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
@@ -87,7 +88,7 @@
 
                                     var igFirst = true;
                                     // Must only select indicators which are a subset of the desired lifecourse
-                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName.Get((language, null)) == lifeCourseName).SelectMany(lc => lc.Indicators);
+                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseNameEn == lifeCourseName).SelectMany(lc => lc.Indicators);
                                     foreach (var indicator in indicators.OrderBy(x => x.Index))
                                     {
                                         var indicatorFirst = true;
@@ -97,14 +98,14 @@
                                                 @if (igFirst)
                                                 {
                                                     igFirst = false;
-                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupName.Get((language, null)) </MiniTex></td>
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupNameEn </MiniTex></td>
                                                 }
                                                 @if (indicatorFirst)
                                                 {
                                                     indicatorFirst = false;
-                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorName.Get((language, null))</MiniTex></td>
+                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorNameEn</MiniTex></td>
                                                 }
-                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureName.Get((language, "Index"))</MiniTex></td>
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureNameIndexEn</MiniTex></td>
                                                 @if (measure.DefaultStrataId == null)
                                                 {
                                                     <td><MiniTex>-</MiniTex></td>
@@ -117,15 +118,20 @@
                                                     }
                                                     else
                                                     {
-                                                        <td data-index="@measure.MeasurePoint.Index"><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language)@measure.MeasureUnit.Get((language, "Index"))</MiniTex></td>
+                                                        <td data-index="@measure.MeasurePoint.Index"><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language)@measure.MeasureUnitShortEn</MiniTex></td>
                                                     }
                                                 }
 
-                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSource.Get((language, "Index"))</MiniTex></td>
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSourceShortEn</MiniTex></td>
                                                 <td>
                                                     @if (measure.Included)
                                                     {
-                                                        <a asp-action="Details" asp-route-id="@measure.MeasureId" class="btn btn-default">Description</a>
+														@if (language == "en-ca") {
+															<a class="btn btn-default" href="https://health-infobase.canada.ca/pass/indicator-details/@measure.MeasureId">Description</a>
+														}else{
+															<a class="btn btn-default" href="https://sante-infobase.canada.ca/apcss/description-de-mesure/@measure.MeasureId">Description</a>
+														}
+                                                        <!--<a asp-action="Details" asp-route-id="@measure.MeasureId" class="btn btn-default">Description</a> -->
                                                     }
 
                                                 </td>

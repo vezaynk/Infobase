@@ -16,19 +16,12 @@ namespace Infobase.Models.PASS
         public int CVInterpretation { get; set; }
         public int? CVValue { get; set; }
         public virtual Strata Strata { get; set; }
-        public virtual ICollection<PointLabelTranslation> PointLabelTranslations { get; set; }
 
         /* Text getters */
-        public Translatable PointLabel => Translation.GetTranslation( PointLabelTranslations);
+        public string PointLabelEn { get; set; }
+        public string PointLabelFr { get; set; }
+        
 
         public int Type { get; set; }
-    }
-
-    public class PointLabelTranslation : ITranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int PointId { get; set; }
-        public virtual Point Point { get; set; }
     }
 }

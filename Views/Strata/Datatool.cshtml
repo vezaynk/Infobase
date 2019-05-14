@@ -5,17 +5,13 @@
 }
 @Html.React("Components.InitializeChartDataStore", new {
             state = Model
-        }, clientOnly: false)
+        }, clientOnly: true)
 
 <div class="row brdr-bttm" style="padding-bottom:50px;">        
         @Html.React("Components.Filters", new
 		{
-       filters = Model.filters,
-       prompt = new Translatable()
-           {
-               { ("en-ca", null), "Select an item from each list below" },
-               { ("fr-ca", null), "Sélectionner les paramètres d'intérêt" }
-           }
+            filters = Model.filters,
+            prompt = "Sélectionner les paramètres d'intérêt"
         }, clientOnly: true)
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
@@ -44,7 +40,6 @@
 </div>
 
 @{
-    // todo remove
         var cellsEmptyText = new Translatable() {
                                                 {("en-ca", null), ""},
                                                 {("fr-ca", null), ""}
@@ -60,14 +55,20 @@
         var cvSuppressText = new Translatable() {
                                                 {("en-ca", null), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."},
                                                 {("fr-ca", null), "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées."},
-                                                {("en-ca", "alt"), "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers."},
+                                                {("en-ca", "alt"), "Cells highlighted in red indicate where estimates are unstable or unreleasable."},
                                                 {("fr-ca", "alt"), "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées."}
                                                 
                                                 };
     }
     <div class="row">
 <div class="col-sm-12">
-    @Html.React("Components.SummaryTable", new { chartData = Model.ChartData, cellsEmpty=cellsEmptyText, cvWarning = cvWarnText, cvSuppressed = cvSuppressText }, clientOnly: true)
+    @Html.React("Components.SummaryTable", new { 
+            chartData = Model.ChartData, 
+            cellsEmpty="", 
+            cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
+            cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
+        },
+        clientOnly: true)
 </div>
 </div>
 <div class="row brdr-bttm">
@@ -85,39 +86,29 @@
         </h4>
 
         <div class="row">
-        <div class="col-sm-12">
-            @Html.React("Components.DescriptionTable", new { definitionText = new Translatable() {
-                {("en-ca", null), "Definition"},
-                {("fr-ca", null), "Définition"}
-            },
-            dataAvailableText = new Translatable() {
-                {("en-ca", null), "Data Available"},
-                {("fr-ca", null), "Ventilation des données"}
-            },
-            
-            methodsText = new Translatable() {
-                {("en-ca", null), "Estimate Calculation"},
-                {("fr-ca", null), "Méthodes de calculs"}
-            },
-            remarksText = new Translatable() {
-                {("en-ca", null), "Additional Remarks"},
-                {("fr-ca", null), "Remarques supplémentaires"}
-            }
-            }, clientOnly: true)
-            
-</div>
+            <div class="col-sm-12">
+                @Html.React("Components.DescriptionTable", new { 
+                    definitionText = "Definition",
+                    dataAvailableText = "Data Available",
+                    methodsText = "Estimate Calculation",
+                    remarksText = "Additional Remarks"
+                }, clientOnly: true)
+                
+            </div>
         </div>
 
     </div>
 </div>
 <br/>
-    <section class="panel panel-info">
-		<header class="panel-heading"><h3 class="panel-title"><span id="ContentPlaceHolder_Body_LabelCit">@if (Model.LanguageCode == "fr-ca"){<text>Citation suggérée</text>}else{<text>Suggested Citation</text>}</span></h3></header>
-        <div class="panel-body">
-            @if (Model.LanguageCode == "fr-ca"){
-                <p>Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Outil des données de L'indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</p>
-            }else{
-                <p>Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators Data Tool, 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</p>
-            }
-        </div>
-    </section>
+<section class="panel panel-info">
+    <header class="panel-heading">
+        <h3 class="panel-title">@if (Model.LanguageCode == "fr-ca"){<text>Citation suggérée</text>}else{<text>Suggested Citation</text>}</h3>
+    </header>
+    <div class="panel-body">
+        @if (Model.LanguageCode == "fr-ca"){
+            <p>Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Outil des données de L'indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</p>
+        }else{
+            <p>Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators Data Tool, 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</p>
+        }
+    </div>
+</section>

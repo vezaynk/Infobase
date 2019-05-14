@@ -12,50 +12,17 @@ namespace Infobase.Models.PASS
         public int MeasureId { get; set; }
         public int Index {get;set;}
         public virtual Measure Measure { get; set; }
-        public virtual ICollection<StrataNameTranslation> StrataNameTranslations { get; set; }
-        public virtual ICollection<StrataNotesTranslation> StrataNotesTranslations { get; set; }
-        public virtual ICollection<StrataSourceTranslation> StrataSourceTranslations { get; set; }
-        public virtual ICollection<StrataPopulationTranslation> StrataPopulationTranslations { get; set; }
         [InverseProperty("Strata")]
         public virtual ICollection<Point> Points { get; set; }
         /* Text getters */
-        public Translatable StrataNotes => Translation.GetTranslation(StrataNotesTranslations);
-        public Translatable StrataName => Translation.GetTranslation(StrataNameTranslations);
-        public Translatable StrataSource => Translation.GetTranslation(StrataSourceTranslations);
-        public Translatable StrataPopulation => Translation.GetTranslation(StrataPopulationTranslations);
-    }
-    
-
-    public class StrataNameTranslation : ITranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int StrataId { get; set; }
-        public virtual Strata Strata { get; set; }
-    }
-
-
-    public class StrataNotesTranslation : ITranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int StrataId { get; set; }
-        public virtual Strata Strata { get; set; }
-    }
-
-    public class StrataSourceTranslation : ITranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int StrataId { get; set; }
-        public virtual Strata Strata { get; set; }
-    }
-
-    public class StrataPopulationTranslation : ITranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int StrataId { get; set; }
-        public virtual Strata Strata { get; set; }
+        public string StrataNotesEn { get; set; }
+        public string StrataNameEn { get; set; }
+        public string StrataSourceEn { get; set; }
+        public string StrataPopulationTitleFragmentEn { get; set; }
+        
+        public string StrataNotesFr { get; set; }
+        public string StrataNameFr { get; set; }
+        public string StrataSourceFr { get; set; }
+        public string StrataPopulationTitleFragmentFr { get; set; }
     }
 }

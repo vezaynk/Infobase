@@ -12,23 +12,15 @@ namespace Infobase.Models.PASS
         public int IndicatorGroupId { get; set; }
         public int Index {get;set;}
         public virtual IndicatorGroup IndicatorGroup { get; set; }
-        public virtual ICollection<LifeCourseNameTranslation> LifeCourseNameTranslations { get; set; }
         [InverseProperty("LifeCourse")]
         public virtual ICollection<Indicator> Indicators { get; set; }
 
         /* Text getters */
-        public Translatable LifeCourseName => Translation.GetTranslation(LifeCourseNameTranslations);
+        public string LifeCourseNameEn {get; set;}
+        public string LifeCourseNameFr {get; set;}
 
         public int? DefaultIndicatorId { get; set; }
         [ForeignKey("DefaultIndicatorId")]
         public virtual Indicator DefaultIndicator { get; set; }
-    }
-
-    public class LifeCourseNameTranslation : ITranslation
-    {
-        public int TranslationId { get; set; }
-        public virtual Translation Translation { get; set; }
-        public int LifeCourseId { get; set; }
-        public virtual LifeCourse LifeCourse { get; set; }
     }
 }

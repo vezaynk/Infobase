@@ -1,7 +1,7 @@
-﻿//      
+﻿// @flow
 import * as d3 from "d3";
 import { i18n, numberFormat } from "./Translator";
-                                                 
+import type { ChartData, TPoint } from './types';
 const marginY = 10;
 const marginX = 60;
 const width = 700;
@@ -23,8 +23,8 @@ d3.selection.prototype.moveToBack = function () {
     });
 };
 
-const isBetween = (val        , up        , low        ) => val >= low && val <= up;
-const isPointInRange = (upper         , lower         , point        ) => {
+const isBetween = (val: number, up: number, low: number) => val >= low && val <= up;
+const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
 
     if (!(upper && lower)) return false;
     const pUpper = point.valueUpper;
@@ -46,14 +46,19 @@ const isPointInRange = (upper         , lower         , point        ) => {
 
 }
 
-let updateHighlight                 = (index) => console.error("Must init graph");
+let updateHighlight: number => void = (index) => console.error("Must init graph");
 
-export function updateChart(ref         , dataset           , highlightIndex        , highlightUpper        , highlightLower        , isTrend         )       {
+export function updateChart(ref: Element, dataset: ChartData, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
     let points = dataset.points.filter(point => point.type == 0 || isTrend)
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
+
+    if (points.length == 0) {
+        points = averages;
+        averages = [];
+    }
     let x = d3.scaleBand()
         .domain(points.map(point => i18n(point.label)))
         .range([0, width]);
@@ -303,7 +308,7 @@ export function updateChart(ref         , dataset           , highlightIndex    
         .remove();
 }
 
-export function initChart(ref         , dataset           , update                , isTrend         ) {
+export function initChart(ref: Element, dataset: ChartData, update: number => void, isTrend: boolean) {
     updateHighlight = update;
     const svg = d3.select(ref)
 

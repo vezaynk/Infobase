@@ -1,20 +1,20 @@
-//      
+// @flow
 import * as React from 'react';
 import { i18n, numberFormat } from '../Translator';
-                                                         
+import type { ChartData, MultilangText } from '../types';
 
-                                 
-                         
-                             
-                              
-                                
-                           
-                     
-                        
- 
+export type SummaryTableProps = {
+    chartData: ChartData,
+    cvWarning: MultilangText,
+    cellsEmpty: MultilangText,
+    cvSuppressed: MultilangText,
+    remarks: MultilangText,
+    cvWarnAt: number,
+    cvSuppressAt: number
+}
 
 
-export class SummaryTable extends React.Component                    {
+export class SummaryTable extends React.Component<SummaryTableProps> {
     componentMounted() {
         
     }
@@ -63,7 +63,7 @@ export class SummaryTable extends React.Component                    {
                     case 1:
                         return (<tr key={index} style={({backgroundColor: "red"})}>
                             <td className="text-left">{i18n(point.label, "Index")}</td>
-                            <td>Suppr.<sup>F</sup></td>
+                            <td><sup>F</sup></td>
                             <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
 

@@ -1,23 +1,23 @@
-//      
+// @flow
 
 import * as React from 'react';
 import { Filter } from "./Filter";
 import { i18n } from '../Translator';
-                                                                             
+import type { Action, FilterData, ChartData, MultilangText } from "../types";
 
-                       
-                     
-                          
-                                       
-                                          
-                                         
-                         
- 
+type FilterBoxProps = {
+    loading: boolean,
+    filters: FilterData[],
+    updateLoadState: boolean => Action,
+    updateFilters: FilterData[] => Action,
+    updateChartData: ChartData => Action,
+    prompt: MultilangText
+}
 
-export class FilterBox extends React.Component                 {
+export class FilterBox extends React.Component<FilterBoxProps> {
 
-    selectFilter(id        )                               {
-        return async (value        ) => {
+    selectFilter(id: string): (number) => Promise<boolean> {
+        return async (value: number) => {
             this.props.updateLoadState(true);
 
             history.pushState(null, document.title, `?${id}=${value}`);
@@ -26,7 +26,7 @@ export class FilterBox extends React.Component                 {
                 method: 'POST'
             })
             try {
-                let response           = await request;
+                let response: Response = await request;
                 let r = await response.json();
 
                 this.props.updateFilters(r.filters);

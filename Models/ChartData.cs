@@ -12,7 +12,7 @@ namespace Infobase.Models
             public double? Value { get; set; }
             public double? ValueUpper { get; set; }
             public double? ValueLower { get; set; }
-            public Translatable Label { get; set; }
+            public string Label { get; set; }
             public double? CVValue { get; set; }
             public int CVInterpretation { get; set; }
             public int Type {get;set;}
@@ -20,22 +20,22 @@ namespace Infobase.Models
         }
 
 
-        public Translatable XAxis { get; set; }
-        public Translatable YAxis { get; set; }
+        public string XAxis { get; set; }
+        public string YAxis { get; set; }
         public IEnumerable<Point> Points { get; set; }
-        public Translatable Source { get; set; }
-        public Translatable Organization { get; set; }
-        public Translatable Population { get; set; }
-        public Translatable Notes { get; set; }
+        public string Source { get; set; }
+        public string Organization { get; set; }
+        public string Population { get; set; }
+        public string Notes { get; set; }
 
-        public Translatable Definition { get; set; }
-        public Translatable DataAvailable { get; set; }
-        public Translatable Method { get; set; }
-        public Translatable Remarks { get; set; }
+        public string Definition { get; set; }
+        public string DataAvailable { get; set; }
+        public string Method { get; set; }
+        public string Remarks { get; set; }
 
         public double? WarningCV {get;set;}
         public double? SuppressCV {get;set;}
 
-        public Translatable MeasureName {get;set;}
+        public string MeasureName {get;set;}
     }
 }

@@ -1,12 +1,12 @@
-//      
+// @flow
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { i18n } from "../Translator";
 import { initChart, updateChart } from '../renderChart';
-                                          
+import type { ChartData } from '../types';
 
-export class Chart extends React.Component                                                                           {
-                    
+export class Chart extends React.Component<{ chartData: ChartData }, { isMounted: boolean, highlightIndex: number }> {
+    graph: ?Element;
 
     componentDidMount() {
         this.setState({ isMounted: false, highlightIndex: -1 });
