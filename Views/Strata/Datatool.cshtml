@@ -150,8 +150,28 @@
                 }
     </div>
 </section>
-<div style="width: 0; height: 0; overflow: hidden;">
+<div style="">
 <div style="width: 1000px;" class="chartContainer">
 @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
+@switch (language) {
+        case "en-ca":
+            @Html.React("Components.SummaryTable", new { 
+                chartData = Model.ChartData, 
+                cellsEmpty="", 
+                cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
+                cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
+            },
+            clientOnly: true);
+            break;
+        case "fr-ca":
+            @Html.React("Components.SummaryTable", new { 
+                chartData = Model.ChartData, 
+                cellsEmpty="", 
+                cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
+                cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
+            },
+            clientOnly: true);
+            break;
+    }
 </div>
 </div>

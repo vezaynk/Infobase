@@ -709,11 +709,11 @@ function (_React$Component) {
         suppressedCV = react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("sup", null, "F"), Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.cvSuppressed, "alt"));
       }
       return react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
-        className: "container"
+        "class": "container-fluid"
       }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
         className: "row brdr-bttm mrgn-bttm-0"
       }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
-        className: "col-md-12"
+        className: "col-md-12 table-data"
       }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("table", {
         className: "table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm",
         id: "chartgridview"
@@ -761,10 +761,8 @@ function (_React$Component) {
             }, point.text), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.value)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
         }
       })))), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
-        className: "col-md-12 mrgn-tp-0 small"
-      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
-        className: "bg-warning"
-      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("h4", null, "Notes:"), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Notes:"), " ", this.props.chartData.notes), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Source:"), " ", this.props.chartData.source), warningCV, suppressedCV))));
+        className: "col-md-12 mrgn-tp-0 small notes bg-warning"
+      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Notes:"), " ", this.props.chartData.notes), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Source:"), " ", this.props.chartData.source), warningCV, suppressedCV)));
     }
   }]);
 
