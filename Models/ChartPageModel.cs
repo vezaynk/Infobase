@@ -20,13 +20,11 @@ namespace Infobase.Models
     public class DropdownMenuModel
     {
         public string Name { get; set; }
-        public string Id { get; set; }
         public List<DropdownItem> Items { get; set; } = new List<DropdownItem>();
         public int Selected { get; set; }
-        public DropdownMenuModel(string name, string id, IEnumerable<DropdownItem> items, int selected)
+        public DropdownMenuModel(string name, IEnumerable<DropdownItem> items, int selected)
         {
             this.Name = name;
-            this.Id = id;
             this.Items.AddRange(items);
             this.Selected = selected;
         }

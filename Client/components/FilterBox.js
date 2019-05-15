@@ -46,6 +46,7 @@ export class FilterBox extends React.Component<FilterBoxProps> {
                             <Filter
                                 key={i}
                                 id={"drop"+i}
+                                name={filter.name}
                                 items={filter.items}
                                 selected={filter.selected}
                                 onSelect={selected => this.selectFilter(selected)}

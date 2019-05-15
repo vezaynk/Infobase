@@ -3,6 +3,7 @@ PASS-DB Normalization Script v4
  - Denormalized languages
  - Removed most tables
  - Data and text are not together
+ - Switched to ANSI joins
 
 PASS-DB Normalization Script v3
  - First-class PostgreSQL support
@@ -13,6 +14,18 @@ PASS-DB Normalization Script v2
  - No longer expanding schema for joins
  - No longer using temporary tables
  - Always defaults to the correct option
+ **/
+/**
+Notes:
+    The script is not 100% safe-guarded against malformatted input and ought to be added as needed.
+    The common pitfalls include:
+         - Trailing whitespace
+         - Typos
+         - Similar looking characters (especially whitespace)
+         - Casing
+         - Bad type-casting on import
+
+    Most of these have already been safe-guarded against at least once in the script below.
  **/
 INSERT INTO "Activity" ("Index", "ActivityNameEn")
 SELECT
@@ -29,12 +42,9 @@ SELECT
     min(masterA.id::Integer),
     MasterA. "indicator_group"
 FROM
-    master masterA,
-    master masterB,
     "Activity"
-WHERE
-    masterB.id::Integer = "Activity"."Index"
-    AND masterB.Activity = mastera.Activity
+    INNER JOIN master masterB ON masterB.id::Integer = "Activity"."Index"
+    INNER JOIN master masterA ON masterB.Activity = mastera.Activity
 GROUP BY
     "ActivityId",
     MasterA. "indicator_group";
@@ -45,16 +55,13 @@ SELECT
     min(masterA.id::Integer),
     masterA. "life_course"
 FROM
-    master masterA,
-    master masterB,
     "IndicatorGroup"
-WHERE
-    masterB.id::Integer = "IndicatorGroup"."Index"
-    AND masterB. "indicator_group" = mastera. "indicator_group"
-    AND masterb.Activity = mastera.Activity
-GROUP BY
-    "IndicatorGroupId",
-    masterA. "life_course";
+    INNER JOIN master masterB ON masterB.id::Integer = "IndicatorGroup"."Index"
+    INNER JOIN master masterA ON masterB.Activity = mastera.Activity
+        AND masterB. "indicator_group" = mastera. "indicator_group"
+    GROUP BY
+        "IndicatorGroupId",
+        masterA. "life_course";
 
 INSERT INTO "Indicator" ("LifeCourseId", "Index", "IndicatorNameEn")
 SELECT
@@ -62,17 +69,14 @@ SELECT
     min(masterA.id::Integer),
     masterA. "indicator"
 FROM
-    master masterA,
-    master masterB,
     "LifeCourse"
-WHERE
-    masterB.id::Integer = "LifeCourse"."Index"
-    AND masterB. "life_course" = mastera. "life_course"
-    AND masterB. "indicator_group" = mastera. "indicator_group"
-    AND masterb.Activity = mastera.Activity
-GROUP BY
-    "LifeCourseId",
-    masterA. "indicator";
+    INNER JOIN master masterB ON masterB.id::Integer = "LifeCourse"."Index"
+    INNER JOIN master masterA ON masterB.Activity = mastera.Activity
+        AND masterB. "indicator_group" = mastera. "indicator_group"
+        AND masterB. "life_course" = mastera. "life_course"
+    GROUP BY
+        "LifeCourseId",
+        masterA. "indicator";
 
 INSERT INTO "Measure" ("IndicatorId", "Index", "CVWarnAt", "CVSuppressAt", "Included", "Aggregator", "MeasureNameIndexEn", "MeasureNameDataToolEn", "MeasureAdditionalRemarksEn", "MeasureDataAvailableEn", "MeasureMethodEn", "MeasureDefinitionEn", "MeasurePopulationGroupEn", "MeasureSourceShortEn", "MeasureSourceLongEn", "MeasureUnitLongEn", "MeasureUnitShortEn")
 SELECT
@@ -109,32 +113,29 @@ SELECT
     trim(masterA. "unit_label_1"),
     trim(masterA. "unit_label_2")
 FROM
-    master masterA,
-    master masterB,
     "Indicator"
-WHERE
-    masterB.id::Integer = "Indicator"."Index"
-    AND masterB.Indicator = mastera.Indicator
-    AND masterB. "life_course" = mastera. "life_course"
-    AND masterB. "indicator_group" = mastera. "indicator_group"
-    AND masterb.Activity = mastera.Activity
-GROUP BY
-    "IndicatorId",
-    mastera. "cv_range_1",
-    mastera. "cv_range_2",
-    mastera.include_dt,
-    masterA. "other_dt_display",
-    trim(masterA. "specific_measure_1"),
-    trim(masterA. "specific_measure_2"),
-    trim(masterA. "additional_remarks"),
-    trim(masterA. "data_available"),
-    trim(masterA. "defintion"),
-    trim(masterA. "estimate_calculation"),
-    trim(masterA. "population_2"),
-    trim(masterA. "data_source_2"),
-    trim(masterA. "data_source_3"),
-    trim(masterA. "unit_label_1"),
-    trim(masterA. "unit_label_2");
+    INNER JOIN master masterB ON masterB.id::Integer = "Indicator"."Index"
+    INNER JOIN master masterA ON masterB.Indicator = mastera.Indicator
+        AND masterB. "life_course" = mastera. "life_course"
+        AND masterB. "indicator_group" = mastera. "indicator_group"
+        AND masterb.Activity = mastera.Activity
+    GROUP BY
+        "IndicatorId",
+        mastera. "cv_range_1",
+        mastera. "cv_range_2",
+        mastera.include_dt,
+        masterA. "other_dt_display",
+        trim(masterA. "specific_measure_1"),
+        trim(masterA. "specific_measure_2"),
+        trim(masterA. "additional_remarks"),
+        trim(masterA. "data_available"),
+        trim(masterA. "defintion"),
+        trim(masterA. "estimate_calculation"),
+        trim(masterA. "population_2"),
+        trim(masterA. "data_source_2"),
+        trim(masterA. "data_source_3"),
+        trim(masterA. "unit_label_1"),
+        trim(masterA. "unit_label_2");
 
 INSERT INTO "Strata" ("MeasureId", "Index", "StrataNameEn", "StrataSourceEn", "StrataPopulationTitleFragmentEn")
 SELECT
@@ -144,21 +145,18 @@ SELECT
     masterA.data_source_1,
     masterA.population_1
 FROM
-    master masterA,
-    master masterB,
     "Measure"
-WHERE
-    masterB.id::Integer = "Measure"."Index"
-    AND masterB. "specific_measure_1" = mastera. "specific_measure_1"
-    AND masterB.Indicator = mastera.Indicator
-    AND masterB. "life_course" = mastera. "life_course"
-    AND masterB. "indicator_group" = mastera. "indicator_group"
-    AND masterb.Activity = mastera.Activity
-GROUP BY
-    "MeasureId",
-    masterA.data_breakdowns,
-    masterA.data_source_1,
-    masterA.population_1;
+    INNER JOIN master masterB ON masterB.id::Integer = "Measure"."Index"
+    INNER JOIN master masterA ON masterB. "specific_measure_1" = mastera. "specific_measure_1"
+        AND masterB.Indicator = mastera.Indicator
+        AND masterB. "life_course" = mastera. "life_course"
+        AND masterB. "indicator_group" = mastera. "indicator_group"
+        AND masterb.Activity = mastera.Activity
+    GROUP BY
+        "MeasureId",
+        masterA.data_breakdowns,
+        masterA.data_source_1,
+        masterA.population_1;
 
 INSERT INTO "Point" ("StrataId", "CVInterpretation", "CVValue", "ValueAverage", "ValueUpper", "ValueLower", "Type", "Index", "PointLabelEn")
 SELECT
@@ -202,18 +200,16 @@ SELECT
     masterA.id::Integer,
     masterA.disaggregation
 FROM
-    master masterA,
-    master masterB,
     "Strata"
+    INNER JOIN master masterB ON CAST(masterB.id AS Integer) = "Strata"."Index"
+    INNER JOIN master masterA ON masterB. "data_breakdowns" = mastera. "data_breakdowns"
+        AND masterB. "specific_measure_1" = mastera. "specific_measure_1"
+        AND masterB.Indicator = mastera.Indicator
+        AND masterB. "life_course" = mastera. "life_course"
+        AND masterB. "indicator_group" = mastera. "indicator_group"
+        AND masterb.Activity = mastera.Activity
 WHERE
-    CAST(masterB.id AS Integer) = "Strata"."Index"
-    AND masterB. "data_breakdowns" = mastera. "data_breakdowns"
-    AND masterB. "specific_measure_1" = mastera. "specific_measure_1"
-    AND masterB.Indicator = mastera.Indicator
-    AND masterB. "life_course" = mastera. "life_course"
-    AND masterB. "indicator_group" = mastera. "indicator_group"
-    AND masterb.Activity = mastera.Activity
-    AND masterb.Include_DT = 'Y';
+    masterB.Include_DT = 'Y';
 
 UPDATE
     "Measure" m
@@ -314,3 +310,4 @@ FROM (
     INNER JOIN "IndicatorGroup" s ON s. "Index" = a. "Index"
 WHERE
     s. "ActivityId" = m. "ActivityId";
+

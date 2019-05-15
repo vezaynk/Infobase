@@ -625,6 +625,7 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_7__["createElement"](_Filter__WEBPACK_IMPORTED_MODULE_8__["Filter"], {
           key: i,
           id: "drop" + i,
+          name: filter.name,
           items: filter.items,
           selected: filter.selected,
           onSelect: function onSelect(selected) {
