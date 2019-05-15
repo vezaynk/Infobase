@@ -1,43 +1,34 @@
 ﻿@model IEnumerable<Infobase.Models.PASS.Activity>
 @{
     Layout = "_Layout.cshtml";
-}
-
-@{
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
     string language = ViewContext.RouteData.Values["language"].ToString();
     var lifeCourseNames = Model.OrderBy(x => x.Index)
                                 .SelectMany(a => a.IndicatorGroups
                                                     .OrderBy(x => x.Index)
-                                                    .SelectMany(ig => ig.LifeCourses.OrderBy(x => x.Index).Select(lc => lc.LifeCourseNameEn))
+                                                    .SelectMany(ig => ig.LifeCourses.OrderBy(x => x.Index).Select(lc => lc.LifeCourseName(language)))
                                            ).Distinct();
 
 }
 
     <div class="row">
         <div class="col-md-8">
-		@if (language == "en-ca") {
-            <p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provides important surveillance information on physical activity, sedentary and sleep behaviours in Canadians as well as factors that influence them. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: individual, family/social environment, and built/society environment.</p>
-            <p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provides important surveillance information on physical activity, sedentary and sleep behaviours in Canadians as well as factors that influence them. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: individual, family/social environment, and built/society environment.</p>
-
-            <p>For an overview of the 2018 edition of the PASS Indicators, see the Quick Stats Overview below. Click on any of the three activities listed under adults (aged 18+ years) or children and youth (aged 5 to 17 years). A list of all indicator groups, indicators and their measures with their corresponding pan-Canadian estimates, where available, will unfold. Additionally, a detailed description of each measure, excluding those considered “In development”, can be obtained by clicking on the “Description” link next to each measure.</p>
-
-			<p>To dive deeper into the pan-Canadian estimates from the 2018 edition of the PASS Indicators, click the "Data Tool" tab above. This interactive “Data Tool” provides access to all available data breakdowns by key demographic and socioeconomic variables for every measure where data is available.</p>
-			
-            <p>The 2017 edition of the PASS Indicators Quick Stats is available in printer-friendly PDFs for both <a href="../src/doc/pass_childrenyouth_en.pdf">children and youth</a> and <a href="../src/doc/pass_adults_en.pdf">adults</a>. The 2018 edition is only available online at this time.</p>
-			
-			<p><a href="https://www.canada.ca/en/services/health/monitoring-surveillance/physical-activity-sedentary-behaviour-sleep.html">Learn more about PASS</a>.</p>
-		}else{
-			            <p>Les indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) fournissent des renseignements importants sur l’activité physique, le comportement sédentaire et le sommeil chez les Canadiens, de même que sur les facteurs qui les influencent. Les indicateurs de l’APCSS comportent 55 indicateurs uniques et leurs mesures, regroupés en comportements en matière de mouvement (activité physique, comportement sédentaire et sommeil) et dans trois domaines clés : l’individu, l’environnement familial ou social et l’environnement bâti ou la société.</p>
-
-            <p>Pour obtenir un aperçu de l’édition 2018 des indicateurs de l’APCSS, consultez l’aperçu Statistiques rapides ci-dessous. Cliquez sur l’une des trois activités énoncées ci dessous sous la rubrique Adultes (âgés de 18 ans et plus) ou Enfants et jeunes (âgés de 5 à 17 ans). Une liste de tous les groupes indicateurs, des indicateurs et de leurs mesures, de même que de leurs estimations pancanadiennes correspondantes, s’affichera lorsque disponible. De plus, pour obtenir une description détaillée de chaque mesure, excluant celles qui sont considérées comme « en cours d’élaboration », il suffit de cliquer sur le lien « Description » à côté de celle ci.</p>
-
-			<p>Pour explorer de façon plus approfondie les estimations pancanadiennes pour l’édition 2018 des indicateurs de l’APCSS, cliquez « Outil des données » sur l’onglet ci-dessus. Cet « outil de données » interactif fournit un accès à toutes les données ventilées selon des variables démographiques et socioéconomiques clés pour chaque mesure pour laquelle il existe des données.</p>
-			
-            <p>L’édition 2017 des Statistique rapides des indicateurs de l’APCSS est disponible dans un format PDF pour imprimable, à la fois pour <a href="../src/doc/pass_childrenyouth_fr.pdf">les enfants et les jeunes</a> et <a href="../src/doc/pass_adults_fr.pdf">pour les adultes</a>. L'édition 2018 est disponible uniquement en ligne à ce moment.</p>
-			
-			<p><a href="https://www.canada.ca/fr/services/sante/controle-et-surveillance/activite-physique-comportement-sedentaire-sommeil.html">Pour de plus amples renseignements sur l’APCSS</a>.</p>
-		}
+        @switch (language) {
+            case "en-ca":
+                @:<p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provides important surveillance information on physical activity, sedentary and sleep behaviours in Canadians as well as factors that influence them. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: individual, family/social environment, and built/society environment.</p>
+                @:<p>For an overview of the 2018 edition of the PASS Indicators, see the Quick Stats Overview below. Click on any of the three activities listed under adults (aged 18+ years) or children and youth (aged 5 to 17 years). A list of all indicator groups, indicators and their measures with their corresponding pan-Canadian estimates, where available, will unfold. Additionally, a detailed description of each measure, excluding those considered “In development”, can be obtained by clicking on the “Description” link next to each measure.</p>
+                @:<p>To dive deeper into the pan-Canadian estimates from the 2018 edition of the PASS Indicators, click the "Data Tool" tab above. This interactive “Data Tool” provides access to all available data breakdowns by key demographic and socioeconomic variables for every measure where data is available.</p>
+                @:<p>The 2017 edition of the PASS Indicators Quick Stats is available in printer-friendly PDFs for both <a href="../src/doc/pass_childrenyouth_en.pdf">children and youth</a> and <a href="../src/doc/pass_adults_en.pdf">adults</a>. The 2018 edition is only available online at this time.</p>
+                @:<p><a href="https://www.canada.ca/en/services/health/monitoring-surveillance/physical-activity-sedentary-behaviour-sleep.html">Learn more about PASS</a>.</p>
+                break;
+            case "fr-ca":
+                @:<p>Les indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) fournissent des renseignements importants sur l’activité physique, le comportement sédentaire et le sommeil chez les Canadiens, de même que sur les facteurs qui les influencent. Les indicateurs de l’APCSS comportent 55 indicateurs uniques et leurs mesures, regroupés en comportements en matière de mouvement (activité physique, comportement sédentaire et sommeil) et dans trois domaines clés : l’individu, l’environnement familial ou social et l’environnement bâti ou la société.</p>
+                @:<p>Pour obtenir un aperçu de l’édition 2018 des indicateurs de l’APCSS, consultez l’aperçu Statistiques rapides ci-dessous. Cliquez sur l’une des trois activités énoncées ci dessous sous la rubrique Adultes (âgés de 18 ans et plus) ou Enfants et jeunes (âgés de 5 à 17 ans). Une liste de tous les groupes indicateurs, des indicateurs et de leurs mesures, de même que de leurs estimations pancanadiennes correspondantes, s’affichera lorsque disponible. De plus, pour obtenir une description détaillée de chaque mesure, excluant celles qui sont considérées comme « en cours d’élaboration », il suffit de cliquer sur le lien « Description » à côté de celle ci.</p>
+                @:<p>Pour explorer de façon plus approfondie les estimations pancanadiennes pour l’édition 2018 des indicateurs de l’APCSS, cliquez « Outil des données » sur l’onglet ci-dessus. Cet « outil de données » interactif fournit un accès à toutes les données ventilées selon des variables démographiques et socioéconomiques clés pour chaque mesure pour laquelle il existe des données.</p>
+                @:<p>L’édition 2017 des Statistique rapides des indicateurs de l’APCSS est disponible dans un format PDF pour imprimable, à la fois pour <a href="../src/doc/pass_childrenyouth_fr.pdf">les enfants et les jeunes</a> et <a href="../src/doc/pass_adults_fr.pdf">pour les adultes</a>. L'édition 2018 est disponible uniquement en ligne à ce moment.</p>
+                @:<p><a href="https://www.canada.ca/fr/services/sante/controle-et-surveillance/activite-physique-comportement-sedentaire-sommeil.html">Pour de plus amples renseignements sur l’APCSS</a>.</p>
+                break;
+        }
         </div>
 
         <!-- <div class="col-md-4">
@@ -50,15 +41,17 @@
         </div> -->
     </div>
     <br>
-	
-@if (language == "en-ca") {
-    <h2>Quick Stats Overview</h2>
-    <p>For more information about each indicator, click on the categories below:</p>
-}else{
-	<h2>Statistiques rapides</h2>
-	<p>Vous pouvez obtenir des informations supplémentaires sur ces indicateurs en cliquant sur les domaines ci-dessous :</p>
-}
 
+@switch (language) {
+            case "en-ca":
+                @:<h2>Quick Stats Overview</h2>
+                @:<p>For more information about each indicator, click on the categories below:</p>
+                break;
+            case "fr-ca":
+                @:<h2>Statistiques rapides</h2>
+	            @:<p>Vous pouvez obtenir des informations supplémentaires sur ces indicateurs en cliquant sur les domaines ci-dessous :</p>
+                break;
+        }
 <div>
         @foreach (var lifeCourseName in lifeCourseNames)
         {
@@ -69,7 +62,7 @@
             {
 
                 <details>
-                    <summary>@activity.ActivityNameEn</summary>
+                    <summary>@activity.ActivityName(language)</summary>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
@@ -88,7 +81,7 @@
 
                                     var igFirst = true;
                                     // Must only select indicators which are a subset of the desired lifecourse
-                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseNameEn == lifeCourseName).SelectMany(lc => lc.Indicators);
+                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName(language) == lifeCourseName).SelectMany(lc => lc.Indicators);
                                     foreach (var indicator in indicators.OrderBy(x => x.Index))
                                     {
                                         var indicatorFirst = true;
@@ -98,14 +91,14 @@
                                                 @if (igFirst)
                                                 {
                                                     igFirst = false;
-                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupNameEn </MiniTex></td>
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupName(language) </MiniTex></td>
                                                 }
                                                 @if (indicatorFirst)
                                                 {
                                                     indicatorFirst = false;
-                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorNameEn</MiniTex></td>
+                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorName(language)</MiniTex></td>
                                                 }
-                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureNameIndexEn</MiniTex></td>
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureNameIndex(language)</MiniTex></td>
                                                 @if (measure.DefaultStrataId == null)
                                                 {
                                                     <td><MiniTex>-</MiniTex></td>
@@ -118,11 +111,11 @@
                                                     }
                                                     else
                                                     {
-                                                        <td data-index="@measure.MeasurePoint.Index"><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language)@measure.MeasureUnitShortEn</MiniTex></td>
+                                                        <td data-index="@measure.MeasurePoint.Index"><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, language)@measure.MeasureUnitShort(language)</MiniTex></td>
                                                     }
                                                 }
 
-                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSourceShortEn</MiniTex></td>
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSourceShort(language)</MiniTex></td>
                                                 <td>
                                                     @if (measure.Included)
                                                     {

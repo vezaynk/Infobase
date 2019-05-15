@@ -18,6 +18,14 @@ namespace Infobase.Models.PASS
         public virtual Strata Strata { get; set; }
 
         /* Text getters */
+
+        public string PointLabel(string culture) {
+            switch (culture) {
+                case "en-ca": return PointLabelEn;
+                case "fr-ca": return PointLabelFr;
+            }
+            return "No culture";
+        }
         public string PointLabelEn { get; set; }
         public string PointLabelFr { get; set; }
         

@@ -1,17 +1,15 @@
 // @flow
 import * as React from 'react';
-import type { MultilangText } from '../types';
-import { i18n } from "../Translator";
 
 type DescriptionTableProps = {
-    definitionText: MultilangText,
-    dataAvailableText: MultilangText,
-    methodsText: MultilangText,
-    remarksText: MultilangText,
-    remarks: MultilangText,
-    methods: MultilangText,
-    dataAvailable: MultilangText,
-    definition: MultilangText
+    definitionText: string,
+    dataAvailableText: string,
+    methodsText: string,
+    remarksText: string,
+    remarks: string,
+    methods: string,
+    dataAvailable: string,
+    definition: string
 }
 
 export class DescriptionTable extends React.Component<DescriptionTableProps> {
@@ -22,20 +20,20 @@ export class DescriptionTable extends React.Component<DescriptionTableProps> {
             <table className="table table-striped table-hover table-condensed table-bordered">
                 <tbody>
                     <tr>
-                        <th>{i18n(this.props.definitionText)}</th>
-                        <td>{i18n(this.props.definition)}</td>
+                        <th>{this.props.definitionText}</th>
+                        <td>{this.props.definition}</td>
                     </tr>
                     <tr>
-                        <th>{i18n(this.props.dataAvailableText)}</th>
-                        <td>{i18n(this.props.dataAvailable)}</td>
+                        <th>{this.props.dataAvailableText}</th>
+                        <td>{this.props.dataAvailable}</td>
                     </tr>
                     <tr>
-                        <th>{i18n(this.props.methodsText)}</th>
-                        <td>{i18n(this.props.methods)}</td>
+                        <th>{this.props.methodsText}</th>
+                        <td>{this.props.methods}</td>
                     </tr>
                     <tr>
-                        <th>{i18n(this.props.remarksText)}</th>
-                        <td>{i18n(this.props.remarks)}</td>
+                        <th>{this.props.remarksText}</th>
+                        <td>{this.props.remarks}</td>
                     </tr>
                 </tbody>
             </table>

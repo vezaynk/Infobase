@@ -15,6 +15,38 @@ namespace Infobase.Models.PASS
         [InverseProperty("Strata")]
         public virtual ICollection<Point> Points { get; set; }
         /* Text getters */
+
+        public string StrataNotes(string culture) {
+            switch (culture) {
+                case "en-ca": return StrataNotesEn;
+                case "fr-ca": return StrataNotesFr;
+            }
+            return "No culture";
+        }
+
+        public string StrataName(string culture) {
+            switch (culture) {
+                case "en-ca": return StrataNameEn;
+                case "fr-ca": return StrataNameFr;
+            }
+            return "No culture";
+        }
+
+        public string StrataPopulationTitleFragment(string culture) {
+            switch (culture) {
+                case "en-ca": return StrataPopulationTitleFragmentEn;
+                case "fr-ca": return StrataPopulationTitleFragmentFr;
+            }
+            return "No culture";
+        }
+
+        public string StrataSource(string culture) {
+            switch (culture) {
+                case "en-ca": return StrataSourceEn;
+                case "fr-ca": return StrataSourceFr;
+            }
+            return "No culture";
+        }
         public string StrataNotesEn { get; set; }
         public string StrataNameEn { get; set; }
         public string StrataSourceEn { get; set; }

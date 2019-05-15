@@ -15,7 +15,13 @@ namespace Infobase.Models.PASS
         
         [InverseProperty("IndicatorGroup")]
         public virtual ICollection<LifeCourse> LifeCourses { get; set; }
-
+        public string IndicatorGroupName(string culture) {
+            switch (culture) {
+                case "en-ca": return IndicatorGroupNameEn;
+                case "fr-ca": return IndicatorGroupNameFr;
+            }
+            return "No culture";
+        }
         public string IndicatorGroupNameEn { get; set; }
         public string IndicatorGroupNameFr { get; set; }
         public int? DefaultLifeCourseId { get; set; }

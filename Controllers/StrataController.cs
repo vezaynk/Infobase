@@ -22,7 +22,6 @@ namespace Infobase.Controllers
             _context = context;
         }
 
-        // GET: Strata
         public async Task<IActionResult> Index(string language)
         {
             var activities = _context.Activity
@@ -45,7 +44,6 @@ namespace Infobase.Controllers
             return View(await activities.ToListAsync());
         }
 
-        // GET: Strata/Details/
         public async Task<IActionResult> Datatool(string language, int index=1, bool api = false)
         {
             var strata = await _context.Strata
@@ -102,22 +100,19 @@ namespace Infobase.Controllers
                 return NotFound();
             }
 
-            ChartData chart = null;
-            
-            if (language == "en-ca") {
-                chart = new ChartData
+            ChartData chart = chart = new ChartData
                 {
-                    XAxis = strata.StrataNameEn,
-                    YAxis = strata.Measure.MeasureUnitLongEn,
-                    Unit = strata.Measure.MeasureUnitShortEn,
-                    Source = strata.StrataSourceEn,
+                    XAxis = strata.StrataName(language),
+                    YAxis = strata.Measure.MeasureUnitLong(language),
+                    Unit = strata.Measure.MeasureUnitShort(language),
+                    Source = strata.StrataSource(language),
                     // Both stratas AND measure contain populations. They must be merged.
                     // Population = new Translatable(strata.Measure.MeasurePopulation.Union(strata.StrataPopulation).ToDictionary(p => p.Key, p => p.Value)),
-                    Notes = strata.StrataNotesEn,
-                    Remarks = strata.Measure.MeasureAdditionalRemarksEn,
-                    Definition = strata.Measure.MeasureDefinitionEn,
-                    Method = strata.Measure.MeasureMethodEn,
-                    DataAvailable = strata.Measure.MeasureDataAvailableEn,
+                    Notes = strata.StrataNotes(language),
+                    Remarks = strata.Measure.MeasureAdditionalRemarks(language),
+                    Definition = strata.Measure.MeasureDefinition(language),
+                    Method = strata.Measure.MeasureMethod(language),
+                    DataAvailable = strata.Measure.MeasureDataAvailable(language),
                     Points = strata.Points.OrderBy(p => p.Index).Select(p => new ChartData.Point
                     {
                         CVInterpretation = p.CVInterpretation,
@@ -125,45 +120,14 @@ namespace Infobase.Controllers
                         Value = p.ValueAverage,
                         ValueUpper = p.ValueUpper,
                         ValueLower = p.ValueLower,
-                        Label = p.PointLabelEn,
+                        Label = p.PointLabel(language),
                         Type = p.Type
                     }),
                     WarningCV = strata.Measure.CVWarnAt,
                     SuppressCV = strata.Measure.CVSuppressAt,
-                    MeasureName = strata.Measure.MeasureNameDataToolEn,
-                    Title = strata.Measure.MeasureNameIndexEn + ", " + strata.StrataPopulationTitleFragmentEn
+                    MeasureName = strata.Measure.MeasureNameDataTool(language),
+                    Title = strata.Measure.MeasureNameIndex(language) + ", " + strata.StrataPopulationTitleFragment(language)
                 };
-            } else {
-                chart = new ChartData
-                {
-                    XAxis = strata.StrataNameFr,
-                    YAxis = strata.Measure.MeasureUnitLongFr,
-                    Unit = strata.Measure.MeasureUnitShortFr,
-                    Source = strata.StrataSourceFr,
-                    // Both stratas AND measure contain populations. They must be merged.
-                    // Population = new Translatable(strata.Measure.MeasurePopulation.Union(strata.StrataPopulation).ToDictionary(p => p.Key, p => p.Value)),
-                    Notes = strata.StrataNotesFr,
-                    Remarks = strata.Measure.MeasureAdditionalRemarksFr,
-                    Definition = strata.Measure.MeasureDefinitionFr,
-                    Method = strata.Measure.MeasureMethodFr,
-                    DataAvailable = strata.Measure.MeasureDataAvailableFr,
-                    Points = strata.Points.OrderBy(p => p.Index).Select(p => new ChartData.Point
-                    {
-                        CVInterpretation = p.CVInterpretation,
-                        CVValue = p.CVValue,
-                        Value = p.ValueAverage,
-                        ValueUpper = p.ValueUpper,
-                        ValueLower = p.ValueLower,
-                        Label = p.PointLabelFr,
-                        Type = p.Type
-                    }),
-                    WarningCV = strata.Measure.CVWarnAt,
-                    SuppressCV = strata.Measure.CVSuppressAt,
-                    MeasureName = strata.Measure.MeasureNameDataToolFr,
-                    Title = strata.Measure.MeasureNameIndexFr + ", " + strata.StrataPopulationTitleFragmentFr
-                };
-            }
-
 
             var cpm = new ChartPageModel(language, chart);
 
@@ -175,7 +139,7 @@ namespace Infobase.Controllers
                                      .Select(ac => new DropdownItem
                                      {
                                          Value = ac.Index,
-                                         Text = ac.ActivityNameEn
+                                         Text = ac.ActivityName(language)
                                      });
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, strata.Index));
@@ -187,7 +151,7 @@ namespace Infobase.Controllers
                                      .Select(ig => new DropdownItem
                                      {
                                          Value = ig.Index,
-                                         Text = ig.IndicatorGroupNameEn
+                                         Text = ig.IndicatorGroupName(language)
                                      });
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Index));
@@ -199,7 +163,7 @@ namespace Infobase.Controllers
                                      .Select(lc => new DropdownItem
                                      {
                                          Value = lc.Index,
-                                         Text = lc.LifeCourseNameEn
+                                         Text = lc.LifeCourseName(language)
                                      });
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Index));
@@ -211,7 +175,7 @@ namespace Infobase.Controllers
                                      .Select(i => new DropdownItem
                                      {
                                          Value = i.Index,
-                                         Text = i.IndicatorNameEn
+                                         Text = i.IndicatorName(language)
                                      });
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Index));
@@ -234,7 +198,7 @@ namespace Infobase.Controllers
                                      .Select(s => new DropdownItem
                                      {
                                          Value = s.Index,
-                                         Text = s.StrataNameEn
+                                         Text = s.StrataName(language)
                                      });
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Répartition des données" : "Data Breakdowns", stratas, strata.Index));

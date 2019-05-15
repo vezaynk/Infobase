@@ -20,7 +20,85 @@ namespace Infobase.Models.PASS
         [InverseProperty("Measure")]
         public virtual ICollection<Strata> Stratas { get; set; }
 
+        public string MeasureNameIndex(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureNameIndexEn;
+                case "fr-ca": return MeasureNameIndexFr;
+            }
+            return "No culture";
+        }
+        public string MeasureNameDataTool(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureNameDataToolEn;
+                case "fr-ca": return MeasureNameDataToolFr;
+            }
+            return "No culture";
+        }
+        public string MeasureDefinition(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureDefinitionEn;
+                case "fr-ca": return MeasureDefinitionFr;
+            }
+            return "No culture";
+        }
+        public string MeasureMethod(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureMethodEn;
+                case "fr-ca": return MeasureMethodFr;
+            }
+            return "No culture";
+        }
+        public string MeasureAdditionalRemarks(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureAdditionalRemarksEn;
+                case "fr-ca": return MeasureAdditionalRemarksFr;
+            }
+            return "No culture";
+        }
+        public string MeasureDataAvailable(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureDataAvailableEn;
+                case "fr-ca": return MeasureDataAvailableFr;
+            }
+            return "No culture";
+        }
+        public string MeasurePopulationGroup(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasurePopulationGroupEn;
+                case "fr-ca": return MeasurePopulationGroupFr;
+            }
+            return "No culture";
+        }
+        public string MeasureSourceLong(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureSourceLongEn;
+                case "fr-ca": return MeasureSourceLongFr;
+            }
+            return "No culture";
+        }
+        public string MeasureSourceShort(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureSourceShortEn;
+                case "fr-ca": return MeasureSourceShortFr;
+            }
+            return "No culture";
+        }
+        public string MeasureUnitLong(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureUnitLongEn;
+                case "fr-ca": return MeasureUnitLongFr;
+            }
+            return "No culture";
+        }
+        public string MeasureUnitShort(string culture) {
+            switch (culture) {
+                case "en-ca": return MeasureUnitShortEn;
+                case "fr-ca": return MeasureUnitShortFr;
+            }
+            return "No culture";
+        }
         public string MeasureNameIndexEn { get; set; }
+        
         public string MeasureNameDataToolEn { get; set; }
         public string MeasureDefinitionEn { get; set; }
         public string MeasureMethodEn { get; set; }

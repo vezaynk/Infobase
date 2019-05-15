@@ -13,6 +13,7 @@ namespace Infobase.Models
             public double? ValueUpper { get; set; }
             public double? ValueLower { get; set; }
             public string Label { get; set; }
+            public string Text { get; set; }
             public double? CVValue { get; set; }
             public int CVInterpretation { get; set; }
             public int Type {get;set;}

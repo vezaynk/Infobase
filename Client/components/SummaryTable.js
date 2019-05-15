@@ -48,8 +48,8 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
 
         <thead>
             <tr>
-                <th className="text-left" scope="col">{i18n(this.props.chartData.xAxis)}</th>
-                <th className="text-center" scope="col">{i18n(this.props.chartData.yAxis, "Datatool")}</th>
+                <th className="text-left" scope="col">{this.props.chartData.xAxis}</th>
+                <th className="text-center" scope="col">{this.props.chartData.yAxis}</th>
                 <th className="text-center" scope="col">95% <abbr title="Confidence Interval">CI</abbr></th>
             </tr>
         </thead>

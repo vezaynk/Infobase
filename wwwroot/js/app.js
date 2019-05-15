@@ -213,9 +213,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
-/* harmony import */ var _renderChart__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../renderChart */ "./Client/renderChart.js");
-
+/* harmony import */ var _renderChart__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../renderChart */ "./Client/renderChart.js");
 
 
 
@@ -259,8 +257,8 @@ function (_React$Component) {
         isMounted: false,
         highlightIndex: -1
       });
-      var isTrend = Object(_Translator__WEBPACK_IMPORTED_MODULE_10__["i18n"])(this.props.chartData.xAxis).includes("Trend");
-      if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_11__["initChart"])(this.graph, this.props.chartData, function (highlightIndex) {
+      var isTrend = this.props.chartData.xAxis.includes("Trend");
+      if (this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_10__["initChart"])(this.graph, this.props.chartData, function (highlightIndex) {
         return _this2.setState(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, _this2.state, {
           highlightIndex: highlightIndex
         }));
@@ -274,7 +272,7 @@ function (_React$Component) {
     value: function componentDidUpdate() {
       var valueUpper = -1;
       var valueLower = -2;
-      var isTrend = Object(_Translator__WEBPACK_IMPORTED_MODULE_10__["i18n"])(this.props.chartData.xAxis).includes("Trend");
+      var isTrend = this.props.chartData.xAxis.includes("Trend");
       var highlighted = this.props.chartData.points.filter(function (p) {
         return p.type == 0 || isTrend;
       })[this.state.highlightIndex];
@@ -285,7 +283,7 @@ function (_React$Component) {
       }
 
       console.log(this.state.highlightIndex, valueUpper, valueLower, highlighted, this.props.chartData.points);
-      if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_11__["updateChart"])(this.graph, this.props.chartData, this.state.highlightIndex, valueUpper, valueLower, isTrend);
+      if (this.state.isMounted && this.graph) Object(_renderChart__WEBPACK_IMPORTED_MODULE_10__["updateChart"])(this.graph, this.props.chartData, this.state.highlightIndex, valueUpper, valueLower, isTrend);
     }
   }, {
     key: "render",
@@ -370,8 +368,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _Translator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Translator */ "./Client/Translator.js");
-
 
 
 
@@ -394,7 +390,7 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("table", {
         className: "table table-striped table-hover table-condensed table-bordered"
-      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tbody", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.definitionText)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.definition))), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.dataAvailableText)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.dataAvailable))), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.methodsText)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.methods))), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.remarksText)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.remarks)))));
+      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tbody", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, this.props.definitionText), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, this.props.definition)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, this.props.dataAvailableText), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, this.props.dataAvailable)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, this.props.methodsText), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, this.props.methods)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", null, this.props.remarksText), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, this.props.remarks))));
     }
   }]);
 
@@ -619,7 +615,7 @@ function (_React$Component) {
         className: "col-md-3 padding-15 "
       }, react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("span", {
         className: "text-info"
-      }, Object(_Translator__WEBPACK_IMPORTED_MODULE_9__["i18n"])(this.props.prompt), ":"), react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
+      }, this.props.prompt, ":"), react__WEBPACK_IMPORTED_MODULE_7__["createElement"]("div", {
         className: "form-group-md"
       }, this.props.filters.map(function (filter, i) {
         return react__WEBPACK_IMPORTED_MODULE_7__["createElement"](_Filter__WEBPACK_IMPORTED_MODULE_8__["Filter"], {
@@ -723,10 +719,10 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("caption", null, this.props.chartData.title), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("thead", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("tr", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
         className: "text-left",
         scope: "col"
-      }, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.xAxis)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
+      }, this.props.chartData.xAxis), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
         className: "text-center",
         scope: "col"
-      }, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.yAxis, "Datatool")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
+      }, this.props.chartData.yAxis), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("th", {
         className: "text-center",
         scope: "col"
       }, "95% ", react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("abbr", {

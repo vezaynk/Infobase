@@ -16,6 +16,13 @@ namespace Infobase.Models.PASS
         public virtual ICollection<Measure> Measures { get; set; }
 
         /* Text getters */
+        public string IndicatorName(string culture) {
+            switch (culture) {
+                case "en-ca": return IndicatorNameEn;
+                case "fr-ca": return IndicatorNameFr;
+            }
+            return "No culture";
+        }
         public string IndicatorNameEn { get; set; }
         public string IndicatorNameFr { get; set; }
 

@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { i18n } from "../Translator";
 import { initChart, updateChart } from '../renderChart';
 import type { ChartData } from '../types';
 
@@ -10,7 +9,7 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
 
     componentDidMount() {
         this.setState({ isMounted: false, highlightIndex: -1 });
-        let isTrend = i18n(this.props.chartData.xAxis).includes("Trend");
+        let isTrend = this.props.chartData.xAxis.includes("Trend");
         if (this.graph)
             initChart(this.graph, this.props.chartData, (highlightIndex) => this.setState(
                 {
@@ -25,7 +24,7 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
     componentDidUpdate() {
         let valueUpper = -1;
         let valueLower = -2;
-        let isTrend = i18n(this.props.chartData.xAxis).includes("Trend");
+        let isTrend = this.props.chartData.xAxis.includes("Trend");
         let highlighted = this.props.chartData.points.filter(p => p.type == 0 || isTrend)[this.state.highlightIndex];
         if (highlighted) {
             if (highlighted.valueUpper)
