@@ -62,7 +62,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                     // Data is in the red (66%+)
                     case 1:
                         return (<tr key={index} style={({backgroundColor: "red"})}>
-                            <td className="text-left">{i18n(point.label, "Index")}</td>
+                            <td className="text-left">{point.text}</td>
                             <td><sup>F</sup></td>
                             <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
@@ -70,7 +70,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                     // Data is in the red (33%+)
                     case 2:
                         return (<tr key={index} style={({backgroundColor: "yellow"})}>
-                            <td className="text-left">{i18n(point.label, "Index")}</td>
+                            <td className="text-left">{point.text}</td>
                             <td>{typeof point.value != "number" ? "-" :numberFormat(point.value)}<sup>E</sup></td>
                             <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
@@ -78,7 +78,7 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
                     // Data is a Okay!
                     default:
                         return (<tr key={index}>
-                            <td className="text-left">{i18n(point.label, "Index")}</td>
+                            <td className="text-left">{point.text}</td>
                             <td>{typeof point.value != "number" ? "-" :numberFormat(point.value)}</td>
                             <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
                         </tr>)
@@ -92,9 +92,8 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
 <div className="col-md-12 mrgn-tp-0 small">
         <div className="bg-warning">
             <h4>Notes:</h4>
-            <p><strong>Notes:</strong> {i18n(this.props.chartData.notes)}</p>
-            <p><strong>Source:</strong> {i18n(this.props.chartData.source, "Datatool")}</p>
-			<p>{i18n(this.props.cellsEmpty)}</p>            
+            <p><strong>Notes:</strong> {this.props.chartData.notes}</p>
+            <p><strong>Source:</strong> {this.props.chartData.source}</p>         
             {warningCV}
             {suppressedCV}
 

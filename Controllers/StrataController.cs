@@ -121,6 +121,7 @@ namespace Infobase.Controllers
                         ValueUpper = p.ValueUpper,
                         ValueLower = p.ValueLower,
                         Label = p.PointLabel(language),
+                        Text = p.PointText(language),
                         Type = p.Type
                     }),
                     WarningCV = strata.Measure.CVWarnAt,
@@ -138,7 +139,7 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(ac => new DropdownItem
                                      {
-                                         Value = ac.Index,
+                                         Value = ac.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
                                          Text = ac.ActivityName(language)
                                      });
 
@@ -150,7 +151,7 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(ig => new DropdownItem
                                      {
-                                         Value = ig.Index,
+                                         Value = ig.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
                                          Text = ig.IndicatorGroupName(language)
                                      });
 
@@ -162,7 +163,7 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(lc => new DropdownItem
                                      {
-                                         Value = lc.Index,
+                                         Value = lc.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
                                          Text = lc.LifeCourseName(language)
                                      });
 
@@ -174,7 +175,7 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(i => new DropdownItem
                                      {
-                                         Value = i.Index,
+                                         Value = i.DefaultMeasure.DefaultStrata.Index,
                                          Text = i.IndicatorName(language)
                                      });
 
@@ -186,7 +187,7 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(m => new DropdownItem
                                      {
-                                         Value = m.Index,
+                                         Value = m.DefaultStrata.Index,
                                          Text = m.MeasureNameIndexEn
                                      });
 
@@ -218,7 +219,7 @@ namespace Infobase.Controllers
                 return NotFound();
             }
 
-            var measure = await _context.Measure.FirstOrDefaultAsync(m => m.MeasureId == id);
+            var measure = await _context.Measure.FirstOrDefaultAsync(m => m.Index == id);
             if (measure == null)
             {
                 return NotFound();

@@ -137,13 +137,14 @@ FROM
         trim(masterA. "unit_label_1"),
         trim(masterA. "unit_label_2");
 
-INSERT INTO "Strata" ("MeasureId", "Index", "StrataNameEn", "StrataSourceEn", "StrataPopulationTitleFragmentEn")
+INSERT INTO "Strata" ("MeasureId", "Index", "StrataNameEn", "StrataSourceEn", "StrataPopulationTitleFragmentEn", "StrataNotesEn")
 SELECT
     "MeasureId",
     min(masterA.id::Integer),
     masterA.data_breakdowns,
     masterA.data_source_1,
-    masterA.population_1
+    masterA.population_1,
+    masterA.notes
 FROM
     "Measure"
     INNER JOIN master masterB ON masterB.id::Integer = "Measure"."Index"
@@ -156,9 +157,10 @@ FROM
         "MeasureId",
         masterA.data_breakdowns,
         masterA.data_source_1,
-        masterA.population_1;
+        masterA.population_1,
+        masterA.notes;
 
-INSERT INTO "Point" ("StrataId", "CVInterpretation", "CVValue", "ValueAverage", "ValueUpper", "ValueLower", "Type", "Index", "PointLabelEn")
+INSERT INTO "Point" ("StrataId", "CVInterpretation", "CVValue", "ValueAverage", "ValueUpper", "ValueLower", "Type", "Index", "PointLabelEn", "PointTextEn")
 SELECT
     "StrataId",
     CASE coalesce(masterA.CV_Interpretation, '')
@@ -198,7 +200,14 @@ SELECT
         masterA. "display_data"::Integer
     END,
     masterA.id::Integer,
-    masterA.disaggregation
+    masterA.disaggregation,
+    CASE coalesce(masterA.pt_table_label, '')
+    WHEN '' THEN
+        masterA.disaggregation
+    ELSE
+        masterA.pt_table_label
+    END
+    
 FROM
     "Strata"
     INNER JOIN master masterB ON CAST(masterB.id AS Integer) = "Strata"."Index"

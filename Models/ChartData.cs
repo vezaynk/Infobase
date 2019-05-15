@@ -17,7 +17,6 @@ namespace Infobase.Models
             public double? CVValue { get; set; }
             public int CVInterpretation { get; set; }
             public int Type {get;set;}
-
         }
 
 

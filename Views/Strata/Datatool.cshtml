@@ -35,7 +35,9 @@
                 text-align: center;
             }
         </style>
-        <a onclick="return saveSvgAsPng(document.getElementById('graph'), 'chart.png');" class="btn btn-success btn-sm" href="javascript:">@(Model.LanguageCode == "fr-ca" ? "Enregistrer" : "Save Chart")</a>
+        <button id="btnSaveChart" class="btn btn-success btn-sm">
+            @(Model.LanguageCode == "fr-ca" ? "Enregistrer" : "Save Chart")
+            </button>
     </div>
 </div>
 
@@ -64,7 +66,7 @@
 <div class="col-sm-12">
     @switch (language) {
         case "en-ca":
-            Html.React("Components.SummaryTable", new { 
+            @Html.React("Components.SummaryTable", new { 
                 chartData = Model.ChartData, 
                 cellsEmpty="", 
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
@@ -73,7 +75,7 @@
             clientOnly: true);
             break;
         case "fr-ca":
-            Html.React("Components.SummaryTable", new { 
+            @Html.React("Components.SummaryTable", new { 
                 chartData = Model.ChartData, 
                 cellsEmpty="", 
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
@@ -102,7 +104,7 @@
             <div class="col-sm-12">
                 @switch (language) {
                     case "en-ca":
-                        Html.React("Components.DescriptionTable", new { 
+                        @Html.React("Components.DescriptionTable", new { 
                             definitionText = "Definition",
                             dataAvailableText = "Data Available",
                             methodsText = "Estimate Calculation",
@@ -110,7 +112,7 @@
                         }, clientOnly: true);
                         break;
                     case "fr-ca":
-                        Html.React("Components.DescriptionTable", new { 
+                        @Html.React("Components.DescriptionTable", new { 
                             definitionText = "Definition",
                             dataAvailableText = "Data Available",
                             methodsText = "Estimate Calculation",
@@ -148,3 +150,8 @@
                 }
     </div>
 </section>
+<div style="width: 0; height: 0; overflow: hidden;">
+<div style="width: 1000px;" class="chartContainer">
+@Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
+</div>
+</div>

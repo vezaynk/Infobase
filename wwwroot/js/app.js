@@ -203,10 +203,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
@@ -228,7 +228,7 @@ __webpack_require__.r(__webpack_exports__);
 var Chart =
 /*#__PURE__*/
 function (_React$Component) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Chart, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(Chart, _React$Component);
 
   function Chart() {
     var _getPrototypeOf2;
@@ -243,7 +243,7 @@ function (_React$Component) {
 
     _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Chart)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this)), "graph", void 0);
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "graph", void 0);
 
     return _this;
   }
@@ -292,6 +292,7 @@ function (_React$Component) {
 
       console.log(this.props.chartData);
       return react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("figure", null, react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("figcaption", {
+        className: "text-center",
         style: {
           margin: "0 10px"
         }
@@ -318,7 +319,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("feFlood", {
         floodColor: "#ffffff"
       }), react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("feComposite", {
-        in: "SourceGraphic"
+        "in": "SourceGraphic"
       }), react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("feComponentTransfer", null, react__WEBPACK_IMPORTED_MODULE_8__["createElement"]("feFuncA", {
         type: "linear",
         slope: "0.7"
@@ -417,10 +418,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
@@ -436,7 +437,7 @@ __webpack_require__.r(__webpack_exports__);
 var Filter =
 /*#__PURE__*/
 function (_React$Component) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(Filter, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Filter, _React$Component);
 
   function Filter() {
     var _getPrototypeOf2;
@@ -451,7 +452,7 @@ function (_React$Component) {
 
     _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(Filter)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this)), "noscript", void 0);
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "noscript", void 0);
 
     return _this;
   }
@@ -738,7 +739,7 @@ function (_React$Component) {
               }
             }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", {
               className: "text-left"
-            }, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(point.label, "Index")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("sup", null, "F")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
+            }, point.text), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("sup", null, "F")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
           // Data is in the red (33%+)
 
           case 2:
@@ -749,7 +750,7 @@ function (_React$Component) {
               }
             }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", {
               className: "text-left"
-            }, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(point.label, "Index")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.value), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("sup", null, "E")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
+            }, point.text), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.value), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("sup", null, "E")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
           // Data is a Okay!
 
           default:
@@ -757,13 +758,13 @@ function (_React$Component) {
               key: index
             }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", {
               className: "text-left"
-            }, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(point.label, "Index")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.value)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
+            }, point.text), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.value != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.value)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("td", null, typeof point.valueLower != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueLower), " - ", typeof point.valueUpper != "number" ? "-" : Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["numberFormat"])(point.valueUpper), " "));
         }
       })))), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
         className: "col-md-12 mrgn-tp-0 small"
       }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("div", {
         className: "bg-warning"
-      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("h4", null, "Notes:"), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Notes:"), " ", Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.notes)), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Source:"), " ", Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.chartData.source, "Datatool")), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, Object(_Translator__WEBPACK_IMPORTED_MODULE_6__["i18n"])(this.props.cellsEmpty)), warningCV, suppressedCV))));
+      }, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("h4", null, "Notes:"), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Notes:"), " ", this.props.chartData.notes), react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("p", null, react__WEBPACK_IMPORTED_MODULE_5__["createElement"]("strong", null, "Source:"), " ", this.props.chartData.source), warningCV, suppressedCV))));
     }
   }]);
 
@@ -1278,7 +1279,7 @@ function updateChart(ref, dataset, highlightIndex, highlightUpper, highlightLowe
   }).style("fill", "black");
   cvLowerBinding.exit().remove();
   var enteredAverage = averageBinding.enter().append("g");
-  enteredAverage.attr("class", "average").append("rect").attr("height", 2).attr("x", 0).attr("width", width).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration(function (_, i) {
+  enteredAverage.attr("class", "average").append("rect").attr('fill', 'url(#linePattern)').attr("height", 2).attr("x", 0).attr("width", width).attr("ry", isTrend ? 10 : 0).attr("rx", isTrend ? 10 : 0).attr("y", height).transition().duration(function (_, i) {
     return 600;
   }).attr("y", function (d) {
     return y(d.value);

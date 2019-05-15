@@ -216,6 +216,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     enteredAverage
         .attr("class", "average")
         .append("rect")
+        .attr('fill', 'url(#linePattern)')
         .attr("height", 2)
         .attr("x", 0)
         .attr("width", width)

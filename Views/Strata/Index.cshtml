@@ -120,11 +120,11 @@
                                                     @if (measure.Included)
                                                     {
 														@if (language == "en-ca") {
-															<a class="btn btn-default" href="https://health-infobase.canada.ca/pass/indicator-details/@measure.MeasureId">Description</a>
+															<a class="btn btn-default" href="https://health-infobase.canada.ca/pass/indicator-details/@measure.Index">Description</a>
 														}else{
-															<a class="btn btn-default" href="https://sante-infobase.canada.ca/apcss/description-de-mesure/@measure.MeasureId">Description</a>
+															<a class="btn btn-default" href="https://sante-infobase.canada.ca/apcss/description-de-mesure/@measure.Index">Description</a>
 														}
-                                                        <!--<a asp-action="Details" asp-route-id="@measure.MeasureId" class="btn btn-default">Description</a> -->
+                                                        <!--<a asp-action="Details" asp-route-id="@measure.Index" class="btn btn-default">Description</a> -->
                                                     }
 
                                                 </td>

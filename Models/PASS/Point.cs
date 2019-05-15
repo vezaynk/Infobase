@@ -30,6 +30,17 @@ namespace Infobase.Models.PASS
         public string PointLabelFr { get; set; }
         
 
+        public string PointText(string culture) {
+            switch (culture) {
+                case "en-ca": return PointTextEn;
+                case "fr-ca": return PointTextFr;
+            }
+            return "No culture";
+        }
+        public string PointTextEn { get; set; }
+        public string PointTextFr { get; set; }
+        
+
         public int Type { get; set; }
     }
 }

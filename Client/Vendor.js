@@ -2,3 +2,4 @@
 
 require('react-dom');
 require('whatwg-fetch');
+require('./saveGraph')

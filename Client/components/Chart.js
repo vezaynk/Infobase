@@ -41,7 +41,7 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
 		console.log(this.props.chartData);
         return (
             <figure>
-                <figcaption style={{ margin: "0 10px" }}>
+                <figcaption className="text-center" style={{ margin: "0 10px" }}>
                     <strong>{this.props.chartData.title}</strong>
                 </figcaption>
 
