@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { i18n, numberFormat } from '../Translator';
+import { numberFormat, textFormat } from '../Translator';
 import type { ChartData, MultilangText } from '../types';
 
 export type SummaryTableProps = {
@@ -23,22 +23,22 @@ export class SummaryTable extends React.Component<SummaryTableProps> {
         let suppressedCV = null;
         if (this.props.chartData.points.some(p => p.cvInterpretation == 2))
             if (this.props.cvWarnAt) {
-                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, undefined, { warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
+                warningCV = <p><sup>E</sup>{textFormat(this.props.cvWarning, { warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
             } else {
-                warningCV = <p><sup>E</sup>{i18n(this.props.cvWarning, "alt")}</p>
+                warningCV = <p><sup>E</sup>{this.props.cvWarningAlt}</p>
             }
 
         if (this.props.chartData.points.some(p => p.cvInterpretation == 1))
             if (this.props.cvWarnAt) {
-                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, undefined, { warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
+                suppressedCV = <p><sup>F</sup>{textFormat(this.props.cvSuppressed, { warn: numberFormat(this.props.cvWarnAt), suppress: numberFormat(this.props.cvSuppressAt) })}</p>
             } else {
-                suppressedCV = <p><sup>F</sup>{i18n(this.props.cvSuppressed, "alt")}</p>
+                suppressedCV = <p><sup>F</sup>{this.props.cvSuppressedAlt}</p>
 
             }
 
 
         return (
-            <div class="container-fluid">
+            <div className="container-fluid">
                 <div className="row brdr-bttm mrgn-bttm-0">
                     <div className="col-md-12 table-data">
                         <table className="table table-striped table-condensed table-xCondensed text-center mrgn-bttm-sm" id="chartgridview">

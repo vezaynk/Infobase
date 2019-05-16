@@ -2,21 +2,7 @@
 import type { MultilangText, LanguageCode, TranslationType } from "./types"
 import { dataExplorerStore } from './store/dataExplorer';
 
-export function i18n(translatable: MultilangText, type?: TranslationType, substitutions?: { [string]: string | number } = {}): string {
-    /*let languageCode = dataExplorerStore.getState().languageCode;		
-    let text = ""
-	
-    if (!type) {
-        let localKeys = Object.keys(translatable).filter(t => t.startsWith("(" + languageCode));
-        if (localKeys.length)
-            text = translatable[localKeys[0]]
-    } else {
-        text = translatable[`(${languageCode}, ${type})`];
-        if (text === undefined)
-            return i18n(translatable);
-    }*/
-
-    let text = translatable || "no text";
+export function textFormat(text, substitutions) {
     Object.keys(substitutions).forEach(subkey => {
         text = text.split(`{${subkey}}`).join(substitutions[subkey].toString());
     })

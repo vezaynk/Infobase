@@ -188,7 +188,7 @@ namespace Infobase.Controllers
                                      .Select(m => new DropdownItem
                                      {
                                          Value = m.DefaultStrata.Index,
-                                         Text = m.MeasureNameIndexEn
+                                         Text = m.MeasureNameIndex(language)
                                      });
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Index));

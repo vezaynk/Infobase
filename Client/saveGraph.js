@@ -20,7 +20,7 @@ export default async function saveGraph(querySelector) {
 
         ctx.drawImage(footerImage, 0,graphHeight, 1000, footerHeight);
 
-        let image = containerCanvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+        let image = containerCanvas.toDataURL("image/png", 1.0);//.replace("image/png", "image/octet-stream");
         let link = document.createElement('a');
         link.download = document.title + "-" + Date.now() + ".png";
         link.href = image;

@@ -1,6 +1,6 @@
 ﻿// @flow
 import * as d3 from "d3";
-import { i18n, numberFormat } from "./Translator";
+import { numberFormat } from "./Translator";
 import type { ChartData, TPoint } from './types';
 const marginY = 10;
 const marginX = 60;
@@ -78,17 +78,17 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     chart.selectAll("g.x-axis")
         .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
         .style("font-size", 14)
-        .attr("text-anchor", "start")
+        .attr("text-anchor", "end")
         .transition()
         .duration(600)
         .call(d3.axisBottom(x))
 
     chart.selectAll('g.x-axis .tick text')
-        .style("transform", "rotate(10deg)");;
+        .style("transform", "rotate(-15deg)");;
         
 
     xAxisLabel
-        .text(i18n(dataset.xAxis))
+        .text(dataset.xAxis)
 
     yAxisLabel
         .text(dataset.yAxis)
@@ -120,7 +120,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
 
     enteredRect.append("title")
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + /*" " +*/ i18n(dataset.unit, "Index"));
+        .text(d => d.label + ": " + numberFormat(d.value) + /*" " +*/ dataset.unit);
 
     pointBinding
         .select("rect")
@@ -135,7 +135,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("fill", "steelblue")
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 1 : 1) //Point A to 0.2 to bring back functionality
         .select("title")
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + " " + i18n(dataset.unit, "Index"));
+        .text(d => d.label + ": " + numberFormat(d.value) + " " + dataset.unit);
 
 
     pointBinding.on("mouseover", (_, i) => updateHighlight(i))
@@ -247,7 +247,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .transition()
         .duration((_, i) => 600)
         .attr("y", d => y(d.value) - 5)
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + i18n(dataset.yAxis, "Index"))
+        .text(d => d.label + ": " + numberFormat(d.value) + dataset.yAxis)
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
@@ -264,7 +264,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration(600)
         .attr("x", () => width)
         .attr("y", d => y(d.value) - 5)
-        .text(d => i18n(d.label) + ": " + numberFormat(d.value) + i18n(dataset.unit, "Index"))
+        .text(d => d.label + ": " + d.value + dataset.unit)
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 

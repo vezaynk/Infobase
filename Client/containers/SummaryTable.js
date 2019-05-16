@@ -15,6 +15,8 @@ const mapStateToSummaryTableProps = (state:DataExplorerState, props) => (
                                                                                 remarks: state.chartData.remarks,
                                                                                 cvWarning: props.cvWarning, 
                                                                                 cvSuppressed: props.cvSuppressed,
+                                                                                cvWarningAlt: props.cvWarningAlt, 
+                                                                                cvSuppressedAlt: props.cvSuppressedAlt,
                                                                                 cvWarnAt: state.chartData.warningCV,
                                                                                 cvSuppressAt: state.chartData.suppressCV
                                                                             }
@@ -36,9 +38,10 @@ type SummaryTableProps = {
 export function SummaryTable(props) {
         return (
             <Provider store={dataExplorerStore}>
-                <SummaryTableConnect cvWarning={props.cvWarning}
-                                     cellsEmpty={props.cellsEmpty} 
-                                     cvSuppressed={props.cvSuppressed} />
+                <SummaryTableConnect cvWarning={props.cvWarning} 
+                                     cvSuppressed={props.cvSuppressed}
+                                     cvWarningAlt={props.cvWarningAlt} 
+                                     cvSuppressedAlt={props.cvSuppressedAlt} />
             </Provider>
         )
     }

@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Filter } from "./Filter";
-import { i18n } from '../Translator';
 import type { Action, FilterData, ChartData, MultilangText } from "../types";
 
 type FilterBoxProps = {
