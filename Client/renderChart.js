@@ -75,16 +75,23 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .selectAll("text")
         .attr("font-size", 14)
 
+        let fit = false;
+        if (d3.max(points.map(p => p.label.length))*11 > 700/points.length) {
+            fit = true;
+        }
+
+        console.log("number -> ", d3.max(points.map(p => p.label.length))*11, 700/points.length)
+
     chart.selectAll("g.x-axis")
         .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
         .style("font-size", 14)
-        .attr("text-anchor", "end")
+        .attr("text-anchor", fit ? "end" : "middle")
         .transition()
         .duration(600)
         .call(d3.axisBottom(x))
 
     chart.selectAll('g.x-axis .tick text')
-        .style("transform", "rotate(-15deg)");;
+        .style("transform", `rotate(-${15*(fit ? 1 : 0)}deg)`);
         
 
     xAxisLabel
