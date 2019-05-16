@@ -13,10 +13,10 @@ type FilterBoxProps = {
     prompt: MultilangText
 }
 
-export class FilterBox extends React.Component<FilterBoxProps> {
+export function FilterBox(props) {
 
-    async selectFilter(selected: number): Promise<boolean> {
-        this.props.updateLoadState(true);
+    async function selectFilter(selected: number): Promise<boolean> {
+        props.updateLoadState(true);
 
         history.pushState(null, document.title, `?index=${selected}`);
 
@@ -27,33 +27,31 @@ export class FilterBox extends React.Component<FilterBoxProps> {
             let response: Response = await request;
             let r = await response.json();
 
-            this.props.updateFilters(r.filters);
-            this.props.updateChartData(r.chartData);
-            this.props.updateLoadState(false);
+            props.updateFilters(r.filters);
+            props.updateChartData(r.chartData);
+            props.updateLoadState(false);
             return true;
         } catch (e) {
             return false;
         }
     }
-    render() {
-        return (
-            <div className="col-md-3 padding-15 ">
-                <span className="text-info">{this.props.prompt}:</span>
-                <div className="form-group-md">
-                    {
-                        this.props.filters.map((filter, i) =>
-                            <Filter
-                                key={i}
-                                id={"drop"+i}
-                                name={filter.name}
-                                items={filter.items}
-                                selected={filter.selected}
-                                onSelect={selected => this.selectFilter(selected)}
-                                loading={this.props.loading}
-                            />)
-                    }
-                </div>
+    return (
+        <div className="col-md-3 padding-15 ">
+            <span className="text-info">{props.prompt}:</span>
+            <div className="form-group-md">
+                {
+                    props.filters.map((filter, i) =>
+                        <Filter
+                            key={i}
+                            id={"drop" + i}
+                            name={filter.name}
+                            items={filter.items}
+                            selected={filter.selected}
+                            onSelect={selected => selectFilter(selected)}
+                            loading={props.loading}
+                        />)
+                }
             </div>
-        );
-    }
+        </div>
+    );
 }
