@@ -45,7 +45,7 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
                     <strong>{this.props.chartData.title}</strong>
                 </figcaption>
 
-                <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 820 500" width="820" height="500" preserveAspectRatio="xMidYMid meet" style={{ width: 100 + "%" }}>
+                <svg className="chart" ref={self => this.graph = self} id="graph" zoomAndPan="magnify" viewBox="0 0 820 500" width="820px" height="500px" preserveAspectRatio="xMidYMid meet" style={{ width: 100 + "%" }}>
                     <defs>
                         <filter x="0" y="0" width="1" height="1" id="solid">
                             <feFlood floodColor="#ffffff" />
