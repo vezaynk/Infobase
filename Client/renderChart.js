@@ -60,7 +60,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         averages = [];
     }
     let x = d3.scaleBand()
-        .domain(points.map(point => i18n(point.label)))
+        .domain(points.map(point => point.label))
         .range([0, width]);
 
     let y = d3.scaleLinear()
@@ -73,20 +73,25 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .duration(600)
         .call(d3.axisLeft(y))
         .selectAll("text")
-        .attr("font-size", 14);
+        .attr("font-size", 14)
 
     chart.selectAll("g.x-axis")
         .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
         .style("font-size", 14)
+        .attr("text-anchor", "start")
         .transition()
         .duration(600)
         .call(d3.axisBottom(x))
 
+    chart.selectAll('g.x-axis .tick text')
+        .style("transform", "rotate(10deg)");;
+        
+
     xAxisLabel
-        .text(i18n(dataset.xAxis));
+        .text(i18n(dataset.xAxis))
 
     yAxisLabel
-        .text(i18n(dataset.yAxis, "Datatool"))
+        .text(dataset.yAxis)
         .style("font-weight", "bold")
 
 	
@@ -335,7 +340,7 @@ export function initChart(ref: Element, dataset: ChartData, update: number => vo
         .attr("stop-opacity", 0);
 
     xAxisLabel = chart.append("text")
-        .attr("y", height + marginY + 40)
+        .attr("y", height + marginY + 60)
         .attr("x", (marginX + width) / 2)
         .attr("dy", "1em")
         .style("text-anchor", "middle")

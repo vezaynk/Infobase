@@ -379,3 +379,7 @@ details[open] summary:after {
 .chartContainer {
     padding: 10px;
 }
+
+.x-axis .tick text {
+    
+}

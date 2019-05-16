@@ -1882,7 +1882,7 @@ if (true) {
 'use strict';
 
 var invariant = __webpack_require__(/*! fbjs/lib/invariant */ "./node_modules/fbjs/lib/invariant.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
 var warning = __webpack_require__(/*! fbjs/lib/warning */ "./node_modules/fbjs/lib/warning.js");
 var ExecutionEnvironment = __webpack_require__(/*! fbjs/lib/ExecutionEnvironment */ "./node_modules/fbjs/lib/ExecutionEnvironment.js");
 var _assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
@@ -20853,7 +20853,19 @@ module.exports = react;
 
 /***/ }),
 
-/***/ "./node_modules/react/index.js":
+/***/ "./node_modules/react/index.js?7c21":
+/*!*************************************!*\
+  !*** ./node_modules/react/index.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js?ab5b");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/react/index.js?ab5b":
 /*!*************************************!*\
   !*** ./node_modules/react/index.js ***!
   \*************************************/
@@ -20867,18 +20879,6 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/react.development.js */ "./node_modules/react/cjs/react.development.js");
 }
 
-
-/***/ }),
-
-/***/ "./node_modules/react/index.js-exposed":
-/*!*********************************************!*\
-  !*** ./node_modules/react/index.js-exposed ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["React"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js");
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
