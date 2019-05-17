@@ -26,7 +26,6 @@
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
         @Html.React("Components.Charting", new { Animate=true }, clientOnly: true)
-        <script src="https://cdn.jsdelivr.net/gh/exupero/saveSvgAsPng@gh-pages/src/saveSvgAsPng.js"></script>
         @switch (language) {
             case "en-ca":
                 @:<button id="btnSaveChart" class="btn btn-success btn-sm">Save Chart</button>
@@ -130,7 +129,7 @@
     </div>
 </section>
 <div style="width: 0; height: 0; overflow: hidden;">
-<div style="width: 1000px;" class="chartContainer">
+<div style="width: 820px;" class="chartContainer">
 @Html.React("Components.Charting", new { Animate = false }, clientOnly: true)
 @switch (language) {
         case "en-ca":
