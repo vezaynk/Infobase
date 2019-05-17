@@ -12,14 +12,12 @@
         case "en-ca":
             @Html.React("Components.Filters", new
 		{
-            filters = Model.filters,
             prompt = "Select an item from each list below"
         }, clientOnly: true)
             break;
         case "fr-ca":
             @Html.React("Components.Filters", new
 		{
-            filters = Model.filters,
             prompt = "Sélectionner les paramètres d'intérêt"
         }, clientOnly: true)
             break;
@@ -27,29 +25,17 @@
         
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
+        @Html.React("Components.Charting", new { }, clientOnly: true)
         <script src="https://cdn.jsdelivr.net/gh/exupero/saveSvgAsPng@gh-pages/src/saveSvgAsPng.js"></script>
-        <style type="text/css">
-			.form-group-sm {
-			margin: 20px 0px;
-			}
-            .bar rect:hover {
-                fill: #dfbcbd;
-            }
-            .footnote tspan {
-                fill: rgb(220, 20, 60);
-            }
-            .axis-label {
-                text-anchor: middle;
-                font-weight: bold;
-            }
-            #title {
-                text-align: center;
-            }
-        </style>
-        <button id="btnSaveChart" class="btn btn-success btn-sm">
-            @(Model.LanguageCode == "fr-ca" ? "Enregistrer" : "Save Chart")
-            </button>
+        @switch (language) {
+            case "en-ca":
+                @:<button id="btnSaveChart" class="btn btn-success btn-sm">Save Chart</button>
+                break;
+            case "fr-ca":
+                @:<button id="btnSaveChart" class="btn btn-success btn-sm">Enregistrer</button>
+                break;
+        }
+        
     </div>
 </div>
 
@@ -145,12 +131,10 @@
 </section>
 <div style="width: 0; height: 0; overflow: hidden;">
 <div style="width: 1000px;" class="chartContainer">
-@Html.React("Components.Charting", new { chartData = Model.ChartData }, clientOnly: true)
+@Html.React("Components.Charting", new { }, clientOnly: true)
 @switch (language) {
         case "en-ca":
             @Html.React("Components.SummaryTable", new { 
-                chartData = Model.ChartData, 
-                cellsEmpty="", 
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
                 cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
             },
@@ -158,8 +142,6 @@
             break;
         case "fr-ca":
             @Html.React("Components.SummaryTable", new { 
-                chartData = Model.ChartData, 
-                cellsEmpty="", 
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
                 cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
             },

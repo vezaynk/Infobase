@@ -4,14 +4,14 @@ import * as ReactDOM from 'react-dom';
 import { initChart, updateChart } from '../renderChart';
 import type { ChartData } from '../types';
 
-export class Chart extends React.Component<{ chartData: ChartData }, { isMounted: boolean, highlightIndex: number }> {
+export class Chart extends React.Component<{ chartData: ChartData, animate: boolean }, { isMounted: boolean, highlightIndex: number }> {
     graph: ?Element;
 
     componentDidMount() {
         this.setState({ isMounted: false, highlightIndex: -1 });
         let isTrend = this.props.chartData.xAxis.includes("Trend");
         if (this.graph)
-            initChart(this.graph, this.props.chartData, (highlightIndex) => this.setState(
+            initChart(this.graph, this.props.chartData, this.props.animate, (highlightIndex) => this.setState(
                 {
                     ...this.state,
                     highlightIndex
@@ -35,7 +35,7 @@ export class Chart extends React.Component<{ chartData: ChartData }, { isMounted
 
         console.log(this.state.highlightIndex, valueUpper, valueLower, highlighted, this.props.chartData.points)
         if (this.state.isMounted && this.graph)
-            updateChart(this.graph, this.props.chartData, this.state.highlightIndex, valueUpper, valueLower, isTrend);
+            updateChart(this.graph, this.props.chartData, this.props.animate, this.state.highlightIndex, valueUpper, valueLower, isTrend);
     }
     render() {
 		console.log(this.props.chartData);

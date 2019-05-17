@@ -9,7 +9,7 @@ import { FilterBox } from "../components/FilterBox";
 
 import { dataExplorerStore } from '../store/dataExplorer';
 import { updateFilters, updateChartData, updateLoadState } from '../reducers/dataExplorerReducer';
-import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData, MultilangText } from "../types";
+import type { UpdateLoadState, Action, DataExplorerState, FilterData, ChartData } from "../types";
 import type { Dispatch, ActionCreators } from 'redux';
 
 const mapStateToFilterProps = (state: DataExplorerState, props) => ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
@@ -23,10 +23,9 @@ export const FilterBoxConnect = connect(
 )(FilterBox)
 
 type FiltersProp = {
-    filters?: FilterData[],
-    prompt: MultilangText
+    prompt: string
 }
-export function Filters(props) {
+export function Filters(props: FiltersProp) {
         return (
             <Provider store={dataExplorerStore}>
                 <FilterBoxConnect prompt={props.prompt} />

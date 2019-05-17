@@ -12,25 +12,26 @@ type DescriptionTableProps = {
     definition: string
 }
 
-export function DescriptionTable(props) {
+export function DescriptionTable(props: DescriptionTableProps) {
+    const notApplicable = <div><span aria-hidden="hidden">N/A</span><span className="wb-inv">&emdash;</span></div>;
     return (
         <table className="table table-striped table-hover table-condensed table-bordered">
             <tbody>
                 <tr>
                     <th>{props.definitionText}</th>
-                    <td>{props.definition}</td>
+                    <td>{props.definition || notApplicable}</td>
                 </tr>
                 <tr>
                     <th>{props.dataAvailableText}</th>
-                    <td>{props.dataAvailable}</td>
+                    <td>{props.dataAvailable || notApplicable}</td>
                 </tr>
                 <tr>
                     <th>{props.methodsText}</th>
-                    <td>{props.methods}</td>
+                    <td>{props.methods || notApplicable}</td>
                 </tr>
                 <tr>
                     <th>{props.remarksText}</th>
-                    <td>{props.remarks}</td>
+                    <td>{props.remarks || notApplicable}</td>
                 </tr>
             </tbody>
         </table>

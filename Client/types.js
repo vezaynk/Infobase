@@ -1,10 +1,5 @@
 // @flow
 
-
-export type MultilangText = {
-    [key: string]: string
-}
-
 type FilterItem = {
     value: number,
     text: string
@@ -21,27 +16,30 @@ export type TPoint = {
     value: ?number,
     valueUpper: ?number,
     valueLower: ?number,
-    label: MultilangText,
+    label: string,
+    text: String,
     cvValue: ?number,
     cvInterpretation: 1 | 2 | 3,
     type: 0 | 1 | 2
 };
 
 export type ChartData = {
-    xAxis: MultilangText,
-    yAxis: MultilangText,
+    xAxis: string,
+    yAxis: string,
     points: Array<TPoint>,
-    source: MultilangText,
-    organization: MultilangText,
-    population: MultilangText,
-    notes: MultilangText,
-    definition: MultilangText,
-    dataAvailable: MultilangText,
-    method: MultilangText,
-    remarks: MultilangText,
+    source: string,
+    organization: string,
+    population: string,
+    notes: string,
+    definition: string,
+    dataAvailable: string,
+    method: string,
+    remarks: string,
     warningCV: ?number,
     suppressCV: ?number,
-    measureName: MultilangText
+    unit: string,
+    measureName: string,
+    title: string
 }
 
 export type LanguageCode =  "en-ca" | "fr-ca";

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Filter } from "./Filter";
-import type { Action, FilterData, ChartData, MultilangText } from "../types";
+import type { Action, FilterData, ChartData } from "../types";
 
 type FilterBoxProps = {
     loading: boolean,
@@ -10,10 +10,10 @@ type FilterBoxProps = {
     updateLoadState: boolean => Action,
     updateFilters: FilterData[] => Action,
     updateChartData: ChartData => Action,
-    prompt: MultilangText
+    prompt: string
 }
 
-export function FilterBox(props) {
+export function FilterBox(props: FilterBoxProps) {
 
     async function selectFilter(selected: number): Promise<boolean> {
         props.updateLoadState(true);

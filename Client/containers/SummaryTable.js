@@ -7,7 +7,7 @@ import { connect, Provider } from 'react-redux';
 import { SummaryTable as ST } from "../components/SummaryTable";
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import { dataExplorerStore } from '../store/dataExplorer'
-import type { MultilangText, DataExplorerState, FilterData, ChartData } from "../types";
+import type { DataExplorerState, FilterData, ChartData } from "../types";
 import type { Dispatch } from 'redux';
 
 const mapStateToSummaryTableProps = (state:DataExplorerState, props) => (
@@ -30,12 +30,12 @@ export const SummaryTableConnect = connect(
 )(ST)
 
 type SummaryTableProps = {
-    chartData?: ChartData,
-    cvWarning: MultilangText,
-    cellsEmpty: MultilangText,
-    cvSuppressed: MultilangText
+    cvWarning: string,
+    cvWarningAlt: string,
+    cvSuppressed: string,
+    cvSuppressedAlt: string
 }
-export function SummaryTable(props) {
+export function SummaryTable(props: SummaryTableProps) {
         return (
             <Provider store={dataExplorerStore}>
                 <SummaryTableConnect cvWarning={props.cvWarning} 

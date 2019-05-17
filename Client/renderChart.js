@@ -48,13 +48,14 @@ const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
 
 let updateHighlight: number => void = (index) => console.error("Must init graph");
 
-export function updateChart(ref: Element, dataset: ChartData, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean): void {
+export function updateChart(ref: Element, dataset: ChartData, animate: boolean, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
     let points = dataset.points.filter(point => point.type == 0 || isTrend)
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
 
+    let animationDuration = animate ? 600 : 0;
     if (points.length == 0) {
         points = averages;
         averages = [];
@@ -70,7 +71,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     chart.selectAll("g.y-axis")
         .attr("transform", "translate(" + marginX + "," + marginY + ")")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .call(d3.axisLeft(y))
         .selectAll("text")
         .attr("font-size", 14)
@@ -87,7 +88,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .style("font-size", 14)
         .attr("text-anchor", fit ? "end" : "middle")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .call(d3.axisBottom(x))
 
     chart.selectAll('g.x-axis .tick text')
@@ -127,12 +128,12 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
 
     enteredRect.append("title")
-        .text(d => d.label + ": " + numberFormat(d.value) + /*" " +*/ dataset.unit);
+        .text(d => d.label + ": " + numberFormat(d.value, dataset.unit));
 
     pointBinding
         .select("rect")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("ry", (isTrend ? 10 : 0))
         .attr("rx", (isTrend ? 10 : 0))
         .attr("width", isTrend ? 10 : 25)
@@ -142,7 +143,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("fill", "steelblue")
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 1 : 1) //Point A to 0.2 to bring back functionality
         .select("title")
-        .text(d => d.label + ": " + numberFormat(d.value) + " " + dataset.unit);
+        .text(d => d.label + ": " + numberFormat(d.value, dataset.unit));
 
 
     pointBinding.on("mouseover", (_, i) => updateHighlight(i))
@@ -162,7 +163,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
     cvUpperBinding
         .select("rect")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("width", 25)
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("height", 2)
@@ -180,14 +181,14 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .style("fill", "black")
         .attr("y", height)
         .transition()
-        .duration((_, i) => 600)
+        .duration(animationDuration)
         .attr("height", d => y(d.valueLower) - y(d.valueUpper))
         .attr("y", (d) => y(d.valueUpper))
 
     cvConnectBinding
         .select("rect")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("width", 2)
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 2 / 2)
         .attr("height", d => y(d.valueLower) - y(d.valueUpper))
@@ -205,14 +206,14 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .style("fill", "black")
         .attr("y", height)
         .transition()
-        .duration((_, i) => 600)
+        .duration(animationDuration)
         .attr("y", (d) => y(d.valueLower))
         .attr("height", 2)
 
     cvLowerBinding
         .select("rect")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("width", 25)
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("height", 2)
@@ -254,31 +255,31 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .transition()
         .duration((_, i) => 600)
         .attr("y", d => y(d.value) - 5)
-        .text(d => d.label + ": " + numberFormat(d.value) + dataset.yAxis)
+        .text(d => d.label + ": " + numberFormat(d.value, dataset.yAxis))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
     averageBinding
         .select("rect")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("y", (d) => y(d.value))
 
     averageBinding
         .select("text")
         .attr("filter", "url(#solid)")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("x", () => width)
         .attr("y", d => y(d.value) - 5)
-        .text(d => d.label + ": " + d.value + dataset.unit)
+        .text(d => d.label + ": " + numberFormat(d.value, dataset.unit))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
     averageBinding.exit()
         .selectAll("rect, text")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("y", -marginY)
         .style("opacity", 0)
 
@@ -304,7 +305,7 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
         .attr("opacity", 0)
         .attr("transform", "translate(" + (marginX) + ",-" + 10 + ")")
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("transform", "translate(" + (marginX) + "," + marginY + ")")
         .attr("opacity", 1)
 
@@ -315,13 +316,13 @@ export function updateChart(ref: Element, dataset: ChartData, highlightIndex: nu
 
     paths.exit()
         .transition()
-        .duration(600)
+        .duration(animationDuration)
         .attr("transform", "translate(" + (marginX + 2.5) + ",-" + 10 + ")")
         .attr("opacity", 0)
         .remove();
 }
 
-export function initChart(ref: Element, dataset: ChartData, update: number => void, isTrend: boolean) {
+export function initChart(ref: Element, dataset: ChartData, animate, update: number => void, isTrend: boolean) {
     updateHighlight = update;
     const svg = d3.select(ref)
 
@@ -365,5 +366,5 @@ export function initChart(ref: Element, dataset: ChartData, update: number => vo
         .attr("transform", "translate(" + marginX + "," + marginY + ")")
 
 
-    updateChart(ref, dataset, -1, 0, 0, isTrend);
+    updateChart(ref, dataset, animate, -1, 0, 0, isTrend);
 }

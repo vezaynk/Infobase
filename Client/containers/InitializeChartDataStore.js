@@ -14,7 +14,7 @@ type StateProp = {
     state: DataExplorerState
 }
 
-export function InitializeChartDataStore(props) {
+export function InitializeChartDataStore(props: StateProp) {
         dataExplorerStore.dispatch(initState(props.state));
         return null;
     }

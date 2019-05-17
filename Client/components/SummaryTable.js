@@ -1,32 +1,36 @@
 // @flow
 import * as React from 'react';
 import { numberFormat, textFormat } from '../Translator';
-import type { ChartData, MultilangText } from '../types';
+import type { ChartData } from '../types';
 
-export type SummaryTableProps = {
+type SummaryTableProps = {
     chartData: ChartData,
-    cvWarning: MultilangText,
-    cellsEmpty: MultilangText,
-    cvSuppressed: MultilangText,
-    remarks: MultilangText,
-    cvWarnAt: number,
-    cvSuppressAt: number
+    cvWarning: string,
+    cvSuppressed: string,
+    cvWarningAlt: string,
+    cvSuppressedAlt: string,
+    remarks: string,
+    cvWarnAt: ?number,
+    cvSuppressAt: ?number
 }
 
 
-export function SummaryTable(props) {
+export function SummaryTable(props: SummaryTableProps) {
         let warningCV = null;
         let suppressedCV = null;
+        let {cvWarnAt, cvSuppressAt} = props;
+        let knownBoundries = cvWarnAt && cvSuppressAt;
+
         if (props.chartData.points.some(p => p.cvInterpretation == 2))
-            if (props.cvWarnAt) {
-                warningCV = <p><sup>E</sup>{textFormat(props.cvWarning, { warn: numberFormat(props.cvWarnAt), suppress: numberFormat(props.cvSuppressAt) })}</p>
+            if (knownBoundries) {
+                warningCV = <p><sup>E</sup>{textFormat(props.cvWarning, { warn: numberFormat(cvWarnAt || 0), suppress: numberFormat(cvSuppressAt || 0) })}</p>
             } else {
                 warningCV = <p><sup>E</sup>{props.cvWarningAlt}</p>
             }
 
         if (props.chartData.points.some(p => p.cvInterpretation == 1))
-            if (props.cvWarnAt) {
-                suppressedCV = <p><sup>F</sup>{textFormat(props.cvSuppressed, { warn: numberFormat(props.cvWarnAt), suppress: numberFormat(props.cvSuppressAt) })}</p>
+            if (knownBoundries) {
+                suppressedCV = <p><sup>F</sup>{textFormat(props.cvSuppressed, { warn: numberFormat(cvWarnAt || 0), suppress: numberFormat(cvSuppressAt || 0) })}</p>
             } else {
                 suppressedCV = <p><sup>F</sup>{props.cvSuppressedAlt}</p>
 

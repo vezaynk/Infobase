@@ -15,9 +15,7 @@ const mapStateToChartProps = (state: DataExplorerState, props) => ({
 
 export const ChartingConnect = connect(mapStateToChartProps)(Chart);
 
-type TChartProps = { chartData?: ChartData }
-
-export function Charting(props) {
+export function Charting() {
     return <Provider store={dataExplorerStore}>
                 <ChartingConnect />
             </Provider>

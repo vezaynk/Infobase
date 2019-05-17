@@ -368,8 +368,8 @@ details[open] summary:after {
 }
 
 #graph {
-    min-width: 100%;
-    min-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .chartContainer .table-data {
@@ -382,4 +382,26 @@ details[open] summary:after {
 
 .x-axis .tick text {
     
+}
+
+
+.form-group-sm {
+    margin: 20px 0px;
+    }
+    .bar rect:hover {
+        fill: #dfbcbd;
+    }
+    .footnote tspan {
+        fill: rgb(220, 20, 60);
+    }
+    .axis-label {
+        text-anchor: middle;
+        font-weight: bold;
+    }
+    #title {
+        text-align: center;
+    }
+
+.btn {
+    overflow: hidden;
 }

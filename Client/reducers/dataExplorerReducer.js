@@ -5,20 +5,22 @@ import type { Reducer, ActionCreator } from 'redux';
 const initialState: DataExplorerState = {
     filters: [],
     chartData: {
-        xAxis: {},
-        yAxis: {},
+        xAxis: '',
+        yAxis: '',
         points: [],
-        source: {},
-        organization: {},
-        population: {},
-        notes: {},
-        definition: {},
-        dataAvailable: {},
-        method: {},
-        remarks: {},
+        source: '',
+        organization: '',
+        population: '',
+        notes: '',
+        definition: '',
+        dataAvailable: '',
+        method: '',
+        remarks: '',
         warningCV: null,
         suppressCV: null,
-        measureName: {}
+        measureName: '',
+        unit: '',
+        title: ''
     },
     loading: false,
     languageCode: "en-ca"

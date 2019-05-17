@@ -1,16 +1,24 @@
 // @flow
-import type { MultilangText, LanguageCode, TranslationType } from "./types"
+import type { LanguageCode, TranslationType } from "./types"
 import { dataExplorerStore } from './store/dataExplorer';
 
-export function textFormat(text, substitutions) {
+export function textFormat(text: string, substitutions: {[string]: string}) {
     Object.keys(substitutions).forEach(subkey => {
         text = text.split(`{${subkey}}`).join(substitutions[subkey].toString());
     })
     return text.toString();
 }
 
-export function numberFormat(number: number): string {
+export function numberFormat(number: number, units: ?string): string {
     if (number == null)
         return "";
-    return new Intl.NumberFormat(dataExplorerStore.getState().languageCode, {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(number)
+    let languageCode = dataExplorerStore.getState().languageCode;
+    let formattedNumber = new Intl.NumberFormat(languageCode, {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(number);
+
+    if (!units)
+        return formattedNumber;
+    
+    let spacing = true;
+    
+    return `${formattedNumber}${spacing ? " " : ""}${units}`;
 }
