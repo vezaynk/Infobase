@@ -7,8 +7,6 @@ const marginX = 60;
 const width = 700;
 const height = 400;
 
-let xAxisLabel, yAxisLabel;
-
 d3.selection.prototype.moveToFront = function () {
     return this.each(function () {
         this.parentNode.appendChild(this);
@@ -75,11 +73,11 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("font-size", 14)
 
         let fit = false;
-        if (d3.max(points.map(p => p.label.length))*11 > 700/points.length) {
+        if (d3.max(points.map(p => p.label.length))*4 > 700/points.length) {
             fit = true;
         }
 
-        console.log("number -> ", d3.max(points.map(p => p.label.length))*11, 700/points.length)
+        console.log("number -> ", d3.max(points.map(p => p.label.length))*4, 700/points.length)
 
     chart.selectAll("g.x-axis")
         .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
@@ -318,51 +316,4 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("transform", "translate(" + (marginX + 2.5) + ",-" + 10 + ")")
         .attr("opacity", 0)
         .remove();
-}
-
-export function initChart(ref: Element, dataset: ChartData, animate, update: number => void, isTrend: boolean) {
-    updateHighlight = update;
-    const svg = d3.select(ref)
-
-    var chart = svg;
-
-    var gradient = chart.append("defs")
-        .append("linearGradient")
-        .attr("id", "gradient")
-        .attr("x1", "0%")
-        .attr("y1", "0%")
-        .attr("x2", "100%")
-        .attr("y2", "0")
-        .attr("spreadMethod", "pad");
-
-    gradient.append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", "steelblue")
-        .attr("stop-opacity", 1);
-
-    gradient.append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", "#56a0dd")
-        .attr("stop-opacity", 0);
-
-    xAxisLabel = chart.append("text")
-        .attr("y", height + marginY + 60)
-        .attr("x", (marginX + width) / 2)
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .style("font-weight", "bold");
-
-    yAxisLabel = chart.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -(height/2))
-        .attr("y", 20)
-        .style("text-anchor", "middle");
-
-    let select = chart
-        .append("g")
-        .attr('class', 'main')
-        .attr("transform", "translate(" + marginX + "," + marginY + ")")
-
-
-    //updateChart(ref, dataset, animate, -1, 0, 0, isTrend);
 }
