@@ -10,13 +10,14 @@ import { updateChartData } from '../reducers/dataExplorerReducer';
 import type { ChartData, DataExplorerState } from "../types";
 
 const mapStateToChartProps = (state: DataExplorerState, props) => ({
-    chartData: state.chartData
+    chartData: state.chartData,
+    animate: props.animate
 })
 
 export const ChartingConnect = connect(mapStateToChartProps)(Chart);
 
-export function Charting() {
+export function Charting(props: {animate: boolean}) {
     return <Provider store={dataExplorerStore}>
-                <ChartingConnect />
+                <ChartingConnect animate={props.animate} />
             </Provider>
 }

@@ -46,9 +46,7 @@ const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
 
 }
 
-let updateHighlight: number => void = (index) => console.error("Must init graph");
-
-export function updateChart(ref: Element, dataset: ChartData, animate: boolean, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean): void {
+export function renderChart(ref: Element, dataset: ChartData, animate: boolean, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean, updateHighlight: number => void): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
@@ -95,10 +93,10 @@ export function updateChart(ref: Element, dataset: ChartData, animate: boolean, 
         .style("transform", `rotate(-${15*(fit ? 1 : 0)}deg)`);
         
 
-    xAxisLabel
+    chart.select('.xAxisLabel')
         .text(dataset.xAxis)
 
-    yAxisLabel
+    chart.select('.yAxisLabel')
         .text(dataset.yAxis)
         .style("font-weight", "bold")
 
@@ -121,7 +119,7 @@ export function updateChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("rx", (isTrend ? 10 : 0))
         .attr("y", height)
         .transition()
-        .duration((_, i) => 600)
+        .duration(animationDuration)
         .attr("y", (d) => isTrend ? y(d.value) - 5 : y(d.value))
         .attr("height", d => isTrend ? 10 : height - y(d.value))
         .attr("fill", "steelblue")
@@ -366,5 +364,5 @@ export function initChart(ref: Element, dataset: ChartData, animate, update: num
         .attr("transform", "translate(" + marginX + "," + marginY + ")")
 
 
-    updateChart(ref, dataset, animate, -1, 0, 0, isTrend);
+    //updateChart(ref, dataset, animate, -1, 0, 0, isTrend);
 }

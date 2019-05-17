@@ -38,13 +38,6 @@ module.exports = {
                 }]
             },
             {
-                test: require.resolve('./Client/saveGraph.js'),
-                use: [{
-                    loader: 'expose-loader',
-                    options: 'saveGraph'
-                }]
-            },
-            {
                 test: require.resolve('react'),
                 use: [{
                     loader: 'expose-loader',

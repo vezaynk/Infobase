@@ -25,7 +25,7 @@
         
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.React("Components.Charting", new { }, clientOnly: true)
+        @Html.React("Components.Charting", new { Animate=true }, clientOnly: true)
         <script src="https://cdn.jsdelivr.net/gh/exupero/saveSvgAsPng@gh-pages/src/saveSvgAsPng.js"></script>
         @switch (language) {
             case "en-ca":
@@ -131,7 +131,7 @@
 </section>
 <div style="width: 0; height: 0; overflow: hidden;">
 <div style="width: 1000px;" class="chartContainer">
-@Html.React("Components.Charting", new { }, clientOnly: true)
+@Html.React("Components.Charting", new { Animate = false }, clientOnly: true)
 @switch (language) {
         case "en-ca":
             @Html.React("Components.SummaryTable", new { 

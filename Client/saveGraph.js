@@ -1,10 +1,13 @@
 import * as html2canvas from 'html2canvas';
 
-export default async function saveGraph(querySelector) {
-    let canvas = await html2canvas(document.querySelector(querySelector));
-    
 
+let saveBtn = document.querySelector("#btnSaveChart");
+if (!window.navigator.userAgent.match(/(MSIE|Trident)/))
+    saveBtn.addEventListener("click", async () => addFooterToCanvas(await html2canvas(document.querySelector('.chartContainer'))));
+else
+    saveBtn.style.display = "none";
 
+function addFooterToCanvas(canvas) {
     let footerImage = new Image();
     footerImage.addEventListener("load", () => {
         let graphHeight = canvas.height*(1000/canvas.width);
@@ -31,5 +34,3 @@ export default async function saveGraph(querySelector) {
 
 
 }
-
-document.querySelector("#btnSaveChart").addEventListener("click", () => saveGraph('.chartContainer'))
