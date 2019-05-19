@@ -44,6 +44,39 @@ const isPointInRange = (upper: ?number, lower: ?number, point: TPoint) => {
 
 }
 
+function wrap(text, width) {
+    text.each(function () {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            x = text.attr("x"),
+            y = text.attr("y"),
+            dy = 0, //parseFloat(text.attr("dy")),
+            tspan = text.text(null)
+                        .append("tspan")
+                        .attr("x", x)
+                        .attr("y", y)
+                        .attr("dy", dy + "em");
+        while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan")
+                            .attr("x", x)
+                            .attr("y", y)
+                            .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                            .text(word);
+            }
+        }
+    });
+}
+
 export function renderChart(ref: Element, dataset: ChartData, animate: boolean, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean, updateHighlight: number => void): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
@@ -72,23 +105,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .selectAll("text")
         .attr("font-size", 14)
 
-        let fit = false;
-        if (d3.max(points.map(p => p.label.length))*4 > 700/points.length) {
-            fit = true;
-        }
-
-        console.log("number -> ", d3.max(points.map(p => p.label.length))*4, 700/points.length)
-
     chart.selectAll("g.x-axis")
         .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
         .style("font-size", 14)
-        .attr("text-anchor", fit ? "end" : "middle")
+        .attr("text-anchor", "middle")
         .transition()
         .duration(animationDuration)
         .call(d3.axisBottom(x))
-
-    chart.selectAll('g.x-axis .tick text')
-        .style("transform", `rotate(-${15*(fit ? 1 : 0)}deg)`);
+        .selectAll("text")
+        .call(wrap, 700/points.length);
         
 
     chart.select('.xAxisLabel')
@@ -98,8 +123,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .text(dataset.yAxis)
         .style("font-weight", "bold")
 
-	
-    console.log(points);
     let pointBinding = select.selectAll('g.point').data(points);
     let averageBinding = select.selectAll('g.average').data(averages);
     let cvUpperBinding = select.selectAll('g.cvUpper').data(points);
