@@ -19,6 +19,8 @@ export function numberFormat(number: number, units: ?string): string {
         return formattedNumber;
     
     let spacing = true;
-    
+    if (languageCode == "en-ca" && units == "%")
+        spacing = false;
+        
     return `${formattedNumber}${spacing ? " " : ""}${units}`;
 }
