@@ -46,7 +46,7 @@ namespace Infobase
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<PASSContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("PASSDB")));
-                    
+
             return services.BuildServiceProvider();
         }
 
@@ -102,6 +102,30 @@ namespace Infobase
                 },
             };
 
+            app.Use(async (context, next) =>
+                    {
+                        var newContent = string.Empty;
+                        var existingBody = context.Response.Body;
+                        using (var newBody = new MemoryStream())
+                        {
+                                    // We set the response body to our stream so we can read after the chain of middlewares have been called.
+                                    context.Response.Body = newBody;
+
+                            await next();
+
+                                    // Reset the body so nothing from the latter middlewares goes to the output.
+                                                    context.Response.Body = existingBody;
+
+                            newBody.Seek(0, SeekOrigin.Begin);
+
+                                    // newContent will be `Hello`.
+                                    newContent = new StreamReader(newBody).ReadToEnd().Replace("/en-ca/", "https://health-infobase.canada.ca/").Replace("/fr-ca/", "https://sante-infobase.canada.ca/");
+
+                                    // Send our modified content to the response body.
+                                    await context.Response.WriteAsync(newContent);
+                        }
+                    });
+
             app.UseMvc(routes =>
              {
                  routes.Routes.Add(new TranslationRoute(
@@ -109,11 +133,11 @@ namespace Infobase
                     routes.DefaultHandler,
                     routeName: null,
                     routeTemplate: "{language=en-ca}/{controller=pass}/{action=Index}/{id?}",
-                    defaults: new RouteValueDictionary(new {  }),
+                    defaults: new RouteValueDictionary(new { }),
                     constraints: null,
                     dataTokens: null,
                     inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));
-                 
+
              });
         }
     }
