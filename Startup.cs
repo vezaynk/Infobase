@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
 using Infobase.Common;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Infobase
 {
@@ -52,7 +53,7 @@ namespace Infobase
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UsePathBase("/pass");
+            app.UsePathBase("/pass");
 
             // Uncomment
             if (env.IsDevelopment())
@@ -119,8 +120,11 @@ namespace Infobase
                             newBody.Seek(0, SeekOrigin.Begin);
 
                                     // newContent will be `Hello`.
-                                    newContent = new StreamReader(newBody).ReadToEnd().Replace("/en-ca/", "https://health-infobase.canada.ca/").Replace("/fr-ca/", "https://sante-infobase.canada.ca/");
+                                    newContent = new StreamReader(newBody).ReadToEnd();
 
+                                    newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$1" + "/" + @"$2", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                                    newContent = Regex.Replace(newContent, @"/(.*)/fr-ca/(.*)", "https://sante-infobase.canada.ca/" + @"$1" + "/" + @"$2", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                                    
                                     // Send our modified content to the response body.
                                     await context.Response.WriteAsync(newContent);
                         }
