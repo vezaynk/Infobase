@@ -80,7 +80,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 @* <a asp-action="@RouteLocalizer.ReverseLookup("FR", ViewContext.RouteData.Values["action"].ToString().ToLower())" 
                                 asp-controller="@RouteLocalizer.ReverseLookup("FR", ViewContext.RouteData.Values["controller"].ToString())" 
                                 asp-route-culture="FR" asp-route-id="@ViewContext.RouteData.Values["id"]?.ToString()">Francais</a> *@
-								<a href="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "https://sante-infobase.canada.ca/apcss/" : "https://sante-infobase.canada.ca/apcss/outil-de-donnees/")">Francais</a>
+								<a asp-route-language="fr-ca">Francais</a>
                             </li>
                         </ul>
                     </div>
