@@ -52,9 +52,7 @@ namespace Infobase
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UsePathBase("/pass");
-            // Remove me
-            app.UseDeveloperExceptionPage();
+            //app.UsePathBase("/pass");
 
             // Uncomment
             if (env.IsDevelopment())
@@ -84,20 +82,22 @@ namespace Infobase
                     "en-ca",
                     new Translations(new (string, string)[]
                     {
-                        ("Strata", "Strata"),
-                        ("Datatool", "Datatool"),
-                        ("Index", "Index"),
-                        ("Details", "Details")
+                        ("pass", "pass"),
+                        ("localhost:5000", "localhost:5000"),
+                        ("data-tool", "data-tool"),
+                        ("index", "index"),
+                        ("indicator-details", "indicator-details")
                     })
                 },
                 {
-                    "fr",
+                    "fr-ca",
                     new Translations(new (string, string)[]
                     {
-                        ("Strata", "StrataFr"),
-                        ("Datatool", "DatatoolFr"),
-                        ("Index", "IndexFr"),
-                        ("Details", "DetailsFr")
+                        ("pass", "apcss"),
+                        ("localhost:5000", "127.0.0.1:5000"),
+                        ("data-tool", "outil-de-donnees"),
+                        ("index", "index"),
+                        ("indicator-details", "description-de-mesure")
                     })
                 },
             };
@@ -108,7 +108,7 @@ namespace Infobase
                     translations,
                     routes.DefaultHandler,
                     routeName: null,
-                    routeTemplate: "{language=en-ca}/{controller=Strata}/{action=Index}/{id?}",
+                    routeTemplate: "{language=en-ca}/{controller=pass}/{action=Index}/{id?}",
                     defaults: new RouteValueDictionary(new {  }),
                     constraints: null,
                     dataTokens: null,

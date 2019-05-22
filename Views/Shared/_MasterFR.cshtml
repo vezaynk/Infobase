@@ -74,7 +74,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 @* <a asp-action="@RouteLocalizer.ReverseLookup("EN", ViewContext.RouteData.Values["action"].ToString().ToLower())" 
                                 asp-controller="@RouteLocalizer.ReverseLookup("EN", ViewContext.RouteData.Values["controller"].ToString())" 
                                 asp-route-culture="EN" asp-route-id="@ViewContext.RouteData.Values["id"]?.ToString()">Francais</a> *@
-								<a href="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "https://infobase.phac-aspc.gc.ca/pass-test2/" : "https://infobase.phac-aspc.gc.ca/pass-test2/data-tool/")">English</a>
+								<a href="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "https://health-infobase.canada.ca/pass/" : "https://health-infobase.canada.ca/pass/data-tool/")">English</a>
                             </li>
 </ul>
 </div>

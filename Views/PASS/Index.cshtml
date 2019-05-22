@@ -30,15 +30,26 @@
                 break;
         }
         </div>
-
-        <!-- <div class="col-md-4">
-            <figure class="thumbnail">
-                <a href="/src/doc/pass_childrenyouth_en.pdf"><img src="~/assets/pass2017_eng.png" width="350" height="350" alt="PASS Quick Stats is also available in a printer-friendly format (PDF document). For an accessible equivalent, please use the table below."></a>
-                <figcaption class="caption">
-                    <p><strong>PASS Quick Stats is also available in a printer-friendly format (<a href="/src/doc/pass_adults_en.pdf">Adult (.pdf)</a> and <a href="/src/doc/pass_childrenyouth_en.pdf">Children and Youth (.pdf)</a>)</strong></p>
-                </figcaption>
-            </figure>
-        </div> -->
+        <div class="col-md-4">
+        @switch (language) {
+            case "en-ca":
+                    @:<figure class="thumbnail">
+                        @:<a href="https://www.canada.ca/en/public-health/services/reports-publications/health-promotion-chronic-disease-prevention-canada-research-policy-practice/vol-39-no-5-2019/conceptualizing-framework-for-surveillance-physical-activity-sedentary-behaviour-and-sleep.html"><img src='@Url.Content("~/img/pass-thumbnail-en.jpg")' width="350" height="350" alt="Current physical activity, sedentary behaviour and sleep (PASS) visual model of the conceptual framework for surveillance in Canada "></a>
+                        @:<figcaption class="caption">
+                            @:<p><strong>The <a href="https://www.canada.ca/en/public-health/services/reports-publications/health-promotion-chronic-disease-prevention-canada-research-policy-practice/vol-39-no-5-2019/conceptualizing-framework-for-surveillance-physical-activity-sedentary-behaviour-and-sleep.html">PASS visual model of the conceptual framework for surveillance</a> is also available.</strong></p>
+                        @:</figcaption>
+                    @:</figure>
+                break;
+            case "fr-ca":
+                    @:<figure class="thumbnail">
+                        @:<a href="https://www.canada.ca/fr/sante-publique/services/rapports-publications/promotion-sante-prevention-maladies-chroniques-canada-recherche-politiques-pratiques/vol-39-no-5-2019/conceptualisation-cadre-surveillance-activite-physique-comportement-sedentaire-et-sommeil.html"><img src='@Url.Content("~/img/pass-thumbnail-fr.jpg")' width="350" height="350" alt="Figure 2. Nouveau modèle visuel du cadre conceptuel de surveillance de l’activité physique, du comportement sédentaire et du sommeil (APCSS) au Canada"></a>
+                        @:<figcaption class="caption">
+                            @:<p><strong>Le modèle visuel du <a href="https://www.canada.ca/fr/sante-publique/services/rapports-publications/promotion-sante-prevention-maladies-chroniques-canada-recherche-politiques-pratiques/vol-39-no-5-2019/conceptualisation-cadre-surveillance-activite-physique-comportement-sedentaire-et-sommeil.html">cadre conceptuel de surveillance de l'APCSS</a> est aussi disponible.</strong></p>
+                        @:</figcaption>
+                    @:</figure>
+                break;
+        }
+        </div>
     </div>
     <br>
 
@@ -119,12 +130,14 @@
                                                 <td>
                                                     @if (measure.Included)
                                                     {
+                                                        @*
 														@if (language == "en-ca") {
 															<a class="btn btn-default" href="https://health-infobase.canada.ca/pass/indicator-details/@measure.Index">Description</a>
 														}else{
 															<a class="btn btn-default" href="https://sante-infobase.canada.ca/apcss/description-de-mesure/@measure.Index">Description</a>
 														}
-                                                        <!--<a asp-action="Details" asp-route-id="@measure.Index" class="btn btn-default">Description</a> -->
+                                                        *@
+                                                        <a asp-action="indicator-details" asp-route-id="@measure.Index" class="btn btn-default">Description</a>
                                                     }
 
                                                 </td>

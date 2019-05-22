@@ -27,14 +27,14 @@
 		<div class="btn-group btn-group-lg btn-group-justified" style="padding:20px 0px;">
 		@if (language == "fr-ca")
                 {
-			<a href="https://sante-infobase.canada.ca/apcss/" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
-			<a href="https://sante-infobase.canada.ca/apcss/outils-de-donnees/" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "datatool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
+			<a asp-action="index" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
+			<a asp-action="data-tool" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
 			<a href="#" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
                 else
                 {
-			<a href="https://health-infobase.canada.ca/pass/" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
-			<a href="https://health-infobase.canada.ca/pass/data-tool/" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "datatool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
+			<a asp-action="index" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
+			<a asp-action="data-tool" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
 			<a href="#" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
 		</div>

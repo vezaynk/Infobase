@@ -27,17 +27,22 @@ namespace Infobase
             {
                 // Forces the matching route to be used
                 context.Values["language"] = language;
+                context.Values["host"] = translations.LookupInvariant(context.Values["host"] as string);
                 context.Values["area"] = translations.Translate(context.Values["area"] as string ?? context.AmbientValues["area"] as string);
                 context.Values["action"] = translations.Translate(context.Values["action"] as string);
                 context.Values["controller"] = translations.Translate(context.Values["controller"] as string);
+                
+                
             }
             return base.GetVirtualPath(context);
         }
         protected override Task OnRouteMatched(RouteContext context)
         {
+            
             var language = context.RouteData.Values["language"] as string;
             if (language != null && _translations.TryGetValue(language, out var translations))
             {
+                context.RouteData.Values["host"] = translations.LookupInvariant(context.RouteData.Values["host"] as string);
                 context.RouteData.Values["area"] = translations.LookupInvariant(context.RouteData.Values["area"] as string);
                 context.RouteData.Values["action"] = translations.LookupInvariant(context.RouteData.Values["action"] as string);
                 context.RouteData.Values["controller"] = translations.LookupInvariant(context.RouteData.Values["controller"] as string);

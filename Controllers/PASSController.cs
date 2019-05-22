@@ -12,11 +12,11 @@ using Newtonsoft.Json;
 namespace Infobase.Controllers
 {
 
-    public class StrataController : Controller
+    public class PASSController : Controller
     {
         private readonly PASSContext _context;
 
-        public StrataController(PASSContext context)
+        public PASSController(PASSContext context)
         {
             //context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _context = context;
@@ -44,6 +44,7 @@ namespace Infobase.Controllers
             return View(await activities.ToListAsync());
         }
 
+        [ActionName("data-tool")] 
         public async Task<IActionResult> Datatool(string language, int index=1, bool api = false)
         {
             var strata = await _context.Strata
@@ -212,6 +213,7 @@ namespace Infobase.Controllers
 
         }
 
+        [ActionName("indicator-details")] 
         public async Task<IActionResult> Details(string language, int? id)
         {
             if (id == null)
