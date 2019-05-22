@@ -274,7 +274,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .transition()
         .duration((_, i) => 600)
         .attr("y", d => y(d.value) - 5)
-        .text(d => d.label + ": " + numberFormat(d.value, dataset.yAxis))
+        .text(d => d.label + ": " + numberFormat(d.value, dataset.unit))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
