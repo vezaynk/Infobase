@@ -1,5 +1,4 @@
-﻿// @flow
-import * as d3 from "d3";
+﻿import * as d3 from "d3";
 import { numberFormat } from "./translator";
 import { ChartData, TPoint } from './types';
 const marginY = 10;
@@ -11,7 +10,7 @@ const moveToFront = function (node: any) {
     return node.each(function () {
         node.parentNode.appendChild(node);
     });
-};
+}
 const moveToBack = function (node: any) {
     return node.each(function () {
         var firstChild = node.parentNode.firstChild;
@@ -44,7 +43,8 @@ const isPointInRange = (upper: number | void, lower: number | void, point: TPoin
 
 }
 
-function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: number) {
+function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: number, inverted:boolean = false) {
+    console.log(text)
     text.each(function () {
         let text = d3.select(this),
             words = text.text().split(/\s+/).reverse(),
@@ -59,7 +59,7 @@ function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: numbe
                 .append("tspan")
                 .attr("x", x)
                 .attr("y", y)
-                .attr("dy", dy + "em");
+                .attr("dy", -dy + "em");
         while (word = words.pop()) {
             line.push(word);
             tspan.text(line.join(" "));
@@ -70,7 +70,7 @@ function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: numbe
                 tspan = text.append("tspan")
                     .attr("x", x)
                     .attr("y", y)
-                    .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                    .attr("dy", (inverted?-1:1)*(++lineNumber * lineHeight + dy) + "em")
                     .text(word);
             }
         }
@@ -99,29 +99,31 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
     chart.selectAll("g.y-axis")
         .attr("transform", "translate(" + marginX + "," + marginY + ")")
-        .call(d3.axisLeft(y))
-        .selectAll("text")
-        .attr("font-size", 14)
         .transition()
         .duration(animationDuration)
+        // @ts-ignore
+        .call(d3.axisLeft(y))
+        .selectAll("text")
+        .attr("font-size", "10px");
 
     chart.selectAll("g.x-axis")
         .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
-        .style("font-size", 14)
-        .attr("text-anchor", "middle")
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .call(wrap, 700 / points.length)
         .transition()
-        .duration(animationDuration);
-
+        .duration(animationDuration)
+        // @ts-ignore
+        .call(d3.axisBottom(x))
+        .selectAll(".tick text")
+        .attr("font-size", "10px")
+        .attr("text-anchor", "middle")
+        .call(wrap, 200 / points.length);
 
     chart.select('.xAxisLabel')
-        .text(dataset.xAxis)
+         .text(dataset.xAxis)
+         .call(wrap, 600)
 
-    chart.select('.yAxisLabel')
-        .text(dataset.yAxis)
-        .style("font-weight", "bold")
+     chart.select('.yAxisLabel')
+         .text(dataset.yAxis)
+         .call(wrap, 400)
 
     let pointBinding = select.selectAll('g.point').data(points);
     let averageBinding = select.selectAll('g.average').data(averages);
@@ -307,7 +309,12 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .duration(800)
         .remove();
 
-    averageBinding.call(moveToFront);
+    averageBinding.raise();
 
-
+    console.log('before =>', chart.selectAll("g.x-axis .tick text").text())
+    
+         setTimeout(() => {
+             
+            console.log('after =>', chart.selectAll("g.x-axis .tick text").text())
+         }, 3000);
 }

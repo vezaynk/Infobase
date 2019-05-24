@@ -30,7 +30,7 @@ function addFooterToCanvas(canvas: HTMLCanvasElement) {
         document.body.appendChild(link);
         link.click();
     })
-    footerImage.src = "/img/exportfooter.png";
+    footerImage.src = "/src/img/exportServer.png";
 
 
 }

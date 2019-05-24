@@ -9,8 +9,6 @@ export function textFormat(text: string, substitutions: {[key: string]: string})
 }
 
 export function numberFormat(number: number, units: string | void): string {
-    if (number == null)
-        return "";
     let languageCode = dataExplorerStore.getState().languageCode;
     let formattedNumber = new Intl.NumberFormat(languageCode, {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(number);
 

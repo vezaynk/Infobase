@@ -10,10 +10,10 @@ module.exports = {
     },
     devtool: "source-map",
     output: {
-        path: path.join(__dirname, 'wwwroot', 'ts'),
-        filename: '[name].ts',
-        chunkFilename: 'app.[name].[hash].ts',
-        publicPath: '/ts/'
+        path: path.join(__dirname, 'wwwroot', 'js'),
+        filename: '[name].js',
+        chunkFilename: 'app.[name].[hash].js',
+        publicPath: '/js/'
     },
     module: {
         rules: [
