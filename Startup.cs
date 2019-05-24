@@ -122,8 +122,8 @@ namespace Infobase
                                     // newContent will be `Hello`.
                                     newContent = new StreamReader(newBody).ReadToEnd();
 
-                                    newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$1" + "/" + @"$2", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-                                    newContent = Regex.Replace(newContent, @"/(.*)/fr-ca/(.*)", "https://sante-infobase.canada.ca/" + @"$1" + "/" + @"$2", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                                    newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                                    newContent = Regex.Replace(newContent, @"/(.*)/fr-ca/(.*)", "https://sante-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
                                     
                                     // Send our modified content to the response body.
                                     await context.Response.WriteAsync(newContent);

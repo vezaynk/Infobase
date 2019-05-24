@@ -27,75 +27,14 @@ namespace Infobase.Controllers
 
         public async Task<IActionResult> Index(string language)
         {
-            var activities = _context.Activity
-                                        // Include Measure names
-                                        .Include(a => a.DefaultIndicatorGroup)
-                                        .Include(a => a.IndicatorGroups)
-                                                .ThenInclude(ig => ig.LifeCourses)
-                                                .ThenInclude(lc => lc.Indicators)
-                                                    .ThenInclude(i => i.Measures)
-
-                                        // Include latest data by including points. Will filter later.
-                                        .Include(a => a.IndicatorGroups)
-                                                .ThenInclude(ig => ig.LifeCourses)
-                                                .ThenInclude(lc => lc.Indicators)
-                                                .ThenInclude(i => i.Measures)
-                                                    .ThenInclude(m => m.DefaultStrata.Points);
-
-
-            // Razor handles the rest
-            return View(await activities.ToListAsync());
+            // Get all activities
+            return View(await _context.Activity.ToListAsync());
         }
 
         [ActionName("data-tool")] 
         public async Task<IActionResult> Datatool(string language, int index=1, bool api = false)
         {
             var strata = await _context.Strata
-
-/* idc anymore just lazyload it
-                // Measure
-                .Include(s => s.Measure)
-
-                // Points
-                .Include(s => s.Points)
-
-                // Indicator
-                .Include(s => s.Measure.Indicator)
-
-                // Life Course
-                .Include(s => s.Measure.Indicator.LifeCourse)
-
-                // Indicator Group
-                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup)
-
-                // Activity
-                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.Activity)
-
-                // Include associated stratas
-                .Include(s => s.Measure)
-                    .ThenInclude(p => p.Stratas)
-
-                // Include associated measures
-                .Include(s => s.Measure.Indicator)
-                    .ThenInclude(p => p.Measures)
-
-
-                // Include associated indicators
-                .Include(s => s.Measure.Indicator.LifeCourse)
-                    .ThenInclude(p => p.Indicators)
-
-                // Include associated life courses
-                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup)
-                    .ThenInclude(p => p.LifeCourses)
-
-
-                // Include associated indicator groups
-                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.Activity)
-                    .ThenInclude(p => p.IndicatorGroups)
-                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups)
-                .Include(s => s.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses)
-                .Include(s => s.Measure.Indicator.LifeCourse.Indicators)
-                .Include(s => s.Measure.Indicator.Measures) */
                 .FirstOrDefaultAsync(m => m.Index == index);
 
 

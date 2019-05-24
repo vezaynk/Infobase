@@ -5,29 +5,25 @@ module.exports = {
     mode: "development",
     target: 'web',
     entry: {
-        app: ['@babel/polyfill', './Client/App.js'],
-        vendor: './Client/Vendor.js'
+        app: ['@babel/polyfill', './Client/app.ts'],
+        vendor: './Client/vendor.ts'
     },
     devtool: "source-map",
     output: {
-        path: path.join(__dirname, 'wwwroot', 'js'),
-        filename: '[name].js',
-        chunkFilename: 'app.[name].[hash].js',
-        publicPath: '/js/'
+        path: path.join(__dirname, 'wwwroot', 'ts'),
+        filename: '[name].ts',
+        chunkFilename: 'app.[name].[hash].ts',
+        publicPath: '/ts/'
     },
     module: {
         rules: [
             {
-                rules: [
-                  {
-                    test: /\.(js|jsx)$/,
-                    exclude: /node_modules/,
-                    use: ['babel-loader']
-                  }
-                ]
-              },
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            },
             {
-                test: /App.js/,
+                test: /app.ts/,
                 loader: "expose-loader?Components"
             },
             {
@@ -48,6 +44,6 @@ module.exports = {
     },
     resolve: {
         modules: [path.resolve(__dirname, 'Client'), 'node_modules'],
-        extensions: ['.ts', '.jsx', '.js']
+        extensions: ['.js', 'jsx', '.tsx', '.ts']
     }
 };
