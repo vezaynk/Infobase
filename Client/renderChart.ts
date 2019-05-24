@@ -43,7 +43,7 @@ const isPointInRange = (upper: number | void, lower: number | void, point: TPoin
 
 }
 
-function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: number, inverted:boolean = false) {
+function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: number, inverted: boolean = false) {
     console.log(text)
     text.each(function () {
         let text = d3.select(this),
@@ -68,10 +68,12 @@ function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: numbe
                 tspan.text(line.join(" "));
                 line = [word];
                 tspan = text.append("tspan")
-                    .attr("x", x)
+                    .attr("x", x || 0)
                     .attr("y", y)
-                    .attr("dy", (inverted?-1:1)*(++lineNumber * lineHeight + dy) + "em")
+                    .attr("dy", (inverted ? -1 : 1) * (++lineNumber * lineHeight + dy) + "em")
                     .text(word);
+
+                console.log(tspan.attr("x"))
             }
         }
     });
@@ -98,7 +100,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .range([height, 0]);
 
     chart.selectAll("g.y-axis")
-        .attr("transform", "translate(" + marginX + "," + marginY + ")")
+        .attr("transform", `translate(${marginX}, ${marginY})`)
         .transition()
         .duration(animationDuration)
         // @ts-ignore
@@ -107,23 +109,22 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("font-size", "10px");
 
     chart.selectAll("g.x-axis")
-        .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
-        .transition()
-        .duration(animationDuration)
+        .attr("transform", `translate(${marginX}, ${height + marginY})`)
         // @ts-ignore
         .call(d3.axisBottom(x))
         .selectAll(".tick text")
         .attr("font-size", "10px")
+        .attr("y", 15)
         .attr("text-anchor", "middle")
-        .call(wrap, 200 / points.length);
+        .call(wrap, 500/points.length);
 
     chart.select('.xAxisLabel')
-         .text(dataset.xAxis)
-         .call(wrap, 600)
+          .text(dataset.xAxis)
+          .call(wrap, 600)
 
-     chart.select('.yAxisLabel')
-         .text(dataset.yAxis)
-         .call(wrap, 400)
+      chart.select('.yAxisLabel')
+          .text(dataset.yAxis)
+          .call(wrap, 400)
 
     let pointBinding = select.selectAll('g.point').data(points);
     let averageBinding = select.selectAll('g.average').data(averages);
@@ -312,9 +313,9 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     averageBinding.raise();
 
     console.log('before =>', chart.selectAll("g.x-axis .tick text").text())
-    
-         setTimeout(() => {
-             
-            console.log('after =>', chart.selectAll("g.x-axis .tick text").text())
-         }, 3000);
+
+    setTimeout(() => {
+
+        console.log('after =>', chart.selectAll("g.x-axis .tick text").text())
+    }, 50);
 }

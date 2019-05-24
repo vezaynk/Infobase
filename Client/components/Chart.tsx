@@ -55,7 +55,7 @@ export class Chart extends React.Component<ChartProps, ChartState> {
                     </defs>
                     <g className="y-axis"></g>
                     <g className="x-axis"></g>
-                    <text className="xAxisLabel" y="450" x="380" dy="1em" style={{ textAnchor: "middle", fontWeight: "bold", fontSize: "14px" }}></text>
+                    <text className="xAxisLabel" y="480" x="400" style={{ textAnchor: "middle", fontWeight: "bold", fontSize: "14px" }}></text>
                     <text className="yAxisLabel" transform="rotate(-90)" x="-200" y="20" style={{ textAnchor: "middle", fontWeight: "bold", fontSize: "14px" }}></text>
                     <g className="main" transform="translate(60,10)"></g>
                 </svg>

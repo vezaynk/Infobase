@@ -223,7 +223,7 @@ var Chart = /** @class */ (function (_super) {
                         react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("stop", { offset: "100%", stopColor: "#56a0dd", stopOpacity: "0" }))),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("g", { className: "y-axis" }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("g", { className: "x-axis" }),
-                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("text", { className: "xAxisLabel", y: "450", x: "380", dy: "1em", style: { textAnchor: "middle", fontWeight: "bold", fontSize: "14px" } }),
+                react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("text", { className: "xAxisLabel", y: "480", x: "400", style: { textAnchor: "middle", fontWeight: "bold", fontSize: "14px" } }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("text", { className: "yAxisLabel", transform: "rotate(-90)", x: "-200", y: "20", style: { textAnchor: "middle", fontWeight: "bold", fontSize: "14px" } }),
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("g", { className: "main", transform: "translate(60,10)" }))));
     };
@@ -870,10 +870,11 @@ function wrap(text, width, inverted) {
                 tspan.text(line.join(" "));
                 line = [word];
                 tspan = text.append("tspan")
-                    .attr("x", x)
+                    .attr("x", x || 0)
                     .attr("y", y)
                     .attr("dy", (inverted ? -1 : 1) * (++lineNumber * lineHeight + dy) + "em")
                     .text(word);
+                console.log(tspan.attr("x"));
             }
         }
     });
@@ -895,7 +896,7 @@ function renderChart(ref, dataset, animate, highlightIndex, highlightUpper, high
         .domain([0, d3__WEBPACK_IMPORTED_MODULE_0__["max"](dataset.points, function (point) { return (point.valueUpper || point.value || 0) * 1.1; })])
         .range([height, 0]);
     chart.selectAll("g.y-axis")
-        .attr("transform", "translate(" + marginX + "," + marginY + ")")
+        .attr("transform", "translate(" + marginX + ", " + marginY + ")")
         .transition()
         .duration(animationDuration)
         // @ts-ignore
@@ -903,15 +904,14 @@ function renderChart(ref, dataset, animate, highlightIndex, highlightUpper, high
         .selectAll("text")
         .attr("font-size", "10px");
     chart.selectAll("g.x-axis")
-        .attr("transform", "translate(" + marginX + "," + (height + marginY) + ")")
-        .transition()
-        .duration(animationDuration)
+        .attr("transform", "translate(" + marginX + ", " + (height + marginY) + ")")
         // @ts-ignore
         .call(d3__WEBPACK_IMPORTED_MODULE_0__["axisBottom"](x))
         .selectAll(".tick text")
         .attr("font-size", "10px")
+        .attr("y", 15)
         .attr("text-anchor", "middle")
-        .call(wrap, 200 / points.length);
+        .call(wrap, 500 / points.length);
     chart.select('.xAxisLabel')
         .text(dataset.xAxis)
         .call(wrap, 600);
@@ -1070,7 +1070,7 @@ function renderChart(ref, dataset, animate, highlightIndex, highlightUpper, high
     console.log('before =>', chart.selectAll("g.x-axis .tick text").text());
     setTimeout(function () {
         console.log('after =>', chart.selectAll("g.x-axis .tick text").text());
-    }, 3000);
+    }, 50);
 }
 
 
