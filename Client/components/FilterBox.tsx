@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Filter } from "./Filter";
 import { Action, FilterData, ChartData } from "../types";
+import { NoScript } from '../HOC/NoScript';
 
 type FilterBoxProps = {
     loading: boolean,
@@ -11,7 +12,7 @@ type FilterBoxProps = {
     prompt: string
 }
 
-export function FilterBox(props: FilterBoxProps) {
+export const FilterBox: React.FC<FilterBoxProps> = (props) => {
 
     async function selectFilter(selected: number): Promise<boolean> {
         props.updateLoadState(true);
@@ -32,21 +33,29 @@ export function FilterBox(props: FilterBoxProps) {
             return false;
         }
     }
+
     return (
         <div className="col-md-3 padding-15 ">
             <span className="text-info">{props.prompt}:</span>
             <div className="form-group-md">
                 {
                     props.filters.map((filter, i) =>
-                        <Filter
-                            key={i}
-                            id={"drop" + i}
-                            name={filter.name}
-                            items={filter.items}
-                            selected={filter.selected}
-                            onSelect={(selected: number) => selectFilter(selected)}
-                            loading={props.loading}
-                        />)
+                        <form className="form-group-sm" key={i}>
+                            <label className="control-label" htmlFor={"drop"+i}>{filter.name}</label>
+                            <select disabled={props.loading}
+                                className="form-control input-sm full-width"
+                                value={filter.selected}
+                                name="index"
+                                id={"drop"+i}
+                                onChange={(e) => selectFilter(Number.parseInt(e.currentTarget.value))
+                                }>
+                                {filter.items.map(item => <option key={item.value} value={item.value}>{item.text}</option>)}
+                            </select>
+                            <NoScript className="full-width text-center">
+                                <input className="btn btn-xs btn-default full-width" type="submit" />
+                            </NoScript>
+                        </form>
+                    )
                 }
             </div>
         </div>

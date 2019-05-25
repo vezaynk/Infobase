@@ -1,5 +1,5 @@
-// @flow
 import * as React from 'react';
+import * as RR from 'react-redux'
 
 type DescriptionTableProps = {
     definitionText: string,
@@ -12,7 +12,8 @@ type DescriptionTableProps = {
     definition: string
 }
 
-export const DescriptionTable: React.SFC<DescriptionTableProps> = (props) => {
+export const DescriptionTable: React.FC<DescriptionTableProps> = (props) => {
+    const [test, useTest] = React.useState('Hello World');
     const notApplicable = (<div><span aria-hidden={true}>N/A</span><span className="wb-inv">&emdash;</span></div>);
     return (
         <table className="table table-striped table-hover table-condensed table-bordered">

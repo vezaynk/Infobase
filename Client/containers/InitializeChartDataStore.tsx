@@ -14,7 +14,7 @@ type StateProp = {
     state: DataExplorerState
 }
 
-export const InitializeChartDataStore: React.SFC<StateProp> = (props) => {
+export const InitializeChartDataStore: React.FC<StateProp> = (props) => {
     dataExplorerStore.dispatch(initState(props.state));
     return null;
 }
