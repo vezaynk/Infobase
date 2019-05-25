@@ -20,6 +20,8 @@ const moveToBack = function (node: any) {
     });
 };
 
+
+
 const isBetween = (val: number, up: number, low: number) => val >= low && val <= up;
 const isPointInRange = (upper: number | void, lower: number | void, point: TPoint) => {
 
@@ -44,7 +46,6 @@ const isPointInRange = (upper: number | void, lower: number | void, point: TPoin
 }
 
 function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: number, inverted: boolean = false) {
-    console.log(text)
     text.each(function () {
         let text = d3.select(this),
             words = text.text().split(/\s+/).reverse(),
@@ -72,8 +73,6 @@ function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: numbe
                     .attr("y", y)
                     .attr("dy", (inverted ? -1 : 1) * (++lineNumber * lineHeight + dy) + "em")
                     .text(word);
-
-                console.log(tspan.attr("x"))
             }
         }
     });
@@ -86,7 +85,14 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     let points = dataset.points.filter(point => point.type == 0 || isTrend)
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
 
-    let animationDuration = animate ? 600 : 0;
+    let animationDuration = 600;
+    d3.selection.prototype.optionalTransition = function() {
+        if (!animate)
+            return this;
+
+        return this.transition().duration(animationDuration);
+    };
+
     if (points.length == 0) {
         points = averages;
         averages = [];
@@ -101,8 +107,8 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
     chart.selectAll("g.y-axis")
         .attr("transform", `translate(${marginX}, ${marginY})`)
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         // @ts-ignore
         .call(d3.axisLeft(y))
         .selectAll("text")
@@ -142,8 +148,8 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("ry", (isTrend ? 10 : 0))
         .attr("rx", (isTrend ? 10 : 0))
         .attr("y", height)
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", (d) => isTrend ? y(d.value || 0) - 5 : y(d.value || 0))
         .attr("height", d => isTrend ? 10 : height - y(d.value || 0))
         .attr("fill", "steelblue")
@@ -154,8 +160,8 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
     pointBinding
         .select("rect")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("ry", (isTrend ? 10 : 0))
         .attr("rx", (isTrend ? 10 : 0))
         .attr("width", isTrend ? 10 : 25)
@@ -176,16 +182,16 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     enteredcvUpper.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("width", 25)
         .style("fill", "black")
-        .attr("y", height)
-        .transition()
-        .duration((_, i) => 600)
+        // .attr("y", height)
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", (d) => y(d.valueUpper || 0))
         .attr("height", 2)
 
     cvUpperBinding
         .select("rect")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("width", 25)
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("height", 2)
@@ -202,15 +208,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("width", 2)
         .style("fill", "black")
         .attr("y", height)
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
         .attr("y", (d) => y(d.valueUpper || 0))
 
     cvConnectBinding
         .select("rect")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("width", 2)
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 2 / 2)
         .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
@@ -227,15 +233,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("width", 25)
         .style("fill", "black")
         .attr("y", height)
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", (d) => y(d.valueLower || 0))
         .attr("height", 2)
 
     cvLowerBinding
         .select("rect")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("width", 25)
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("height", 2)
@@ -257,9 +263,9 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("width", width)
         .attr("ry", (isTrend ? 10 : 0))
         .attr("rx", (isTrend ? 10 : 0))
-        .attr("y", height)
-        .transition()
-        .duration((_, i) => 600)
+        // .attr("y", height)
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", (d) => y(d.value || 0))
 
 
@@ -273,9 +279,9 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .append("text")
         .attr("x", () => width)
         .attr("y", height)
-        .attr("filter", "url(#solid)")
-        .transition()
-        .duration((_, i) => 600)
+        // .attr("filter", "url(#solid)")
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", d => y(d.value || 0) - 5)
         .text(d => d.label + ": " + numberFormat(d.value || 0, dataset.unit))
         .attr("text-anchor", "end")
@@ -283,15 +289,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
     averageBinding
         .select("rect")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", (d) => y(d.value || 0))
 
     averageBinding
         .select("text")
         .attr("filter", "url(#solid)")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("x", () => width)
         .attr("y", d => y(d.value || 0) - 5)
         .text(d => d.label + ": " + numberFormat(d.value || 0, dataset.unit))
@@ -300,22 +306,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
     averageBinding.exit()
         .selectAll("rect, text")
-        .transition()
-        .duration(animationDuration)
+        // @ts-ignore
+        .optionalTransition()
         .attr("y", -marginY)
         .style("opacity", 0)
 
     averageBinding.exit()
-        .transition()
-        .duration(800)
+    // @ts-ignore    
+    .optionalTransition()
         .remove();
 
     averageBinding.raise();
-
-    console.log('before =>', chart.selectAll("g.x-axis .tick text").text())
-
-    setTimeout(() => {
-
-        console.log('after =>', chart.selectAll("g.x-axis .tick text").text())
-    }, 50);
 }

@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Filter } from "./Filter";
 import { Action, FilterData, ChartData } from "../types";
 import { NoScript } from '../HOC/NoScript';
 
-type FilterBoxProps = {
+type FiltersProps = {
     loading: boolean,
     filters: FilterData[],
     updateLoadState: (loadState: boolean) => Action,
@@ -12,7 +11,7 @@ type FilterBoxProps = {
     prompt: string
 }
 
-export const FilterBox: React.FC<FilterBoxProps> = (props) => {
+export const Filters: React.FC<FiltersProps> = (props) => {
 
     async function selectFilter(selected: number): Promise<boolean> {
         props.updateLoadState(true);
@@ -51,7 +50,7 @@ export const FilterBox: React.FC<FilterBoxProps> = (props) => {
                                 }>
                                 {filter.items.map(item => <option key={item.value} value={item.value}>{item.text}</option>)}
                             </select>
-                            <NoScript className="full-width text-center">
+                            <NoScript className="full-width text-center" ieAsNoScript={false}>
                                 <input className="btn btn-xs btn-default full-width" type="submit" />
                             </NoScript>
                         </form>

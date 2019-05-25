@@ -21,8 +21,6 @@ const mapStateToSummaryTableProps: MapStateToProps<{chartData: ChartData}, Summa
 );
 
 
-
-// TODO: Fix typing issue
 export const SummaryTableConnect = connect(
     mapStateToSummaryTableProps
 )(ST)
@@ -33,7 +31,7 @@ type SummaryTableProps = {
     cvSuppressed: string,
     cvSuppressedAlt: string
 }
-export function SummaryTable(props: SummaryTableProps) {
+export const SummaryTable: React.FC<SummaryTableProps> = (props) => {
     return (
         <Provider store={dataExplorerStore}>
             <SummaryTableConnect cvWarning={props.cvWarning}

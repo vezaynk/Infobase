@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import { connect, Provider, MapStateToProps, Connect } from 'react-redux';
-import { DescriptionTable as ST } from "../components/DescriptionTable";
+import { DescriptionTable as DT } from "../components/DescriptionTable";
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import { dataExplorerStore } from '../store/dataExplorer';
 import { DataExplorerState, FilterData, ChartData } from "../types";
@@ -23,7 +23,7 @@ const mapStateToDescriptionTableProps: MapStateToProps<{remarks: string}, Descri
 
 export const DescriptionTableConnect = connect(
     mapStateToDescriptionTableProps
-)(ST)
+)(DT)
 
 type DescriptionTableProps = {
     definitionText: string,
@@ -35,7 +35,7 @@ type DescriptionTableProps = {
     dataAvailable: string,
     definition: string
 }
-export function DescriptionTable(props: DescriptionTableProps) {
+export const DescriptionTable: React.FC<DescriptionTableProps> = (props) => {
     return (
         <Provider store={dataExplorerStore}>
             <DescriptionTableConnect {...props} />

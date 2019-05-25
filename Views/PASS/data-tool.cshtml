@@ -3,29 +3,29 @@
     Layout = "_Layout.cshtml";
     string language = ViewContext.RouteData.Values["language"].ToString();
 }
-@Html.React("Components.InitializeChartDataStore", new {
+@Html.React("InitializeChartDataStore", new {
             state = Model
-        }, clientOnly: true)
+        }, clientOnly: false)
 
 <div class="row brdr-bttm" style="padding-bottom:50px;">
     @switch (language) {
         case "en-ca":
-            @Html.React("Components.Filters", new
+            @Html.React("Filters", new
 		{
             prompt = "Select an item from each list below"
-        }, clientOnly: true)
+        }, clientOnly: false)
             break;
         case "fr-ca":
-            @Html.React("Components.Filters", new
+            @Html.React("Filters", new
 		{
             prompt = "Sélectionner les paramètres d'intérêt"
-        }, clientOnly: true)
+        }, clientOnly: false)
             break;
     }
         
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.React("Components.Charting", new { Animate=true }, clientOnly: true)
+        @Html.React("Charting", new { Animate=true }, clientOnly: false)
         @switch (language) {
             case "en-ca":
                 @:<button id="btnSaveChart" class="btn btn-success btn-sm">Save Chart</button>
@@ -42,24 +42,24 @@
 <div class="col-sm-12">
     @switch (language) {
         case "en-ca":
-            @Html.React("Components.SummaryTable", new { 
+            @Html.React("SummaryTable", new { 
                 chartData = Model.ChartData,
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
                 cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%.",
                 cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
                 cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable."
             },
-            clientOnly: true);
+            clientOnly: false);
             break;
         case "fr-ca":
-            @Html.React("Components.SummaryTable", new { 
+            @Html.React("SummaryTable", new { 
                 chartData = Model.ChartData,
                 cvWarning = "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
                 cvSuppressed = "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
                 cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
                 cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées."
             },
-            clientOnly: true);
+            clientOnly: false);
             break;
     }
 </div>
@@ -82,20 +82,20 @@
             <div class="col-sm-12">
                 @switch (language) {
                     case "en-ca":
-                        @Html.React("Components.DescriptionTable", new { 
+                        @Html.React("DescriptionTable", new { 
                             definitionText = "Definition",
                             dataAvailableText = "Data Available",
                             methodsText = "Estimate Calculation",
                             remarksText = "Additional Remarks"
-                        }, clientOnly: true);
+                        }, clientOnly: false);
                         break;
                     case "fr-ca":
-                        @Html.React("Components.DescriptionTable", new { 
+                        @Html.React("DescriptionTable", new { 
                             definitionText = "Définition",
                             dataAvailableText = "Ventilation des données",
                             methodsText = "Méthodes de calculs",
                             remarksText = "Remarques supplémentaires"
-                        }, clientOnly: true);
+                        }, clientOnly: false);
                         break;
                 }
                 
@@ -130,21 +130,21 @@
 </section>
 <div style="width: 0; height: 0; overflow: hidden;">
 <div style="width: 820px;" class="chartContainer">
-@Html.React("Components.Charting", new { Animate = false }, clientOnly: true)
+@Html.React("Charting", new { Animate = false }, clientOnly: false)
 @switch (language) {
         case "en-ca":
-            @Html.React("Components.SummaryTable", new { 
+            @Html.React("SummaryTable", new { 
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
                 cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
             },
-            clientOnly: true);
+            clientOnly: false);
             break;
         case "fr-ca":
-            @Html.React("Components.SummaryTable", new { 
+            @Html.React("SummaryTable", new { 
                 cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
                 cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%."
             },
-            clientOnly: true);
+            clientOnly: false);
             break;
     }
 </div>

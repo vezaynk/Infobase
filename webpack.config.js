@@ -5,8 +5,8 @@ module.exports = {
     mode: "development",
     target: 'web',
     entry: {
-        app: ['@babel/polyfill', './Client/app.ts'],
-        vendor: './Client/vendor.ts'
+        app: './Client/app.ts',
+        server: './Client/server.ts'
     },
     devtool: "source-map",
     output: {
@@ -21,10 +21,6 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/
-            },
-            {
-                test: /app.ts/,
-                loader: "expose-loader?Components"
             },
             {
                 test: require.resolve('react-dom'),

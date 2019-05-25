@@ -69,10 +69,9 @@ namespace Infobase
             app.UseReact(config =>
             {
                 config
-                    .SetLoadReact(true)
-                    .SetLoadBabel(false)
-                    .SetReuseJavaScriptEngines(false)
-                    .AddScriptWithoutTransform("~/js/app.js");
+                    .SetLoadReact(false)
+                    .AddScriptWithoutTransform("~/js/server.js")
+                    .SetReuseJavaScriptEngines(false);
             });
 
             app.UseStaticFiles();
