@@ -279,7 +279,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .append("text")
         .attr("x", () => width)
         .attr("y", height)
-        // .attr("filter", "url(#solid)")
+        .attr("filter", "url(#solid)")
         // @ts-ignore
         .optionalTransition()
         .attr("y", d => y(d.value || 0) - 5)

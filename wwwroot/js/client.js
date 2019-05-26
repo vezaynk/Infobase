@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/server.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Client/client.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -114,6 +114,67 @@ var NoScript = function (props) {
     return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", { ref: noScriptEl, className: props.className }, props.children));
 };
 
+
+/***/ }),
+
+/***/ "./Client/HOC/YesScript.tsx":
+/*!**********************************!*\
+  !*** ./Client/HOC/YesScript.tsx ***!
+  \**********************************/
+/*! exports provided: YesScript */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YesScript", function() { return YesScript; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_BrowserDetection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/BrowserDetection */ "./Client/common/BrowserDetection.ts");
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+var YesScript = function (props) {
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__["useState"](false), javaScript = _a[0], setJavaScript = _a[1];
+    var yesScriptEl = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](null);
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](function () {
+        if (props.ieAsNoScript && Object(_common_BrowserDetection__WEBPACK_IMPORTED_MODULE_1__["isIE"])()) {
+            return;
+        }
+        if (yesScriptEl.current)
+            yesScriptEl.current.style.display = null;
+    }, []);
+    return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", __assign({ ref: yesScriptEl, style: { display: "none" } }, props), props.children));
+};
+
+
+/***/ }),
+
+/***/ "./Client/client.ts":
+/*!**************************!*\
+  !*** ./Client/client.ts ***!
+  \**************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var _shared_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shared.ts */ "./Client/shared.ts");
+/* harmony import */ var _components_SaveBtn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SaveBtn */ "./Client/components/SaveBtn.tsx");
+
+
+global.SaveBtn = _components_SaveBtn__WEBPACK_IMPORTED_MODULE_1__["SaveBtn"];
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -352,6 +413,96 @@ var Filters = function (props) {
                 react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_HOC_NoScript__WEBPACK_IMPORTED_MODULE_1__["NoScript"], { className: "full-width text-center", ieAsNoScript: false },
                     react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("input", { className: "btn btn-xs btn-default full-width", type: "submit" })));
         }))));
+};
+
+
+/***/ }),
+
+/***/ "./Client/components/SaveBtn.tsx":
+/*!***************************************!*\
+  !*** ./Client/components/SaveBtn.tsx ***!
+  \***************************************/
+/*! exports provided: SaveBtn */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SaveBtn", function() { return SaveBtn; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _HOC_YesScript__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../HOC/YesScript */ "./Client/HOC/YesScript.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var _this = undefined;
+
+
+
+function addFooterToCanvas(canvas) {
+    var footerImage = new Image();
+    footerImage.addEventListener("load", function () {
+        var graphHeight = canvas.height * (820 / canvas.width);
+        var footerHeight = footerImage.height * (820 / footerImage.width);
+        var containerCanvas = document.createElement('canvas');
+        containerCanvas.width = 820;
+        containerCanvas.height = graphHeight + footerHeight;
+        var ctx = containerCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, 0, 820, graphHeight);
+        ctx.drawImage(footerImage, 0, graphHeight, 820, footerHeight);
+        var image = containerCanvas.toDataURL("image/png", 1.0); //.replace("image/png", "image/octet-stream");
+        var link = document.createElement('a');
+        link.download = document.title + "-" + Date.now() + ".png";
+        link.href = image;
+        document.body.appendChild(link);
+        link.click();
+    });
+    footerImage.src = "/src/img/exportServer.png";
+}
+var SaveBtn = function (props) {
+    var save = function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = addFooterToCanvas;
+                return [4 /*yield*/, html2canvas__WEBPACK_IMPORTED_MODULE_1__(document.querySelector(props.target))];
+            case 1: return [2 /*return*/, _a.apply(void 0, [_b.sent()])];
+        }
+    }); }); };
+    return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](_HOC_YesScript__WEBPACK_IMPORTED_MODULE_2__["YesScript"], { ieAsNoScript: true },
+        react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("button", { className: "btn btn-success btn-sm", onClick: function () { return save(); } }, props.label)));
 };
 
 
@@ -1005,35 +1156,6 @@ function renderChart(ref, dataset, animate, highlightIndex, highlightUpper, high
     averageBinding.raise();
 }
 
-
-/***/ }),
-
-/***/ "./Client/server.ts":
-/*!**************************!*\
-  !*** ./Client/server.ts ***!
-  \**************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js?75b0");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom_server__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom/server */ "./node_modules/react-dom/server.browser.js");
-/* harmony import */ var react_dom_server__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom_server__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared */ "./Client/shared.ts");
-
-
-
-global.React = react__WEBPACK_IMPORTED_MODULE_0__;
-global.ReactDOM = react_dom__WEBPACK_IMPORTED_MODULE_1__;
-global.ReactDOMServer = react_dom_server__WEBPACK_IMPORTED_MODULE_2__;
-
-//(global as any).Charting = SSCharting;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -30268,6 +30390,800 @@ module.exports = hoistNonReactStatics;
 
 /***/ }),
 
+/***/ "./node_modules/html2canvas/dist/html2canvas.js":
+/*!******************************************************!*\
+  !*** ./node_modules/html2canvas/dist/html2canvas.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+ * html2canvas 1.0.0-rc.1 <https://html2canvas.hertzen.com>
+ * Copyright (c) 2019 Niklas von Hertzen <https://hertzen.com>
+ * Released under MIT License
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else {}
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./node_modules/css-line-break/dist/LineBreak.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/css-line-break/dist/LineBreak.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.LineBreaker = exports.inlineBreakOpportunities = exports.lineBreakAtIndex = exports.codePointsToCharacterClasses = exports.UnicodeTrie = exports.BREAK_ALLOWED = exports.BREAK_NOT_ALLOWED = exports.BREAK_MANDATORY = exports.classes = exports.LETTER_NUMBER_MODIFIER = undefined;\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"]) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); } }; }();\n\nvar _Trie = __webpack_require__(/*! ./Trie */ \"./node_modules/css-line-break/dist/Trie.js\");\n\nvar _linebreakTrie = __webpack_require__(/*! ./linebreak-trie */ \"./node_modules/css-line-break/dist/linebreak-trie.js\");\n\nvar _linebreakTrie2 = _interopRequireDefault(_linebreakTrie);\n\nvar _Util = __webpack_require__(/*! ./Util */ \"./node_modules/css-line-break/dist/Util.js\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nvar LETTER_NUMBER_MODIFIER = exports.LETTER_NUMBER_MODIFIER = 50;\n\n// Non-tailorable Line Breaking Classes\nvar BK = 1; //  Cause a line break (after)\nvar CR = 2; //  Cause a line break (after), except between CR and LF\nvar LF = 3; //  Cause a line break (after)\nvar CM = 4; //  Prohibit a line break between the character and the preceding character\nvar NL = 5; //  Cause a line break (after)\nvar SG = 6; //  Do not occur in well-formed text\nvar WJ = 7; //  Prohibit line breaks before and after\nvar ZW = 8; //  Provide a break opportunity\nvar GL = 9; //  Prohibit line breaks before and after\nvar SP = 10; // Enable indirect line breaks\nvar ZWJ = 11; // Prohibit line breaks within joiner sequences\n// Break Opportunities\nvar B2 = 12; //  Provide a line break opportunity before and after the character\nvar BA = 13; //  Generally provide a line break opportunity after the character\nvar BB = 14; //  Generally provide a line break opportunity before the character\nvar HY = 15; //  Provide a line break opportunity after the character, except in numeric context\nvar CB = 16; //   Provide a line break opportunity contingent on additional information\n// Characters Prohibiting Certain Breaks\nvar CL = 17; //  Prohibit line breaks before\nvar CP = 18; //  Prohibit line breaks before\nvar EX = 19; //  Prohibit line breaks before\nvar IN = 20; //  Allow only indirect line breaks between pairs\nvar NS = 21; //  Allow only indirect line breaks before\nvar OP = 22; //  Prohibit line breaks after\nvar QU = 23; //  Act like they are both opening and closing\n// Numeric Context\nvar IS = 24; //  Prevent breaks after any and before numeric\nvar NU = 25; //  Form numeric expressions for line breaking purposes\nvar PO = 26; //  Do not break following a numeric expression\nvar PR = 27; //  Do not break in front of a numeric expression\nvar SY = 28; //  Prevent a break before; and allow a break after\n// Other Characters\nvar AI = 29; //  Act like AL when the resolvedEAW is N; otherwise; act as ID\nvar AL = 30; //  Are alphabetic characters or symbols that are used with alphabetic characters\nvar CJ = 31; //  Treat as NS or ID for strict or normal breaking.\nvar EB = 32; //  Do not break from following Emoji Modifier\nvar EM = 33; //  Do not break from preceding Emoji Base\nvar H2 = 34; //  Form Korean syllable blocks\nvar H3 = 35; //  Form Korean syllable blocks\nvar HL = 36; //  Do not break around a following hyphen; otherwise act as Alphabetic\nvar ID = 37; //  Break before or after; except in some numeric context\nvar JL = 38; //  Form Korean syllable blocks\nvar JV = 39; //  Form Korean syllable blocks\nvar JT = 40; //  Form Korean syllable blocks\nvar RI = 41; //  Keep pairs together. For pairs; break before and after other classes\nvar SA = 42; //  Provide a line break opportunity contingent on additional, language-specific context analysis\nvar XX = 43; //  Have as yet unknown line breaking behavior or unassigned code positions\n\nvar classes = exports.classes = {\n    BK: BK,\n    CR: CR,\n    LF: LF,\n    CM: CM,\n    NL: NL,\n    SG: SG,\n    WJ: WJ,\n    ZW: ZW,\n    GL: GL,\n    SP: SP,\n    ZWJ: ZWJ,\n    B2: B2,\n    BA: BA,\n    BB: BB,\n    HY: HY,\n    CB: CB,\n    CL: CL,\n    CP: CP,\n    EX: EX,\n    IN: IN,\n    NS: NS,\n    OP: OP,\n    QU: QU,\n    IS: IS,\n    NU: NU,\n    PO: PO,\n    PR: PR,\n    SY: SY,\n    AI: AI,\n    AL: AL,\n    CJ: CJ,\n    EB: EB,\n    EM: EM,\n    H2: H2,\n    H3: H3,\n    HL: HL,\n    ID: ID,\n    JL: JL,\n    JV: JV,\n    JT: JT,\n    RI: RI,\n    SA: SA,\n    XX: XX\n};\n\nvar BREAK_MANDATORY = exports.BREAK_MANDATORY = '!';\nvar BREAK_NOT_ALLOWED = exports.BREAK_NOT_ALLOWED = '×';\nvar BREAK_ALLOWED = exports.BREAK_ALLOWED = '÷';\nvar UnicodeTrie = exports.UnicodeTrie = (0, _Trie.createTrieFromBase64)(_linebreakTrie2.default);\n\nvar ALPHABETICS = [AL, HL];\nvar HARD_LINE_BREAKS = [BK, CR, LF, NL];\nvar SPACE = [SP, ZW];\nvar PREFIX_POSTFIX = [PR, PO];\nvar LINE_BREAKS = HARD_LINE_BREAKS.concat(SPACE);\nvar KOREAN_SYLLABLE_BLOCK = [JL, JV, JT, H2, H3];\nvar HYPHEN = [HY, BA];\n\nvar codePointsToCharacterClasses = exports.codePointsToCharacterClasses = function codePointsToCharacterClasses(codePoints) {\n    var lineBreak = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'strict';\n\n    var types = [];\n    var indicies = [];\n    var categories = [];\n    codePoints.forEach(function (codePoint, index) {\n        var classType = UnicodeTrie.get(codePoint);\n        if (classType > LETTER_NUMBER_MODIFIER) {\n            categories.push(true);\n            classType -= LETTER_NUMBER_MODIFIER;\n        } else {\n            categories.push(false);\n        }\n\n        if (['normal', 'auto', 'loose'].indexOf(lineBreak) !== -1) {\n            // U+2010, – U+2013, 〜 U+301C, ゠ U+30A0\n            if ([0x2010, 0x2013, 0x301c, 0x30a0].indexOf(codePoint) !== -1) {\n                indicies.push(index);\n                return types.push(CB);\n            }\n        }\n\n        if (classType === CM || classType === ZWJ) {\n            // LB10 Treat any remaining combining mark or ZWJ as AL.\n            if (index === 0) {\n                indicies.push(index);\n                return types.push(AL);\n            }\n\n            // LB9 Do not break a combining character sequence; treat it as if it has the line breaking class of\n            // the base character in all of the following rules. Treat ZWJ as if it were CM.\n            var prev = types[index - 1];\n            if (LINE_BREAKS.indexOf(prev) === -1) {\n                indicies.push(indicies[index - 1]);\n                return types.push(prev);\n            }\n            indicies.push(index);\n            return types.push(AL);\n        }\n\n        indicies.push(index);\n\n        if (classType === CJ) {\n            return types.push(lineBreak === 'strict' ? NS : ID);\n        }\n\n        if (classType === SA) {\n            return types.push(AL);\n        }\n\n        if (classType === AI) {\n            return types.push(AL);\n        }\n\n        // For supplementary characters, a useful default is to treat characters in the range 10000..1FFFD as AL\n        // and characters in the ranges 20000..2FFFD and 30000..3FFFD as ID, until the implementation can be revised\n        // to take into account the actual line breaking properties for these characters.\n        if (classType === XX) {\n            if (codePoint >= 0x20000 && codePoint <= 0x2fffd || codePoint >= 0x30000 && codePoint <= 0x3fffd) {\n                return types.push(ID);\n            } else {\n                return types.push(AL);\n            }\n        }\n\n        types.push(classType);\n    });\n\n    return [indicies, types, categories];\n};\n\nvar isAdjacentWithSpaceIgnored = function isAdjacentWithSpaceIgnored(a, b, currentIndex, classTypes) {\n    var current = classTypes[currentIndex];\n    if (Array.isArray(a) ? a.indexOf(current) !== -1 : a === current) {\n        var i = currentIndex;\n        while (i <= classTypes.length) {\n            i++;\n            var next = classTypes[i];\n\n            if (next === b) {\n                return true;\n            }\n\n            if (next !== SP) {\n                break;\n            }\n        }\n    }\n\n    if (current === SP) {\n        var _i = currentIndex;\n\n        while (_i > 0) {\n            _i--;\n            var prev = classTypes[_i];\n\n            if (Array.isArray(a) ? a.indexOf(prev) !== -1 : a === prev) {\n                var n = currentIndex;\n                while (n <= classTypes.length) {\n                    n++;\n                    var _next = classTypes[n];\n\n                    if (_next === b) {\n                        return true;\n                    }\n\n                    if (_next !== SP) {\n                        break;\n                    }\n                }\n            }\n\n            if (prev !== SP) {\n                break;\n            }\n        }\n    }\n    return false;\n};\n\nvar previousNonSpaceClassType = function previousNonSpaceClassType(currentIndex, classTypes) {\n    var i = currentIndex;\n    while (i >= 0) {\n        var type = classTypes[i];\n        if (type === SP) {\n            i--;\n        } else {\n            return type;\n        }\n    }\n    return 0;\n};\n\nvar _lineBreakAtIndex = function _lineBreakAtIndex(codePoints, classTypes, indicies, index, forbiddenBreaks) {\n    if (indicies[index] === 0) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    var currentIndex = index - 1;\n    if (Array.isArray(forbiddenBreaks) && forbiddenBreaks[currentIndex] === true) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    var beforeIndex = currentIndex - 1;\n    var afterIndex = currentIndex + 1;\n    var current = classTypes[currentIndex];\n\n    // LB4 Always break after hard line breaks.\n    // LB5 Treat CR followed by LF, as well as CR, LF, and NL as hard line breaks.\n    var before = beforeIndex >= 0 ? classTypes[beforeIndex] : 0;\n    var next = classTypes[afterIndex];\n\n    if (current === CR && next === LF) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    if (HARD_LINE_BREAKS.indexOf(current) !== -1) {\n        return BREAK_MANDATORY;\n    }\n\n    // LB6 Do not break before hard line breaks.\n    if (HARD_LINE_BREAKS.indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB7 Do not break before spaces or zero width space.\n    if (SPACE.indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB8 Break before any character following a zero-width space, even if one or more spaces intervene.\n    if (previousNonSpaceClassType(currentIndex, classTypes) === ZW) {\n        return BREAK_ALLOWED;\n    }\n\n    // LB8a Do not break between a zero width joiner and an ideograph, emoji base or emoji modifier.\n    if (UnicodeTrie.get(codePoints[currentIndex]) === ZWJ && (next === ID || next === EB || next === EM)) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB11 Do not break before or after Word joiner and related characters.\n    if (current === WJ || next === WJ) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB12 Do not break after NBSP and related characters.\n    if (current === GL) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB12a Do not break before NBSP and related characters, except after spaces and hyphens.\n    if ([SP, BA, HY].indexOf(current) === -1 && next === GL) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even after spaces.\n    if ([CL, CP, EX, IS, SY].indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB14 Do not break after ‘[’, even after spaces.\n    if (previousNonSpaceClassType(currentIndex, classTypes) === OP) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB15 Do not break within ‘”[’, even with intervening spaces.\n    if (isAdjacentWithSpaceIgnored(QU, OP, currentIndex, classTypes)) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB16 Do not break between closing punctuation and a nonstarter (lb=NS), even with intervening spaces.\n    if (isAdjacentWithSpaceIgnored([CL, CP], NS, currentIndex, classTypes)) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB17 Do not break within ‘——’, even with intervening spaces.\n    if (isAdjacentWithSpaceIgnored(B2, B2, currentIndex, classTypes)) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB18 Break after spaces.\n    if (current === SP) {\n        return BREAK_ALLOWED;\n    }\n\n    // LB19 Do not break before or after quotation marks, such as ‘ ” ’.\n    if (current === QU || next === QU) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB20 Break before and after unresolved CB.\n    if (next === CB || current === CB) {\n        return BREAK_ALLOWED;\n    }\n\n    // LB21 Do not break before hyphen-minus, other hyphens, fixed-width spaces, small kana, and other non-starters, or after acute accents.\n    if ([BA, HY, NS].indexOf(next) !== -1 || current === BB) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB21a Don't break after Hebrew + Hyphen.\n    if (before === HL && HYPHEN.indexOf(current) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB21b Don’t break between Solidus and Hebrew letters.\n    if (current === SY && next === HL) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB22 Do not break between two ellipses, or between letters, numbers or exclamations and ellipsis.\n    if (next === IN && ALPHABETICS.concat(IN, EX, NU, ID, EB, EM).indexOf(current) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB23 Do not break between digits and letters.\n    if (ALPHABETICS.indexOf(next) !== -1 && current === NU || ALPHABETICS.indexOf(current) !== -1 && next === NU) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB23a Do not break between numeric prefixes and ideographs, or between ideographs and numeric postfixes.\n    if (current === PR && [ID, EB, EM].indexOf(next) !== -1 || [ID, EB, EM].indexOf(current) !== -1 && next === PO) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB24 Do not break between numeric prefix/postfix and letters, or between letters and prefix/postfix.\n    if (ALPHABETICS.indexOf(current) !== -1 && PREFIX_POSTFIX.indexOf(next) !== -1 || PREFIX_POSTFIX.indexOf(current) !== -1 && ALPHABETICS.indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB25 Do not break between the following pairs of classes relevant to numbers:\n    if (\n    // (PR | PO) × ( OP | HY )? NU\n    [PR, PO].indexOf(current) !== -1 && (next === NU || [OP, HY].indexOf(next) !== -1 && classTypes[afterIndex + 1] === NU) ||\n    // ( OP | HY ) × NU\n    [OP, HY].indexOf(current) !== -1 && next === NU ||\n    // NU ×\t(NU | SY | IS)\n    current === NU && [NU, SY, IS].indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // NU (NU | SY | IS)* × (NU | SY | IS | CL | CP)\n    if ([NU, SY, IS, CL, CP].indexOf(next) !== -1) {\n        var prevIndex = currentIndex;\n        while (prevIndex >= 0) {\n            var type = classTypes[prevIndex];\n            if (type === NU) {\n                return BREAK_NOT_ALLOWED;\n            } else if ([SY, IS].indexOf(type) !== -1) {\n                prevIndex--;\n            } else {\n                break;\n            }\n        }\n    }\n\n    // NU (NU | SY | IS)* (CL | CP)? × (PO | PR))\n    if ([PR, PO].indexOf(next) !== -1) {\n        var _prevIndex = [CL, CP].indexOf(current) !== -1 ? beforeIndex : currentIndex;\n        while (_prevIndex >= 0) {\n            var _type = classTypes[_prevIndex];\n            if (_type === NU) {\n                return BREAK_NOT_ALLOWED;\n            } else if ([SY, IS].indexOf(_type) !== -1) {\n                _prevIndex--;\n            } else {\n                break;\n            }\n        }\n    }\n\n    // LB26 Do not break a Korean syllable.\n    if (JL === current && [JL, JV, H2, H3].indexOf(next) !== -1 || [JV, H2].indexOf(current) !== -1 && [JV, JT].indexOf(next) !== -1 || [JT, H3].indexOf(current) !== -1 && next === JT) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB27 Treat a Korean Syllable Block the same as ID.\n    if (KOREAN_SYLLABLE_BLOCK.indexOf(current) !== -1 && [IN, PO].indexOf(next) !== -1 || KOREAN_SYLLABLE_BLOCK.indexOf(next) !== -1 && current === PR) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB28 Do not break between alphabetics (“at”).\n    if (ALPHABETICS.indexOf(current) !== -1 && ALPHABETICS.indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB29 Do not break between numeric punctuation and alphabetics (“e.g.”).\n    if (current === IS && ALPHABETICS.indexOf(next) !== -1) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB30 Do not break between letters, numbers, or ordinary symbols and opening or closing parentheses.\n    if (ALPHABETICS.concat(NU).indexOf(current) !== -1 && next === OP || ALPHABETICS.concat(NU).indexOf(next) !== -1 && current === CP) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB30a Break between two regional indicator symbols if and only if there are an even number of regional\n    // indicators preceding the position of the break.\n    if (current === RI && next === RI) {\n        var i = indicies[currentIndex];\n        var count = 1;\n        while (i > 0) {\n            i--;\n            if (classTypes[i] === RI) {\n                count++;\n            } else {\n                break;\n            }\n        }\n        if (count % 2 !== 0) {\n            return BREAK_NOT_ALLOWED;\n        }\n    }\n\n    // LB30b Do not break between an emoji base and an emoji modifier.\n    if (current === EB && next === EM) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    return BREAK_ALLOWED;\n};\n\nvar lineBreakAtIndex = exports.lineBreakAtIndex = function lineBreakAtIndex(codePoints, index) {\n    // LB2 Never break at the start of text.\n    if (index === 0) {\n        return BREAK_NOT_ALLOWED;\n    }\n\n    // LB3 Always break at the end of text.\n    if (index >= codePoints.length) {\n        return BREAK_MANDATORY;\n    }\n\n    var _codePointsToCharacte = codePointsToCharacterClasses(codePoints),\n        _codePointsToCharacte2 = _slicedToArray(_codePointsToCharacte, 2),\n        indicies = _codePointsToCharacte2[0],\n        classTypes = _codePointsToCharacte2[1];\n\n    return _lineBreakAtIndex(codePoints, classTypes, indicies, index);\n};\n\nvar cssFormattedClasses = function cssFormattedClasses(codePoints, options) {\n    if (!options) {\n        options = { lineBreak: 'normal', wordBreak: 'normal' };\n    }\n\n    var _codePointsToCharacte3 = codePointsToCharacterClasses(codePoints, options.lineBreak),\n        _codePointsToCharacte4 = _slicedToArray(_codePointsToCharacte3, 3),\n        indicies = _codePointsToCharacte4[0],\n        classTypes = _codePointsToCharacte4[1],\n        isLetterNumber = _codePointsToCharacte4[2];\n\n    if (options.wordBreak === 'break-all' || options.wordBreak === 'break-word') {\n        classTypes = classTypes.map(function (type) {\n            return [NU, AL, SA].indexOf(type) !== -1 ? ID : type;\n        });\n    }\n\n    var forbiddenBreakpoints = options.wordBreak === 'keep-all' ? isLetterNumber.map(function (isLetterNumber, i) {\n        return isLetterNumber && codePoints[i] >= 0x4e00 && codePoints[i] <= 0x9fff;\n    }) : null;\n\n    return [indicies, classTypes, forbiddenBreakpoints];\n};\n\nvar inlineBreakOpportunities = exports.inlineBreakOpportunities = function inlineBreakOpportunities(str, options) {\n    var codePoints = (0, _Util.toCodePoints)(str);\n    var output = BREAK_NOT_ALLOWED;\n\n    var _cssFormattedClasses = cssFormattedClasses(codePoints, options),\n        _cssFormattedClasses2 = _slicedToArray(_cssFormattedClasses, 3),\n        indicies = _cssFormattedClasses2[0],\n        classTypes = _cssFormattedClasses2[1],\n        forbiddenBreakpoints = _cssFormattedClasses2[2];\n\n    codePoints.forEach(function (codePoint, i) {\n        output += (0, _Util.fromCodePoint)(codePoint) + (i >= codePoints.length - 1 ? BREAK_MANDATORY : _lineBreakAtIndex(codePoints, classTypes, indicies, i + 1, forbiddenBreakpoints));\n    });\n\n    return output;\n};\n\nvar Break = function () {\n    function Break(codePoints, lineBreak, start, end) {\n        _classCallCheck(this, Break);\n\n        this._codePoints = codePoints;\n        this.required = lineBreak === BREAK_MANDATORY;\n        this.start = start;\n        this.end = end;\n    }\n\n    _createClass(Break, [{\n        key: 'slice',\n        value: function slice() {\n            return _Util.fromCodePoint.apply(undefined, _toConsumableArray(this._codePoints.slice(this.start, this.end)));\n        }\n    }]);\n\n    return Break;\n}();\n\nvar LineBreaker = exports.LineBreaker = function LineBreaker(str, options) {\n    var codePoints = (0, _Util.toCodePoints)(str);\n\n    var _cssFormattedClasses3 = cssFormattedClasses(codePoints, options),\n        _cssFormattedClasses4 = _slicedToArray(_cssFormattedClasses3, 3),\n        indicies = _cssFormattedClasses4[0],\n        classTypes = _cssFormattedClasses4[1],\n        forbiddenBreakpoints = _cssFormattedClasses4[2];\n\n    var length = codePoints.length;\n    var lastEnd = 0;\n    var nextIndex = 0;\n\n    return {\n        next: function next() {\n            if (nextIndex >= length) {\n                return { done: true };\n            }\n            var lineBreak = BREAK_NOT_ALLOWED;\n            while (nextIndex < length && (lineBreak = _lineBreakAtIndex(codePoints, classTypes, indicies, ++nextIndex, forbiddenBreakpoints)) === BREAK_NOT_ALLOWED) {}\n\n            if (lineBreak !== BREAK_NOT_ALLOWED || nextIndex === length) {\n                var value = new Break(codePoints, lineBreak, lastEnd, nextIndex);\n                lastEnd = nextIndex;\n                return { value: value, done: false };\n            }\n\n            return { done: true };\n        }\n    };\n};\n\n//# sourceURL=webpack://html2canvas/./node_modules/css-line-break/dist/LineBreak.js?");
+
+/***/ }),
+
+/***/ "./node_modules/css-line-break/dist/Trie.js":
+/*!**************************************************!*\
+  !*** ./node_modules/css-line-break/dist/Trie.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.Trie = exports.createTrieFromBase64 = exports.UTRIE2_INDEX_2_MASK = exports.UTRIE2_INDEX_2_BLOCK_LENGTH = exports.UTRIE2_OMITTED_BMP_INDEX_1_LENGTH = exports.UTRIE2_INDEX_1_OFFSET = exports.UTRIE2_UTF8_2B_INDEX_2_LENGTH = exports.UTRIE2_UTF8_2B_INDEX_2_OFFSET = exports.UTRIE2_INDEX_2_BMP_LENGTH = exports.UTRIE2_LSCP_INDEX_2_LENGTH = exports.UTRIE2_DATA_MASK = exports.UTRIE2_DATA_BLOCK_LENGTH = exports.UTRIE2_LSCP_INDEX_2_OFFSET = exports.UTRIE2_SHIFT_1_2 = exports.UTRIE2_INDEX_SHIFT = exports.UTRIE2_SHIFT_1 = exports.UTRIE2_SHIFT_2 = undefined;\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _Util = __webpack_require__(/*! ./Util */ \"./node_modules/css-line-break/dist/Util.js\");\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n/** Shift size for getting the index-2 table offset. */\nvar UTRIE2_SHIFT_2 = exports.UTRIE2_SHIFT_2 = 5;\n\n/** Shift size for getting the index-1 table offset. */\nvar UTRIE2_SHIFT_1 = exports.UTRIE2_SHIFT_1 = 6 + 5;\n\n/**\n * Shift size for shifting left the index array values.\n * Increases possible data size with 16-bit index values at the cost\n * of compactability.\n * This requires data blocks to be aligned by UTRIE2_DATA_GRANULARITY.\n */\nvar UTRIE2_INDEX_SHIFT = exports.UTRIE2_INDEX_SHIFT = 2;\n\n/**\n * Difference between the two shift sizes,\n * for getting an index-1 offset from an index-2 offset. 6=11-5\n */\nvar UTRIE2_SHIFT_1_2 = exports.UTRIE2_SHIFT_1_2 = UTRIE2_SHIFT_1 - UTRIE2_SHIFT_2;\n\n/**\n * The part of the index-2 table for U+D800..U+DBFF stores values for\n * lead surrogate code _units_ not code _points_.\n * Values for lead surrogate code _points_ are indexed with this portion of the table.\n * Length=32=0x20=0x400>>UTRIE2_SHIFT_2. (There are 1024=0x400 lead surrogates.)\n */\nvar UTRIE2_LSCP_INDEX_2_OFFSET = exports.UTRIE2_LSCP_INDEX_2_OFFSET = 0x10000 >> UTRIE2_SHIFT_2;\n\n/** Number of entries in a data block. 32=0x20 */\nvar UTRIE2_DATA_BLOCK_LENGTH = exports.UTRIE2_DATA_BLOCK_LENGTH = 1 << UTRIE2_SHIFT_2;\n/** Mask for getting the lower bits for the in-data-block offset. */\nvar UTRIE2_DATA_MASK = exports.UTRIE2_DATA_MASK = UTRIE2_DATA_BLOCK_LENGTH - 1;\n\nvar UTRIE2_LSCP_INDEX_2_LENGTH = exports.UTRIE2_LSCP_INDEX_2_LENGTH = 0x400 >> UTRIE2_SHIFT_2;\n/** Count the lengths of both BMP pieces. 2080=0x820 */\nvar UTRIE2_INDEX_2_BMP_LENGTH = exports.UTRIE2_INDEX_2_BMP_LENGTH = UTRIE2_LSCP_INDEX_2_OFFSET + UTRIE2_LSCP_INDEX_2_LENGTH;\n/**\n * The 2-byte UTF-8 version of the index-2 table follows at offset 2080=0x820.\n * Length 32=0x20 for lead bytes C0..DF, regardless of UTRIE2_SHIFT_2.\n */\nvar UTRIE2_UTF8_2B_INDEX_2_OFFSET = exports.UTRIE2_UTF8_2B_INDEX_2_OFFSET = UTRIE2_INDEX_2_BMP_LENGTH;\nvar UTRIE2_UTF8_2B_INDEX_2_LENGTH = exports.UTRIE2_UTF8_2B_INDEX_2_LENGTH = 0x800 >> 6; /* U+0800 is the first code point after 2-byte UTF-8 */\n/**\n * The index-1 table, only used for supplementary code points, at offset 2112=0x840.\n * Variable length, for code points up to highStart, where the last single-value range starts.\n * Maximum length 512=0x200=0x100000>>UTRIE2_SHIFT_1.\n * (For 0x100000 supplementary code points U+10000..U+10ffff.)\n *\n * The part of the index-2 table for supplementary code points starts\n * after this index-1 table.\n *\n * Both the index-1 table and the following part of the index-2 table\n * are omitted completely if there is only BMP data.\n */\nvar UTRIE2_INDEX_1_OFFSET = exports.UTRIE2_INDEX_1_OFFSET = UTRIE2_UTF8_2B_INDEX_2_OFFSET + UTRIE2_UTF8_2B_INDEX_2_LENGTH;\n\n/**\n * Number of index-1 entries for the BMP. 32=0x20\n * This part of the index-1 table is omitted from the serialized form.\n */\nvar UTRIE2_OMITTED_BMP_INDEX_1_LENGTH = exports.UTRIE2_OMITTED_BMP_INDEX_1_LENGTH = 0x10000 >> UTRIE2_SHIFT_1;\n\n/** Number of entries in an index-2 block. 64=0x40 */\nvar UTRIE2_INDEX_2_BLOCK_LENGTH = exports.UTRIE2_INDEX_2_BLOCK_LENGTH = 1 << UTRIE2_SHIFT_1_2;\n/** Mask for getting the lower bits for the in-index-2-block offset. */\nvar UTRIE2_INDEX_2_MASK = exports.UTRIE2_INDEX_2_MASK = UTRIE2_INDEX_2_BLOCK_LENGTH - 1;\n\nvar createTrieFromBase64 = exports.createTrieFromBase64 = function createTrieFromBase64(base64) {\n    var buffer = (0, _Util.decode)(base64);\n    var view32 = Array.isArray(buffer) ? (0, _Util.polyUint32Array)(buffer) : new Uint32Array(buffer);\n    var view16 = Array.isArray(buffer) ? (0, _Util.polyUint16Array)(buffer) : new Uint16Array(buffer);\n    var headerLength = 24;\n\n    var index = view16.slice(headerLength / 2, view32[4] / 2);\n    var data = view32[5] === 2 ? view16.slice((headerLength + view32[4]) / 2) : view32.slice(Math.ceil((headerLength + view32[4]) / 4));\n\n    return new Trie(view32[0], view32[1], view32[2], view32[3], index, data);\n};\n\nvar Trie = exports.Trie = function () {\n    function Trie(initialValue, errorValue, highStart, highValueIndex, index, data) {\n        _classCallCheck(this, Trie);\n\n        this.initialValue = initialValue;\n        this.errorValue = errorValue;\n        this.highStart = highStart;\n        this.highValueIndex = highValueIndex;\n        this.index = index;\n        this.data = data;\n    }\n\n    /**\n     * Get the value for a code point as stored in the Trie.\n     *\n     * @param codePoint the code point\n     * @return the value\n     */\n\n\n    _createClass(Trie, [{\n        key: 'get',\n        value: function get(codePoint) {\n            var ix = void 0;\n            if (codePoint >= 0) {\n                if (codePoint < 0x0d800 || codePoint > 0x0dbff && codePoint <= 0x0ffff) {\n                    // Ordinary BMP code point, excluding leading surrogates.\n                    // BMP uses a single level lookup.  BMP index starts at offset 0 in the Trie2 index.\n                    // 16 bit data is stored in the index array itself.\n                    ix = this.index[codePoint >> UTRIE2_SHIFT_2];\n                    ix = (ix << UTRIE2_INDEX_SHIFT) + (codePoint & UTRIE2_DATA_MASK);\n                    return this.data[ix];\n                }\n\n                if (codePoint <= 0xffff) {\n                    // Lead Surrogate Code Point.  A Separate index section is stored for\n                    // lead surrogate code units and code points.\n                    //   The main index has the code unit data.\n                    //   For this function, we need the code point data.\n                    // Note: this expression could be refactored for slightly improved efficiency, but\n                    //       surrogate code points will be so rare in practice that it's not worth it.\n                    ix = this.index[UTRIE2_LSCP_INDEX_2_OFFSET + (codePoint - 0xd800 >> UTRIE2_SHIFT_2)];\n                    ix = (ix << UTRIE2_INDEX_SHIFT) + (codePoint & UTRIE2_DATA_MASK);\n                    return this.data[ix];\n                }\n\n                if (codePoint < this.highStart) {\n                    // Supplemental code point, use two-level lookup.\n                    ix = UTRIE2_INDEX_1_OFFSET - UTRIE2_OMITTED_BMP_INDEX_1_LENGTH + (codePoint >> UTRIE2_SHIFT_1);\n                    ix = this.index[ix];\n                    ix += codePoint >> UTRIE2_SHIFT_2 & UTRIE2_INDEX_2_MASK;\n                    ix = this.index[ix];\n                    ix = (ix << UTRIE2_INDEX_SHIFT) + (codePoint & UTRIE2_DATA_MASK);\n                    return this.data[ix];\n                }\n                if (codePoint <= 0x10ffff) {\n                    return this.data[this.highValueIndex];\n                }\n            }\n\n            // Fall through.  The code point is outside of the legal range of 0..0x10ffff.\n            return this.errorValue;\n        }\n    }]);\n\n    return Trie;\n}();\n\n//# sourceURL=webpack://html2canvas/./node_modules/css-line-break/dist/Trie.js?");
+
+/***/ }),
+
+/***/ "./node_modules/css-line-break/dist/Util.js":
+/*!**************************************************!*\
+  !*** ./node_modules/css-line-break/dist/Util.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nvar toCodePoints = exports.toCodePoints = function toCodePoints(str) {\n    var codePoints = [];\n    var i = 0;\n    var length = str.length;\n    while (i < length) {\n        var value = str.charCodeAt(i++);\n        if (value >= 0xd800 && value <= 0xdbff && i < length) {\n            var extra = str.charCodeAt(i++);\n            if ((extra & 0xfc00) === 0xdc00) {\n                codePoints.push(((value & 0x3ff) << 10) + (extra & 0x3ff) + 0x10000);\n            } else {\n                codePoints.push(value);\n                i--;\n            }\n        } else {\n            codePoints.push(value);\n        }\n    }\n    return codePoints;\n};\n\nvar fromCodePoint = exports.fromCodePoint = function fromCodePoint() {\n    if (String.fromCodePoint) {\n        return String.fromCodePoint.apply(String, arguments);\n    }\n\n    var length = arguments.length;\n    if (!length) {\n        return '';\n    }\n\n    var codeUnits = [];\n\n    var index = -1;\n    var result = '';\n    while (++index < length) {\n        var codePoint = arguments.length <= index ? undefined : arguments[index];\n        if (codePoint <= 0xffff) {\n            codeUnits.push(codePoint);\n        } else {\n            codePoint -= 0x10000;\n            codeUnits.push((codePoint >> 10) + 0xd800, codePoint % 0x400 + 0xdc00);\n        }\n        if (index + 1 === length || codeUnits.length > 0x4000) {\n            result += String.fromCharCode.apply(String, codeUnits);\n            codeUnits.length = 0;\n        }\n    }\n    return result;\n};\n\nvar chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';\n\n// Use a lookup table to find the index.\nvar lookup = typeof Uint8Array === 'undefined' ? [] : new Uint8Array(256);\nfor (var i = 0; i < chars.length; i++) {\n    lookup[chars.charCodeAt(i)] = i;\n}\n\nvar decode = exports.decode = function decode(base64) {\n    var bufferLength = base64.length * 0.75,\n        len = base64.length,\n        i = void 0,\n        p = 0,\n        encoded1 = void 0,\n        encoded2 = void 0,\n        encoded3 = void 0,\n        encoded4 = void 0;\n\n    if (base64[base64.length - 1] === '=') {\n        bufferLength--;\n        if (base64[base64.length - 2] === '=') {\n            bufferLength--;\n        }\n    }\n\n    var buffer = typeof ArrayBuffer !== 'undefined' && typeof Uint8Array !== 'undefined' && typeof Uint8Array.prototype.slice !== 'undefined' ? new ArrayBuffer(bufferLength) : new Array(bufferLength);\n    var bytes = Array.isArray(buffer) ? buffer : new Uint8Array(buffer);\n\n    for (i = 0; i < len; i += 4) {\n        encoded1 = lookup[base64.charCodeAt(i)];\n        encoded2 = lookup[base64.charCodeAt(i + 1)];\n        encoded3 = lookup[base64.charCodeAt(i + 2)];\n        encoded4 = lookup[base64.charCodeAt(i + 3)];\n\n        bytes[p++] = encoded1 << 2 | encoded2 >> 4;\n        bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;\n        bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;\n    }\n\n    return buffer;\n};\n\nvar polyUint16Array = exports.polyUint16Array = function polyUint16Array(buffer) {\n    var length = buffer.length;\n    var bytes = [];\n    for (var _i = 0; _i < length; _i += 2) {\n        bytes.push(buffer[_i + 1] << 8 | buffer[_i]);\n    }\n    return bytes;\n};\n\nvar polyUint32Array = exports.polyUint32Array = function polyUint32Array(buffer) {\n    var length = buffer.length;\n    var bytes = [];\n    for (var _i2 = 0; _i2 < length; _i2 += 4) {\n        bytes.push(buffer[_i2 + 3] << 24 | buffer[_i2 + 2] << 16 | buffer[_i2 + 1] << 8 | buffer[_i2]);\n    }\n    return bytes;\n};\n\n//# sourceURL=webpack://html2canvas/./node_modules/css-line-break/dist/Util.js?");
+
+/***/ }),
+
+/***/ "./node_modules/css-line-break/dist/index.js":
+/*!***************************************************!*\
+  !*** ./node_modules/css-line-break/dist/index.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _Util = __webpack_require__(/*! ./Util */ \"./node_modules/css-line-break/dist/Util.js\");\n\nObject.defineProperty(exports, 'toCodePoints', {\n  enumerable: true,\n  get: function get() {\n    return _Util.toCodePoints;\n  }\n});\nObject.defineProperty(exports, 'fromCodePoint', {\n  enumerable: true,\n  get: function get() {\n    return _Util.fromCodePoint;\n  }\n});\n\nvar _LineBreak = __webpack_require__(/*! ./LineBreak */ \"./node_modules/css-line-break/dist/LineBreak.js\");\n\nObject.defineProperty(exports, 'LineBreaker', {\n  enumerable: true,\n  get: function get() {\n    return _LineBreak.LineBreaker;\n  }\n});\n\n//# sourceURL=webpack://html2canvas/./node_modules/css-line-break/dist/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/css-line-break/dist/linebreak-trie.js":
+/*!************************************************************!*\
+  !*** ./node_modules/css-line-break/dist/linebreak-trie.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nmodule.exports = 'KwAAAAAAAAAACA4AIDoAAPAfAAACAAAAAAAIABAAGABAAEgAUABYAF4AZgBeAGYAYABoAHAAeABeAGYAfACEAIAAiACQAJgAoACoAK0AtQC9AMUAXgBmAF4AZgBeAGYAzQDVAF4AZgDRANkA3gDmAOwA9AD8AAQBDAEUARoBIgGAAIgAJwEvATcBPwFFAU0BTAFUAVwBZAFsAXMBewGDATAAiwGTAZsBogGkAawBtAG8AcIBygHSAdoB4AHoAfAB+AH+AQYCDgIWAv4BHgImAi4CNgI+AkUCTQJTAlsCYwJrAnECeQKBAk0CiQKRApkCoQKoArACuALAAsQCzAIwANQC3ALkAjAA7AL0AvwCAQMJAxADGAMwACADJgMuAzYDPgOAAEYDSgNSA1IDUgNaA1oDYANiA2IDgACAAGoDgAByA3YDfgOAAIQDgACKA5IDmgOAAIAAogOqA4AAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAK8DtwOAAIAAvwPHA88D1wPfAyAD5wPsA/QD/AOAAIAABAQMBBIEgAAWBB4EJgQuBDMEIAM7BEEEXgBJBCADUQRZBGEEaQQwADAAcQQ+AXkEgQSJBJEEgACYBIAAoASoBK8EtwQwAL8ExQSAAIAAgACAAIAAgACgAM0EXgBeAF4AXgBeAF4AXgBeANUEXgDZBOEEXgDpBPEE+QQBBQkFEQUZBSEFKQUxBTUFPQVFBUwFVAVcBV4AYwVeAGsFcwV7BYMFiwWSBV4AmgWgBacFXgBeAF4AXgBeAKsFXgCyBbEFugW7BcIFwgXIBcIFwgXQBdQF3AXkBesF8wX7BQMGCwYTBhsGIwYrBjMGOwZeAD8GRwZNBl4AVAZbBl4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAGMGXgBqBnEGXgBeAF4AXgBeAF4AXgBeAF4AXgB5BoAG4wSGBo4GkwaAAIADHgR5AF4AXgBeAJsGgABGA4AAowarBrMGswagALsGwwbLBjAA0wbaBtoG3QbaBtoG2gbaBtoG2gblBusG8wb7BgMHCwcTBxsHCwcjBysHMAc1BzUHOgdCB9oGSgdSB1oHYAfaBloHaAfaBlIH2gbaBtoG2gbaBtoG2gbaBjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHbQdeAF4ANQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQd1B30HNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B4MH2gaKB68EgACAAIAAgACAAIAAgACAAI8HlwdeAJ8HpweAAIAArwe3B14AXgC/B8UHygcwANAH2AfgB4AA6AfwBz4B+AcACFwBCAgPCBcIogEYAR8IJwiAAC8INwg/CCADRwhPCFcIXwhnCEoDGgSAAIAAgABvCHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIhAiLCI4IMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlggwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAANQc1BzUHNQc1BzUHNQc1BzUHNQc1B54INQc1B6II2gaqCLIIugiAAIAAvgjGCIAAgACAAIAAgACAAIAAgACAAIAAywiHAYAA0wiAANkI3QjlCO0I9Aj8CIAAgACAAAIJCgkSCRoJIgknCTYHLwk3CZYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiAAIAAAAFAAXgBeAGAAcABeAHwAQACQAKAArQC9AJ4AXgBeAE0A3gBRAN4A7AD8AMwBGgEAAKcBNwEFAUwBXAF4QkhCmEKnArcCgAHHAsABz4LAAcABwAHAAd+C6ABoAG+C/4LAAcABwAHAAc+DF4MAAcAB54M3gweDV4Nng3eDaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAEeDqABVg6WDqABoQ6gAaABoAHXDvcONw/3DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DncPAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcAB7cPPwlGCU4JMACAAIAAgABWCV4JYQmAAGkJcAl4CXwJgAkwADAAMAAwAIgJgACLCZMJgACZCZ8JowmrCYAAswkwAF4AXgB8AIAAuwkABMMJyQmAAM4JgADVCTAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAqwYWBNkIMAAwADAAMADdCeAJ6AnuCR4E9gkwAP4JBQoNCjAAMACAABUK0wiAAB0KJAosCjQKgAAwADwKQwqAAEsKvQmdCVMKWwowADAAgACAALcEMACAAGMKgABrCjAAMAAwADAAMAAwADAAMAAwADAAMAAeBDAAMAAwADAAMAAwADAAMAAwADAAMAAwAIkEPQFzCnoKiQSCCooKkAqJBJgKoAqkCokEGAGsCrQKvArBCjAAMADJCtEKFQHZCuEK/gHpCvEKMAAwADAAMACAAIwE+QowAIAAPwEBCzAAMAAwADAAMACAAAkLEQswAIAAPwEZCyELgAAOCCkLMAAxCzkLMAAwADAAMAAwADAAXgBeAEELMAAwADAAMAAwADAAMAAwAEkLTQtVC4AAXAtkC4AAiQkwADAAMAAwADAAMAAwADAAbAtxC3kLgAuFC4sLMAAwAJMLlwufCzAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAApwswADAAMACAAIAAgACvC4AAgACAAIAAgACAALcLMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAvwuAAMcLgACAAIAAgACAAIAAyguAAIAAgACAAIAA0QswADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAANkLgACAAIAA4AswADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACJCR4E6AswADAAhwHwC4AA+AsADAgMEAwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMACAAIAAGAwdDCUMMAAwAC0MNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQw1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHPQwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADUHNQc1BzUHNQc1BzUHNQc2BzAAMAA5DDUHNQc1BzUHNQc1BzUHNQc1BzUHNQdFDDAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAATQxSDFoMMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAF4AXgBeAF4AXgBeAF4AYgxeAGoMXgBxDHkMfwxeAIUMXgBeAI0MMAAwADAAMAAwAF4AXgCVDJ0MMAAwADAAMABeAF4ApQxeAKsMswy7DF4Awgy9DMoMXgBeAF4AXgBeAF4AXgBeAF4AXgDRDNkMeQBqCeAM3Ax8AOYM7Az0DPgMXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgCgAAANoAAHDQ4NFg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAeDSYNMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAC4NMABeAF4ANg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAD4NRg1ODVYNXg1mDTAAbQ0wADAAMAAwADAAMAAwADAA2gbaBtoG2gbaBtoG2gbaBnUNeg3CBYANwgWFDdoGjA3aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gaUDZwNpA2oDdoG2gawDbcNvw3HDdoG2gbPDdYN3A3fDeYN2gbsDfMN2gbaBvoN/g3aBgYODg7aBl4AXgBeABYOXgBeACUG2gYeDl4AJA5eACwO2w3aBtoGMQ45DtoG2gbaBtoGQQ7aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B1EO2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQdZDjUHNQc1BzUHNQc1B2EONQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHaA41BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B3AO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B2EO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBkkOeA6gAKAAoAAwADAAMAAwAKAAoACgAKAAoACgAKAAgA4wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAD//wQABAAEAAQABAAEAAQABAAEAA0AAwABAAEAAgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAKABMAFwAeABsAGgAeABcAFgASAB4AGwAYAA8AGAAcAEsASwBLAEsASwBLAEsASwBLAEsAGAAYAB4AHgAeABMAHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAFgAbABIAHgAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYADQARAB4ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAUABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkAFgAaABsAGwAbAB4AHQAdAB4ATwAXAB4ADQAeAB4AGgAbAE8ATwAOAFAAHQAdAB0ATwBPABcATwBPAE8AFgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAFAATwBAAE8ATwBPAEAATwBQAFAATwBQAB4AHgAeAB4AHgAeAB0AHQAdAB0AHgAdAB4ADgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgBQAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAJAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkACQAJAAkACQAJAAkABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgAeAFAAHgAeAB4AKwArAFAAUABQAFAAGABQACsAKwArACsAHgAeAFAAHgBQAFAAUAArAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUAAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwAYAA0AKwArAB4AHgAbACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQADQAEAB4ABAAEAB4ABAAEABMABAArACsAKwArACsAKwArACsAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAKwArACsAKwArAFYAVgBWAB4AHgArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AGgAaABoAGAAYAB4AHgAEAAQABAAEAAQABAAEAAQABAAEAAQAEwAEACsAEwATAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABLAEsASwBLAEsASwBLAEsASwBLABoAGQAZAB4AUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABMAUAAEAAQABAAEAAQABAAEAB4AHgAEAAQABAAEAAQABABQAFAABAAEAB4ABAAEAAQABABQAFAASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUAAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAFAABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQAUABQAB4AHgAYABMAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAFAABAAEAAQABAAEAFAABAAEAAQAUAAEAAQABAAEAAQAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAArACsAHgArAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAAQABAANAA0ASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAKwArACsAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAUAArACsAKwArACsAKwArACsABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAGgAaAFAAUABQAFAAUABMAB4AGwBQAB4AKwArACsABAAEAAQAKwBQAFAAUABQAFAAUAArACsAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUAArAFAAUAArACsABAArAAQABAAEAAQABAArACsAKwArAAQABAArACsABAAEAAQAKwArACsABAArACsAKwArACsAKwArAFAAUABQAFAAKwBQACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwAEAAQAUABQAFAABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQAKwArAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeABsAKwArACsAKwArACsAKwBQAAQABAAEAAQABAAEACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAKwArACsAKwArACsAKwArAAQABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwAEAFAAKwBQAFAAUABQAFAAUAArACsAKwBQAFAAUAArAFAAUABQAFAAKwArACsAUABQACsAUAArAFAAUAArACsAKwBQAFAAKwArACsAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwAEAAQABAAEAAQAKwArACsABAAEAAQAKwAEAAQABAAEACsAKwBQACsAKwArACsAKwArAAQAKwArACsAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAB4AHgAeAB4AHgAeABsAHgArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArAFAAUABQACsAKwArACsAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAB4AUAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQACsAKwAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArACsAKwArACsAKwArAFAAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABABQAB4AKwArACsAKwBQAFAAUAAEAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQABoAUABQAFAAUABQAFAAKwArAAQABAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQACsAUAArACsAUABQAFAAUABQAFAAUAArACsAKwAEACsAKwArACsABAAEAAQABAAEAAQAKwAEACsABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgAqACsAKwArACsAGwBcAFwAXABcAFwAXABcACoAKgAqACoAKgAqACoAKgAeAEsASwBLAEsASwBLAEsASwBLAEsADQANACsAKwArACsAKwBcAFwAKwBcACsAKwBcAFwAKwBcACsAKwBcACsAKwArACsAKwArAFwAXABcAFwAKwBcAFwAXABcAFwAXABcACsAXABcAFwAKwBcACsAXAArACsAXABcACsAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgArACoAKgBcACsAKwBcAFwAXABcAFwAKwBcACsAKgAqACoAKgAqACoAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAFwAXABcAFwAUAAOAA4ADgAOAB4ADgAOAAkADgAOAA0ACQATABMAEwATABMACQAeABMAHgAeAB4ABAAEAB4AHgAeAB4AHgAeAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUAANAAQAHgAEAB4ABAAWABEAFgARAAQABABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAAQABAAEAAQABAANAAQABABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsADQANAB4AHgAeAB4AHgAeAAQAHgAeAB4AHgAeAB4AKwAeAB4ADgAOAA0ADgAeAB4AHgAeAB4ACQAJACsAKwArACsAKwBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqAFwASwBLAEsASwBLAEsASwBLAEsASwANAA0AHgAeAB4AHgBcAFwAXABcAFwAXAAqACoAKgAqAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAKgAqACoAKgAqACoAKgBcAFwAXAAqACoAKgAqAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAXAAqAEsASwBLAEsASwBLAEsASwBLAEsAKgAqACoAKgAqACoAUABQAFAAUABQAFAAKwBQACsAKwArACsAKwBQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQACsAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwAEAAQABAAeAA0AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYAEQArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAADQANAA0AUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAA0ADQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsABAAEACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoADQANABUAXAANAB4ADQAbAFwAKgArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAB4AHgATABMADQANAA4AHgATABMAHgAEAAQABAAJACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAUABQAFAAUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwAeACsAKwArABMAEwBLAEsASwBLAEsASwBLAEsASwBLAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwBcAFwAXABcAFwAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwArACsAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBcACsAKwArACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEACsAKwAeAB4AXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgArACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsABABLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKgAqACoAKgAqACoAKgBcACoAKgAqACoAKgAqACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAUABQAFAAUABQAFAAUAArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsADQANAB4ADQANAA0ADQAeAB4AHgAeAB4AHgAeAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArAAQABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAHgAeAB4AHgBQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwANAA0ADQANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwBQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAANAA0AUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsABAAEAAQAHgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAAUABQAFAABABQAFAAUABQAAQABAAEAFAAUAAEAAQABAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAKwBQACsAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAFAAHgAeAB4AUABQAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAKwArAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAKwAeAB4AHgAeAB4AHgAeAA4AHgArAA0ADQANAA0ADQANAA0ACQANAA0ADQAIAAQACwAEAAQADQAJAA0ADQAMAB0AHQAeABcAFwAWABcAFwAXABYAFwAdAB0AHgAeABQAFAAUAA0AAQABAAQABAAEAAQABAAJABoAGgAaABoAGgAaABoAGgAeABcAFwAdABUAFQAeAB4AHgAeAB4AHgAYABYAEQAVABUAFQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgANAB4ADQANAA0ADQAeAA0ADQANAAcAHgAeAB4AHgArAAQABAAEAAQABAAEAAQABAAEAAQAUABQACsAKwBPAFAAUABQAFAAUAAeAB4AHgAWABEATwBQAE8ATwBPAE8AUABQAFAAUABQAB4AHgAeABYAEQArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGgAbABsAGgAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgBQABoAHgAdAB4AUAAeABoAHgAeAB4AHgAeAB4AHgAeAB4ATwAeAFAAGwAeAB4AUABQAFAAUABQAB4AHgAeAB0AHQAeAFAAHgBQAB4AUAAeAFAATwBQAFAAHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AUABQAFAAUABPAE8AUABQAFAAUABQAE8AUABQAE8AUABPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAFAAUABQAE8ATwBPAE8ATwBPAE8ATwBPAE8AUABQAFAAUABQAFAAUABQAFAAHgAeAFAAUABQAFAATwAeAB4AKwArACsAKwAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB0AHQAeAB4AHgAdAB0AHgAeAB0AHgAeAB4AHQAeAB0AGwAbAB4AHQAeAB4AHgAeAB0AHgAeAB0AHQAdAB0AHgAeAB0AHgAdAB4AHQAdAB0AHQAdAB0AHgAdAB4AHgAeAB4AHgAdAB0AHQAdAB4AHgAeAB4AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB4AHgAdAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHgAdAB0AHQAdAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHQAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAFgARAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAlACUAHgAeAB4AHgAeAB4AHgAeAB4AFgARAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB0AHQAeAB4AHgAeAB0AHQAdAB4AHgAdAB4AHgAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAeAB0AHQAeAB4AHQAeAB4AHgAeAB0AHQAeAB4AHgAeACUAJQAdAB0AJQAeACUAJQAlACAAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHQAdAB0AHgAdACUAHQAdAB4AHQAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAHQAdAB0AHQAlAB4AJQAlACUAHQAlACUAHQAdAB0AJQAlAB0AHQAlAB0AHQAlACUAJQAeAB0AHgAeAB4AHgAdAB0AJQAdAB0AHQAdAB0AHQAlACUAJQAlACUAHQAlACUAIAAlAB0AHQAlACUAJQAlACUAJQAlACUAHgAeAB4AJQAlACAAIAAgACAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeABcAFwAXABcAFwAXAB4AEwATACUAHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAWABEAFgARAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAeAB4AKwArACsAKwArABMADQANAA0AUAATAA0AUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUAANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAA0ADQANAA0ADQANAA0ADQAeAA0AFgANAB4AHgAXABcAHgAeABcAFwAWABEAFgARABYAEQAWABEADQANAA0ADQATAFAADQANAB4ADQANAB4AHgAeAB4AHgAMAAwADQANAA0AHgANAA0AFgANAA0ADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArAA0AEQARACUAJQBHAFcAVwAWABEAFgARABYAEQAWABEAFgARACUAJQAWABEAFgARABYAEQAWABEAFQAWABEAEQAlAFcAVwBXAFcAVwBXAFcAVwBXAAQABAAEAAQABAAEACUAVwBXAFcAVwA2ACUAJQBXAFcAVwBHAEcAJQAlACUAKwBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBRAFcAUQBXAFEAVwBXAFcAVwBXAFcAUQBXAFcAVwBXAFcAVwBRAFEAKwArAAQABAAVABUARwBHAFcAFQBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBRAFcAVwBXAFcAVwBXAFEAUQBXAFcAVwBXABUAUQBHAEcAVwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACUAJQBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwArACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAVwBXAFcAVwBXAFcAVwBXAFcAVwAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAE8ATwBPAE8ATwBPAE8ATwAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADQATAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQAHgBQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAeAA0ADQANAA0ADQArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AHgAeAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAAQAUABQAFAABABQAFAAUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAeAB4AHgAeACsAKwArACsAUABQAFAAUABQAFAAHgAeABoAHgArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADgAOABMAEwArACsAKwArACsAKwArACsABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUAAeAB4AHgBQAA4AUAArACsAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAA0ADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAB4AWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYACsAKwArAAQAHgAeAB4AHgAeAB4ADQANAA0AHgAeAB4AHgArAFAASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArAB4AHgBcAFwAXABcAFwAKgBcAFwAXABcAFwAXABcAFwAXABcAEsASwBLAEsASwBLAEsASwBLAEsAXABcAFwAXABcACsAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArAFAAUABQAAQAUABQAFAAUABQAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAHgANAA0ADQBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAKgAqACoAXABcACoAKgBcAFwAXABcAFwAKgAqAFwAKgBcACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAA0ADQBQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQADQAEAAQAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAVABVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBUAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVACsAKwArACsAKwArACsAKwArACsAKwArAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAKwArACsAKwBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAKwArACsAKwAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArACsAKwArAFYABABWAFYAVgBWAFYAVgBWAFYAVgBWAB4AVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgArAFYAVgBWAFYAVgArAFYAKwBWAFYAKwBWAFYAKwBWAFYAVgBWAFYAVgBWAFYAVgBWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAEQAWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUAAaAB4AKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAGAARABEAGAAYABMAEwAWABEAFAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACUAJQAlACUAJQAWABEAFgARABYAEQAWABEAFgARABYAEQAlACUAFgARACUAJQAlACUAJQAlACUAEQAlABEAKwAVABUAEwATACUAFgARABYAEQAWABEAJQAlACUAJQAlACUAJQAlACsAJQAbABoAJQArACsAKwArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAcAKwATACUAJQAbABoAJQAlABYAEQAlACUAEQAlABEAJQBXAFcAVwBXAFcAVwBXAFcAVwBXABUAFQAlACUAJQATACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXABYAJQARACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwAWACUAEQAlABYAEQARABYAEQARABUAVwBRAFEAUQBRAFEAUQBRAFEAUQBRAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcARwArACsAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXACsAKwBXAFcAVwBXAFcAVwArACsAVwBXAFcAKwArACsAGgAbACUAJQAlABsAGwArAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwAEAAQABAAQAB0AKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsADQANAA0AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQBQAFAAUABQACsAKwArACsAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwBQAFAAUABQAFAABAAEAAQAKwAEAAQAKwArACsAKwArAAQABAAEAAQAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsABAAEAAQAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsADQANAA0ADQANAA0ADQANAB4AKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwArACsAUABQAFAAUABQAA0ADQANAA0ADQANABQAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwANAA0ADQANAA0ADQANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQAeAB4AHgAeAB4AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsASwBLAEsASwBLAEsASwBLAEsASwANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAeAA4AUAArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAADQANAB4ADQAeAAQABAAEAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsAUAAOAFAADQANAA0AKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAA0AHgANAA0AHgAEACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAA0AKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArACsAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAArACsABAAEACsAKwAEAAQABAArACsAUAArACsAKwArACsAKwAEACsAKwArACsAKwBQAFAAUABQAFAABAAEACsAKwAEAAQABAAEAAQABAAEACsAKwArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABABQAFAAUABQAA0ADQANAA0AHgBLAEsASwBLAEsASwBLAEsASwBLACsADQArAB4AKwArAAQABAAEAAQAUABQAB4AUAArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEACsAKwAEAAQABAAEAAQABAAEAAQABAAOAA0ADQATABMAHgAeAB4ADQANAA0ADQANAA0ADQANAA0ADQANAA0ADQANAA0AUABQAFAAUAAEAAQAKwArAAQADQANAB4AUAArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAOAA4ADgAOAA4ADgAOAA4ADgAOAA4ADgAOACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAArACsAKwAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAXABcAA0ADQANACoASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAOAB4ADQANAA0ADQAOAB4ABAArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAFAAUAArACsAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAA0ADQANACsADgAOAA4ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAFAADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwAOABMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAArACsAKwAEACsABAAEACsABAAEAAQABAAEAAQABABQAAQAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABIAEgAQwBDAEMAUABQAFAAUABDAFAAUABQAEgAQwBIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABDAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwANAA0AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAANACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQANAB4AHgAeAB4AHgAeAFAAUABQAFAADQAeACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEcARwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACsAKwArACsAKwArACsAKwArACsAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwAeAAQABAANAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAHgAeAAQABAAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAEAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUAArACsAUAArACsAUABQACsAKwBQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwBQACsAUABQAFAAUABQAFAAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwAeAB4AUABQAFAAUABQACsAUAArACsAKwBQAFAAUABQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAEAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAeAB4ADQANAA0ADQAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsABAAEAAQABAAEAAQABAArAAQABAArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAEAAQABAAEAAQABAAEACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAFgAWAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArAFAAKwBQACsAKwArACsAKwArAFAAKwArACsAKwBQACsAUAArAFAAKwBQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQACsAUAArAFAAKwBQACsAUABQACsAUAArACsAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAUABQAFAAUAArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwBQAFAAUAArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwAlACUAJQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAeACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeACUAJQAlACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeACUAJQAlACUAJQAeACUAJQAlACUAJQAgACAAIAAlACUAIAAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIQAhACEAIQAhACUAJQAgACAAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAIAAlACUAJQAlACAAJQAgACAAIAAgACAAIAAgACAAIAAlACUAJQAgACUAJQAlACUAIAAgACAAJQAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeACUAHgAlAB4AJQAlACUAJQAlACAAJQAlACUAJQAeACUAHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAIAAgACAAIAAgAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFwAXABcAFQAVABUAHgAeAB4AHgAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAlACAAIAAlACUAJQAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAIAAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsA';\n\n//# sourceURL=webpack://html2canvas/./node_modules/css-line-break/dist/linebreak-trie.js?");
+
+/***/ }),
+
+/***/ "./src/Angle.js":
+/*!**********************!*\
+  !*** ./src/Angle.js ***!
+  \**********************/
+/*! exports provided: parseAngle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseAngle\", function() { return parseAngle; });\n\n\nvar ANGLE = /([+-]?\\d*\\.?\\d+)(deg|grad|rad|turn)/i;\nvar parseAngle = function parseAngle(angle) {\n  var match = angle.match(ANGLE);\n\n  if (match) {\n    var value = parseFloat(match[1]);\n\n    switch (match[2].toLowerCase()) {\n      case 'deg':\n        return Math.PI * value / 180;\n\n      case 'grad':\n        return Math.PI / 200 * value;\n\n      case 'rad':\n        return value;\n\n      case 'turn':\n        return Math.PI * 2 * value;\n    }\n  }\n\n  return null;\n};\n\n//# sourceURL=webpack://html2canvas/./src/Angle.js?");
+
+/***/ }),
+
+/***/ "./src/Bounds.js":
+/*!***********************!*\
+  !*** ./src/Bounds.js ***!
+  \***********************/
+/*! exports provided: Bounds, parseBounds, calculatePaddingBox, calculateContentBox, parseDocumentSize, parsePathForBorder, calculateBorderBoxPath, calculatePaddingBoxPath, parseBoundCurves */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Bounds\", function() { return Bounds; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseBounds\", function() { return parseBounds; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculatePaddingBox\", function() { return calculatePaddingBox; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateContentBox\", function() { return calculateContentBox; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseDocumentSize\", function() { return parseDocumentSize; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parsePathForBorder\", function() { return parsePathForBorder; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateBorderBoxPath\", function() { return calculateBorderBoxPath; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculatePaddingBoxPath\", function() { return calculatePaddingBoxPath; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseBoundCurves\", function() { return parseBoundCurves; });\n/* harmony import */ var _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./drawing/Vector */ \"./src/drawing/Vector.js\");\n/* harmony import */ var _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./drawing/BezierCurve */ \"./src/drawing/BezierCurve.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\nvar TOP = 0;\nvar RIGHT = 1;\nvar BOTTOM = 2;\nvar LEFT = 3;\nvar H = 0;\nvar V = 1;\nvar Bounds =\n/*#__PURE__*/\nfunction () {\n  function Bounds(x, y, w, h) {\n    _classCallCheck(this, Bounds);\n\n    this.left = x;\n    this.top = y;\n    this.width = w;\n    this.height = h;\n  }\n\n  _createClass(Bounds, null, [{\n    key: \"fromClientRect\",\n    value: function fromClientRect(clientRect, scrollX, scrollY) {\n      return new Bounds(clientRect.left + scrollX, clientRect.top + scrollY, clientRect.width, clientRect.height);\n    }\n  }]);\n\n  return Bounds;\n}();\nvar parseBounds = function parseBounds(node, scrollX, scrollY) {\n  return Bounds.fromClientRect(node.getBoundingClientRect(), scrollX, scrollY);\n};\nvar calculatePaddingBox = function calculatePaddingBox(bounds, borders) {\n  return new Bounds(bounds.left + borders[LEFT].borderWidth, bounds.top + borders[TOP].borderWidth, bounds.width - (borders[RIGHT].borderWidth + borders[LEFT].borderWidth), bounds.height - (borders[TOP].borderWidth + borders[BOTTOM].borderWidth));\n};\nvar calculateContentBox = function calculateContentBox(bounds, padding, borders) {\n  // TODO support percentage paddings\n  var paddingTop = padding[TOP].value;\n  var paddingRight = padding[RIGHT].value;\n  var paddingBottom = padding[BOTTOM].value;\n  var paddingLeft = padding[LEFT].value;\n  return new Bounds(bounds.left + paddingLeft + borders[LEFT].borderWidth, bounds.top + paddingTop + borders[TOP].borderWidth, bounds.width - (borders[RIGHT].borderWidth + borders[LEFT].borderWidth + paddingLeft + paddingRight), bounds.height - (borders[TOP].borderWidth + borders[BOTTOM].borderWidth + paddingTop + paddingBottom));\n};\nvar parseDocumentSize = function parseDocumentSize(document) {\n  var body = document.body;\n  var documentElement = document.documentElement;\n\n  if (!body || !documentElement) {\n    throw new Error( true ? \"Unable to get document size\" : undefined);\n  }\n\n  var width = Math.max(Math.max(body.scrollWidth, documentElement.scrollWidth), Math.max(body.offsetWidth, documentElement.offsetWidth), Math.max(body.clientWidth, documentElement.clientWidth));\n  var height = Math.max(Math.max(body.scrollHeight, documentElement.scrollHeight), Math.max(body.offsetHeight, documentElement.offsetHeight), Math.max(body.clientHeight, documentElement.clientHeight));\n  return new Bounds(0, 0, width, height);\n};\nvar parsePathForBorder = function parsePathForBorder(curves, borderSide) {\n  switch (borderSide) {\n    case TOP:\n      return createPathFromCurves(curves.topLeftOuter, curves.topLeftInner, curves.topRightOuter, curves.topRightInner);\n\n    case RIGHT:\n      return createPathFromCurves(curves.topRightOuter, curves.topRightInner, curves.bottomRightOuter, curves.bottomRightInner);\n\n    case BOTTOM:\n      return createPathFromCurves(curves.bottomRightOuter, curves.bottomRightInner, curves.bottomLeftOuter, curves.bottomLeftInner);\n\n    case LEFT:\n    default:\n      return createPathFromCurves(curves.bottomLeftOuter, curves.bottomLeftInner, curves.topLeftOuter, curves.topLeftInner);\n  }\n};\n\nvar createPathFromCurves = function createPathFromCurves(outer1, inner1, outer2, inner2) {\n  var path = [];\n\n  if (outer1 instanceof _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"]) {\n    path.push(outer1.subdivide(0.5, false));\n  } else {\n    path.push(outer1);\n  }\n\n  if (outer2 instanceof _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"]) {\n    path.push(outer2.subdivide(0.5, true));\n  } else {\n    path.push(outer2);\n  }\n\n  if (inner2 instanceof _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"]) {\n    path.push(inner2.subdivide(0.5, true).reverse());\n  } else {\n    path.push(inner2);\n  }\n\n  if (inner1 instanceof _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"]) {\n    path.push(inner1.subdivide(0.5, false).reverse());\n  } else {\n    path.push(inner1);\n  }\n\n  return path;\n};\n\nvar calculateBorderBoxPath = function calculateBorderBoxPath(curves) {\n  return [curves.topLeftOuter, curves.topRightOuter, curves.bottomRightOuter, curves.bottomLeftOuter];\n};\nvar calculatePaddingBoxPath = function calculatePaddingBoxPath(curves) {\n  return [curves.topLeftInner, curves.topRightInner, curves.bottomRightInner, curves.bottomLeftInner];\n};\nvar parseBoundCurves = function parseBoundCurves(bounds, borders, borderRadius) {\n  var tlh = borderRadius[CORNER.TOP_LEFT][H].getAbsoluteValue(bounds.width);\n  var tlv = borderRadius[CORNER.TOP_LEFT][V].getAbsoluteValue(bounds.height);\n  var trh = borderRadius[CORNER.TOP_RIGHT][H].getAbsoluteValue(bounds.width);\n  var trv = borderRadius[CORNER.TOP_RIGHT][V].getAbsoluteValue(bounds.height);\n  var brh = borderRadius[CORNER.BOTTOM_RIGHT][H].getAbsoluteValue(bounds.width);\n  var brv = borderRadius[CORNER.BOTTOM_RIGHT][V].getAbsoluteValue(bounds.height);\n  var blh = borderRadius[CORNER.BOTTOM_LEFT][H].getAbsoluteValue(bounds.width);\n  var blv = borderRadius[CORNER.BOTTOM_LEFT][V].getAbsoluteValue(bounds.height);\n  var factors = [];\n  factors.push((tlh + trh) / bounds.width);\n  factors.push((blh + brh) / bounds.width);\n  factors.push((tlv + blv) / bounds.height);\n  factors.push((trv + brv) / bounds.height);\n  var maxFactor = Math.max.apply(Math, factors);\n\n  if (maxFactor > 1) {\n    tlh /= maxFactor;\n    tlv /= maxFactor;\n    trh /= maxFactor;\n    trv /= maxFactor;\n    brh /= maxFactor;\n    brv /= maxFactor;\n    blh /= maxFactor;\n    blv /= maxFactor;\n  }\n\n  var topWidth = bounds.width - trh;\n  var rightHeight = bounds.height - brv;\n  var bottomWidth = bounds.width - brh;\n  var leftHeight = bounds.height - blv;\n  return {\n    topLeftOuter: tlh > 0 || tlv > 0 ? getCurvePoints(bounds.left, bounds.top, tlh, tlv, CORNER.TOP_LEFT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left, bounds.top),\n    topLeftInner: tlh > 0 || tlv > 0 ? getCurvePoints(bounds.left + borders[LEFT].borderWidth, bounds.top + borders[TOP].borderWidth, Math.max(0, tlh - borders[LEFT].borderWidth), Math.max(0, tlv - borders[TOP].borderWidth), CORNER.TOP_LEFT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left + borders[LEFT].borderWidth, bounds.top + borders[TOP].borderWidth),\n    topRightOuter: trh > 0 || trv > 0 ? getCurvePoints(bounds.left + topWidth, bounds.top, trh, trv, CORNER.TOP_RIGHT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left + bounds.width, bounds.top),\n    topRightInner: trh > 0 || trv > 0 ? getCurvePoints(bounds.left + Math.min(topWidth, bounds.width + borders[LEFT].borderWidth), bounds.top + borders[TOP].borderWidth, topWidth > bounds.width + borders[LEFT].borderWidth ? 0 : trh - borders[LEFT].borderWidth, trv - borders[TOP].borderWidth, CORNER.TOP_RIGHT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left + bounds.width - borders[RIGHT].borderWidth, bounds.top + borders[TOP].borderWidth),\n    bottomRightOuter: brh > 0 || brv > 0 ? getCurvePoints(bounds.left + bottomWidth, bounds.top + rightHeight, brh, brv, CORNER.BOTTOM_RIGHT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left + bounds.width, bounds.top + bounds.height),\n    bottomRightInner: brh > 0 || brv > 0 ? getCurvePoints(bounds.left + Math.min(bottomWidth, bounds.width - borders[LEFT].borderWidth), bounds.top + Math.min(rightHeight, bounds.height + borders[TOP].borderWidth), Math.max(0, brh - borders[RIGHT].borderWidth), brv - borders[BOTTOM].borderWidth, CORNER.BOTTOM_RIGHT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left + bounds.width - borders[RIGHT].borderWidth, bounds.top + bounds.height - borders[BOTTOM].borderWidth),\n    bottomLeftOuter: blh > 0 || blv > 0 ? getCurvePoints(bounds.left, bounds.top + leftHeight, blh, blv, CORNER.BOTTOM_LEFT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left, bounds.top + bounds.height),\n    bottomLeftInner: blh > 0 || blv > 0 ? getCurvePoints(bounds.left + borders[LEFT].borderWidth, bounds.top + leftHeight, Math.max(0, blh - borders[LEFT].borderWidth), blv - borders[BOTTOM].borderWidth, CORNER.BOTTOM_LEFT) : new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](bounds.left + borders[LEFT].borderWidth, bounds.top + bounds.height - borders[BOTTOM].borderWidth)\n  };\n};\nvar CORNER = {\n  TOP_LEFT: 0,\n  TOP_RIGHT: 1,\n  BOTTOM_RIGHT: 2,\n  BOTTOM_LEFT: 3\n};\n\nvar getCurvePoints = function getCurvePoints(x, y, r1, r2, position) {\n  var kappa = 4 * ((Math.sqrt(2) - 1) / 3);\n  var ox = r1 * kappa; // control point offset horizontal\n\n  var oy = r2 * kappa; // control point offset vertical\n\n  var xm = x + r1; // x-middle\n\n  var ym = y + r2; // y-middle\n\n  switch (position) {\n    case CORNER.TOP_LEFT:\n      return new _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"](new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x, ym), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x, ym - oy), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm - ox, y), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm, y));\n\n    case CORNER.TOP_RIGHT:\n      return new _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"](new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x, y), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x + ox, y), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm, ym - oy), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm, ym));\n\n    case CORNER.BOTTOM_RIGHT:\n      return new _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"](new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm, y), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm, y + oy), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x + ox, ym), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x, ym));\n\n    case CORNER.BOTTOM_LEFT:\n    default:\n      return new _drawing_BezierCurve__WEBPACK_IMPORTED_MODULE_1__[\"default\"](new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm, ym), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](xm - ox, ym), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x, y + oy), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](x, y));\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/Bounds.js?");
+
+/***/ }),
+
+/***/ "./src/Clone.js":
+/*!**********************!*\
+  !*** ./src/Clone.js ***!
+  \**********************/
+/*! exports provided: DocumentCloner, cloneWindow */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"DocumentCloner\", function() { return DocumentCloner; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"cloneWindow\", function() { return cloneWindow; });\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _Proxy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Proxy */ \"./src/Proxy.js\");\n/* harmony import */ var _ResourceLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ResourceLoader */ \"./src/ResourceLoader.js\");\n/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Util */ \"./src/Util.js\");\n/* harmony import */ var _parsing_background__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parsing/background */ \"./src/parsing/background.js\");\n/* harmony import */ var _renderer_CanvasRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./renderer/CanvasRenderer */ \"./src/renderer/CanvasRenderer.js\");\n/* harmony import */ var _PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PseudoNodeContent */ \"./src/PseudoNodeContent.js\");\n\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\n\n\n\n\nvar IGNORE_ATTRIBUTE = 'data-html2canvas-ignore';\nvar DocumentCloner =\n/*#__PURE__*/\nfunction () {\n  function DocumentCloner(element, options, logger, copyInline, renderer) {\n    _classCallCheck(this, DocumentCloner);\n\n    this.referenceElement = element;\n    this.scrolledElements = [];\n    this.copyStyles = copyInline;\n    this.inlineImages = copyInline;\n    this.logger = logger;\n    this.options = options;\n    this.renderer = renderer;\n    this.resourceLoader = new _ResourceLoader__WEBPACK_IMPORTED_MODULE_2__[\"default\"](options, logger, window);\n    this.pseudoContentData = {\n      counters: {},\n      quoteDepth: 0\n    }; // $FlowFixMe\n\n    this.documentElement = this.cloneNode(element.ownerDocument.documentElement);\n  }\n\n  _createClass(DocumentCloner, [{\n    key: \"inlineAllImages\",\n    value: function inlineAllImages(node) {\n      var _this = this;\n\n      if (this.inlineImages && node) {\n        var style = node.style;\n        Promise.all(Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"parseBackgroundImage\"])(style.backgroundImage).map(function (backgroundImage) {\n          if (backgroundImage.method === 'url') {\n            return _this.resourceLoader.inlineImage(backgroundImage.args[0]).then(function (img) {\n              return img && typeof img.src === 'string' ? \"url(\\\"\".concat(img.src, \"\\\")\") : 'none';\n            }).catch(function (e) {\n              if (true) {\n                _this.logger.log(\"Unable to load image\", e);\n              }\n            });\n          }\n\n          return Promise.resolve(\"\".concat(backgroundImage.prefix).concat(backgroundImage.method, \"(\").concat(backgroundImage.args.join(','), \")\"));\n        })).then(function (backgroundImages) {\n          if (backgroundImages.length > 1) {\n            // TODO Multiple backgrounds somehow broken in Chrome\n            style.backgroundColor = '';\n          }\n\n          style.backgroundImage = backgroundImages.join(',');\n        });\n\n        if (node instanceof HTMLImageElement) {\n          this.resourceLoader.inlineImage(node.src).then(function (img) {\n            if (img && node instanceof HTMLImageElement && node.parentNode) {\n              var parentNode = node.parentNode;\n              var clonedChild = Object(_Util__WEBPACK_IMPORTED_MODULE_3__[\"copyCSSStyles\"])(node.style, img.cloneNode(false));\n              parentNode.replaceChild(clonedChild, node);\n            }\n          }).catch(function (e) {\n            if (true) {\n              _this.logger.log(\"Unable to load image\", e);\n            }\n          });\n        }\n      }\n    }\n  }, {\n    key: \"inlineFonts\",\n    value: function inlineFonts(document) {\n      var _this2 = this;\n\n      return Promise.all(Array.from(document.styleSheets).map(function (sheet) {\n        if (sheet.href) {\n          return fetch(sheet.href).then(function (res) {\n            return res.text();\n          }).then(function (text) {\n            return createStyleSheetFontsFromText(text, sheet.href);\n          }).catch(function (e) {\n            if (true) {\n              _this2.logger.log(\"Unable to load stylesheet\", e);\n            }\n\n            return [];\n          });\n        }\n\n        return getSheetFonts(sheet, document);\n      })).then(function (fonts) {\n        return fonts.reduce(function (acc, font) {\n          return acc.concat(font);\n        }, []);\n      }).then(function (fonts) {\n        return Promise.all(fonts.map(function (font) {\n          return fetch(font.formats[0].src).then(function (response) {\n            return response.blob();\n          }).then(function (blob) {\n            return new Promise(function (resolve, reject) {\n              var reader = new FileReader();\n              reader.onerror = reject;\n\n              reader.onload = function () {\n                // $FlowFixMe\n                var result = reader.result;\n                resolve(result);\n              };\n\n              reader.readAsDataURL(blob);\n            });\n          }).then(function (dataUri) {\n            font.fontFace.setProperty('src', \"url(\\\"\".concat(dataUri, \"\\\")\"));\n            return \"@font-face {\".concat(font.fontFace.cssText, \" \");\n          });\n        }));\n      }).then(function (fontCss) {\n        var style = document.createElement('style');\n        style.textContent = fontCss.join('\\n');\n\n        _this2.documentElement.appendChild(style);\n      });\n    }\n  }, {\n    key: \"createElementClone\",\n    value: function createElementClone(node) {\n      var _this3 = this;\n\n      if (this.copyStyles && node instanceof HTMLCanvasElement) {\n        var img = node.ownerDocument.createElement('img');\n\n        try {\n          img.src = node.toDataURL();\n          return img;\n        } catch (e) {\n          if (true) {\n            this.logger.log(\"Unable to clone canvas contents, canvas is tainted\");\n          }\n        }\n      }\n\n      if (node instanceof HTMLIFrameElement) {\n        var tempIframe = node.cloneNode(false);\n        var iframeKey = generateIframeKey();\n        tempIframe.setAttribute('data-html2canvas-internal-iframe-key', iframeKey);\n\n        var _parseBounds = Object(_Bounds__WEBPACK_IMPORTED_MODULE_0__[\"parseBounds\"])(node, 0, 0),\n            width = _parseBounds.width,\n            height = _parseBounds.height;\n\n        this.resourceLoader.cache[iframeKey] = getIframeDocumentElement(node, this.options).then(function (documentElement) {\n          return _this3.renderer(documentElement, {\n            allowTaint: _this3.options.allowTaint,\n            backgroundColor: '#ffffff',\n            canvas: null,\n            imageTimeout: _this3.options.imageTimeout,\n            logging: _this3.options.logging,\n            proxy: _this3.options.proxy,\n            removeContainer: _this3.options.removeContainer,\n            scale: _this3.options.scale,\n            foreignObjectRendering: _this3.options.foreignObjectRendering,\n            useCORS: _this3.options.useCORS,\n            target: new _renderer_CanvasRenderer__WEBPACK_IMPORTED_MODULE_5__[\"default\"](),\n            width: width,\n            height: height,\n            x: 0,\n            y: 0,\n            windowWidth: documentElement.ownerDocument.defaultView.innerWidth,\n            windowHeight: documentElement.ownerDocument.defaultView.innerHeight,\n            scrollX: documentElement.ownerDocument.defaultView.pageXOffset,\n            scrollY: documentElement.ownerDocument.defaultView.pageYOffset\n          }, _this3.logger.child(iframeKey));\n        }).then(function (canvas) {\n          return new Promise(function (resolve, reject) {\n            var iframeCanvas = document.createElement('img');\n\n            iframeCanvas.onload = function () {\n              return resolve(canvas);\n            };\n\n            iframeCanvas.onerror = function (event) {\n              // Empty iframes may result in empty \"data:,\" URLs, which are invalid from the <img>'s point of view\n              // and instead of `onload` cause `onerror` and unhandled rejection warnings\n              // https://github.com/niklasvh/html2canvas/issues/1502\n              iframeCanvas.src == 'data:,' ? resolve(canvas) : reject(event);\n            };\n\n            iframeCanvas.src = canvas.toDataURL();\n\n            if (tempIframe.parentNode) {\n              tempIframe.parentNode.replaceChild(Object(_Util__WEBPACK_IMPORTED_MODULE_3__[\"copyCSSStyles\"])(node.ownerDocument.defaultView.getComputedStyle(node), iframeCanvas), tempIframe);\n            }\n          });\n        });\n        return tempIframe;\n      }\n\n      try {\n        if (node instanceof HTMLStyleElement && node.sheet && node.sheet.cssRules) {\n          var css = [].slice.call(node.sheet.cssRules, 0).reduce(function (css, rule) {\n            if (rule && rule.cssText) {\n              return css + rule.cssText;\n            }\n\n            return css;\n          }, '');\n          var style = node.cloneNode(false);\n          style.textContent = css;\n          return style;\n        }\n      } catch (e) {\n        // accessing node.sheet.cssRules throws a DOMException\n        this.logger.log('Unable to access cssRules property');\n\n        if (e.name !== 'SecurityError') {\n          this.logger.log(e);\n          throw e;\n        }\n      }\n\n      return node.cloneNode(false);\n    }\n  }, {\n    key: \"cloneNode\",\n    value: function cloneNode(node) {\n      var clone = node.nodeType === Node.TEXT_NODE ? document.createTextNode(node.nodeValue) : this.createElementClone(node);\n      var window = node.ownerDocument.defaultView;\n      var style = node instanceof window.HTMLElement ? window.getComputedStyle(node) : null;\n      var styleBefore = node instanceof window.HTMLElement ? window.getComputedStyle(node, ':before') : null;\n      var styleAfter = node instanceof window.HTMLElement ? window.getComputedStyle(node, ':after') : null;\n\n      if (this.referenceElement === node && clone instanceof window.HTMLElement) {\n        this.clonedReferenceElement = clone;\n      }\n\n      if (clone instanceof window.HTMLBodyElement) {\n        createPseudoHideStyles(clone);\n      }\n\n      var counters = Object(_PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__[\"parseCounterReset\"])(style, this.pseudoContentData);\n      var contentBefore = Object(_PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__[\"resolvePseudoContent\"])(node, styleBefore, this.pseudoContentData);\n\n      for (var child = node.firstChild; child; child = child.nextSibling) {\n        if (child.nodeType !== Node.ELEMENT_NODE || child.nodeName !== 'SCRIPT' && // $FlowFixMe\n        !child.hasAttribute(IGNORE_ATTRIBUTE) && (typeof this.options.ignoreElements !== 'function' || // $FlowFixMe\n        !this.options.ignoreElements(child))) {\n          if (!this.copyStyles || child.nodeName !== 'STYLE') {\n            clone.appendChild(this.cloneNode(child));\n          }\n        }\n      }\n\n      var contentAfter = Object(_PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__[\"resolvePseudoContent\"])(node, styleAfter, this.pseudoContentData);\n      Object(_PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__[\"popCounters\"])(counters, this.pseudoContentData);\n\n      if (node instanceof window.HTMLElement && clone instanceof window.HTMLElement) {\n        if (styleBefore) {\n          this.inlineAllImages(inlinePseudoElement(node, clone, styleBefore, contentBefore, PSEUDO_BEFORE));\n        }\n\n        if (styleAfter) {\n          this.inlineAllImages(inlinePseudoElement(node, clone, styleAfter, contentAfter, PSEUDO_AFTER));\n        }\n\n        if (style && this.copyStyles && !(node instanceof HTMLIFrameElement)) {\n          Object(_Util__WEBPACK_IMPORTED_MODULE_3__[\"copyCSSStyles\"])(style, clone);\n        }\n\n        this.inlineAllImages(clone);\n\n        if (node.scrollTop !== 0 || node.scrollLeft !== 0) {\n          this.scrolledElements.push([clone, node.scrollLeft, node.scrollTop]);\n        }\n\n        switch (node.nodeName) {\n          case 'CANVAS':\n            if (!this.copyStyles) {\n              cloneCanvasContents(node, clone);\n            }\n\n            break;\n\n          case 'TEXTAREA':\n          case 'SELECT':\n            clone.value = node.value;\n            break;\n        }\n      }\n\n      return clone;\n    }\n  }]);\n\n  return DocumentCloner;\n}();\n\nvar getSheetFonts = function getSheetFonts(sheet, document) {\n  // $FlowFixMe\n  return (sheet.cssRules ? Array.from(sheet.cssRules) : []).filter(function (rule) {\n    return rule.type === CSSRule.FONT_FACE_RULE;\n  }).map(function (rule) {\n    var src = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"parseBackgroundImage\"])(rule.style.getPropertyValue('src'));\n    var formats = [];\n\n    for (var i = 0; i < src.length; i++) {\n      if (src[i].method === 'url' && src[i + 1] && src[i + 1].method === 'format') {\n        var a = document.createElement('a');\n        a.href = src[i].args[0];\n\n        if (document.body) {\n          document.body.appendChild(a);\n        }\n\n        var font = {\n          src: a.href,\n          format: src[i + 1].args[0]\n        };\n        formats.push(font);\n      }\n    }\n\n    return {\n      // TODO select correct format for browser),\n      formats: formats.filter(function (font) {\n        return /^woff/i.test(font.format);\n      }),\n      fontFace: rule.style\n    };\n  }).filter(function (font) {\n    return font.formats.length;\n  });\n};\n\nvar createStyleSheetFontsFromText = function createStyleSheetFontsFromText(text, baseHref) {\n  var doc = document.implementation.createHTMLDocument('');\n  var base = document.createElement('base'); // $FlowFixMe\n\n  base.href = baseHref;\n  var style = document.createElement('style');\n  style.textContent = text;\n\n  if (doc.head) {\n    doc.head.appendChild(base);\n  }\n\n  if (doc.body) {\n    doc.body.appendChild(style);\n  }\n\n  return style.sheet ? getSheetFonts(style.sheet, doc) : [];\n};\n\nvar restoreOwnerScroll = function restoreOwnerScroll(ownerDocument, x, y) {\n  if (ownerDocument.defaultView && (x !== ownerDocument.defaultView.pageXOffset || y !== ownerDocument.defaultView.pageYOffset)) {\n    ownerDocument.defaultView.scrollTo(x, y);\n  }\n};\n\nvar cloneCanvasContents = function cloneCanvasContents(canvas, clonedCanvas) {\n  try {\n    if (clonedCanvas) {\n      clonedCanvas.width = canvas.width;\n      clonedCanvas.height = canvas.height;\n      var ctx = canvas.getContext('2d');\n      var clonedCtx = clonedCanvas.getContext('2d');\n\n      if (ctx) {\n        clonedCtx.putImageData(ctx.getImageData(0, 0, canvas.width, canvas.height), 0, 0);\n      } else {\n        clonedCtx.drawImage(canvas, 0, 0);\n      }\n    }\n  } catch (e) {}\n};\n\nvar inlinePseudoElement = function inlinePseudoElement(node, clone, style, contentItems, pseudoElt) {\n  if (!style || !style.content || style.content === 'none' || style.content === '-moz-alt-content' || style.display === 'none') {\n    return;\n  }\n\n  var anonymousReplacedElement = clone.ownerDocument.createElement('html2canvaspseudoelement');\n  Object(_Util__WEBPACK_IMPORTED_MODULE_3__[\"copyCSSStyles\"])(style, anonymousReplacedElement);\n\n  if (contentItems) {\n    var len = contentItems.length;\n\n    for (var i = 0; i < len; i++) {\n      var item = contentItems[i];\n\n      switch (item.type) {\n        case _PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__[\"PSEUDO_CONTENT_ITEM_TYPE\"].IMAGE:\n          var img = clone.ownerDocument.createElement('img');\n          img.src = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"parseBackgroundImage\"])(\"url(\".concat(item.value, \")\"))[0].args[0];\n          img.style.opacity = '1';\n          anonymousReplacedElement.appendChild(img);\n          break;\n\n        case _PseudoNodeContent__WEBPACK_IMPORTED_MODULE_6__[\"PSEUDO_CONTENT_ITEM_TYPE\"].TEXT:\n          anonymousReplacedElement.appendChild(clone.ownerDocument.createTextNode(item.value));\n          break;\n      }\n    }\n  }\n\n  anonymousReplacedElement.className = \"\".concat(PSEUDO_HIDE_ELEMENT_CLASS_BEFORE, \" \").concat(PSEUDO_HIDE_ELEMENT_CLASS_AFTER);\n  clone.className += pseudoElt === PSEUDO_BEFORE ? \" \".concat(PSEUDO_HIDE_ELEMENT_CLASS_BEFORE) : \" \".concat(PSEUDO_HIDE_ELEMENT_CLASS_AFTER);\n\n  if (pseudoElt === PSEUDO_BEFORE) {\n    clone.insertBefore(anonymousReplacedElement, clone.firstChild);\n  } else {\n    clone.appendChild(anonymousReplacedElement);\n  }\n\n  return anonymousReplacedElement;\n};\n\nvar URL_REGEXP = /^url\\((.+)\\)$/i;\nvar PSEUDO_BEFORE = ':before';\nvar PSEUDO_AFTER = ':after';\nvar PSEUDO_HIDE_ELEMENT_CLASS_BEFORE = '___html2canvas___pseudoelement_before';\nvar PSEUDO_HIDE_ELEMENT_CLASS_AFTER = '___html2canvas___pseudoelement_after';\nvar PSEUDO_HIDE_ELEMENT_STYLE = \"{\\n    content: \\\"\\\" !important;\\n    display: none !important;\\n}\";\n\nvar createPseudoHideStyles = function createPseudoHideStyles(body) {\n  createStyles(body, \".\".concat(PSEUDO_HIDE_ELEMENT_CLASS_BEFORE).concat(PSEUDO_BEFORE).concat(PSEUDO_HIDE_ELEMENT_STYLE, \"\\n         .\").concat(PSEUDO_HIDE_ELEMENT_CLASS_AFTER).concat(PSEUDO_AFTER).concat(PSEUDO_HIDE_ELEMENT_STYLE));\n};\n\nvar createStyles = function createStyles(body, styles) {\n  var style = body.ownerDocument.createElement('style');\n  style.innerHTML = styles;\n  body.appendChild(style);\n};\n\nvar initNode = function initNode(_ref) {\n  var _ref2 = _slicedToArray(_ref, 3),\n      element = _ref2[0],\n      x = _ref2[1],\n      y = _ref2[2];\n\n  element.scrollLeft = x;\n  element.scrollTop = y;\n};\n\nvar generateIframeKey = function generateIframeKey() {\n  return Math.ceil(Date.now() + Math.random() * 10000000).toString(16);\n};\n\nvar DATA_URI_REGEXP = /^data:text\\/(.+);(base64)?,(.*)$/i;\n\nvar getIframeDocumentElement = function getIframeDocumentElement(node, options) {\n  try {\n    return Promise.resolve(node.contentWindow.document.documentElement);\n  } catch (e) {\n    return options.proxy ? Object(_Proxy__WEBPACK_IMPORTED_MODULE_1__[\"Proxy\"])(node.src, options).then(function (html) {\n      var match = html.match(DATA_URI_REGEXP);\n\n      if (!match) {\n        return Promise.reject();\n      }\n\n      return match[2] === 'base64' ? window.atob(decodeURIComponent(match[3])) : decodeURIComponent(match[3]);\n    }).then(function (html) {\n      return createIframeContainer(node.ownerDocument, Object(_Bounds__WEBPACK_IMPORTED_MODULE_0__[\"parseBounds\"])(node, 0, 0)).then(function (cloneIframeContainer) {\n        var cloneWindow = cloneIframeContainer.contentWindow;\n        var documentClone = cloneWindow.document;\n        documentClone.open();\n        documentClone.write(html);\n        var iframeLoad = iframeLoader(cloneIframeContainer).then(function () {\n          return documentClone.documentElement;\n        });\n        documentClone.close();\n        return iframeLoad;\n      });\n    }) : Promise.reject();\n  }\n};\n\nvar createIframeContainer = function createIframeContainer(ownerDocument, bounds) {\n  var cloneIframeContainer = ownerDocument.createElement('iframe');\n  cloneIframeContainer.className = 'html2canvas-container';\n  cloneIframeContainer.style.visibility = 'hidden';\n  cloneIframeContainer.style.position = 'fixed';\n  cloneIframeContainer.style.left = '-10000px';\n  cloneIframeContainer.style.top = '0px';\n  cloneIframeContainer.style.border = '0';\n  cloneIframeContainer.width = bounds.width.toString();\n  cloneIframeContainer.height = bounds.height.toString();\n  cloneIframeContainer.scrolling = 'no'; // ios won't scroll without it\n\n  cloneIframeContainer.setAttribute(IGNORE_ATTRIBUTE, 'true');\n\n  if (!ownerDocument.body) {\n    return Promise.reject( true ? \"Body element not found in Document that is getting rendered\" : undefined);\n  }\n\n  ownerDocument.body.appendChild(cloneIframeContainer);\n  return Promise.resolve(cloneIframeContainer);\n};\n\nvar iframeLoader = function iframeLoader(cloneIframeContainer) {\n  var cloneWindow = cloneIframeContainer.contentWindow;\n  var documentClone = cloneWindow.document;\n  return new Promise(function (resolve, reject) {\n    cloneWindow.onload = cloneIframeContainer.onload = documentClone.onreadystatechange = function () {\n      var interval = setInterval(function () {\n        if (documentClone.body.childNodes.length > 0 && documentClone.readyState === 'complete') {\n          clearInterval(interval);\n          resolve(cloneIframeContainer);\n        }\n      }, 50);\n    };\n  });\n};\n\nvar cloneWindow = function cloneWindow(ownerDocument, bounds, referenceElement, options, logger, renderer) {\n  var cloner = new DocumentCloner(referenceElement, options, logger, false, renderer);\n  var scrollX = ownerDocument.defaultView.pageXOffset;\n  var scrollY = ownerDocument.defaultView.pageYOffset;\n  return createIframeContainer(ownerDocument, bounds).then(function (cloneIframeContainer) {\n    var cloneWindow = cloneIframeContainer.contentWindow;\n    var documentClone = cloneWindow.document;\n    /* Chrome doesn't detect relative background-images assigned in inline <style> sheets when fetched through getComputedStyle\n         if window url is about:blank, we can assign the url to current by writing onto the document\n         */\n\n    var iframeLoad = iframeLoader(cloneIframeContainer).then(function () {\n      cloner.scrolledElements.forEach(initNode);\n      cloneWindow.scrollTo(bounds.left, bounds.top);\n\n      if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent) && (cloneWindow.scrollY !== bounds.top || cloneWindow.scrollX !== bounds.left)) {\n        documentClone.documentElement.style.top = -bounds.top + 'px';\n        documentClone.documentElement.style.left = -bounds.left + 'px';\n        documentClone.documentElement.style.position = 'absolute';\n      }\n\n      var result = Promise.resolve([cloneIframeContainer, cloner.clonedReferenceElement, cloner.resourceLoader]);\n      var onclone = options.onclone;\n      return cloner.clonedReferenceElement instanceof cloneWindow.HTMLElement || cloner.clonedReferenceElement instanceof ownerDocument.defaultView.HTMLElement || cloner.clonedReferenceElement instanceof HTMLElement ? typeof onclone === 'function' ? Promise.resolve().then(function () {\n        return onclone(documentClone);\n      }).then(function () {\n        return result;\n      }) : result : Promise.reject( true ? \"Error finding the \".concat(referenceElement.nodeName, \" in the cloned document\") : undefined);\n    });\n    documentClone.open();\n    documentClone.write(\"\".concat(serializeDoctype(document.doctype), \"<html></html>\")); // Chrome scrolls the parent document for some reason after the write to the cloned window???\n\n    restoreOwnerScroll(referenceElement.ownerDocument, scrollX, scrollY);\n    documentClone.replaceChild(documentClone.adoptNode(cloner.documentElement), documentClone.documentElement);\n    documentClone.close();\n    return iframeLoad;\n  });\n};\n\nvar serializeDoctype = function serializeDoctype(doctype) {\n  var str = '';\n\n  if (doctype) {\n    str += '<!DOCTYPE ';\n\n    if (doctype.name) {\n      str += doctype.name;\n    }\n\n    if (doctype.internalSubset) {\n      str += doctype.internalSubset;\n    }\n\n    if (doctype.publicId) {\n      str += \"\\\"\".concat(doctype.publicId, \"\\\"\");\n    }\n\n    if (doctype.systemId) {\n      str += \"\\\"\".concat(doctype.systemId, \"\\\"\");\n    }\n\n    str += '>';\n  }\n\n  return str;\n};\n\n//# sourceURL=webpack://html2canvas/./src/Clone.js?");
+
+/***/ }),
+
+/***/ "./src/Color.js":
+/*!**********************!*\
+  !*** ./src/Color.js ***!
+  \**********************/
+/*! exports provided: default, TRANSPARENT */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Color; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TRANSPARENT\", function() { return TRANSPARENT; });\n // http://dev.w3.org/csswg/css-color/\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar HEX3 = /^#([a-f0-9]{3})$/i;\n\nvar hex3 = function hex3(value) {\n  var match = value.match(HEX3);\n\n  if (match) {\n    return [parseInt(match[1][0] + match[1][0], 16), parseInt(match[1][1] + match[1][1], 16), parseInt(match[1][2] + match[1][2], 16), null];\n  }\n\n  return false;\n};\n\nvar HEX6 = /^#([a-f0-9]{6})$/i;\n\nvar hex6 = function hex6(value) {\n  var match = value.match(HEX6);\n\n  if (match) {\n    return [parseInt(match[1].substring(0, 2), 16), parseInt(match[1].substring(2, 4), 16), parseInt(match[1].substring(4, 6), 16), null];\n  }\n\n  return false;\n};\n\nvar RGB = /^rgb\\(\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*\\)$/;\n\nvar rgb = function rgb(value) {\n  var match = value.match(RGB);\n\n  if (match) {\n    return [Number(match[1]), Number(match[2]), Number(match[3]), null];\n  }\n\n  return false;\n};\n\nvar RGBA = /^rgba\\(\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*,\\s*(\\d?\\.?\\d+)\\s*\\)$/;\n\nvar rgba = function rgba(value) {\n  var match = value.match(RGBA);\n\n  if (match && match.length > 4) {\n    return [Number(match[1]), Number(match[2]), Number(match[3]), Number(match[4])];\n  }\n\n  return false;\n};\n\nvar fromArray = function fromArray(array) {\n  return [Math.min(array[0], 255), Math.min(array[1], 255), Math.min(array[2], 255), array.length > 3 ? array[3] : null];\n};\n\nvar namedColor = function namedColor(name) {\n  var color = NAMED_COLORS[name.toLowerCase()];\n  return color ? color : false;\n};\n\nvar Color =\n/*#__PURE__*/\nfunction () {\n  function Color(value) {\n    _classCallCheck(this, Color);\n\n    var _ref = Array.isArray(value) ? fromArray(value) : hex3(value) || rgb(value) || rgba(value) || namedColor(value) || hex6(value) || [0, 0, 0, null],\n        _ref2 = _slicedToArray(_ref, 4),\n        r = _ref2[0],\n        g = _ref2[1],\n        b = _ref2[2],\n        a = _ref2[3];\n\n    this.r = r;\n    this.g = g;\n    this.b = b;\n    this.a = a;\n  }\n\n  _createClass(Color, [{\n    key: \"isTransparent\",\n    value: function isTransparent() {\n      return this.a === 0;\n    }\n  }, {\n    key: \"toString\",\n    value: function toString() {\n      return this.a !== null && this.a !== 1 ? \"rgba(\".concat(this.r, \",\").concat(this.g, \",\").concat(this.b, \",\").concat(this.a, \")\") : \"rgb(\".concat(this.r, \",\").concat(this.g, \",\").concat(this.b, \")\");\n    }\n  }]);\n\n  return Color;\n}();\n\n\nvar NAMED_COLORS = {\n  transparent: [0, 0, 0, 0],\n  aliceblue: [240, 248, 255, null],\n  antiquewhite: [250, 235, 215, null],\n  aqua: [0, 255, 255, null],\n  aquamarine: [127, 255, 212, null],\n  azure: [240, 255, 255, null],\n  beige: [245, 245, 220, null],\n  bisque: [255, 228, 196, null],\n  black: [0, 0, 0, null],\n  blanchedalmond: [255, 235, 205, null],\n  blue: [0, 0, 255, null],\n  blueviolet: [138, 43, 226, null],\n  brown: [165, 42, 42, null],\n  burlywood: [222, 184, 135, null],\n  cadetblue: [95, 158, 160, null],\n  chartreuse: [127, 255, 0, null],\n  chocolate: [210, 105, 30, null],\n  coral: [255, 127, 80, null],\n  cornflowerblue: [100, 149, 237, null],\n  cornsilk: [255, 248, 220, null],\n  crimson: [220, 20, 60, null],\n  cyan: [0, 255, 255, null],\n  darkblue: [0, 0, 139, null],\n  darkcyan: [0, 139, 139, null],\n  darkgoldenrod: [184, 134, 11, null],\n  darkgray: [169, 169, 169, null],\n  darkgreen: [0, 100, 0, null],\n  darkgrey: [169, 169, 169, null],\n  darkkhaki: [189, 183, 107, null],\n  darkmagenta: [139, 0, 139, null],\n  darkolivegreen: [85, 107, 47, null],\n  darkorange: [255, 140, 0, null],\n  darkorchid: [153, 50, 204, null],\n  darkred: [139, 0, 0, null],\n  darksalmon: [233, 150, 122, null],\n  darkseagreen: [143, 188, 143, null],\n  darkslateblue: [72, 61, 139, null],\n  darkslategray: [47, 79, 79, null],\n  darkslategrey: [47, 79, 79, null],\n  darkturquoise: [0, 206, 209, null],\n  darkviolet: [148, 0, 211, null],\n  deeppink: [255, 20, 147, null],\n  deepskyblue: [0, 191, 255, null],\n  dimgray: [105, 105, 105, null],\n  dimgrey: [105, 105, 105, null],\n  dodgerblue: [30, 144, 255, null],\n  firebrick: [178, 34, 34, null],\n  floralwhite: [255, 250, 240, null],\n  forestgreen: [34, 139, 34, null],\n  fuchsia: [255, 0, 255, null],\n  gainsboro: [220, 220, 220, null],\n  ghostwhite: [248, 248, 255, null],\n  gold: [255, 215, 0, null],\n  goldenrod: [218, 165, 32, null],\n  gray: [128, 128, 128, null],\n  green: [0, 128, 0, null],\n  greenyellow: [173, 255, 47, null],\n  grey: [128, 128, 128, null],\n  honeydew: [240, 255, 240, null],\n  hotpink: [255, 105, 180, null],\n  indianred: [205, 92, 92, null],\n  indigo: [75, 0, 130, null],\n  ivory: [255, 255, 240, null],\n  khaki: [240, 230, 140, null],\n  lavender: [230, 230, 250, null],\n  lavenderblush: [255, 240, 245, null],\n  lawngreen: [124, 252, 0, null],\n  lemonchiffon: [255, 250, 205, null],\n  lightblue: [173, 216, 230, null],\n  lightcoral: [240, 128, 128, null],\n  lightcyan: [224, 255, 255, null],\n  lightgoldenrodyellow: [250, 250, 210, null],\n  lightgray: [211, 211, 211, null],\n  lightgreen: [144, 238, 144, null],\n  lightgrey: [211, 211, 211, null],\n  lightpink: [255, 182, 193, null],\n  lightsalmon: [255, 160, 122, null],\n  lightseagreen: [32, 178, 170, null],\n  lightskyblue: [135, 206, 250, null],\n  lightslategray: [119, 136, 153, null],\n  lightslategrey: [119, 136, 153, null],\n  lightsteelblue: [176, 196, 222, null],\n  lightyellow: [255, 255, 224, null],\n  lime: [0, 255, 0, null],\n  limegreen: [50, 205, 50, null],\n  linen: [250, 240, 230, null],\n  magenta: [255, 0, 255, null],\n  maroon: [128, 0, 0, null],\n  mediumaquamarine: [102, 205, 170, null],\n  mediumblue: [0, 0, 205, null],\n  mediumorchid: [186, 85, 211, null],\n  mediumpurple: [147, 112, 219, null],\n  mediumseagreen: [60, 179, 113, null],\n  mediumslateblue: [123, 104, 238, null],\n  mediumspringgreen: [0, 250, 154, null],\n  mediumturquoise: [72, 209, 204, null],\n  mediumvioletred: [199, 21, 133, null],\n  midnightblue: [25, 25, 112, null],\n  mintcream: [245, 255, 250, null],\n  mistyrose: [255, 228, 225, null],\n  moccasin: [255, 228, 181, null],\n  navajowhite: [255, 222, 173, null],\n  navy: [0, 0, 128, null],\n  oldlace: [253, 245, 230, null],\n  olive: [128, 128, 0, null],\n  olivedrab: [107, 142, 35, null],\n  orange: [255, 165, 0, null],\n  orangered: [255, 69, 0, null],\n  orchid: [218, 112, 214, null],\n  palegoldenrod: [238, 232, 170, null],\n  palegreen: [152, 251, 152, null],\n  paleturquoise: [175, 238, 238, null],\n  palevioletred: [219, 112, 147, null],\n  papayawhip: [255, 239, 213, null],\n  peachpuff: [255, 218, 185, null],\n  peru: [205, 133, 63, null],\n  pink: [255, 192, 203, null],\n  plum: [221, 160, 221, null],\n  powderblue: [176, 224, 230, null],\n  purple: [128, 0, 128, null],\n  rebeccapurple: [102, 51, 153, null],\n  red: [255, 0, 0, null],\n  rosybrown: [188, 143, 143, null],\n  royalblue: [65, 105, 225, null],\n  saddlebrown: [139, 69, 19, null],\n  salmon: [250, 128, 114, null],\n  sandybrown: [244, 164, 96, null],\n  seagreen: [46, 139, 87, null],\n  seashell: [255, 245, 238, null],\n  sienna: [160, 82, 45, null],\n  silver: [192, 192, 192, null],\n  skyblue: [135, 206, 235, null],\n  slateblue: [106, 90, 205, null],\n  slategray: [112, 128, 144, null],\n  slategrey: [112, 128, 144, null],\n  snow: [255, 250, 250, null],\n  springgreen: [0, 255, 127, null],\n  steelblue: [70, 130, 180, null],\n  tan: [210, 180, 140, null],\n  teal: [0, 128, 128, null],\n  thistle: [216, 191, 216, null],\n  tomato: [255, 99, 71, null],\n  turquoise: [64, 224, 208, null],\n  violet: [238, 130, 238, null],\n  wheat: [245, 222, 179, null],\n  white: [255, 255, 255, null],\n  whitesmoke: [245, 245, 245, null],\n  yellow: [255, 255, 0, null],\n  yellowgreen: [154, 205, 50, null]\n};\nvar TRANSPARENT = new Color([0, 0, 0, 0]);\n\n//# sourceURL=webpack://html2canvas/./src/Color.js?");
+
+/***/ }),
+
+/***/ "./src/Feature.js":
+/*!************************!*\
+  !*** ./src/Feature.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./renderer/ForeignObjectRenderer */ \"./src/renderer/ForeignObjectRenderer.js\");\n\n\n\n\nvar testRangeBounds = function testRangeBounds(document) {\n  var TEST_HEIGHT = 123;\n\n  if (document.createRange) {\n    var range = document.createRange();\n\n    if (range.getBoundingClientRect) {\n      var testElement = document.createElement('boundtest');\n      testElement.style.height = \"\".concat(TEST_HEIGHT, \"px\");\n      testElement.style.display = 'block';\n      document.body.appendChild(testElement);\n      range.selectNode(testElement);\n      var rangeBounds = range.getBoundingClientRect();\n      var rangeHeight = Math.round(rangeBounds.height);\n      document.body.removeChild(testElement);\n\n      if (rangeHeight === TEST_HEIGHT) {\n        return true;\n      }\n    }\n  }\n\n  return false;\n};\n\nvar testCORS = function testCORS() {\n  return typeof new Image().crossOrigin !== 'undefined';\n};\n\nvar testResponseType = function testResponseType() {\n  return typeof new XMLHttpRequest().responseType === 'string';\n};\n\nvar testSVG = function testSVG(document) {\n  var img = new Image();\n  var canvas = document.createElement('canvas');\n  var ctx = canvas.getContext('2d');\n  img.src = \"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'></svg>\";\n\n  try {\n    ctx.drawImage(img, 0, 0);\n    canvas.toDataURL();\n  } catch (e) {\n    return false;\n  }\n\n  return true;\n};\n\nvar isGreenPixel = function isGreenPixel(data) {\n  return data[0] === 0 && data[1] === 255 && data[2] === 0 && data[3] === 255;\n};\n\nvar testForeignObject = function testForeignObject(document) {\n  var canvas = document.createElement('canvas');\n  var size = 100;\n  canvas.width = size;\n  canvas.height = size;\n  var ctx = canvas.getContext('2d');\n  ctx.fillStyle = 'rgb(0, 255, 0)';\n  ctx.fillRect(0, 0, size, size);\n  var img = new Image();\n  var greenImageSrc = canvas.toDataURL();\n  img.src = greenImageSrc;\n  var svg = Object(_renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_0__[\"createForeignObjectSVG\"])(size, size, 0, 0, img);\n  ctx.fillStyle = 'red';\n  ctx.fillRect(0, 0, size, size);\n  return Object(_renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_0__[\"loadSerializedSVG\"])(svg).then(function (img) {\n    ctx.drawImage(img, 0, 0);\n    var data = ctx.getImageData(0, 0, size, size).data;\n    ctx.fillStyle = 'red';\n    ctx.fillRect(0, 0, size, size);\n    var node = document.createElement('div');\n    node.style.backgroundImage = \"url(\".concat(greenImageSrc, \")\");\n    node.style.height = \"\".concat(size, \"px\"); // Firefox 55 does not render inline <img /> tags\n\n    return isGreenPixel(data) ? Object(_renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_0__[\"loadSerializedSVG\"])(Object(_renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_0__[\"createForeignObjectSVG\"])(size, size, 0, 0, node)) : Promise.reject(false);\n  }).then(function (img) {\n    ctx.drawImage(img, 0, 0); // Edge does not render background-images\n\n    return isGreenPixel(ctx.getImageData(0, 0, size, size).data);\n  }).catch(function (e) {\n    return false;\n  });\n};\n\nvar FEATURES = {\n  // $FlowFixMe - get/set properties not yet supported\n  get SUPPORT_RANGE_BOUNDS() {\n    'use strict';\n\n    var value = testRangeBounds(document);\n    Object.defineProperty(FEATURES, 'SUPPORT_RANGE_BOUNDS', {\n      value: value\n    });\n    return value;\n  },\n\n  // $FlowFixMe - get/set properties not yet supported\n  get SUPPORT_SVG_DRAWING() {\n    'use strict';\n\n    var value = testSVG(document);\n    Object.defineProperty(FEATURES, 'SUPPORT_SVG_DRAWING', {\n      value: value\n    });\n    return value;\n  },\n\n  // $FlowFixMe - get/set properties not yet supported\n  get SUPPORT_FOREIGNOBJECT_DRAWING() {\n    'use strict';\n\n    var value = typeof Array.from === 'function' && typeof window.fetch === 'function' ? testForeignObject(document) : Promise.resolve(false);\n    Object.defineProperty(FEATURES, 'SUPPORT_FOREIGNOBJECT_DRAWING', {\n      value: value\n    });\n    return value;\n  },\n\n  // $FlowFixMe - get/set properties not yet supported\n  get SUPPORT_CORS_IMAGES() {\n    'use strict';\n\n    var value = testCORS();\n    Object.defineProperty(FEATURES, 'SUPPORT_CORS_IMAGES', {\n      value: value\n    });\n    return value;\n  },\n\n  // $FlowFixMe - get/set properties not yet supported\n  get SUPPORT_RESPONSE_TYPE() {\n    'use strict';\n\n    var value = testResponseType();\n    Object.defineProperty(FEATURES, 'SUPPORT_RESPONSE_TYPE', {\n      value: value\n    });\n    return value;\n  },\n\n  // $FlowFixMe - get/set properties not yet supported\n  get SUPPORT_CORS_XHR() {\n    'use strict';\n\n    var value = 'withCredentials' in new XMLHttpRequest();\n    Object.defineProperty(FEATURES, 'SUPPORT_CORS_XHR', {\n      value: value\n    });\n    return value;\n  }\n\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (FEATURES);\n\n//# sourceURL=webpack://html2canvas/./src/Feature.js?");
+
+/***/ }),
+
+/***/ "./src/Font.js":
+/*!*********************!*\
+  !*** ./src/Font.js ***!
+  \*********************/
+/*! exports provided: FontMetrics */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"FontMetrics\", function() { return FontMetrics; });\n/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Util */ \"./src/Util.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar SAMPLE_TEXT = 'Hidden Text';\n\nvar FontMetrics =\n/*#__PURE__*/\nfunction () {\n  function FontMetrics(document) {\n    _classCallCheck(this, FontMetrics);\n\n    this._data = {};\n    this._document = document;\n  }\n\n  _createClass(FontMetrics, [{\n    key: \"_parseMetrics\",\n    value: function _parseMetrics(font) {\n      var container = this._document.createElement('div');\n\n      var img = this._document.createElement('img');\n\n      var span = this._document.createElement('span');\n\n      var body = this._document.body;\n\n      if (!body) {\n        throw new Error( true ? 'No document found for font metrics' : undefined);\n      }\n\n      container.style.visibility = 'hidden';\n      container.style.fontFamily = font.fontFamily;\n      container.style.fontSize = font.fontSize;\n      container.style.margin = '0';\n      container.style.padding = '0';\n      body.appendChild(container);\n      img.src = _Util__WEBPACK_IMPORTED_MODULE_0__[\"SMALL_IMAGE\"];\n      img.width = 1;\n      img.height = 1;\n      img.style.margin = '0';\n      img.style.padding = '0';\n      img.style.verticalAlign = 'baseline';\n      span.style.fontFamily = font.fontFamily;\n      span.style.fontSize = font.fontSize;\n      span.style.margin = '0';\n      span.style.padding = '0';\n      span.appendChild(this._document.createTextNode(SAMPLE_TEXT));\n      container.appendChild(span);\n      container.appendChild(img);\n      var baseline = img.offsetTop - span.offsetTop + 2;\n      container.removeChild(span);\n      container.appendChild(this._document.createTextNode(SAMPLE_TEXT));\n      container.style.lineHeight = 'normal';\n      img.style.verticalAlign = 'super';\n      var middle = img.offsetTop - container.offsetTop + 2;\n      body.removeChild(container);\n      return {\n        baseline: baseline,\n        middle: middle\n      };\n    }\n  }, {\n    key: \"getMetrics\",\n    value: function getMetrics(font) {\n      var key = \"\".concat(font.fontFamily, \" \").concat(font.fontSize);\n\n      if (this._data[key] === undefined) {\n        this._data[key] = this._parseMetrics(font);\n      }\n\n      return this._data[key];\n    }\n  }]);\n\n  return FontMetrics;\n}();\n\n//# sourceURL=webpack://html2canvas/./src/Font.js?");
+
+/***/ }),
+
+/***/ "./src/Gradient.js":
+/*!*************************!*\
+  !*** ./src/Gradient.js ***!
+  \*************************/
+/*! exports provided: GRADIENT_TYPE, RADIAL_GRADIENT_SHAPE, LinearGradient, RadialGradient, parseGradient, transformWebkitRadialGradientArgs */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"GRADIENT_TYPE\", function() { return GRADIENT_TYPE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RADIAL_GRADIENT_SHAPE\", function() { return RADIAL_GRADIENT_SHAPE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LinearGradient\", function() { return LinearGradient; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RadialGradient\", function() { return RadialGradient; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseGradient\", function() { return parseGradient; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"transformWebkitRadialGradientArgs\", function() { return transformWebkitRadialGradientArgs; });\n/* harmony import */ var _NodeContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NodeContainer */ \"./src/NodeContainer.js\");\n/* harmony import */ var _Angle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Angle */ \"./src/Angle.js\");\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Color */ \"./src/Color.js\");\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Length */ \"./src/Length.js\");\n/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Util */ \"./src/Util.js\");\n\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n\n\n\n\n\nvar SIDE_OR_CORNER = /^(to )?(left|top|right|bottom)( (left|top|right|bottom))?$/i;\nvar PERCENTAGE_ANGLES = /^([+-]?\\d*\\.?\\d+)% ([+-]?\\d*\\.?\\d+)%$/i;\nvar ENDS_WITH_LENGTH = /(px)|%|( 0)$/i;\nvar FROM_TO_COLORSTOP = /^(from|to|color-stop)\\((?:([\\d.]+)(%)?,\\s*)?(.+?)\\)$/i;\nvar RADIAL_SHAPE_DEFINITION = /^\\s*(circle|ellipse)?\\s*((?:([\\d.]+)(px|r?em|%)\\s*(?:([\\d.]+)(px|r?em|%))?)|closest-side|closest-corner|farthest-side|farthest-corner)?\\s*(?:at\\s*(?:(left|center|right)|([\\d.]+)(px|r?em|%))\\s+(?:(top|center|bottom)|([\\d.]+)(px|r?em|%)))?(?:\\s|$)/i;\nvar GRADIENT_TYPE = {\n  LINEAR_GRADIENT: 0,\n  RADIAL_GRADIENT: 1\n};\nvar RADIAL_GRADIENT_SHAPE = {\n  CIRCLE: 0,\n  ELLIPSE: 1\n};\nvar LENGTH_FOR_POSITION = {\n  left: new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('0%'),\n  top: new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('0%'),\n  center: new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('50%'),\n  right: new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('100%'),\n  bottom: new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('100%')\n};\nvar LinearGradient = function LinearGradient(colorStops, direction) {\n  _classCallCheck(this, LinearGradient);\n\n  this.type = GRADIENT_TYPE.LINEAR_GRADIENT;\n  this.colorStops = colorStops;\n  this.direction = direction;\n};\nvar RadialGradient = function RadialGradient(colorStops, shape, center, radius) {\n  _classCallCheck(this, RadialGradient);\n\n  this.type = GRADIENT_TYPE.RADIAL_GRADIENT;\n  this.colorStops = colorStops;\n  this.shape = shape;\n  this.center = center;\n  this.radius = radius;\n};\nvar parseGradient = function parseGradient(container, _ref, bounds) {\n  var args = _ref.args,\n      method = _ref.method,\n      prefix = _ref.prefix;\n\n  if (method === 'linear-gradient') {\n    return parseLinearGradient(args, bounds, !!prefix);\n  } else if (method === 'gradient' && args[0] === 'linear') {\n    // TODO handle correct angle\n    return parseLinearGradient(['to bottom'].concat(transformObsoleteColorStops(args.slice(3))), bounds, !!prefix);\n  } else if (method === 'radial-gradient') {\n    return parseRadialGradient(container, prefix === '-webkit-' ? transformWebkitRadialGradientArgs(args) : args, bounds);\n  } else if (method === 'gradient' && args[0] === 'radial') {\n    return parseRadialGradient(container, transformObsoleteColorStops(transformWebkitRadialGradientArgs(args.slice(1))), bounds);\n  }\n};\n\nvar parseColorStops = function parseColorStops(args, firstColorStopIndex, lineLength) {\n  var colorStops = [];\n\n  for (var i = firstColorStopIndex; i < args.length; i++) {\n    var value = args[i];\n    var HAS_LENGTH = ENDS_WITH_LENGTH.test(value);\n    var lastSpaceIndex = value.lastIndexOf(' ');\n    var color = new _Color__WEBPACK_IMPORTED_MODULE_2__[\"default\"](HAS_LENGTH ? value.substring(0, lastSpaceIndex) : value);\n    var stop = HAS_LENGTH ? new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"](value.substring(lastSpaceIndex + 1)) : i === firstColorStopIndex ? new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('0%') : i === args.length - 1 ? new _Length__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('100%') : null;\n    colorStops.push({\n      color: color,\n      stop: stop\n    });\n  }\n\n  var absoluteValuedColorStops = colorStops.map(function (_ref2) {\n    var color = _ref2.color,\n        stop = _ref2.stop;\n    var absoluteStop = lineLength === 0 ? 0 : stop ? stop.getAbsoluteValue(lineLength) / lineLength : null;\n    return {\n      color: color,\n      // $FlowFixMe\n      stop: absoluteStop\n    };\n  });\n  var previousColorStop = absoluteValuedColorStops[0].stop;\n\n  for (var _i = 0; _i < absoluteValuedColorStops.length; _i++) {\n    if (previousColorStop !== null) {\n      var _stop = absoluteValuedColorStops[_i].stop;\n\n      if (_stop === null) {\n        var n = _i;\n\n        while (absoluteValuedColorStops[n].stop === null) {\n          n++;\n        }\n\n        var steps = n - _i + 1;\n        var nextColorStep = absoluteValuedColorStops[n].stop;\n        var stepSize = (nextColorStep - previousColorStop) / steps;\n\n        for (; _i < n; _i++) {\n          previousColorStop = absoluteValuedColorStops[_i].stop = previousColorStop + stepSize;\n        }\n      } else {\n        previousColorStop = _stop;\n      }\n    }\n  }\n\n  return absoluteValuedColorStops;\n};\n\nvar parseLinearGradient = function parseLinearGradient(args, bounds, hasPrefix) {\n  var angle = Object(_Angle__WEBPACK_IMPORTED_MODULE_1__[\"parseAngle\"])(args[0]);\n  var HAS_SIDE_OR_CORNER = SIDE_OR_CORNER.test(args[0]);\n  var HAS_DIRECTION = HAS_SIDE_OR_CORNER || angle !== null || PERCENTAGE_ANGLES.test(args[0]);\n  var direction = HAS_DIRECTION ? angle !== null ? calculateGradientDirection( // if there is a prefix, the 0° angle points due East (instead of North per W3C)\n  hasPrefix ? angle - Math.PI * 0.5 : angle, bounds) : HAS_SIDE_OR_CORNER ? parseSideOrCorner(args[0], bounds) : parsePercentageAngle(args[0], bounds) : calculateGradientDirection(Math.PI, bounds);\n  var firstColorStopIndex = HAS_DIRECTION ? 1 : 0; // TODO: Fix some inaccuracy with color stops with px values\n\n  var lineLength = Math.min(Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(Math.abs(direction.x0) + Math.abs(direction.x1), Math.abs(direction.y0) + Math.abs(direction.y1)), bounds.width * 2, bounds.height * 2);\n  return new LinearGradient(parseColorStops(args, firstColorStopIndex, lineLength), direction);\n};\n\nvar parseRadialGradient = function parseRadialGradient(container, args, bounds) {\n  var m = args[0].match(RADIAL_SHAPE_DEFINITION);\n  var shape = m && (m[1] === 'circle' || // explicit shape specification\n  m[3] !== undefined && m[5] === undefined) // only one radius coordinate\n  ? RADIAL_GRADIENT_SHAPE.CIRCLE : RADIAL_GRADIENT_SHAPE.ELLIPSE;\n  var radius = {};\n  var center = {};\n\n  if (m) {\n    // Radius\n    if (m[3] !== undefined) {\n      radius.x = Object(_Length__WEBPACK_IMPORTED_MODULE_3__[\"calculateLengthFromValueWithUnit\"])(container, m[3], m[4]).getAbsoluteValue(bounds.width);\n    }\n\n    if (m[5] !== undefined) {\n      radius.y = Object(_Length__WEBPACK_IMPORTED_MODULE_3__[\"calculateLengthFromValueWithUnit\"])(container, m[5], m[6]).getAbsoluteValue(bounds.height);\n    } // Position\n\n\n    if (m[7]) {\n      center.x = LENGTH_FOR_POSITION[m[7].toLowerCase()];\n    } else if (m[8] !== undefined) {\n      center.x = Object(_Length__WEBPACK_IMPORTED_MODULE_3__[\"calculateLengthFromValueWithUnit\"])(container, m[8], m[9]);\n    }\n\n    if (m[10]) {\n      center.y = LENGTH_FOR_POSITION[m[10].toLowerCase()];\n    } else if (m[11] !== undefined) {\n      center.y = Object(_Length__WEBPACK_IMPORTED_MODULE_3__[\"calculateLengthFromValueWithUnit\"])(container, m[11], m[12]);\n    }\n  }\n\n  var gradientCenter = {\n    x: center.x === undefined ? bounds.width / 2 : center.x.getAbsoluteValue(bounds.width),\n    y: center.y === undefined ? bounds.height / 2 : center.y.getAbsoluteValue(bounds.height)\n  };\n  var gradientRadius = calculateRadius(m && m[2] || 'farthest-corner', shape, gradientCenter, radius, bounds);\n  return new RadialGradient(parseColorStops(args, m ? 1 : 0, Math.min(gradientRadius.x, gradientRadius.y)), shape, gradientCenter, gradientRadius);\n};\n\nvar calculateGradientDirection = function calculateGradientDirection(radian, bounds) {\n  var width = bounds.width;\n  var height = bounds.height;\n  var HALF_WIDTH = width * 0.5;\n  var HALF_HEIGHT = height * 0.5;\n  var lineLength = Math.abs(width * Math.sin(radian)) + Math.abs(height * Math.cos(radian));\n  var HALF_LINE_LENGTH = lineLength / 2;\n  var x0 = HALF_WIDTH + Math.sin(radian) * HALF_LINE_LENGTH;\n  var y0 = HALF_HEIGHT - Math.cos(radian) * HALF_LINE_LENGTH;\n  var x1 = width - x0;\n  var y1 = height - y0;\n  return {\n    x0: x0,\n    x1: x1,\n    y0: y0,\n    y1: y1\n  };\n};\n\nvar parseTopRight = function parseTopRight(bounds) {\n  return Math.acos(bounds.width / 2 / (Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(bounds.width, bounds.height) / 2));\n};\n\nvar parseSideOrCorner = function parseSideOrCorner(side, bounds) {\n  switch (side) {\n    case 'bottom':\n    case 'to top':\n      return calculateGradientDirection(0, bounds);\n\n    case 'left':\n    case 'to right':\n      return calculateGradientDirection(Math.PI / 2, bounds);\n\n    case 'right':\n    case 'to left':\n      return calculateGradientDirection(3 * Math.PI / 2, bounds);\n\n    case 'top right':\n    case 'right top':\n    case 'to bottom left':\n    case 'to left bottom':\n      return calculateGradientDirection(Math.PI + parseTopRight(bounds), bounds);\n\n    case 'top left':\n    case 'left top':\n    case 'to bottom right':\n    case 'to right bottom':\n      return calculateGradientDirection(Math.PI - parseTopRight(bounds), bounds);\n\n    case 'bottom left':\n    case 'left bottom':\n    case 'to top right':\n    case 'to right top':\n      return calculateGradientDirection(parseTopRight(bounds), bounds);\n\n    case 'bottom right':\n    case 'right bottom':\n    case 'to top left':\n    case 'to left top':\n      return calculateGradientDirection(2 * Math.PI - parseTopRight(bounds), bounds);\n\n    case 'top':\n    case 'to bottom':\n    default:\n      return calculateGradientDirection(Math.PI, bounds);\n  }\n};\n\nvar parsePercentageAngle = function parsePercentageAngle(angle, bounds) {\n  var _angle$split$map = angle.split(' ').map(parseFloat),\n      _angle$split$map2 = _slicedToArray(_angle$split$map, 2),\n      left = _angle$split$map2[0],\n      top = _angle$split$map2[1];\n\n  var ratio = left / 100 * bounds.width / (top / 100 * bounds.height);\n  return calculateGradientDirection(Math.atan(isNaN(ratio) ? 1 : ratio) + Math.PI / 2, bounds);\n};\n\nvar findCorner = function findCorner(bounds, x, y, closest) {\n  var corners = [{\n    x: 0,\n    y: 0\n  }, {\n    x: 0,\n    y: bounds.height\n  }, {\n    x: bounds.width,\n    y: 0\n  }, {\n    x: bounds.width,\n    y: bounds.height\n  }]; // $FlowFixMe\n\n  return corners.reduce(function (stat, corner) {\n    var d = Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x - corner.x, y - corner.y);\n\n    if (closest ? d < stat.optimumDistance : d > stat.optimumDistance) {\n      return {\n        optimumCorner: corner,\n        optimumDistance: d\n      };\n    }\n\n    return stat;\n  }, {\n    optimumDistance: closest ? Infinity : -Infinity,\n    optimumCorner: null\n  }).optimumCorner;\n};\n\nvar calculateRadius = function calculateRadius(extent, shape, center, radius, bounds) {\n  var x = center.x;\n  var y = center.y;\n  var rx = 0;\n  var ry = 0;\n\n  switch (extent) {\n    case 'closest-side':\n      // The ending shape is sized so that that it exactly meets the side of the gradient box closest to the gradient’s center.\n      // If the shape is an ellipse, it exactly meets the closest side in each dimension.\n      if (shape === RADIAL_GRADIENT_SHAPE.CIRCLE) {\n        rx = ry = Math.min(Math.abs(x), Math.abs(x - bounds.width), Math.abs(y), Math.abs(y - bounds.height));\n      } else if (shape === RADIAL_GRADIENT_SHAPE.ELLIPSE) {\n        rx = Math.min(Math.abs(x), Math.abs(x - bounds.width));\n        ry = Math.min(Math.abs(y), Math.abs(y - bounds.height));\n      }\n\n      break;\n\n    case 'closest-corner':\n      // The ending shape is sized so that that it passes through the corner of the gradient box closest to the gradient’s center.\n      // If the shape is an ellipse, the ending shape is given the same aspect-ratio it would have if closest-side were specified.\n      if (shape === RADIAL_GRADIENT_SHAPE.CIRCLE) {\n        rx = ry = Math.min(Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x, y), Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x, y - bounds.height), Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x - bounds.width, y), Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x - bounds.width, y - bounds.height));\n      } else if (shape === RADIAL_GRADIENT_SHAPE.ELLIPSE) {\n        // Compute the ratio ry/rx (which is to be the same as for \"closest-side\")\n        var c = Math.min(Math.abs(y), Math.abs(y - bounds.height)) / Math.min(Math.abs(x), Math.abs(x - bounds.width));\n        var corner = findCorner(bounds, x, y, true);\n        rx = Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(corner.x - x, (corner.y - y) / c);\n        ry = c * rx;\n      }\n\n      break;\n\n    case 'farthest-side':\n      // Same as closest-side, except the ending shape is sized based on the farthest side(s)\n      if (shape === RADIAL_GRADIENT_SHAPE.CIRCLE) {\n        rx = ry = Math.max(Math.abs(x), Math.abs(x - bounds.width), Math.abs(y), Math.abs(y - bounds.height));\n      } else if (shape === RADIAL_GRADIENT_SHAPE.ELLIPSE) {\n        rx = Math.max(Math.abs(x), Math.abs(x - bounds.width));\n        ry = Math.max(Math.abs(y), Math.abs(y - bounds.height));\n      }\n\n      break;\n\n    case 'farthest-corner':\n      // Same as closest-corner, except the ending shape is sized based on the farthest corner.\n      // If the shape is an ellipse, the ending shape is given the same aspect ratio it would have if farthest-side were specified.\n      if (shape === RADIAL_GRADIENT_SHAPE.CIRCLE) {\n        rx = ry = Math.max(Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x, y), Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x, y - bounds.height), Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x - bounds.width, y), Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(x - bounds.width, y - bounds.height));\n      } else if (shape === RADIAL_GRADIENT_SHAPE.ELLIPSE) {\n        // Compute the ratio ry/rx (which is to be the same as for \"farthest-side\")\n        var _c = Math.max(Math.abs(y), Math.abs(y - bounds.height)) / Math.max(Math.abs(x), Math.abs(x - bounds.width));\n\n        var _corner = findCorner(bounds, x, y, false);\n\n        rx = Object(_Util__WEBPACK_IMPORTED_MODULE_4__[\"distance\"])(_corner.x - x, (_corner.y - y) / _c);\n        ry = _c * rx;\n      }\n\n      break;\n\n    default:\n      // pixel or percentage values\n      rx = radius.x || 0;\n      ry = radius.y !== undefined ? radius.y : rx;\n      break;\n  }\n\n  return {\n    x: rx,\n    y: ry\n  };\n};\n\nvar transformWebkitRadialGradientArgs = function transformWebkitRadialGradientArgs(args) {\n  var shape = '';\n  var radius = '';\n  var extent = '';\n  var position = '';\n  var idx = 0;\n  var POSITION = /^(left|center|right|\\d+(?:px|r?em|%)?)(?:\\s+(top|center|bottom|\\d+(?:px|r?em|%)?))?$/i;\n  var SHAPE_AND_EXTENT = /^(circle|ellipse)?\\s*(closest-side|closest-corner|farthest-side|farthest-corner|contain|cover)?$/i;\n  var RADIUS = /^\\d+(px|r?em|%)?(?:\\s+\\d+(px|r?em|%)?)?$/i;\n  var matchStartPosition = args[idx].match(POSITION);\n\n  if (matchStartPosition) {\n    idx++;\n  }\n\n  var matchShapeExtent = args[idx].match(SHAPE_AND_EXTENT);\n\n  if (matchShapeExtent) {\n    shape = matchShapeExtent[1] || '';\n    extent = matchShapeExtent[2] || '';\n\n    if (extent === 'contain') {\n      extent = 'closest-side';\n    } else if (extent === 'cover') {\n      extent = 'farthest-corner';\n    }\n\n    idx++;\n  }\n\n  var matchStartRadius = args[idx].match(RADIUS);\n\n  if (matchStartRadius) {\n    idx++;\n  }\n\n  var matchEndPosition = args[idx].match(POSITION);\n\n  if (matchEndPosition) {\n    idx++;\n  }\n\n  var matchEndRadius = args[idx].match(RADIUS);\n\n  if (matchEndRadius) {\n    idx++;\n  }\n\n  var matchPosition = matchEndPosition || matchStartPosition;\n\n  if (matchPosition && matchPosition[1]) {\n    position = matchPosition[1] + (/^\\d+$/.test(matchPosition[1]) ? 'px' : '');\n\n    if (matchPosition[2]) {\n      position += ' ' + matchPosition[2] + (/^\\d+$/.test(matchPosition[2]) ? 'px' : '');\n    }\n  }\n\n  var matchRadius = matchEndRadius || matchStartRadius;\n\n  if (matchRadius) {\n    radius = matchRadius[0];\n\n    if (!matchRadius[1]) {\n      radius += 'px';\n    }\n  }\n\n  if (position && !shape && !radius && !extent) {\n    radius = position;\n    position = '';\n  }\n\n  if (position) {\n    position = \"at \".concat(position);\n  }\n\n  return [[shape, extent, radius, position].filter(function (s) {\n    return !!s;\n  }).join(' ')].concat(args.slice(idx));\n};\n\nvar transformObsoleteColorStops = function transformObsoleteColorStops(args) {\n  return args.map(function (color) {\n    return color.match(FROM_TO_COLORSTOP);\n  }) // $FlowFixMe\n  .map(function (v, index) {\n    if (!v) {\n      return args[index];\n    }\n\n    switch (v[1]) {\n      case 'from':\n        return \"\".concat(v[4], \" 0%\");\n\n      case 'to':\n        return \"\".concat(v[4], \" 100%\");\n\n      case 'color-stop':\n        if (v[3] === '%') {\n          return \"\".concat(v[4], \" \").concat(v[2]);\n        }\n\n        return \"\".concat(v[4], \" \").concat(parseFloat(v[2]) * 100, \"%\");\n    }\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/Gradient.js?");
+
+/***/ }),
+
+/***/ "./src/Input.js":
+/*!**********************!*\
+  !*** ./src/Input.js ***!
+  \**********************/
+/*! exports provided: INPUT_COLOR, INPUT_BORDERS, INPUT_BACKGROUND, getInputBorderRadius, inlineInputElement, inlineTextAreaElement, inlineSelectElement, reformatInputBounds */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"INPUT_COLOR\", function() { return INPUT_COLOR; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"INPUT_BORDERS\", function() { return INPUT_BORDERS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"INPUT_BACKGROUND\", function() { return INPUT_BACKGROUND; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getInputBorderRadius\", function() { return getInputBorderRadius; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"inlineInputElement\", function() { return inlineInputElement; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"inlineTextAreaElement\", function() { return inlineTextAreaElement; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"inlineSelectElement\", function() { return inlineSelectElement; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"reformatInputBounds\", function() { return reformatInputBounds; });\n/* harmony import */ var _TextContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TextContainer */ \"./src/TextContainer.js\");\n/* harmony import */ var _parsing_background__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parsing/background */ \"./src/parsing/background.js\");\n/* harmony import */ var _parsing_border__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parsing/border */ \"./src/parsing/border.js\");\n/* harmony import */ var _drawing_Circle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./drawing/Circle */ \"./src/drawing/Circle.js\");\n/* harmony import */ var _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./drawing/Vector */ \"./src/drawing/Vector.js\");\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Color */ \"./src/Color.js\");\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Length */ \"./src/Length.js\");\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _TextBounds__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TextBounds */ \"./src/TextBounds.js\");\n/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Util */ \"./src/Util.js\");\n\n\n\n\n\n\n\n\n\n\n\n\nvar INPUT_COLOR = new _Color__WEBPACK_IMPORTED_MODULE_5__[\"default\"]([42, 42, 42]);\nvar INPUT_BORDER_COLOR = new _Color__WEBPACK_IMPORTED_MODULE_5__[\"default\"]([165, 165, 165]);\nvar INPUT_BACKGROUND_COLOR = new _Color__WEBPACK_IMPORTED_MODULE_5__[\"default\"]([222, 222, 222]);\nvar INPUT_BORDER = {\n  borderWidth: 1,\n  borderColor: INPUT_BORDER_COLOR,\n  borderStyle: _parsing_border__WEBPACK_IMPORTED_MODULE_2__[\"BORDER_STYLE\"].SOLID\n};\nvar INPUT_BORDERS = [INPUT_BORDER, INPUT_BORDER, INPUT_BORDER, INPUT_BORDER];\nvar INPUT_BACKGROUND = {\n  backgroundColor: INPUT_BACKGROUND_COLOR,\n  backgroundImage: [],\n  backgroundClip: _parsing_background__WEBPACK_IMPORTED_MODULE_1__[\"BACKGROUND_CLIP\"].PADDING_BOX,\n  backgroundOrigin: _parsing_background__WEBPACK_IMPORTED_MODULE_1__[\"BACKGROUND_ORIGIN\"].PADDING_BOX\n};\nvar RADIO_BORDER_RADIUS = new _Length__WEBPACK_IMPORTED_MODULE_6__[\"default\"]('50%');\nvar RADIO_BORDER_RADIUS_TUPLE = [RADIO_BORDER_RADIUS, RADIO_BORDER_RADIUS];\nvar INPUT_RADIO_BORDER_RADIUS = [RADIO_BORDER_RADIUS_TUPLE, RADIO_BORDER_RADIUS_TUPLE, RADIO_BORDER_RADIUS_TUPLE, RADIO_BORDER_RADIUS_TUPLE];\nvar CHECKBOX_BORDER_RADIUS = new _Length__WEBPACK_IMPORTED_MODULE_6__[\"default\"]('3px');\nvar CHECKBOX_BORDER_RADIUS_TUPLE = [CHECKBOX_BORDER_RADIUS, CHECKBOX_BORDER_RADIUS];\nvar INPUT_CHECKBOX_BORDER_RADIUS = [CHECKBOX_BORDER_RADIUS_TUPLE, CHECKBOX_BORDER_RADIUS_TUPLE, CHECKBOX_BORDER_RADIUS_TUPLE, CHECKBOX_BORDER_RADIUS_TUPLE];\nvar getInputBorderRadius = function getInputBorderRadius(node) {\n  return node.type === 'radio' ? INPUT_RADIO_BORDER_RADIUS : INPUT_CHECKBOX_BORDER_RADIUS;\n};\nvar inlineInputElement = function inlineInputElement(node, container) {\n  if (node.type === 'radio' || node.type === 'checkbox') {\n    if (node.checked) {\n      var size = Math.min(container.bounds.width, container.bounds.height);\n      container.childNodes.push(node.type === 'checkbox' ? [new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.39363, container.bounds.top + size * 0.79), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.16, container.bounds.top + size * 0.5549), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.27347, container.bounds.top + size * 0.44071), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.39694, container.bounds.top + size * 0.5649), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.72983, container.bounds.top + size * 0.23), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.84, container.bounds.top + size * 0.34085), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_4__[\"default\"](container.bounds.left + size * 0.39363, container.bounds.top + size * 0.79)] : new _drawing_Circle__WEBPACK_IMPORTED_MODULE_3__[\"default\"](container.bounds.left + size / 4, container.bounds.top + size / 4, size / 4));\n    }\n  } else {\n    inlineFormElement(getInputValue(node), node, container, false);\n  }\n};\nvar inlineTextAreaElement = function inlineTextAreaElement(node, container) {\n  inlineFormElement(node.value, node, container, true);\n};\nvar inlineSelectElement = function inlineSelectElement(node, container) {\n  var option = node.options[node.selectedIndex || 0];\n  inlineFormElement(option ? option.text || '' : '', node, container, false);\n};\nvar reformatInputBounds = function reformatInputBounds(bounds) {\n  if (bounds.width > bounds.height) {\n    bounds.left += (bounds.width - bounds.height) / 2;\n    bounds.width = bounds.height;\n  } else if (bounds.width < bounds.height) {\n    bounds.top += (bounds.height - bounds.width) / 2;\n    bounds.height = bounds.width;\n  }\n\n  return bounds;\n};\n\nvar inlineFormElement = function inlineFormElement(value, node, container, allowLinebreak) {\n  var body = node.ownerDocument.body;\n\n  if (value.length > 0 && body) {\n    var wrapper = node.ownerDocument.createElement('html2canvaswrapper');\n    Object(_Util__WEBPACK_IMPORTED_MODULE_9__[\"copyCSSStyles\"])(node.ownerDocument.defaultView.getComputedStyle(node, null), wrapper);\n    wrapper.style.position = 'absolute';\n    wrapper.style.left = \"\".concat(container.bounds.left, \"px\");\n    wrapper.style.top = \"\".concat(container.bounds.top, \"px\");\n\n    if (!allowLinebreak) {\n      wrapper.style.whiteSpace = 'nowrap';\n    }\n\n    var text = node.ownerDocument.createTextNode(value);\n    wrapper.appendChild(text);\n    body.appendChild(wrapper);\n    container.childNodes.push(_TextContainer__WEBPACK_IMPORTED_MODULE_0__[\"default\"].fromTextNode(text, container));\n    body.removeChild(wrapper);\n  }\n};\n\nvar getInputValue = function getInputValue(node) {\n  var value = node.type === 'password' ? new Array(node.value.length + 1).join(\"\\u2022\") : node.value;\n  return value.length === 0 ? node.placeholder || '' : value;\n};\n\n//# sourceURL=webpack://html2canvas/./src/Input.js?");
+
+/***/ }),
+
+/***/ "./src/Length.js":
+/*!***********************!*\
+  !*** ./src/Length.js ***!
+  \***********************/
+/*! exports provided: LENGTH_TYPE, default, calculateLengthFromValueWithUnit */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LENGTH_TYPE\", function() { return LENGTH_TYPE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Length; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateLengthFromValueWithUnit\", function() { return calculateLengthFromValueWithUnit; });\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar LENGTH_WITH_UNIT = /([\\d.]+)(px|r?em|%)/i;\nvar LENGTH_TYPE = {\n  PX: 0,\n  PERCENTAGE: 1\n};\n\nvar Length =\n/*#__PURE__*/\nfunction () {\n  function Length(value) {\n    _classCallCheck(this, Length);\n\n    this.type = value.substr(value.length - 1) === '%' ? LENGTH_TYPE.PERCENTAGE : LENGTH_TYPE.PX;\n    var parsedValue = parseFloat(value);\n\n    if ( true && isNaN(parsedValue)) {\n      console.error(\"Invalid value given for Length: \\\"\".concat(value, \"\\\"\"));\n    }\n\n    this.value = isNaN(parsedValue) ? 0 : parsedValue;\n  }\n\n  _createClass(Length, [{\n    key: \"isPercentage\",\n    value: function isPercentage() {\n      return this.type === LENGTH_TYPE.PERCENTAGE;\n    }\n  }, {\n    key: \"getAbsoluteValue\",\n    value: function getAbsoluteValue(parentLength) {\n      return this.isPercentage() ? parentLength * (this.value / 100) : this.value;\n    }\n  }], [{\n    key: \"create\",\n    value: function create(v) {\n      return new Length(v);\n    }\n  }]);\n\n  return Length;\n}();\n\n\n\nvar getRootFontSize = function getRootFontSize(container) {\n  var parent = container.parent;\n  return parent ? getRootFontSize(parent) : parseFloat(container.style.font.fontSize);\n};\n\nvar calculateLengthFromValueWithUnit = function calculateLengthFromValueWithUnit(container, value, unit) {\n  switch (unit) {\n    case 'px':\n    case '%':\n      return new Length(value + unit);\n\n    case 'em':\n    case 'rem':\n      var length = new Length(value);\n      length.value *= unit === 'em' ? parseFloat(container.style.font.fontSize) : getRootFontSize(container);\n      return length;\n\n    default:\n      // TODO: handle correctly if unknown unit is used\n      return new Length('0');\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/Length.js?");
+
+/***/ }),
+
+/***/ "./src/ListItem.js":
+/*!*************************!*\
+  !*** ./src/ListItem.js ***!
+  \*************************/
+/*! exports provided: getListOwner, inlineListItemElement, createCounterText */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getListOwner\", function() { return getListOwner; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"inlineListItemElement\", function() { return inlineListItemElement; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createCounterText\", function() { return createCounterText; });\n/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Util */ \"./src/Util.js\");\n/* harmony import */ var _NodeContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeContainer */ \"./src/NodeContainer.js\");\n/* harmony import */ var _TextContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TextContainer */ \"./src/TextContainer.js\");\n/* harmony import */ var _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parsing/listStyle */ \"./src/parsing/listStyle.js\");\n/* harmony import */ var _Unicode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Unicode */ \"./src/Unicode.js\");\n\n\n\n\n\n\n // Margin between the enumeration and the list item content\n\nvar MARGIN_RIGHT = 7;\nvar ancestorTypes = ['OL', 'UL', 'MENU'];\nvar getListOwner = function getListOwner(container) {\n  var parent = container.parent;\n\n  if (!parent) {\n    return null;\n  }\n\n  do {\n    var isAncestor = ancestorTypes.indexOf(parent.tagName) !== -1;\n\n    if (isAncestor) {\n      return parent;\n    }\n\n    parent = parent.parent;\n  } while (parent);\n\n  return container.parent;\n};\nvar inlineListItemElement = function inlineListItemElement(node, container, resourceLoader) {\n  var listStyle = container.style.listStyle;\n\n  if (!listStyle) {\n    return;\n  }\n\n  var style = node.ownerDocument.defaultView.getComputedStyle(node, null);\n  var wrapper = node.ownerDocument.createElement('html2canvaswrapper');\n  Object(_Util__WEBPACK_IMPORTED_MODULE_0__[\"copyCSSStyles\"])(style, wrapper);\n  wrapper.style.position = 'absolute';\n  wrapper.style.bottom = 'auto';\n  wrapper.style.display = 'block';\n  wrapper.style.letterSpacing = 'normal';\n\n  switch (listStyle.listStylePosition) {\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_POSITION\"].OUTSIDE:\n      wrapper.style.left = 'auto';\n      wrapper.style.right = \"\".concat(node.ownerDocument.defaultView.innerWidth - container.bounds.left - container.style.margin[1].getAbsoluteValue(container.bounds.width) + MARGIN_RIGHT, \"px\");\n      wrapper.style.textAlign = 'right';\n      break;\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_POSITION\"].INSIDE:\n      wrapper.style.left = \"\".concat(container.bounds.left - container.style.margin[3].getAbsoluteValue(container.bounds.width), \"px\");\n      wrapper.style.right = 'auto';\n      wrapper.style.textAlign = 'left';\n      break;\n  }\n\n  var text;\n  var MARGIN_TOP = container.style.margin[0].getAbsoluteValue(container.bounds.width);\n  var styleImage = listStyle.listStyleImage;\n\n  if (styleImage) {\n    if (styleImage.method === 'url') {\n      var image = node.ownerDocument.createElement('img');\n      image.src = styleImage.args[0];\n      wrapper.style.top = \"\".concat(container.bounds.top - MARGIN_TOP, \"px\");\n      wrapper.style.width = 'auto';\n      wrapper.style.height = 'auto';\n      wrapper.appendChild(image);\n    } else {\n      var size = parseFloat(container.style.font.fontSize) * 0.5;\n      wrapper.style.top = \"\".concat(container.bounds.top - MARGIN_TOP + container.bounds.height - 1.5 * size, \"px\");\n      wrapper.style.width = \"\".concat(size, \"px\");\n      wrapper.style.height = \"\".concat(size, \"px\");\n      wrapper.style.backgroundImage = style.listStyleImage;\n    }\n  } else if (typeof container.listIndex === 'number') {\n    text = node.ownerDocument.createTextNode(createCounterText(container.listIndex, listStyle.listStyleType, true));\n    wrapper.appendChild(text);\n    wrapper.style.top = \"\".concat(container.bounds.top - MARGIN_TOP, \"px\");\n  } // $FlowFixMe\n\n\n  var body = node.ownerDocument.body;\n  body.appendChild(wrapper);\n\n  if (text) {\n    container.childNodes.push(_TextContainer__WEBPACK_IMPORTED_MODULE_2__[\"default\"].fromTextNode(text, container));\n    body.removeChild(wrapper);\n  } else {\n    // $FlowFixMe\n    container.childNodes.push(new _NodeContainer__WEBPACK_IMPORTED_MODULE_1__[\"default\"](wrapper, container, resourceLoader, 0));\n  }\n};\nvar ROMAN_UPPER = {\n  integers: [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1],\n  values: ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I']\n};\nvar ARMENIAN = {\n  integers: [9000, 8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],\n  values: ['Ք', 'Փ', 'Ւ', 'Ց', 'Ր', 'Տ', 'Վ', 'Ս', 'Ռ', 'Ջ', 'Պ', 'Չ', 'Ո', 'Շ', 'Ն', 'Յ', 'Մ', 'Ճ', 'Ղ', 'Ձ', 'Հ', 'Կ', 'Ծ', 'Խ', 'Լ', 'Ի', 'Ժ', 'Թ', 'Ը', 'Է', 'Զ', 'Ե', 'Դ', 'Գ', 'Բ', 'Ա']\n};\nvar HEBREW = {\n  integers: [10000, 9000, 8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000, 400, 300, 200, 100, 90, 80, 70, 60, 50, 40, 30, 20, 19, 18, 17, 16, 15, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],\n  values: ['י׳', 'ט׳', 'ח׳', 'ז׳', 'ו׳', 'ה׳', 'ד׳', 'ג׳', 'ב׳', 'א׳', 'ת', 'ש', 'ר', 'ק', 'צ', 'פ', 'ע', 'ס', 'נ', 'מ', 'ל', 'כ', 'יט', 'יח', 'יז', 'טז', 'טו', 'י', 'ט', 'ח', 'ז', 'ו', 'ה', 'ד', 'ג', 'ב', 'א']\n};\nvar GEORGIAN = {\n  integers: [10000, 9000, 8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],\n  values: ['ჵ', 'ჰ', 'ჯ', 'ჴ', 'ხ', 'ჭ', 'წ', 'ძ', 'ც', 'ჩ', 'შ', 'ყ', 'ღ', 'ქ', 'ფ', 'ჳ', 'ტ', 'ს', 'რ', 'ჟ', 'პ', 'ო', 'ჲ', 'ნ', 'მ', 'ლ', 'კ', 'ი', 'თ', 'ჱ', 'ზ', 'ვ', 'ე', 'დ', 'გ', 'ბ', 'ა']\n};\n\nvar createAdditiveCounter = function createAdditiveCounter(value, min, max, symbols, fallback, suffix) {\n  if (value < min || value > max) {\n    return createCounterText(value, fallback, suffix.length > 0);\n  }\n\n  return symbols.integers.reduce(function (string, integer, index) {\n    while (value >= integer) {\n      value -= integer;\n      string += symbols.values[index];\n    }\n\n    return string;\n  }, '') + suffix;\n};\n\nvar createCounterStyleWithSymbolResolver = function createCounterStyleWithSymbolResolver(value, codePointRangeLength, isNumeric, resolver) {\n  var string = '';\n\n  do {\n    if (!isNumeric) {\n      value--;\n    }\n\n    string = resolver(value) + string;\n    value /= codePointRangeLength;\n  } while (value * codePointRangeLength >= codePointRangeLength);\n\n  return string;\n};\n\nvar createCounterStyleFromRange = function createCounterStyleFromRange(value, codePointRangeStart, codePointRangeEnd, isNumeric, suffix) {\n  var codePointRangeLength = codePointRangeEnd - codePointRangeStart + 1;\n  return (value < 0 ? '-' : '') + (createCounterStyleWithSymbolResolver(Math.abs(value), codePointRangeLength, isNumeric, function (codePoint) {\n    return Object(_Unicode__WEBPACK_IMPORTED_MODULE_4__[\"fromCodePoint\"])(Math.floor(codePoint % codePointRangeLength) + codePointRangeStart);\n  }) + suffix);\n};\n\nvar createCounterStyleFromSymbols = function createCounterStyleFromSymbols(value, symbols) {\n  var suffix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '. ';\n  var codePointRangeLength = symbols.length;\n  return createCounterStyleWithSymbolResolver(Math.abs(value), codePointRangeLength, false, function (codePoint) {\n    return symbols[Math.floor(codePoint % codePointRangeLength)];\n  }) + suffix;\n};\n\nvar CJK_ZEROS = 1 << 0;\nvar CJK_TEN_COEFFICIENTS = 1 << 1;\nvar CJK_TEN_HIGH_COEFFICIENTS = 1 << 2;\nvar CJK_HUNDRED_COEFFICIENTS = 1 << 3;\n\nvar createCJKCounter = function createCJKCounter(value, numbers, multipliers, negativeSign, suffix, flags) {\n  if (value < -9999 || value > 9999) {\n    return createCounterText(value, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CJK_DECIMAL, suffix.length > 0);\n  }\n\n  var tmp = Math.abs(value);\n  var string = suffix;\n\n  if (tmp === 0) {\n    return numbers[0] + string;\n  }\n\n  for (var digit = 0; tmp > 0 && digit <= 4; digit++) {\n    var coefficient = tmp % 10;\n\n    if (coefficient === 0 && Object(_Util__WEBPACK_IMPORTED_MODULE_0__[\"contains\"])(flags, CJK_ZEROS) && string !== '') {\n      string = numbers[coefficient] + string;\n    } else if (coefficient > 1 || coefficient === 1 && digit === 0 || coefficient === 1 && digit === 1 && Object(_Util__WEBPACK_IMPORTED_MODULE_0__[\"contains\"])(flags, CJK_TEN_COEFFICIENTS) || coefficient === 1 && digit === 1 && Object(_Util__WEBPACK_IMPORTED_MODULE_0__[\"contains\"])(flags, CJK_TEN_HIGH_COEFFICIENTS) && value > 100 || coefficient === 1 && digit > 1 && Object(_Util__WEBPACK_IMPORTED_MODULE_0__[\"contains\"])(flags, CJK_HUNDRED_COEFFICIENTS)) {\n      string = numbers[coefficient] + (digit > 0 ? multipliers[digit - 1] : '') + string;\n    } else if (coefficient === 1 && digit > 0) {\n      string = multipliers[digit - 1] + string;\n    }\n\n    tmp = Math.floor(tmp / 10);\n  }\n\n  return (value < 0 ? negativeSign : '') + string;\n};\n\nvar CHINESE_INFORMAL_MULTIPLIERS = '十百千萬';\nvar CHINESE_FORMAL_MULTIPLIERS = '拾佰仟萬';\nvar JAPANESE_NEGATIVE = 'マイナス';\nvar KOREAN_NEGATIVE = '마이너스';\nvar createCounterText = function createCounterText(value, type, appendSuffix) {\n  var defaultSuffix = appendSuffix ? '. ' : '';\n  var cjkSuffix = appendSuffix ? '、' : '';\n  var koreanSuffix = appendSuffix ? ', ' : '';\n\n  switch (type) {\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DISC:\n      return '•';\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CIRCLE:\n      return '◦';\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].SQUARE:\n      return '◾';\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL_LEADING_ZERO:\n      var string = createCounterStyleFromRange(value, 48, 57, true, defaultSuffix);\n      return string.length < 4 ? \"0\".concat(string) : string;\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CJK_DECIMAL:\n      return createCounterStyleFromSymbols(value, '〇一二三四五六七八九', cjkSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].LOWER_ROMAN:\n      return createAdditiveCounter(value, 1, 3999, ROMAN_UPPER, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL, defaultSuffix).toLowerCase();\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].UPPER_ROMAN:\n      return createAdditiveCounter(value, 1, 3999, ROMAN_UPPER, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].LOWER_GREEK:\n      return createCounterStyleFromRange(value, 945, 969, false, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].LOWER_ALPHA:\n      return createCounterStyleFromRange(value, 97, 122, false, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].UPPER_ALPHA:\n      return createCounterStyleFromRange(value, 65, 90, false, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].ARABIC_INDIC:\n      return createCounterStyleFromRange(value, 1632, 1641, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].ARMENIAN:\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].UPPER_ARMENIAN:\n      return createAdditiveCounter(value, 1, 9999, ARMENIAN, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].LOWER_ARMENIAN:\n      return createAdditiveCounter(value, 1, 9999, ARMENIAN, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL, defaultSuffix).toLowerCase();\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].BENGALI:\n      return createCounterStyleFromRange(value, 2534, 2543, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CAMBODIAN:\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KHMER:\n      return createCounterStyleFromRange(value, 6112, 6121, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CJK_EARTHLY_BRANCH:\n      return createCounterStyleFromSymbols(value, '子丑寅卯辰巳午未申酉戌亥', cjkSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CJK_HEAVENLY_STEM:\n      return createCounterStyleFromSymbols(value, '甲乙丙丁戊己庚辛壬癸', cjkSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].CJK_IDEOGRAPHIC:\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].TRAD_CHINESE_INFORMAL:\n      return createCJKCounter(value, '零一二三四五六七八九', CHINESE_INFORMAL_MULTIPLIERS, '負', cjkSuffix, CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS | CJK_HUNDRED_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].TRAD_CHINESE_FORMAL:\n      return createCJKCounter(value, '零壹貳參肆伍陸柒捌玖', CHINESE_FORMAL_MULTIPLIERS, '負', cjkSuffix, CJK_ZEROS | CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS | CJK_HUNDRED_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].SIMP_CHINESE_INFORMAL:\n      return createCJKCounter(value, '零一二三四五六七八九', CHINESE_INFORMAL_MULTIPLIERS, '负', cjkSuffix, CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS | CJK_HUNDRED_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].SIMP_CHINESE_FORMAL:\n      return createCJKCounter(value, '零壹贰叁肆伍陆柒捌玖', CHINESE_FORMAL_MULTIPLIERS, '负', cjkSuffix, CJK_ZEROS | CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS | CJK_HUNDRED_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].JAPANESE_INFORMAL:\n      return createCJKCounter(value, '〇一二三四五六七八九', '十百千万', JAPANESE_NEGATIVE, cjkSuffix, 0);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].JAPANESE_FORMAL:\n      return createCJKCounter(value, '零壱弐参四伍六七八九', '拾百千万', JAPANESE_NEGATIVE, cjkSuffix, CJK_ZEROS | CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KOREAN_HANGUL_FORMAL:\n      return createCJKCounter(value, '영일이삼사오육칠팔구', '십백천만', KOREAN_NEGATIVE, koreanSuffix, CJK_ZEROS | CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KOREAN_HANJA_INFORMAL:\n      return createCJKCounter(value, '零一二三四五六七八九', '十百千萬', KOREAN_NEGATIVE, koreanSuffix, 0);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KOREAN_HANJA_FORMAL:\n      return createCJKCounter(value, '零壹貳參四五六七八九', '拾百千', KOREAN_NEGATIVE, koreanSuffix, CJK_ZEROS | CJK_TEN_COEFFICIENTS | CJK_TEN_HIGH_COEFFICIENTS);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DEVANAGARI:\n      return createCounterStyleFromRange(value, 0x966, 0x96f, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].GEORGIAN:\n      return createAdditiveCounter(value, 1, 19999, GEORGIAN, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].GUJARATI:\n      return createCounterStyleFromRange(value, 0xae6, 0xaef, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].GURMUKHI:\n      return createCounterStyleFromRange(value, 0xa66, 0xa6f, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].HEBREW:\n      return createAdditiveCounter(value, 1, 10999, HEBREW, _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].HIRAGANA:\n      return createCounterStyleFromSymbols(value, 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん');\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].HIRAGANA_IROHA:\n      return createCounterStyleFromSymbols(value, 'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす');\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KANNADA:\n      return createCounterStyleFromRange(value, 0xce6, 0xcef, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KATAKANA:\n      return createCounterStyleFromSymbols(value, 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン', cjkSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].KATAKANA_IROHA:\n      return createCounterStyleFromSymbols(value, 'イロハニホヘトチリヌルヲワカヨタレソツネナラムウヰノオクヤマケフコエテアサキユメミシヱヒモセス', cjkSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].LAO:\n      return createCounterStyleFromRange(value, 0xed0, 0xed9, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].MONGOLIAN:\n      return createCounterStyleFromRange(value, 0x1810, 0x1819, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].MYANMAR:\n      return createCounterStyleFromRange(value, 0x1040, 0x1049, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].ORIYA:\n      return createCounterStyleFromRange(value, 0xb66, 0xb6f, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].PERSIAN:\n      return createCounterStyleFromRange(value, 0x6f0, 0x6f9, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].TAMIL:\n      return createCounterStyleFromRange(value, 0xbe6, 0xbef, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].TELUGU:\n      return createCounterStyleFromRange(value, 0xc66, 0xc6f, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].THAI:\n      return createCounterStyleFromRange(value, 0xe50, 0xe59, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].TIBETAN:\n      return createCounterStyleFromRange(value, 0xf20, 0xf29, true, defaultSuffix);\n\n    case _parsing_listStyle__WEBPACK_IMPORTED_MODULE_3__[\"LIST_STYLE_TYPE\"].DECIMAL:\n    default:\n      return createCounterStyleFromRange(value, 48, 57, true, defaultSuffix);\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/ListItem.js?");
+
+/***/ }),
+
+/***/ "./src/Logger.js":
+/*!***********************!*\
+  !*** ./src/Logger.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Logger; });\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar Logger =\n/*#__PURE__*/\nfunction () {\n  function Logger(enabled, id, start) {\n    _classCallCheck(this, Logger);\n\n    this.enabled = typeof window !== 'undefined' && enabled;\n    this.start = start ? start : Date.now();\n    this.id = id;\n  }\n\n  _createClass(Logger, [{\n    key: \"child\",\n    value: function child(id) {\n      return new Logger(this.enabled, id, this.start);\n    } // eslint-disable-next-line flowtype/no-weak-types\n\n  }, {\n    key: \"log\",\n    value: function log() {\n      if (this.enabled && window.console && window.console.log) {\n        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n          args[_key] = arguments[_key];\n        }\n\n        Function.prototype.bind.call(window.console.log, window.console).apply(window.console, [Date.now() - this.start + 'ms', this.id ? \"html2canvas (\".concat(this.id, \"):\") : 'html2canvas:'].concat([].slice.call(args, 0)));\n      }\n    } // eslint-disable-next-line flowtype/no-weak-types\n\n  }, {\n    key: \"error\",\n    value: function error() {\n      if (this.enabled && window.console && window.console.error) {\n        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {\n          args[_key2] = arguments[_key2];\n        }\n\n        Function.prototype.bind.call(window.console.error, window.console).apply(window.console, [Date.now() - this.start + 'ms', this.id ? \"html2canvas (\".concat(this.id, \"):\") : 'html2canvas:'].concat([].slice.call(args, 0)));\n      }\n    }\n  }]);\n\n  return Logger;\n}();\n\n\n\n//# sourceURL=webpack://html2canvas/./src/Logger.js?");
+
+/***/ }),
+
+/***/ "./src/NodeContainer.js":
+/*!******************************!*\
+  !*** ./src/NodeContainer.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return NodeContainer; });\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Color */ \"./src/Color.js\");\n/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Util */ \"./src/Util.js\");\n/* harmony import */ var _parsing_background__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parsing/background */ \"./src/parsing/background.js\");\n/* harmony import */ var _parsing_border__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parsing/border */ \"./src/parsing/border.js\");\n/* harmony import */ var _parsing_borderRadius__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parsing/borderRadius */ \"./src/parsing/borderRadius.js\");\n/* harmony import */ var _parsing_display__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parsing/display */ \"./src/parsing/display.js\");\n/* harmony import */ var _parsing_float__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./parsing/float */ \"./src/parsing/float.js\");\n/* harmony import */ var _parsing_font__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./parsing/font */ \"./src/parsing/font.js\");\n/* harmony import */ var _parsing_letterSpacing__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./parsing/letterSpacing */ \"./src/parsing/letterSpacing.js\");\n/* harmony import */ var _parsing_lineBreak__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./parsing/lineBreak */ \"./src/parsing/lineBreak.js\");\n/* harmony import */ var _parsing_listStyle__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./parsing/listStyle */ \"./src/parsing/listStyle.js\");\n/* harmony import */ var _parsing_margin__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./parsing/margin */ \"./src/parsing/margin.js\");\n/* harmony import */ var _parsing_overflow__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./parsing/overflow */ \"./src/parsing/overflow.js\");\n/* harmony import */ var _parsing_overflowWrap__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./parsing/overflowWrap */ \"./src/parsing/overflowWrap.js\");\n/* harmony import */ var _parsing_padding__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./parsing/padding */ \"./src/parsing/padding.js\");\n/* harmony import */ var _parsing_position__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./parsing/position */ \"./src/parsing/position.js\");\n/* harmony import */ var _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./parsing/textDecoration */ \"./src/parsing/textDecoration.js\");\n/* harmony import */ var _parsing_textShadow__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./parsing/textShadow */ \"./src/parsing/textShadow.js\");\n/* harmony import */ var _parsing_textTransform__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./parsing/textTransform */ \"./src/parsing/textTransform.js\");\n/* harmony import */ var _parsing_transform__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./parsing/transform */ \"./src/parsing/transform.js\");\n/* harmony import */ var _parsing_visibility__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./parsing/visibility */ \"./src/parsing/visibility.js\");\n/* harmony import */ var _parsing_word_break__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./parsing/word-break */ \"./src/parsing/word-break.js\");\n/* harmony import */ var _parsing_zIndex__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./parsing/zIndex */ \"./src/parsing/zIndex.js\");\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Input */ \"./src/Input.js\");\n/* harmony import */ var _ListItem__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./ListItem */ \"./src/ListItem.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nvar INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];\n\nvar NodeContainer =\n/*#__PURE__*/\nfunction () {\n  function NodeContainer(node, parent, resourceLoader, index) {\n    var _this = this;\n\n    _classCallCheck(this, NodeContainer);\n\n    this.parent = parent;\n    this.tagName = node.tagName;\n    this.index = index;\n    this.childNodes = [];\n    this.listItems = [];\n\n    if (typeof node.start === 'number') {\n      this.listStart = node.start;\n    }\n\n    var defaultView = node.ownerDocument.defaultView;\n    var scrollX = defaultView.pageXOffset;\n    var scrollY = defaultView.pageYOffset;\n    var style = defaultView.getComputedStyle(node, null);\n    var display = Object(_parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"parseDisplay\"])(style.display);\n    var IS_INPUT = node.type === 'radio' || node.type === 'checkbox';\n    var position = Object(_parsing_position__WEBPACK_IMPORTED_MODULE_15__[\"parsePosition\"])(style.position);\n    this.style = {\n      background: IS_INPUT ? _Input__WEBPACK_IMPORTED_MODULE_24__[\"INPUT_BACKGROUND\"] : Object(_parsing_background__WEBPACK_IMPORTED_MODULE_2__[\"parseBackground\"])(style, resourceLoader),\n      border: IS_INPUT ? _Input__WEBPACK_IMPORTED_MODULE_24__[\"INPUT_BORDERS\"] : Object(_parsing_border__WEBPACK_IMPORTED_MODULE_3__[\"parseBorder\"])(style),\n      borderRadius: (node instanceof defaultView.HTMLInputElement || node instanceof HTMLInputElement) && IS_INPUT ? Object(_Input__WEBPACK_IMPORTED_MODULE_24__[\"getInputBorderRadius\"])(node) : Object(_parsing_borderRadius__WEBPACK_IMPORTED_MODULE_4__[\"parseBorderRadius\"])(style),\n      color: IS_INPUT ? _Input__WEBPACK_IMPORTED_MODULE_24__[\"INPUT_COLOR\"] : new _Color__WEBPACK_IMPORTED_MODULE_0__[\"default\"](style.color),\n      display: display,\n      float: Object(_parsing_float__WEBPACK_IMPORTED_MODULE_6__[\"parseCSSFloat\"])(style.float),\n      font: Object(_parsing_font__WEBPACK_IMPORTED_MODULE_7__[\"parseFont\"])(style),\n      letterSpacing: Object(_parsing_letterSpacing__WEBPACK_IMPORTED_MODULE_8__[\"parseLetterSpacing\"])(style.letterSpacing),\n      listStyle: display === _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].LIST_ITEM ? Object(_parsing_listStyle__WEBPACK_IMPORTED_MODULE_10__[\"parseListStyle\"])(style) : null,\n      lineBreak: Object(_parsing_lineBreak__WEBPACK_IMPORTED_MODULE_9__[\"parseLineBreak\"])(style.lineBreak),\n      margin: Object(_parsing_margin__WEBPACK_IMPORTED_MODULE_11__[\"parseMargin\"])(style),\n      opacity: parseFloat(style.opacity),\n      overflow: INPUT_TAGS.indexOf(node.tagName) === -1 ? Object(_parsing_overflow__WEBPACK_IMPORTED_MODULE_12__[\"parseOverflow\"])(style.overflow) : _parsing_overflow__WEBPACK_IMPORTED_MODULE_12__[\"OVERFLOW\"].HIDDEN,\n      overflowWrap: Object(_parsing_overflowWrap__WEBPACK_IMPORTED_MODULE_13__[\"parseOverflowWrap\"])(style.overflowWrap ? style.overflowWrap : style.wordWrap),\n      padding: Object(_parsing_padding__WEBPACK_IMPORTED_MODULE_14__[\"parsePadding\"])(style),\n      position: position,\n      textDecoration: Object(_parsing_textDecoration__WEBPACK_IMPORTED_MODULE_16__[\"parseTextDecoration\"])(style),\n      textShadow: Object(_parsing_textShadow__WEBPACK_IMPORTED_MODULE_17__[\"parseTextShadow\"])(style.textShadow),\n      textTransform: Object(_parsing_textTransform__WEBPACK_IMPORTED_MODULE_18__[\"parseTextTransform\"])(style.textTransform),\n      transform: Object(_parsing_transform__WEBPACK_IMPORTED_MODULE_19__[\"parseTransform\"])(style),\n      visibility: Object(_parsing_visibility__WEBPACK_IMPORTED_MODULE_20__[\"parseVisibility\"])(style.visibility),\n      wordBreak: Object(_parsing_word_break__WEBPACK_IMPORTED_MODULE_21__[\"parseWordBreak\"])(style.wordBreak),\n      zIndex: Object(_parsing_zIndex__WEBPACK_IMPORTED_MODULE_22__[\"parseZIndex\"])(position !== _parsing_position__WEBPACK_IMPORTED_MODULE_15__[\"POSITION\"].STATIC ? style.zIndex : 'auto')\n    };\n\n    if (this.isTransformed()) {\n      // getBoundingClientRect provides values post-transform, we want them without the transformation\n      node.style.transform = 'matrix(1,0,0,1,0,0)';\n    }\n\n    if (display === _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].LIST_ITEM) {\n      var listOwner = Object(_ListItem__WEBPACK_IMPORTED_MODULE_25__[\"getListOwner\"])(this);\n\n      if (listOwner) {\n        var listIndex = listOwner.listItems.length;\n        listOwner.listItems.push(this);\n        this.listIndex = node.hasAttribute('value') && typeof node.value === 'number' ? node.value : listIndex === 0 ? typeof listOwner.listStart === 'number' ? listOwner.listStart : 1 : listOwner.listItems[listIndex - 1].listIndex + 1;\n      }\n    } // TODO move bound retrieval for all nodes to a later stage?\n\n\n    if (node.tagName === 'IMG') {\n      node.addEventListener('load', function () {\n        _this.bounds = Object(_Bounds__WEBPACK_IMPORTED_MODULE_23__[\"parseBounds\"])(node, scrollX, scrollY);\n        _this.curvedBounds = Object(_Bounds__WEBPACK_IMPORTED_MODULE_23__[\"parseBoundCurves\"])(_this.bounds, _this.style.border, _this.style.borderRadius);\n      });\n    }\n\n    this.image = getImage(node, resourceLoader);\n    this.bounds = IS_INPUT ? Object(_Input__WEBPACK_IMPORTED_MODULE_24__[\"reformatInputBounds\"])(Object(_Bounds__WEBPACK_IMPORTED_MODULE_23__[\"parseBounds\"])(node, scrollX, scrollY)) : Object(_Bounds__WEBPACK_IMPORTED_MODULE_23__[\"parseBounds\"])(node, scrollX, scrollY);\n    this.curvedBounds = Object(_Bounds__WEBPACK_IMPORTED_MODULE_23__[\"parseBoundCurves\"])(this.bounds, this.style.border, this.style.borderRadius);\n\n    if (true) {\n      this.name = \"\".concat(node.tagName.toLowerCase()).concat(node.id ? \"#\".concat(node.id) : '').concat(node.className.toString().split(' ').map(function (s) {\n        return s.length ? \".\".concat(s) : '';\n      }).join(''));\n    }\n  }\n\n  _createClass(NodeContainer, [{\n    key: \"getClipPaths\",\n    value: function getClipPaths() {\n      var parentClips = this.parent ? this.parent.getClipPaths() : [];\n      var isClipped = this.style.overflow !== _parsing_overflow__WEBPACK_IMPORTED_MODULE_12__[\"OVERFLOW\"].VISIBLE;\n      return isClipped ? parentClips.concat([Object(_Bounds__WEBPACK_IMPORTED_MODULE_23__[\"calculatePaddingBoxPath\"])(this.curvedBounds)]) : parentClips;\n    }\n  }, {\n    key: \"isInFlow\",\n    value: function isInFlow() {\n      return this.isRootElement() && !this.isFloating() && !this.isAbsolutelyPositioned();\n    }\n  }, {\n    key: \"isVisible\",\n    value: function isVisible() {\n      return !Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].NONE) && this.style.opacity > 0 && this.style.visibility === _parsing_visibility__WEBPACK_IMPORTED_MODULE_20__[\"VISIBILITY\"].VISIBLE;\n    }\n  }, {\n    key: \"isAbsolutelyPositioned\",\n    value: function isAbsolutelyPositioned() {\n      return this.style.position !== _parsing_position__WEBPACK_IMPORTED_MODULE_15__[\"POSITION\"].STATIC && this.style.position !== _parsing_position__WEBPACK_IMPORTED_MODULE_15__[\"POSITION\"].RELATIVE;\n    }\n  }, {\n    key: \"isPositioned\",\n    value: function isPositioned() {\n      return this.style.position !== _parsing_position__WEBPACK_IMPORTED_MODULE_15__[\"POSITION\"].STATIC;\n    }\n  }, {\n    key: \"isFloating\",\n    value: function isFloating() {\n      return this.style.float !== _parsing_float__WEBPACK_IMPORTED_MODULE_6__[\"FLOAT\"].NONE;\n    }\n  }, {\n    key: \"isRootElement\",\n    value: function isRootElement() {\n      return this.parent === null;\n    }\n  }, {\n    key: \"isTransformed\",\n    value: function isTransformed() {\n      return this.style.transform !== null;\n    }\n  }, {\n    key: \"isPositionedWithZIndex\",\n    value: function isPositionedWithZIndex() {\n      return this.isPositioned() && !this.style.zIndex.auto;\n    }\n  }, {\n    key: \"isInlineLevel\",\n    value: function isInlineLevel() {\n      return Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE) || Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_BLOCK) || Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_FLEX) || Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_GRID) || Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_LIST_ITEM) || Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_TABLE);\n    }\n  }, {\n    key: \"isInlineBlockOrInlineTable\",\n    value: function isInlineBlockOrInlineTable() {\n      return Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_BLOCK) || Object(_Util__WEBPACK_IMPORTED_MODULE_1__[\"contains\"])(this.style.display, _parsing_display__WEBPACK_IMPORTED_MODULE_5__[\"DISPLAY\"].INLINE_TABLE);\n    }\n  }]);\n\n  return NodeContainer;\n}();\n\n\n\nvar getImage = function getImage(node, resourceLoader) {\n  if (node instanceof node.ownerDocument.defaultView.SVGSVGElement || node instanceof SVGSVGElement) {\n    var s = new XMLSerializer();\n    return resourceLoader.loadImage(\"data:image/svg+xml,\".concat(encodeURIComponent(s.serializeToString(node))));\n  }\n\n  switch (node.tagName) {\n    case 'IMG':\n      // $FlowFixMe\n      var img = node;\n      return resourceLoader.loadImage(img.currentSrc || img.src);\n\n    case 'CANVAS':\n      // $FlowFixMe\n      var canvas = node;\n      return resourceLoader.loadCanvas(canvas);\n\n    case 'IFRAME':\n      var iframeKey = node.getAttribute('data-html2canvas-internal-iframe-key');\n\n      if (iframeKey) {\n        return iframeKey;\n      }\n\n      break;\n  }\n\n  return null;\n};\n\n//# sourceURL=webpack://html2canvas/./src/NodeContainer.js?");
+
+/***/ }),
+
+/***/ "./src/NodeParser.js":
+/*!***************************!*\
+  !*** ./src/NodeParser.js ***!
+  \***************************/
+/*! exports provided: NodeParser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"NodeParser\", function() { return NodeParser; });\n/* harmony import */ var _StackingContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StackingContext */ \"./src/StackingContext.js\");\n/* harmony import */ var _NodeContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeContainer */ \"./src/NodeContainer.js\");\n/* harmony import */ var _TextContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TextContainer */ \"./src/TextContainer.js\");\n/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Input */ \"./src/Input.js\");\n/* harmony import */ var _ListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ListItem */ \"./src/ListItem.js\");\n/* harmony import */ var _parsing_listStyle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parsing/listStyle */ \"./src/parsing/listStyle.js\");\n\n\n\n\n\n\n\n\nvar NodeParser = function NodeParser(node, resourceLoader, logger) {\n  if (true) {\n    logger.log(\"Starting node parsing\");\n  }\n\n  var index = 0;\n  var container = new _NodeContainer__WEBPACK_IMPORTED_MODULE_1__[\"default\"](node, null, resourceLoader, index++);\n  var stack = new _StackingContext__WEBPACK_IMPORTED_MODULE_0__[\"default\"](container, null, true);\n  parseNodeTree(node, container, stack, resourceLoader, index);\n\n  if (true) {\n    logger.log(\"Finished parsing node tree\");\n  }\n\n  return stack;\n};\nvar IGNORED_NODE_NAMES = ['SCRIPT', 'HEAD', 'TITLE', 'OBJECT', 'BR', 'OPTION'];\n\nvar parseNodeTree = function parseNodeTree(node, parent, stack, resourceLoader, index) {\n  if ( true && index > 50000) {\n    throw new Error(\"Recursion error while parsing node tree\");\n  }\n\n  for (var childNode = node.firstChild, nextNode; childNode; childNode = nextNode) {\n    nextNode = childNode.nextSibling;\n    var defaultView = childNode.ownerDocument.defaultView;\n\n    if (childNode instanceof defaultView.Text || childNode instanceof Text || defaultView.parent && childNode instanceof defaultView.parent.Text) {\n      if (childNode.data.trim().length > 0) {\n        parent.childNodes.push(_TextContainer__WEBPACK_IMPORTED_MODULE_2__[\"default\"].fromTextNode(childNode, parent));\n      }\n    } else if (childNode instanceof defaultView.HTMLElement || childNode instanceof HTMLElement || defaultView.parent && childNode instanceof defaultView.parent.HTMLElement) {\n      if (IGNORED_NODE_NAMES.indexOf(childNode.nodeName) === -1) {\n        var container = new _NodeContainer__WEBPACK_IMPORTED_MODULE_1__[\"default\"](childNode, parent, resourceLoader, index++);\n\n        if (container.isVisible()) {\n          if (childNode.tagName === 'INPUT') {\n            // $FlowFixMe\n            Object(_Input__WEBPACK_IMPORTED_MODULE_3__[\"inlineInputElement\"])(childNode, container);\n          } else if (childNode.tagName === 'TEXTAREA') {\n            // $FlowFixMe\n            Object(_Input__WEBPACK_IMPORTED_MODULE_3__[\"inlineTextAreaElement\"])(childNode, container);\n          } else if (childNode.tagName === 'SELECT') {\n            // $FlowFixMe\n            Object(_Input__WEBPACK_IMPORTED_MODULE_3__[\"inlineSelectElement\"])(childNode, container);\n          } else if (container.style.listStyle && container.style.listStyle.listStyleType !== _parsing_listStyle__WEBPACK_IMPORTED_MODULE_5__[\"LIST_STYLE_TYPE\"].NONE) {\n            Object(_ListItem__WEBPACK_IMPORTED_MODULE_4__[\"inlineListItemElement\"])(childNode, container, resourceLoader);\n          }\n\n          var SHOULD_TRAVERSE_CHILDREN = childNode.tagName !== 'TEXTAREA';\n          var treatAsRealStackingContext = createsRealStackingContext(container, childNode);\n\n          if (treatAsRealStackingContext || createsStackingContext(container)) {\n            // for treatAsRealStackingContext:false, any positioned descendants and descendants\n            // which actually create a new stacking context should be considered part of the parent stacking context\n            var parentStack = treatAsRealStackingContext || container.isPositioned() ? stack.getRealParentStackingContext() : stack;\n            var childStack = new _StackingContext__WEBPACK_IMPORTED_MODULE_0__[\"default\"](container, parentStack, treatAsRealStackingContext);\n            parentStack.contexts.push(childStack);\n\n            if (SHOULD_TRAVERSE_CHILDREN) {\n              parseNodeTree(childNode, container, childStack, resourceLoader, index);\n            }\n          } else {\n            stack.children.push(container);\n\n            if (SHOULD_TRAVERSE_CHILDREN) {\n              parseNodeTree(childNode, container, stack, resourceLoader, index);\n            }\n          }\n        }\n      }\n    } else if (childNode instanceof defaultView.SVGSVGElement || childNode instanceof SVGSVGElement || defaultView.parent && childNode instanceof defaultView.parent.SVGSVGElement) {\n      var _container = new _NodeContainer__WEBPACK_IMPORTED_MODULE_1__[\"default\"](childNode, parent, resourceLoader, index++);\n\n      var _treatAsRealStackingContext = createsRealStackingContext(_container, childNode);\n\n      if (_treatAsRealStackingContext || createsStackingContext(_container)) {\n        // for treatAsRealStackingContext:false, any positioned descendants and descendants\n        // which actually create a new stacking context should be considered part of the parent stacking context\n        var _parentStack = _treatAsRealStackingContext || _container.isPositioned() ? stack.getRealParentStackingContext() : stack;\n\n        var _childStack = new _StackingContext__WEBPACK_IMPORTED_MODULE_0__[\"default\"](_container, _parentStack, _treatAsRealStackingContext);\n\n        _parentStack.contexts.push(_childStack);\n      } else {\n        stack.children.push(_container);\n      }\n    }\n  }\n};\n\nvar createsRealStackingContext = function createsRealStackingContext(container, node) {\n  return container.isRootElement() || container.isPositionedWithZIndex() || container.style.opacity < 1 || container.isTransformed() || isBodyWithTransparentRoot(container, node);\n};\n\nvar createsStackingContext = function createsStackingContext(container) {\n  return container.isPositioned() || container.isFloating();\n};\n\nvar isBodyWithTransparentRoot = function isBodyWithTransparentRoot(container, node) {\n  return node.nodeName === 'BODY' && container.parent instanceof _NodeContainer__WEBPACK_IMPORTED_MODULE_1__[\"default\"] && container.parent.style.background.backgroundColor.isTransparent();\n};\n\n//# sourceURL=webpack://html2canvas/./src/NodeParser.js?");
+
+/***/ }),
+
+/***/ "./src/Proxy.js":
+/*!**********************!*\
+  !*** ./src/Proxy.js ***!
+  \**********************/
+/*! exports provided: Proxy */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Proxy\", function() { return Proxy; });\n/* harmony import */ var _Feature__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Feature */ \"./src/Feature.js\");\n\n\n\nvar Proxy = function Proxy(src, options) {\n  if (!options.proxy) {\n    return Promise.reject( true ? 'No proxy defined' : undefined);\n  }\n\n  var proxy = options.proxy;\n  return new Promise(function (resolve, reject) {\n    var responseType = _Feature__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SUPPORT_CORS_XHR && _Feature__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SUPPORT_RESPONSE_TYPE ? 'blob' : 'text';\n    var xhr = _Feature__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SUPPORT_CORS_XHR ? new XMLHttpRequest() : new XDomainRequest();\n\n    xhr.onload = function () {\n      if (xhr instanceof XMLHttpRequest) {\n        if (xhr.status === 200) {\n          if (responseType === 'text') {\n            resolve(xhr.response);\n          } else {\n            var reader = new FileReader(); // $FlowFixMe\n\n            reader.addEventListener('load', function () {\n              return resolve(reader.result);\n            }, false); // $FlowFixMe\n\n            reader.addEventListener('error', function (e) {\n              return reject(e);\n            }, false);\n            reader.readAsDataURL(xhr.response);\n          }\n        } else {\n          reject( true ? \"Failed to proxy resource \".concat(src.substring(0, 256), \" with status code \").concat(xhr.status) : undefined);\n        }\n      } else {\n        resolve(xhr.responseText);\n      }\n    };\n\n    xhr.onerror = reject;\n    xhr.open('GET', \"\".concat(proxy, \"?url=\").concat(encodeURIComponent(src), \"&responseType=\").concat(responseType));\n\n    if (responseType !== 'text' && xhr instanceof XMLHttpRequest) {\n      xhr.responseType = responseType;\n    }\n\n    if (options.imageTimeout) {\n      var timeout = options.imageTimeout;\n      xhr.timeout = timeout;\n\n      xhr.ontimeout = function () {\n        return reject( true ? \"Timed out (\".concat(timeout, \"ms) proxying \").concat(src.substring(0, 256)) : undefined);\n      };\n    }\n\n    xhr.send();\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/Proxy.js?");
+
+/***/ }),
+
+/***/ "./src/PseudoNodeContent.js":
+/*!**********************************!*\
+  !*** ./src/PseudoNodeContent.js ***!
+  \**********************************/
+/*! exports provided: PSEUDO_CONTENT_ITEM_TYPE, TOKEN_TYPE, parseCounterReset, popCounters, resolvePseudoContent, parseContent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PSEUDO_CONTENT_ITEM_TYPE\", function() { return PSEUDO_CONTENT_ITEM_TYPE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TOKEN_TYPE\", function() { return TOKEN_TYPE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseCounterReset\", function() { return parseCounterReset; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"popCounters\", function() { return popCounters; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"resolvePseudoContent\", function() { return resolvePseudoContent; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseContent\", function() { return parseContent; });\n/* harmony import */ var _ListItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListItem */ \"./src/ListItem.js\");\n/* harmony import */ var _parsing_listStyle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parsing/listStyle */ \"./src/parsing/listStyle.js\");\n\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\n\n\nvar PSEUDO_CONTENT_ITEM_TYPE = {\n  TEXT: 0,\n  IMAGE: 1\n};\nvar TOKEN_TYPE = {\n  STRING: 0,\n  ATTRIBUTE: 1,\n  URL: 2,\n  COUNTER: 3,\n  COUNTERS: 4,\n  OPENQUOTE: 5,\n  CLOSEQUOTE: 6\n};\nvar parseCounterReset = function parseCounterReset(style, data) {\n  if (!style || !style.counterReset || style.counterReset === 'none') {\n    return [];\n  }\n\n  var counterNames = [];\n  var counterResets = style.counterReset.split(/\\s*,\\s*/);\n  var lenCounterResets = counterResets.length;\n\n  for (var i = 0; i < lenCounterResets; i++) {\n    var _counterResets$i$spli = counterResets[i].split(/\\s+/),\n        _counterResets$i$spli2 = _slicedToArray(_counterResets$i$spli, 2),\n        counterName = _counterResets$i$spli2[0],\n        initialValue = _counterResets$i$spli2[1];\n\n    counterNames.push(counterName);\n    var counter = data.counters[counterName];\n\n    if (!counter) {\n      counter = data.counters[counterName] = [];\n    }\n\n    counter.push(parseInt(initialValue || 0, 10));\n  }\n\n  return counterNames;\n};\nvar popCounters = function popCounters(counterNames, data) {\n  var lenCounters = counterNames.length;\n\n  for (var i = 0; i < lenCounters; i++) {\n    data.counters[counterNames[i]].pop();\n  }\n};\nvar resolvePseudoContent = function resolvePseudoContent(node, style, data) {\n  if (!style || !style.content || style.content === 'none' || style.content === '-moz-alt-content' || style.display === 'none') {\n    return null;\n  }\n\n  var tokens = parseContent(style.content);\n  var len = tokens.length;\n  var contentItems = [];\n  var s = ''; // increment the counter (if there is a \"counter-increment\" declaration)\n\n  var counterIncrement = style.counterIncrement;\n\n  if (counterIncrement && counterIncrement !== 'none') {\n    var _counterIncrement$spl = counterIncrement.split(/\\s+/),\n        _counterIncrement$spl2 = _slicedToArray(_counterIncrement$spl, 2),\n        counterName = _counterIncrement$spl2[0],\n        incrementValue = _counterIncrement$spl2[1];\n\n    var counter = data.counters[counterName];\n\n    if (counter) {\n      counter[counter.length - 1] += incrementValue === undefined ? 1 : parseInt(incrementValue, 10);\n    }\n  } // build the content string\n\n\n  for (var i = 0; i < len; i++) {\n    var token = tokens[i];\n\n    switch (token.type) {\n      case TOKEN_TYPE.STRING:\n        s += token.value || '';\n        break;\n\n      case TOKEN_TYPE.ATTRIBUTE:\n        if (node instanceof HTMLElement && token.value) {\n          s += node.getAttribute(token.value) || '';\n        }\n\n        break;\n\n      case TOKEN_TYPE.COUNTER:\n        var _counter = data.counters[token.name || ''];\n\n        if (_counter) {\n          s += formatCounterValue([_counter[_counter.length - 1]], '', token.format);\n        }\n\n        break;\n\n      case TOKEN_TYPE.COUNTERS:\n        var counters = data.counters[token.name || ''];\n\n        if (counters) {\n          s += formatCounterValue(counters, token.glue, token.format);\n        }\n\n        break;\n\n      case TOKEN_TYPE.OPENQUOTE:\n        s += getQuote(style, true, data.quoteDepth);\n        data.quoteDepth++;\n        break;\n\n      case TOKEN_TYPE.CLOSEQUOTE:\n        data.quoteDepth--;\n        s += getQuote(style, false, data.quoteDepth);\n        break;\n\n      case TOKEN_TYPE.URL:\n        if (s) {\n          contentItems.push({\n            type: PSEUDO_CONTENT_ITEM_TYPE.TEXT,\n            value: s\n          });\n          s = '';\n        }\n\n        contentItems.push({\n          type: PSEUDO_CONTENT_ITEM_TYPE.IMAGE,\n          value: token.value || ''\n        });\n        break;\n    }\n  }\n\n  if (s) {\n    contentItems.push({\n      type: PSEUDO_CONTENT_ITEM_TYPE.TEXT,\n      value: s\n    });\n  }\n\n  return contentItems;\n};\nvar parseContent = function parseContent(content, cache) {\n  if (cache && cache[content]) {\n    return cache[content];\n  }\n\n  var tokens = [];\n  var len = content.length;\n  var isString = false;\n  var isEscaped = false;\n  var isFunction = false;\n  var str = '';\n  var functionName = '';\n  var args = [];\n\n  for (var i = 0; i < len; i++) {\n    var c = content.charAt(i);\n\n    switch (c) {\n      case \"'\":\n      case '\"':\n        if (isEscaped) {\n          str += c;\n        } else {\n          isString = !isString;\n\n          if (!isFunction && !isString) {\n            tokens.push({\n              type: TOKEN_TYPE.STRING,\n              value: str\n            });\n            str = '';\n          }\n        }\n\n        break;\n\n      case '\\\\':\n        if (isEscaped) {\n          str += c;\n          isEscaped = false;\n        } else {\n          isEscaped = true;\n        }\n\n        break;\n\n      case '(':\n        if (isString) {\n          str += c;\n        } else {\n          isFunction = true;\n          functionName = str;\n          str = '';\n          args = [];\n        }\n\n        break;\n\n      case ')':\n        if (isString) {\n          str += c;\n        } else if (isFunction) {\n          if (str) {\n            args.push(str);\n          }\n\n          switch (functionName) {\n            case 'attr':\n              if (args.length > 0) {\n                tokens.push({\n                  type: TOKEN_TYPE.ATTRIBUTE,\n                  value: args[0]\n                });\n              }\n\n              break;\n\n            case 'counter':\n              if (args.length > 0) {\n                var counter = {\n                  type: TOKEN_TYPE.COUNTER,\n                  name: args[0]\n                };\n\n                if (args.length > 1) {\n                  counter.format = args[1];\n                }\n\n                tokens.push(counter);\n              }\n\n              break;\n\n            case 'counters':\n              if (args.length > 0) {\n                var counters = {\n                  type: TOKEN_TYPE.COUNTERS,\n                  name: args[0]\n                };\n\n                if (args.length > 1) {\n                  counters.glue = args[1];\n                }\n\n                if (args.length > 2) {\n                  counters.format = args[2];\n                }\n\n                tokens.push(counters);\n              }\n\n              break;\n\n            case 'url':\n              if (args.length > 0) {\n                tokens.push({\n                  type: TOKEN_TYPE.URL,\n                  value: args[0]\n                });\n              }\n\n              break;\n          }\n\n          isFunction = false;\n          str = '';\n        }\n\n        break;\n\n      case ',':\n        if (isString) {\n          str += c;\n        } else if (isFunction) {\n          args.push(str);\n          str = '';\n        }\n\n        break;\n\n      case ' ':\n      case '\\t':\n        if (isString) {\n          str += c;\n        } else if (str) {\n          addOtherToken(tokens, str);\n          str = '';\n        }\n\n        break;\n\n      default:\n        str += c;\n    }\n\n    if (c !== '\\\\') {\n      isEscaped = false;\n    }\n  }\n\n  if (str) {\n    addOtherToken(tokens, str);\n  }\n\n  if (cache) {\n    cache[content] = tokens;\n  }\n\n  return tokens;\n};\n\nvar addOtherToken = function addOtherToken(tokens, identifier) {\n  switch (identifier) {\n    case 'open-quote':\n      tokens.push({\n        type: TOKEN_TYPE.OPENQUOTE\n      });\n      break;\n\n    case 'close-quote':\n      tokens.push({\n        type: TOKEN_TYPE.CLOSEQUOTE\n      });\n      break;\n  }\n};\n\nvar getQuote = function getQuote(style, isOpening, quoteDepth) {\n  var quotes = style.quotes ? style.quotes.split(/\\s+/) : [\"'\\\"'\", \"'\\\"'\"];\n  var idx = quoteDepth * 2;\n\n  if (idx >= quotes.length) {\n    idx = quotes.length - 2;\n  }\n\n  if (!isOpening) {\n    ++idx;\n  }\n\n  return quotes[idx].replace(/^[\"']|[\"']$/g, '');\n};\n\nvar formatCounterValue = function formatCounterValue(counter, glue, format) {\n  var len = counter.length;\n  var result = '';\n\n  for (var i = 0; i < len; i++) {\n    if (i > 0) {\n      result += glue || '';\n    }\n\n    result += Object(_ListItem__WEBPACK_IMPORTED_MODULE_0__[\"createCounterText\"])(counter[i], Object(_parsing_listStyle__WEBPACK_IMPORTED_MODULE_1__[\"parseListStyleType\"])(format || 'decimal'), false);\n  }\n\n  return result;\n};\n\n//# sourceURL=webpack://html2canvas/./src/PseudoNodeContent.js?");
+
+/***/ }),
+
+/***/ "./src/Renderer.js":
+/*!*************************!*\
+  !*** ./src/Renderer.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Renderer; });\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _Font__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Font */ \"./src/Font.js\");\n/* harmony import */ var _Gradient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Gradient */ \"./src/Gradient.js\");\n/* harmony import */ var _TextContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TextContainer */ \"./src/TextContainer.js\");\n/* harmony import */ var _parsing_background__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parsing/background */ \"./src/parsing/background.js\");\n/* harmony import */ var _parsing_border__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parsing/border */ \"./src/parsing/border.js\");\n\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\n\n\n\n\nvar Renderer =\n/*#__PURE__*/\nfunction () {\n  function Renderer(target, options) {\n    _classCallCheck(this, Renderer);\n\n    this.target = target;\n    this.options = options;\n    target.render(options);\n  }\n\n  _createClass(Renderer, [{\n    key: \"renderNode\",\n    value: function renderNode(container) {\n      if (container.isVisible()) {\n        this.renderNodeBackgroundAndBorders(container);\n        this.renderNodeContent(container);\n      }\n    }\n  }, {\n    key: \"renderNodeContent\",\n    value: function renderNodeContent(container) {\n      var _this = this;\n\n      var callback = function callback() {\n        if (container.childNodes.length) {\n          container.childNodes.forEach(function (child) {\n            if (child instanceof _TextContainer__WEBPACK_IMPORTED_MODULE_3__[\"default\"]) {\n              var style = child.parent.style;\n\n              _this.target.renderTextNode(child.bounds, style.color, style.font, style.textDecoration, style.textShadow);\n            } else {\n              _this.target.drawShape(child, container.style.color);\n            }\n          });\n        }\n\n        if (container.image) {\n          var _image = _this.options.imageStore.get(container.image);\n\n          if (_image) {\n            var contentBox = Object(_Bounds__WEBPACK_IMPORTED_MODULE_0__[\"calculateContentBox\"])(container.bounds, container.style.padding, container.style.border);\n\n            var _width = typeof _image.width === 'number' && _image.width > 0 ? _image.width : contentBox.width;\n\n            var _height = typeof _image.height === 'number' && _image.height > 0 ? _image.height : contentBox.height;\n\n            if (_width > 0 && _height > 0) {\n              _this.target.clip([Object(_Bounds__WEBPACK_IMPORTED_MODULE_0__[\"calculatePaddingBoxPath\"])(container.curvedBounds)], function () {\n                _this.target.drawImage(_image, new _Bounds__WEBPACK_IMPORTED_MODULE_0__[\"Bounds\"](0, 0, _width, _height), contentBox);\n              });\n            }\n          }\n        }\n      };\n\n      var paths = container.getClipPaths();\n\n      if (paths.length) {\n        this.target.clip(paths, callback);\n      } else {\n        callback();\n      }\n    }\n  }, {\n    key: \"renderNodeBackgroundAndBorders\",\n    value: function renderNodeBackgroundAndBorders(container) {\n      var _this2 = this;\n\n      var HAS_BACKGROUND = !container.style.background.backgroundColor.isTransparent() || container.style.background.backgroundImage.length;\n      var hasRenderableBorders = container.style.border.some(function (border) {\n        return border.borderStyle !== _parsing_border__WEBPACK_IMPORTED_MODULE_5__[\"BORDER_STYLE\"].NONE && !border.borderColor.isTransparent();\n      });\n\n      var callback = function callback() {\n        var backgroundPaintingArea = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroungPaintingArea\"])(container.curvedBounds, container.style.background.backgroundClip);\n\n        if (HAS_BACKGROUND) {\n          _this2.target.clip([backgroundPaintingArea], function () {\n            if (!container.style.background.backgroundColor.isTransparent()) {\n              _this2.target.fill(container.style.background.backgroundColor);\n            }\n\n            _this2.renderBackgroundImage(container);\n          });\n        }\n\n        container.style.border.forEach(function (border, side) {\n          if (border.borderStyle !== _parsing_border__WEBPACK_IMPORTED_MODULE_5__[\"BORDER_STYLE\"].NONE && !border.borderColor.isTransparent()) {\n            _this2.renderBorder(border, side, container.curvedBounds);\n          }\n        });\n      };\n\n      if (HAS_BACKGROUND || hasRenderableBorders) {\n        var paths = container.parent ? container.parent.getClipPaths() : [];\n\n        if (paths.length) {\n          this.target.clip(paths, callback);\n        } else {\n          callback();\n        }\n      }\n    }\n  }, {\n    key: \"renderBackgroundImage\",\n    value: function renderBackgroundImage(container) {\n      var _this3 = this;\n\n      container.style.background.backgroundImage.slice(0).reverse().forEach(function (backgroundImage) {\n        if (backgroundImage.source.method === 'url' && backgroundImage.source.args.length) {\n          _this3.renderBackgroundRepeat(container, backgroundImage);\n        } else if (/gradient/i.test(backgroundImage.source.method)) {\n          _this3.renderBackgroundGradient(container, backgroundImage);\n        }\n      });\n    }\n  }, {\n    key: \"renderBackgroundRepeat\",\n    value: function renderBackgroundRepeat(container, background) {\n      var image = this.options.imageStore.get(background.source.args[0]);\n\n      if (image) {\n        var backgroundPositioningArea = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroungPositioningArea\"])(container.style.background.backgroundOrigin, container.bounds, container.style.padding, container.style.border);\n        var backgroundImageSize = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroundSize\"])(background, image, backgroundPositioningArea);\n        var position = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroundPosition\"])(background.position, backgroundImageSize, backgroundPositioningArea);\n\n        var _path = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroundRepeatPath\"])(background, position, backgroundImageSize, backgroundPositioningArea, container.bounds);\n\n        var _offsetX = Math.round(backgroundPositioningArea.left + position.x);\n\n        var _offsetY = Math.round(backgroundPositioningArea.top + position.y);\n\n        this.target.renderRepeat(_path, image, backgroundImageSize, _offsetX, _offsetY);\n      }\n    }\n  }, {\n    key: \"renderBackgroundGradient\",\n    value: function renderBackgroundGradient(container, background) {\n      var backgroundPositioningArea = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroungPositioningArea\"])(container.style.background.backgroundOrigin, container.bounds, container.style.padding, container.style.border);\n      var backgroundImageSize = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateGradientBackgroundSize\"])(background, backgroundPositioningArea);\n      var position = Object(_parsing_background__WEBPACK_IMPORTED_MODULE_4__[\"calculateBackgroundPosition\"])(background.position, backgroundImageSize, backgroundPositioningArea);\n      var gradientBounds = new _Bounds__WEBPACK_IMPORTED_MODULE_0__[\"Bounds\"](Math.round(backgroundPositioningArea.left + position.x), Math.round(backgroundPositioningArea.top + position.y), backgroundImageSize.width, backgroundImageSize.height);\n      var gradient = Object(_Gradient__WEBPACK_IMPORTED_MODULE_2__[\"parseGradient\"])(container, background.source, gradientBounds);\n\n      if (gradient) {\n        switch (gradient.type) {\n          case _Gradient__WEBPACK_IMPORTED_MODULE_2__[\"GRADIENT_TYPE\"].LINEAR_GRADIENT:\n            // $FlowFixMe\n            this.target.renderLinearGradient(gradientBounds, gradient);\n            break;\n\n          case _Gradient__WEBPACK_IMPORTED_MODULE_2__[\"GRADIENT_TYPE\"].RADIAL_GRADIENT:\n            // $FlowFixMe\n            this.target.renderRadialGradient(gradientBounds, gradient);\n            break;\n        }\n      }\n    }\n  }, {\n    key: \"renderBorder\",\n    value: function renderBorder(border, side, curvePoints) {\n      this.target.drawShape(Object(_Bounds__WEBPACK_IMPORTED_MODULE_0__[\"parsePathForBorder\"])(curvePoints, side), border.borderColor);\n    }\n  }, {\n    key: \"renderStack\",\n    value: function renderStack(stack) {\n      var _this4 = this;\n\n      if (stack.container.isVisible()) {\n        var _opacity = stack.getOpacity();\n\n        if (_opacity !== this._opacity) {\n          this.target.setOpacity(stack.getOpacity());\n          this._opacity = _opacity;\n        }\n\n        var transform = stack.container.style.transform;\n\n        if (transform !== null) {\n          this.target.transform(stack.container.bounds.left + transform.transformOrigin[0].value, stack.container.bounds.top + transform.transformOrigin[1].value, transform.transform, function () {\n            return _this4.renderStackContent(stack);\n          });\n        } else {\n          this.renderStackContent(stack);\n        }\n      }\n    }\n  }, {\n    key: \"renderStackContent\",\n    value: function renderStackContent(stack) {\n      var _splitStackingContext = splitStackingContexts(stack),\n          _splitStackingContext2 = _slicedToArray(_splitStackingContext, 5),\n          negativeZIndex = _splitStackingContext2[0],\n          zeroOrAutoZIndexOrTransformedOrOpacity = _splitStackingContext2[1],\n          positiveZIndex = _splitStackingContext2[2],\n          nonPositionedFloats = _splitStackingContext2[3],\n          nonPositionedInlineLevel = _splitStackingContext2[4];\n\n      var _splitDescendants = splitDescendants(stack),\n          _splitDescendants2 = _slicedToArray(_splitDescendants, 2),\n          inlineLevel = _splitDescendants2[0],\n          nonInlineLevel = _splitDescendants2[1]; // https://www.w3.org/TR/css-position-3/#painting-order\n      // 1. the background and borders of the element forming the stacking context.\n\n\n      this.renderNodeBackgroundAndBorders(stack.container); // 2. the child stacking contexts with negative stack levels (most negative first).\n\n      negativeZIndex.sort(sortByZIndex).forEach(this.renderStack, this); // 3. For all its in-flow, non-positioned, block-level descendants in tree order:\n\n      this.renderNodeContent(stack.container);\n      nonInlineLevel.forEach(this.renderNode, this); // 4. All non-positioned floating descendants, in tree order. For each one of these,\n      // treat the element as if it created a new stacking context, but any positioned descendants and descendants\n      // which actually create a new stacking context should be considered part of the parent stacking context,\n      // not this new one.\n\n      nonPositionedFloats.forEach(this.renderStack, this); // 5. the in-flow, inline-level, non-positioned descendants, including inline tables and inline blocks.\n\n      nonPositionedInlineLevel.forEach(this.renderStack, this);\n      inlineLevel.forEach(this.renderNode, this); // 6. All positioned, opacity or transform descendants, in tree order that fall into the following categories:\n      //  All positioned descendants with 'z-index: auto' or 'z-index: 0', in tree order.\n      //  For those with 'z-index: auto', treat the element as if it created a new stacking context,\n      //  but any positioned descendants and descendants which actually create a new stacking context should be\n      //  considered part of the parent stacking context, not this new one. For those with 'z-index: 0',\n      //  treat the stacking context generated atomically.\n      //\n      //  All opacity descendants with opacity less than 1\n      //\n      //  All transform descendants with transform other than none\n\n      zeroOrAutoZIndexOrTransformedOrOpacity.forEach(this.renderStack, this); // 7. Stacking contexts formed by positioned descendants with z-indices greater than or equal to 1 in z-index\n      // order (smallest first) then tree order.\n\n      positiveZIndex.sort(sortByZIndex).forEach(this.renderStack, this);\n    }\n  }, {\n    key: \"render\",\n    value: function render(stack) {\n      var _this5 = this;\n\n      if (this.options.backgroundColor) {\n        this.target.rectangle(this.options.x, this.options.y, this.options.width, this.options.height, this.options.backgroundColor);\n      }\n\n      this.renderStack(stack);\n      var target = this.target.getTarget();\n\n      if (true) {\n        return target.then(function (output) {\n          _this5.options.logger.log(\"Render completed\");\n\n          return output;\n        });\n      }\n\n      return target;\n    }\n  }]);\n\n  return Renderer;\n}();\n\n\n\nvar splitDescendants = function splitDescendants(stack) {\n  var inlineLevel = [];\n  var nonInlineLevel = [];\n  var length = stack.children.length;\n\n  for (var i = 0; i < length; i++) {\n    var child = stack.children[i];\n\n    if (child.isInlineLevel()) {\n      inlineLevel.push(child);\n    } else {\n      nonInlineLevel.push(child);\n    }\n  }\n\n  return [inlineLevel, nonInlineLevel];\n};\n\nvar splitStackingContexts = function splitStackingContexts(stack) {\n  var negativeZIndex = [];\n  var zeroOrAutoZIndexOrTransformedOrOpacity = [];\n  var positiveZIndex = [];\n  var nonPositionedFloats = [];\n  var nonPositionedInlineLevel = [];\n  var length = stack.contexts.length;\n\n  for (var i = 0; i < length; i++) {\n    var child = stack.contexts[i];\n\n    if (child.container.isPositioned() || child.container.style.opacity < 1 || child.container.isTransformed()) {\n      if (child.container.style.zIndex.order < 0) {\n        negativeZIndex.push(child);\n      } else if (child.container.style.zIndex.order > 0) {\n        positiveZIndex.push(child);\n      } else {\n        zeroOrAutoZIndexOrTransformedOrOpacity.push(child);\n      }\n    } else {\n      if (child.container.isFloating()) {\n        nonPositionedFloats.push(child);\n      } else {\n        nonPositionedInlineLevel.push(child);\n      }\n    }\n  }\n\n  return [negativeZIndex, zeroOrAutoZIndexOrTransformedOrOpacity, positiveZIndex, nonPositionedFloats, nonPositionedInlineLevel];\n};\n\nvar sortByZIndex = function sortByZIndex(a, b) {\n  if (a.container.style.zIndex.order > b.container.style.zIndex.order) {\n    return 1;\n  } else if (a.container.style.zIndex.order < b.container.style.zIndex.order) {\n    return -1;\n  }\n\n  return a.container.index > b.container.index ? 1 : -1;\n};\n\n//# sourceURL=webpack://html2canvas/./src/Renderer.js?");
+
+/***/ }),
+
+/***/ "./src/ResourceLoader.js":
+/*!*******************************!*\
+  !*** ./src/ResourceLoader.js ***!
+  \*******************************/
+/*! exports provided: default, ResourceStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return ResourceLoader; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ResourceStore\", function() { return ResourceStore; });\n/* harmony import */ var _Feature__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Feature */ \"./src/Feature.js\");\n/* harmony import */ var _Proxy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Proxy */ \"./src/Proxy.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\nvar ResourceLoader =\n/*#__PURE__*/\nfunction () {\n  function ResourceLoader(options, logger, window) {\n    _classCallCheck(this, ResourceLoader);\n\n    this.options = options;\n    this._window = window;\n    this.origin = this.getOrigin(window.location.href);\n    this.cache = {};\n    this.logger = logger;\n    this._index = 0;\n  }\n\n  _createClass(ResourceLoader, [{\n    key: \"loadImage\",\n    value: function loadImage(src) {\n      var _this = this;\n\n      if (this.hasResourceInCache(src)) {\n        return src;\n      }\n\n      if (isBlobImage(src)) {\n        this.cache[src] = _loadImage(src, this.options.imageTimeout || 0);\n        return src;\n      }\n\n      if (!isSVG(src) || _Feature__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SUPPORT_SVG_DRAWING) {\n        if (this.options.allowTaint === true || isInlineImage(src) || this.isSameOrigin(src)) {\n          return this.addImage(src, src, false);\n        } else if (!this.isSameOrigin(src)) {\n          if (typeof this.options.proxy === 'string') {\n            this.cache[src] = Object(_Proxy__WEBPACK_IMPORTED_MODULE_1__[\"Proxy\"])(src, this.options).then(function (src) {\n              return _loadImage(src, _this.options.imageTimeout || 0);\n            });\n            return src;\n          } else if (this.options.useCORS === true && _Feature__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SUPPORT_CORS_IMAGES) {\n            return this.addImage(src, src, true);\n          }\n        }\n      }\n    }\n  }, {\n    key: \"inlineImage\",\n    value: function inlineImage(src) {\n      var _this2 = this;\n\n      if (isInlineImage(src)) {\n        return _loadImage(src, this.options.imageTimeout || 0);\n      }\n\n      if (this.hasResourceInCache(src)) {\n        return this.cache[src];\n      }\n\n      if (!this.isSameOrigin(src) && typeof this.options.proxy === 'string') {\n        return this.cache[src] = Object(_Proxy__WEBPACK_IMPORTED_MODULE_1__[\"Proxy\"])(src, this.options).then(function (src) {\n          return _loadImage(src, _this2.options.imageTimeout || 0);\n        });\n      }\n\n      return this.xhrImage(src);\n    }\n  }, {\n    key: \"xhrImage\",\n    value: function xhrImage(src) {\n      var _this3 = this;\n\n      this.cache[src] = new Promise(function (resolve, reject) {\n        var xhr = new XMLHttpRequest();\n\n        xhr.onreadystatechange = function () {\n          if (xhr.readyState === 4) {\n            if (xhr.status !== 200) {\n              reject(\"Failed to fetch image \".concat(src.substring(0, 256), \" with status code \").concat(xhr.status));\n            } else {\n              var reader = new FileReader();\n              reader.addEventListener('load', function () {\n                // $FlowFixMe\n                var result = reader.result;\n                resolve(result);\n              }, false);\n              reader.addEventListener('error', function (e) {\n                return reject(e);\n              }, false);\n              reader.readAsDataURL(xhr.response);\n            }\n          }\n        };\n\n        xhr.responseType = 'blob';\n\n        if (_this3.options.imageTimeout) {\n          var timeout = _this3.options.imageTimeout;\n          xhr.timeout = timeout;\n\n          xhr.ontimeout = function () {\n            return reject( true ? \"Timed out (\".concat(timeout, \"ms) fetching \").concat(src.substring(0, 256)) : undefined);\n          };\n        }\n\n        xhr.open('GET', src, true);\n        xhr.send();\n      }).then(function (src) {\n        return _loadImage(src, _this3.options.imageTimeout || 0);\n      });\n      return this.cache[src];\n    }\n  }, {\n    key: \"loadCanvas\",\n    value: function loadCanvas(node) {\n      var key = String(this._index++);\n      this.cache[key] = Promise.resolve(node);\n      return key;\n    }\n  }, {\n    key: \"hasResourceInCache\",\n    value: function hasResourceInCache(key) {\n      return typeof this.cache[key] !== 'undefined';\n    }\n  }, {\n    key: \"addImage\",\n    value: function addImage(key, src, useCORS) {\n      var _this4 = this;\n\n      if (true) {\n        this.logger.log(\"Added image \".concat(key.substring(0, 256)));\n      }\n\n      this.cache[key] = new Promise(function (resolve, reject) {\n        var img = new Image();\n\n        img.onload = function () {\n          return resolve(img);\n        }; //ios safari 10.3 taints canvas with data urls unless crossOrigin is set to anonymous\n\n\n        if (isInlineBase64Image(src) || useCORS) {\n          img.crossOrigin = 'anonymous';\n        }\n\n        img.onerror = reject;\n        img.src = src;\n\n        if (img.complete === true) {\n          // Inline XML images may fail to parse, throwing an Error later on\n          setTimeout(function () {\n            resolve(img);\n          }, 500);\n        }\n\n        if (_this4.options.imageTimeout) {\n          var timeout = _this4.options.imageTimeout;\n          setTimeout(function () {\n            return reject( true ? \"Timed out (\".concat(timeout, \"ms) fetching \").concat(src.substring(0, 256)) : undefined);\n          }, timeout);\n        }\n      });\n      return key;\n    }\n  }, {\n    key: \"isSameOrigin\",\n    value: function isSameOrigin(url) {\n      return this.getOrigin(url) === this.origin;\n    }\n  }, {\n    key: \"getOrigin\",\n    value: function getOrigin(url) {\n      var link = this._link || (this._link = this._window.document.createElement('a'));\n\n      link.href = url;\n      link.href = link.href; // IE9, LOL! - http://jsfiddle.net/niklasvh/2e48b/\n\n      return link.protocol + link.hostname + link.port;\n    }\n  }, {\n    key: \"ready\",\n    value: function ready() {\n      var _this5 = this;\n\n      var keys = Object.keys(this.cache);\n      var values = keys.map(function (str) {\n        return _this5.cache[str].catch(function (e) {\n          if (true) {\n            _this5.logger.log(\"Unable to load image\", e);\n          }\n\n          return null;\n        });\n      });\n      return Promise.all(values).then(function (images) {\n        if (true) {\n          _this5.logger.log(\"Finished loading \".concat(images.length, \" images\"), images);\n        }\n\n        return new ResourceStore(keys, images);\n      });\n    }\n  }]);\n\n  return ResourceLoader;\n}();\n\n\nvar ResourceStore =\n/*#__PURE__*/\nfunction () {\n  function ResourceStore(keys, resources) {\n    _classCallCheck(this, ResourceStore);\n\n    this._keys = keys;\n    this._resources = resources;\n  }\n\n  _createClass(ResourceStore, [{\n    key: \"get\",\n    value: function get(key) {\n      var index = this._keys.indexOf(key);\n\n      return index === -1 ? null : this._resources[index];\n    }\n  }]);\n\n  return ResourceStore;\n}();\nvar INLINE_SVG = /^data:image\\/svg\\+xml/i;\nvar INLINE_BASE64 = /^data:image\\/.*;base64,/i;\nvar INLINE_IMG = /^data:image\\/.*/i;\n\nvar isInlineImage = function isInlineImage(src) {\n  return INLINE_IMG.test(src);\n};\n\nvar isInlineBase64Image = function isInlineBase64Image(src) {\n  return INLINE_BASE64.test(src);\n};\n\nvar isBlobImage = function isBlobImage(src) {\n  return src.substr(0, 4) === 'blob';\n};\n\nvar isSVG = function isSVG(src) {\n  return src.substr(-3).toLowerCase() === 'svg' || INLINE_SVG.test(src);\n};\n\nvar _loadImage = function _loadImage(src, timeout) {\n  return new Promise(function (resolve, reject) {\n    var img = new Image();\n\n    img.onload = function () {\n      return resolve(img);\n    };\n\n    img.onerror = reject;\n    img.src = src;\n\n    if (img.complete === true) {\n      // Inline XML images may fail to parse, throwing an Error later on\n      setTimeout(function () {\n        resolve(img);\n      }, 500);\n    }\n\n    if (timeout) {\n      setTimeout(function () {\n        return reject( true ? \"Timed out (\".concat(timeout, \"ms) loading image\") : undefined);\n      }, timeout);\n    }\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/ResourceLoader.js?");
+
+/***/ }),
+
+/***/ "./src/StackingContext.js":
+/*!********************************!*\
+  !*** ./src/StackingContext.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return StackingContext; });\n/* harmony import */ var _NodeContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NodeContainer */ \"./src/NodeContainer.js\");\n/* harmony import */ var _parsing_position__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parsing/position */ \"./src/parsing/position.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\nvar StackingContext =\n/*#__PURE__*/\nfunction () {\n  function StackingContext(container, parent, treatAsRealStackingContext) {\n    _classCallCheck(this, StackingContext);\n\n    this.container = container;\n    this.parent = parent;\n    this.contexts = [];\n    this.children = [];\n    this.treatAsRealStackingContext = treatAsRealStackingContext;\n  }\n\n  _createClass(StackingContext, [{\n    key: \"getOpacity\",\n    value: function getOpacity() {\n      return this.parent ? this.container.style.opacity * this.parent.getOpacity() : this.container.style.opacity;\n    }\n  }, {\n    key: \"getRealParentStackingContext\",\n    value: function getRealParentStackingContext() {\n      return !this.parent || this.treatAsRealStackingContext ? this : this.parent.getRealParentStackingContext();\n    }\n  }]);\n\n  return StackingContext;\n}();\n\n\n\n//# sourceURL=webpack://html2canvas/./src/StackingContext.js?");
+
+/***/ }),
+
+/***/ "./src/TextBounds.js":
+/*!***************************!*\
+  !*** ./src/TextBounds.js ***!
+  \***************************/
+/*! exports provided: TextBounds, parseTextBounds */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TextBounds\", function() { return TextBounds; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseTextBounds\", function() { return parseTextBounds; });\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parsing/textDecoration */ \"./src/parsing/textDecoration.js\");\n/* harmony import */ var _Feature__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Feature */ \"./src/Feature.js\");\n/* harmony import */ var _Unicode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Unicode */ \"./src/Unicode.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n\n\n\n\nvar TextBounds = function TextBounds(text, bounds) {\n  _classCallCheck(this, TextBounds);\n\n  this.text = text;\n  this.bounds = bounds;\n};\nvar parseTextBounds = function parseTextBounds(value, parent, node) {\n  var letterRendering = parent.style.letterSpacing !== 0;\n  var textList = letterRendering ? Object(_Unicode__WEBPACK_IMPORTED_MODULE_3__[\"toCodePoints\"])(value).map(function (i) {\n    return Object(_Unicode__WEBPACK_IMPORTED_MODULE_3__[\"fromCodePoint\"])(i);\n  }) : Object(_Unicode__WEBPACK_IMPORTED_MODULE_3__[\"breakWords\"])(value, parent);\n  var length = textList.length;\n  var defaultView = node.parentNode ? node.parentNode.ownerDocument.defaultView : null;\n  var scrollX = defaultView ? defaultView.pageXOffset : 0;\n  var scrollY = defaultView ? defaultView.pageYOffset : 0;\n  var textBounds = [];\n  var offset = 0;\n\n  for (var i = 0; i < length; i++) {\n    var text = textList[i];\n\n    if (parent.style.textDecoration !== _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_1__[\"TEXT_DECORATION\"].NONE || text.trim().length > 0) {\n      if (_Feature__WEBPACK_IMPORTED_MODULE_2__[\"default\"].SUPPORT_RANGE_BOUNDS) {\n        textBounds.push(new TextBounds(text, getRangeBounds(node, offset, text.length, scrollX, scrollY)));\n      } else {\n        var replacementNode = node.splitText(text.length);\n        textBounds.push(new TextBounds(text, getWrapperBounds(node, scrollX, scrollY)));\n        node = replacementNode;\n      }\n    } else if (!_Feature__WEBPACK_IMPORTED_MODULE_2__[\"default\"].SUPPORT_RANGE_BOUNDS) {\n      node = node.splitText(text.length);\n    }\n\n    offset += text.length;\n  }\n\n  return textBounds;\n};\n\nvar getWrapperBounds = function getWrapperBounds(node, scrollX, scrollY) {\n  var wrapper = node.ownerDocument.createElement('html2canvaswrapper');\n  wrapper.appendChild(node.cloneNode(true));\n  var parentNode = node.parentNode;\n\n  if (parentNode) {\n    parentNode.replaceChild(wrapper, node);\n    var bounds = Object(_Bounds__WEBPACK_IMPORTED_MODULE_0__[\"parseBounds\"])(wrapper, scrollX, scrollY);\n\n    if (wrapper.firstChild) {\n      parentNode.replaceChild(wrapper.firstChild, wrapper);\n    }\n\n    return bounds;\n  }\n\n  return new _Bounds__WEBPACK_IMPORTED_MODULE_0__[\"Bounds\"](0, 0, 0, 0);\n};\n\nvar getRangeBounds = function getRangeBounds(node, offset, length, scrollX, scrollY) {\n  var range = node.ownerDocument.createRange();\n  range.setStart(node, offset);\n  range.setEnd(node, offset + length);\n  return _Bounds__WEBPACK_IMPORTED_MODULE_0__[\"Bounds\"].fromClientRect(range.getBoundingClientRect(), scrollX, scrollY);\n};\n\n//# sourceURL=webpack://html2canvas/./src/TextBounds.js?");
+
+/***/ }),
+
+/***/ "./src/TextContainer.js":
+/*!******************************!*\
+  !*** ./src/TextContainer.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return TextContainer; });\n/* harmony import */ var _parsing_textTransform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parsing/textTransform */ \"./src/parsing/textTransform.js\");\n/* harmony import */ var _TextBounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TextBounds */ \"./src/TextBounds.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\nvar TextContainer =\n/*#__PURE__*/\nfunction () {\n  function TextContainer(text, parent, bounds) {\n    _classCallCheck(this, TextContainer);\n\n    this.text = text;\n    this.parent = parent;\n    this.bounds = bounds;\n  }\n\n  _createClass(TextContainer, null, [{\n    key: \"fromTextNode\",\n    value: function fromTextNode(node, parent) {\n      var text = transform(node.data, parent.style.textTransform);\n      return new TextContainer(text, parent, Object(_TextBounds__WEBPACK_IMPORTED_MODULE_1__[\"parseTextBounds\"])(text, parent, node));\n    }\n  }]);\n\n  return TextContainer;\n}();\n\n\nvar CAPITALIZE = /(^|\\s|:|-|\\(|\\))([a-z])/g;\n\nvar transform = function transform(text, _transform) {\n  switch (_transform) {\n    case _parsing_textTransform__WEBPACK_IMPORTED_MODULE_0__[\"TEXT_TRANSFORM\"].LOWERCASE:\n      return text.toLowerCase();\n\n    case _parsing_textTransform__WEBPACK_IMPORTED_MODULE_0__[\"TEXT_TRANSFORM\"].CAPITALIZE:\n      return text.replace(CAPITALIZE, capitalize);\n\n    case _parsing_textTransform__WEBPACK_IMPORTED_MODULE_0__[\"TEXT_TRANSFORM\"].UPPERCASE:\n      return text.toUpperCase();\n\n    default:\n      return text;\n  }\n};\n\nfunction capitalize(m, p1, p2) {\n  if (m.length > 0) {\n    return p1 + p2.toUpperCase();\n  }\n\n  return m;\n}\n\n//# sourceURL=webpack://html2canvas/./src/TextContainer.js?");
+
+/***/ }),
+
+/***/ "./src/Unicode.js":
+/*!************************!*\
+  !*** ./src/Unicode.js ***!
+  \************************/
+/*! exports provided: toCodePoints, fromCodePoint, breakWords */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"breakWords\", function() { return breakWords; });\n/* harmony import */ var css_line_break__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! css-line-break */ \"./node_modules/css-line-break/dist/index.js\");\n/* harmony import */ var css_line_break__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(css_line_break__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _parsing_overflowWrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parsing/overflowWrap */ \"./src/parsing/overflowWrap.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"toCodePoints\", function() { return css_line_break__WEBPACK_IMPORTED_MODULE_0__[\"toCodePoints\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"fromCodePoint\", function() { return css_line_break__WEBPACK_IMPORTED_MODULE_0__[\"fromCodePoint\"]; });\n\n\n\n\n\n\nvar breakWords = function breakWords(str, parent) {\n  var breaker = Object(css_line_break__WEBPACK_IMPORTED_MODULE_0__[\"LineBreaker\"])(str, {\n    lineBreak: parent.style.lineBreak,\n    wordBreak: parent.style.overflowWrap === _parsing_overflowWrap__WEBPACK_IMPORTED_MODULE_1__[\"OVERFLOW_WRAP\"].BREAK_WORD ? 'break-word' : parent.style.wordBreak\n  });\n  var words = [];\n  var bk;\n\n  while (!(bk = breaker.next()).done) {\n    words.push(bk.value.slice());\n  }\n\n  return words;\n};\n\n//# sourceURL=webpack://html2canvas/./src/Unicode.js?");
+
+/***/ }),
+
+/***/ "./src/Util.js":
+/*!*********************!*\
+  !*** ./src/Util.js ***!
+  \*********************/
+/*! exports provided: contains, distance, copyCSSStyles, SMALL_IMAGE */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"contains\", function() { return contains; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"distance\", function() { return distance; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"copyCSSStyles\", function() { return copyCSSStyles; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"SMALL_IMAGE\", function() { return SMALL_IMAGE; });\n\n\nvar contains = function contains(bit, value) {\n  return (bit & value) !== 0;\n};\nvar distance = function distance(a, b) {\n  return Math.sqrt(a * a + b * b);\n};\nvar copyCSSStyles = function copyCSSStyles(style, target) {\n  // Edge does not provide value for cssText\n  for (var i = style.length - 1; i >= 0; i--) {\n    var property = style.item(i); // Safari shows pseudoelements if content is set\n\n    if (property !== 'content') {\n      target.style.setProperty(property, style.getPropertyValue(property));\n    }\n  }\n\n  return target;\n};\nvar SMALL_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';\n\n//# sourceURL=webpack://html2canvas/./src/Util.js?");
+
+/***/ }),
+
+/***/ "./src/Window.js":
+/*!***********************!*\
+  !*** ./src/Window.js ***!
+  \***********************/
+/*! exports provided: renderElement */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"renderElement\", function() { return renderElement; });\n/* harmony import */ var _Logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Logger */ \"./src/Logger.js\");\n/* harmony import */ var _NodeParser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeParser */ \"./src/NodeParser.js\");\n/* harmony import */ var _Renderer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Renderer */ \"./src/Renderer.js\");\n/* harmony import */ var _renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./renderer/ForeignObjectRenderer */ \"./src/renderer/ForeignObjectRenderer.js\");\n/* harmony import */ var _Feature__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Feature */ \"./src/Feature.js\");\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _Clone__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Clone */ \"./src/Clone.js\");\n/* harmony import */ var _Font__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Font */ \"./src/Font.js\");\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Color */ \"./src/Color.js\");\n\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\n\n\n\n\n\n\n\n\n\n\nvar renderElement = function renderElement(element, options, logger) {\n  var ownerDocument = element.ownerDocument;\n  var windowBounds = new _Bounds__WEBPACK_IMPORTED_MODULE_5__[\"Bounds\"](options.scrollX, options.scrollY, options.windowWidth, options.windowHeight); // http://www.w3.org/TR/css3-background/#special-backgrounds\n\n  var documentBackgroundColor = ownerDocument.documentElement ? new _Color__WEBPACK_IMPORTED_MODULE_8__[\"default\"](getComputedStyle(ownerDocument.documentElement).backgroundColor) : _Color__WEBPACK_IMPORTED_MODULE_8__[\"TRANSPARENT\"];\n  var bodyBackgroundColor = ownerDocument.body ? new _Color__WEBPACK_IMPORTED_MODULE_8__[\"default\"](getComputedStyle(ownerDocument.body).backgroundColor) : _Color__WEBPACK_IMPORTED_MODULE_8__[\"TRANSPARENT\"];\n  var backgroundColor = element === ownerDocument.documentElement ? documentBackgroundColor.isTransparent() ? bodyBackgroundColor.isTransparent() ? options.backgroundColor ? new _Color__WEBPACK_IMPORTED_MODULE_8__[\"default\"](options.backgroundColor) : null : bodyBackgroundColor : documentBackgroundColor : options.backgroundColor ? new _Color__WEBPACK_IMPORTED_MODULE_8__[\"default\"](options.backgroundColor) : null;\n  return (options.foreignObjectRendering ? // $FlowFixMe\n  _Feature__WEBPACK_IMPORTED_MODULE_4__[\"default\"].SUPPORT_FOREIGNOBJECT_DRAWING : Promise.resolve(false)).then(function (supportForeignObject) {\n    return supportForeignObject ? function (cloner) {\n      if (true) {\n        logger.log(\"Document cloned, using foreignObject rendering\");\n      }\n\n      return cloner.inlineFonts(ownerDocument).then(function () {\n        return cloner.resourceLoader.ready();\n      }).then(function () {\n        var renderer = new _renderer_ForeignObjectRenderer__WEBPACK_IMPORTED_MODULE_3__[\"default\"](cloner.documentElement);\n        var defaultView = ownerDocument.defaultView;\n        var scrollX = defaultView.pageXOffset;\n        var scrollY = defaultView.pageYOffset;\n        var isDocument = element.tagName === 'HTML' || element.tagName === 'BODY';\n\n        var _ref = isDocument ? Object(_Bounds__WEBPACK_IMPORTED_MODULE_5__[\"parseDocumentSize\"])(ownerDocument) : Object(_Bounds__WEBPACK_IMPORTED_MODULE_5__[\"parseBounds\"])(element, scrollX, scrollY),\n            width = _ref.width,\n            height = _ref.height,\n            left = _ref.left,\n            top = _ref.top;\n\n        return renderer.render({\n          backgroundColor: backgroundColor,\n          logger: logger,\n          scale: options.scale,\n          x: typeof options.x === 'number' ? options.x : left,\n          y: typeof options.y === 'number' ? options.y : top,\n          width: typeof options.width === 'number' ? options.width : Math.ceil(width),\n          height: typeof options.height === 'number' ? options.height : Math.ceil(height),\n          windowWidth: options.windowWidth,\n          windowHeight: options.windowHeight,\n          scrollX: options.scrollX,\n          scrollY: options.scrollY\n        });\n      });\n    }(new _Clone__WEBPACK_IMPORTED_MODULE_6__[\"DocumentCloner\"](element, options, logger, true, renderElement)) : Object(_Clone__WEBPACK_IMPORTED_MODULE_6__[\"cloneWindow\"])(ownerDocument, windowBounds, element, options, logger, renderElement).then(function (_ref2) {\n      var _ref3 = _slicedToArray(_ref2, 3),\n          container = _ref3[0],\n          clonedElement = _ref3[1],\n          resourceLoader = _ref3[2];\n\n      if (true) {\n        logger.log(\"Document cloned, using computed rendering\");\n      }\n\n      var stack = Object(_NodeParser__WEBPACK_IMPORTED_MODULE_1__[\"NodeParser\"])(clonedElement, resourceLoader, logger);\n      var clonedDocument = clonedElement.ownerDocument;\n\n      if (backgroundColor === stack.container.style.background.backgroundColor) {\n        stack.container.style.background.backgroundColor = _Color__WEBPACK_IMPORTED_MODULE_8__[\"TRANSPARENT\"];\n      }\n\n      return resourceLoader.ready().then(function (imageStore) {\n        var fontMetrics = new _Font__WEBPACK_IMPORTED_MODULE_7__[\"FontMetrics\"](clonedDocument);\n\n        if (true) {\n          logger.log(\"Starting renderer\");\n        }\n\n        var defaultView = clonedDocument.defaultView;\n        var scrollX = defaultView.pageXOffset;\n        var scrollY = defaultView.pageYOffset;\n        var isDocument = clonedElement.tagName === 'HTML' || clonedElement.tagName === 'BODY';\n\n        var _ref4 = isDocument ? Object(_Bounds__WEBPACK_IMPORTED_MODULE_5__[\"parseDocumentSize\"])(ownerDocument) : Object(_Bounds__WEBPACK_IMPORTED_MODULE_5__[\"parseBounds\"])(clonedElement, scrollX, scrollY),\n            width = _ref4.width,\n            height = _ref4.height,\n            left = _ref4.left,\n            top = _ref4.top;\n\n        var renderOptions = {\n          backgroundColor: backgroundColor,\n          fontMetrics: fontMetrics,\n          imageStore: imageStore,\n          logger: logger,\n          scale: options.scale,\n          x: typeof options.x === 'number' ? options.x : left,\n          y: typeof options.y === 'number' ? options.y : top,\n          width: typeof options.width === 'number' ? options.width : Math.ceil(width),\n          height: typeof options.height === 'number' ? options.height : Math.ceil(height)\n        };\n\n        if (Array.isArray(options.target)) {\n          return Promise.all(options.target.map(function (target) {\n            var renderer = new _Renderer__WEBPACK_IMPORTED_MODULE_2__[\"default\"](target, renderOptions);\n            return renderer.render(stack);\n          }));\n        } else {\n          var renderer = new _Renderer__WEBPACK_IMPORTED_MODULE_2__[\"default\"](options.target, renderOptions);\n          var canvas = renderer.render(stack);\n\n          if (options.removeContainer === true) {\n            if (container.parentNode) {\n              container.parentNode.removeChild(container);\n            } else if (true) {\n              logger.log(\"Cannot detach cloned iframe as it is not in the DOM anymore\");\n            }\n          }\n\n          return canvas;\n        }\n      });\n    });\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/Window.js?");
+
+/***/ }),
+
+/***/ "./src/drawing/BezierCurve.js":
+/*!************************************!*\
+  !*** ./src/drawing/BezierCurve.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return BezierCurve; });\n/* harmony import */ var _Path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Path */ \"./src/drawing/Path.js\");\n/* harmony import */ var _Vector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Vector */ \"./src/drawing/Vector.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\nvar lerp = function lerp(a, b, t) {\n  return new _Vector__WEBPACK_IMPORTED_MODULE_1__[\"default\"](a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);\n};\n\nvar BezierCurve =\n/*#__PURE__*/\nfunction () {\n  function BezierCurve(start, startControl, endControl, end) {\n    _classCallCheck(this, BezierCurve);\n\n    this.type = _Path__WEBPACK_IMPORTED_MODULE_0__[\"PATH\"].BEZIER_CURVE;\n    this.start = start;\n    this.startControl = startControl;\n    this.endControl = endControl;\n    this.end = end;\n  }\n\n  _createClass(BezierCurve, [{\n    key: \"subdivide\",\n    value: function subdivide(t, firstHalf) {\n      var ab = lerp(this.start, this.startControl, t);\n      var bc = lerp(this.startControl, this.endControl, t);\n      var cd = lerp(this.endControl, this.end, t);\n      var abbc = lerp(ab, bc, t);\n      var bccd = lerp(bc, cd, t);\n      var dest = lerp(abbc, bccd, t);\n      return firstHalf ? new BezierCurve(this.start, ab, abbc, dest) : new BezierCurve(dest, bccd, cd, this.end);\n    }\n  }, {\n    key: \"reverse\",\n    value: function reverse() {\n      return new BezierCurve(this.end, this.endControl, this.startControl, this.start);\n    }\n  }]);\n\n  return BezierCurve;\n}();\n\n\n\n//# sourceURL=webpack://html2canvas/./src/drawing/BezierCurve.js?");
+
+/***/ }),
+
+/***/ "./src/drawing/Circle.js":
+/*!*******************************!*\
+  !*** ./src/drawing/Circle.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Circle; });\n/* harmony import */ var _Path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Path */ \"./src/drawing/Path.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n\n\nvar Circle = function Circle(x, y, radius) {\n  _classCallCheck(this, Circle);\n\n  this.type = _Path__WEBPACK_IMPORTED_MODULE_0__[\"PATH\"].CIRCLE;\n  this.x = x;\n  this.y = y;\n  this.radius = radius;\n\n  if (true) {\n    if (isNaN(x)) {\n      console.error(\"Invalid x value given for Circle\");\n    }\n\n    if (isNaN(y)) {\n      console.error(\"Invalid y value given for Circle\");\n    }\n\n    if (isNaN(radius)) {\n      console.error(\"Invalid radius value given for Circle\");\n    }\n  }\n};\n\n\n\n//# sourceURL=webpack://html2canvas/./src/drawing/Circle.js?");
+
+/***/ }),
+
+/***/ "./src/drawing/Path.js":
+/*!*****************************!*\
+  !*** ./src/drawing/Path.js ***!
+  \*****************************/
+/*! exports provided: PATH */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PATH\", function() { return PATH; });\n\n\nvar PATH = {\n  VECTOR: 0,\n  BEZIER_CURVE: 1,\n  CIRCLE: 2\n};\n\n//# sourceURL=webpack://html2canvas/./src/drawing/Path.js?");
+
+/***/ }),
+
+/***/ "./src/drawing/Size.js":
+/*!*****************************!*\
+  !*** ./src/drawing/Size.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Size; });\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nvar Size = function Size(width, height) {\n  _classCallCheck(this, Size);\n\n  this.width = width;\n  this.height = height;\n};\n\n\n\n//# sourceURL=webpack://html2canvas/./src/drawing/Size.js?");
+
+/***/ }),
+
+/***/ "./src/drawing/Vector.js":
+/*!*******************************!*\
+  !*** ./src/drawing/Vector.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Vector; });\n/* harmony import */ var _Path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Path */ \"./src/drawing/Path.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n\n\nvar Vector = function Vector(x, y) {\n  _classCallCheck(this, Vector);\n\n  this.type = _Path__WEBPACK_IMPORTED_MODULE_0__[\"PATH\"].VECTOR;\n  this.x = x;\n  this.y = y;\n\n  if (true) {\n    if (isNaN(x)) {\n      console.error(\"Invalid x value given for Vector\");\n    }\n\n    if (isNaN(y)) {\n      console.error(\"Invalid y value given for Vector\");\n    }\n  }\n};\n\n\n\n//# sourceURL=webpack://html2canvas/./src/drawing/Vector.js?");
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _renderer_CanvasRenderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./renderer/CanvasRenderer */ \"./src/renderer/CanvasRenderer.js\");\n/* harmony import */ var _Logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Logger */ \"./src/Logger.js\");\n/* harmony import */ var _Window__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Window */ \"./src/Window.js\");\n\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\n\n\n\nvar html2canvas = function html2canvas(element, conf) {\n  var config = conf || {};\n  var logger = new _Logger__WEBPACK_IMPORTED_MODULE_1__[\"default\"](typeof config.logging === 'boolean' ? config.logging : true);\n  logger.log(\"html2canvas \".concat(\"1.0.0-rc.1\"));\n\n  if ( true && typeof config.onrendered === 'function') {\n    logger.error(\"onrendered option is deprecated, html2canvas returns a Promise with the canvas as the value\");\n  }\n\n  var ownerDocument = element.ownerDocument;\n\n  if (!ownerDocument) {\n    return Promise.reject(\"Provided element is not within a Document\");\n  }\n\n  var defaultView = ownerDocument.defaultView;\n  var defaultOptions = {\n    allowTaint: false,\n    backgroundColor: '#ffffff',\n    imageTimeout: 15000,\n    logging: true,\n    proxy: null,\n    removeContainer: true,\n    foreignObjectRendering: false,\n    scale: defaultView.devicePixelRatio || 1,\n    target: new _renderer_CanvasRenderer__WEBPACK_IMPORTED_MODULE_0__[\"default\"](config.canvas),\n    useCORS: false,\n    windowWidth: defaultView.innerWidth,\n    windowHeight: defaultView.innerHeight,\n    scrollX: defaultView.pageXOffset,\n    scrollY: defaultView.pageYOffset\n  };\n  var result = Object(_Window__WEBPACK_IMPORTED_MODULE_2__[\"renderElement\"])(element, _objectSpread({}, defaultOptions, config), logger);\n\n  if (true) {\n    return result.catch(function (e) {\n      logger.error(e);\n      throw e;\n    });\n  }\n\n  return result;\n};\n\nhtml2canvas.CanvasRenderer = _renderer_CanvasRenderer__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (html2canvas);\n\n//# sourceURL=webpack://html2canvas/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/background.js":
+/*!***********************************!*\
+  !*** ./src/parsing/background.js ***!
+  \***********************************/
+/*! exports provided: BACKGROUND_REPEAT, BACKGROUND_SIZE, BACKGROUND_CLIP, BACKGROUND_ORIGIN, calculateBackgroundSize, calculateGradientBackgroundSize, calculateBackgroungPaintingArea, calculateBackgroungPositioningArea, calculateBackgroundPosition, calculateBackgroundRepeatPath, parseBackground, parseBackgroundImage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"BACKGROUND_REPEAT\", function() { return BACKGROUND_REPEAT; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"BACKGROUND_SIZE\", function() { return BACKGROUND_SIZE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"BACKGROUND_CLIP\", function() { return BACKGROUND_CLIP; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"BACKGROUND_ORIGIN\", function() { return BACKGROUND_ORIGIN; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateBackgroundSize\", function() { return calculateBackgroundSize; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateGradientBackgroundSize\", function() { return calculateGradientBackgroundSize; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateBackgroungPaintingArea\", function() { return calculateBackgroungPaintingArea; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateBackgroungPositioningArea\", function() { return calculateBackgroungPositioningArea; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateBackgroundPosition\", function() { return calculateBackgroundPosition; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"calculateBackgroundRepeatPath\", function() { return calculateBackgroundRepeatPath; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseBackground\", function() { return parseBackground; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseBackgroundImage\", function() { return parseBackgroundImage; });\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Color */ \"./src/Color.js\");\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Length */ \"./src/Length.js\");\n/* harmony import */ var _drawing_Size__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../drawing/Size */ \"./src/drawing/Size.js\");\n/* harmony import */ var _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../drawing/Vector */ \"./src/drawing/Vector.js\");\n/* harmony import */ var _Bounds__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Bounds */ \"./src/Bounds.js\");\n/* harmony import */ var _padding__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./padding */ \"./src/parsing/padding.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n\n\n\n\n\n\nvar BACKGROUND_REPEAT = {\n  REPEAT: 0,\n  NO_REPEAT: 1,\n  REPEAT_X: 2,\n  REPEAT_Y: 3\n};\nvar BACKGROUND_SIZE = {\n  AUTO: 0,\n  CONTAIN: 1,\n  COVER: 2,\n  LENGTH: 3\n};\nvar BACKGROUND_CLIP = {\n  BORDER_BOX: 0,\n  PADDING_BOX: 1,\n  CONTENT_BOX: 2\n};\nvar BACKGROUND_ORIGIN = BACKGROUND_CLIP;\nvar AUTO = 'auto';\n\nvar BackgroundSize = function BackgroundSize(size) {\n  _classCallCheck(this, BackgroundSize);\n\n  switch (size) {\n    case 'contain':\n      this.size = BACKGROUND_SIZE.CONTAIN;\n      break;\n\n    case 'cover':\n      this.size = BACKGROUND_SIZE.COVER;\n      break;\n\n    case 'auto':\n      this.size = BACKGROUND_SIZE.AUTO;\n      break;\n\n    default:\n      this.value = new _Length__WEBPACK_IMPORTED_MODULE_1__[\"default\"](size);\n  }\n};\n\nvar calculateBackgroundSize = function calculateBackgroundSize(backgroundImage, image, bounds) {\n  var width = 0;\n  var height = 0;\n  var size = backgroundImage.size;\n\n  if (size[0].size === BACKGROUND_SIZE.CONTAIN || size[0].size === BACKGROUND_SIZE.COVER) {\n    var targetRatio = bounds.width / bounds.height;\n    var currentRatio = image.width / image.height;\n    return targetRatio < currentRatio !== (size[0].size === BACKGROUND_SIZE.COVER) ? new _drawing_Size__WEBPACK_IMPORTED_MODULE_2__[\"default\"](bounds.width, bounds.width / currentRatio) : new _drawing_Size__WEBPACK_IMPORTED_MODULE_2__[\"default\"](bounds.height * currentRatio, bounds.height);\n  }\n\n  if (size[0].value) {\n    width = size[0].value.getAbsoluteValue(bounds.width);\n  }\n\n  if (size[0].size === BACKGROUND_SIZE.AUTO && size[1].size === BACKGROUND_SIZE.AUTO) {\n    height = image.height;\n  } else if (size[1].size === BACKGROUND_SIZE.AUTO) {\n    height = width / image.width * image.height;\n  } else if (size[1].value) {\n    height = size[1].value.getAbsoluteValue(bounds.height);\n  }\n\n  if (size[0].size === BACKGROUND_SIZE.AUTO) {\n    width = height / image.height * image.width;\n  }\n\n  return new _drawing_Size__WEBPACK_IMPORTED_MODULE_2__[\"default\"](width, height);\n};\nvar calculateGradientBackgroundSize = function calculateGradientBackgroundSize(backgroundImage, bounds) {\n  var size = backgroundImage.size;\n  var width = size[0].value ? size[0].value.getAbsoluteValue(bounds.width) : bounds.width;\n  var height = size[1].value ? size[1].value.getAbsoluteValue(bounds.height) : size[0].value ? width : bounds.height;\n  return new _drawing_Size__WEBPACK_IMPORTED_MODULE_2__[\"default\"](width, height);\n};\nvar AUTO_SIZE = new BackgroundSize(AUTO);\nvar calculateBackgroungPaintingArea = function calculateBackgroungPaintingArea(curves, clip) {\n  switch (clip) {\n    case BACKGROUND_CLIP.BORDER_BOX:\n      return Object(_Bounds__WEBPACK_IMPORTED_MODULE_4__[\"calculateBorderBoxPath\"])(curves);\n\n    case BACKGROUND_CLIP.PADDING_BOX:\n    default:\n      return Object(_Bounds__WEBPACK_IMPORTED_MODULE_4__[\"calculatePaddingBoxPath\"])(curves);\n  }\n};\nvar calculateBackgroungPositioningArea = function calculateBackgroungPositioningArea(backgroundOrigin, bounds, padding, border) {\n  var paddingBox = Object(_Bounds__WEBPACK_IMPORTED_MODULE_4__[\"calculatePaddingBox\"])(bounds, border);\n\n  switch (backgroundOrigin) {\n    case BACKGROUND_ORIGIN.BORDER_BOX:\n      return bounds;\n\n    case BACKGROUND_ORIGIN.CONTENT_BOX:\n      var paddingLeft = padding[_padding__WEBPACK_IMPORTED_MODULE_5__[\"PADDING_SIDES\"].LEFT].getAbsoluteValue(bounds.width);\n      var paddingRight = padding[_padding__WEBPACK_IMPORTED_MODULE_5__[\"PADDING_SIDES\"].RIGHT].getAbsoluteValue(bounds.width);\n      var paddingTop = padding[_padding__WEBPACK_IMPORTED_MODULE_5__[\"PADDING_SIDES\"].TOP].getAbsoluteValue(bounds.width);\n      var paddingBottom = padding[_padding__WEBPACK_IMPORTED_MODULE_5__[\"PADDING_SIDES\"].BOTTOM].getAbsoluteValue(bounds.width);\n      return new _Bounds__WEBPACK_IMPORTED_MODULE_4__[\"Bounds\"](paddingBox.left + paddingLeft, paddingBox.top + paddingTop, paddingBox.width - paddingLeft - paddingRight, paddingBox.height - paddingTop - paddingBottom);\n\n    case BACKGROUND_ORIGIN.PADDING_BOX:\n    default:\n      return paddingBox;\n  }\n};\nvar calculateBackgroundPosition = function calculateBackgroundPosition(position, size, bounds) {\n  return new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](position[0].getAbsoluteValue(bounds.width - size.width), position[1].getAbsoluteValue(bounds.height - size.height));\n};\nvar calculateBackgroundRepeatPath = function calculateBackgroundRepeatPath(background, position, size, backgroundPositioningArea, bounds) {\n  var repeat = background.repeat;\n\n  switch (repeat) {\n    case BACKGROUND_REPEAT.REPEAT_X:\n      return [new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left), Math.round(backgroundPositioningArea.top + position.y)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left + bounds.width), Math.round(backgroundPositioningArea.top + position.y)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left + bounds.width), Math.round(size.height + backgroundPositioningArea.top + position.y)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left), Math.round(size.height + backgroundPositioningArea.top + position.y))];\n\n    case BACKGROUND_REPEAT.REPEAT_Y:\n      return [new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x), Math.round(bounds.top)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x + size.width), Math.round(bounds.top)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x + size.width), Math.round(bounds.height + bounds.top)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x), Math.round(bounds.height + bounds.top))];\n\n    case BACKGROUND_REPEAT.NO_REPEAT:\n      return [new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x), Math.round(backgroundPositioningArea.top + position.y)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x + size.width), Math.round(backgroundPositioningArea.top + position.y)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x + size.width), Math.round(backgroundPositioningArea.top + position.y + size.height)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(backgroundPositioningArea.left + position.x), Math.round(backgroundPositioningArea.top + position.y + size.height))];\n\n    default:\n      return [new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left), Math.round(bounds.top)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left + bounds.width), Math.round(bounds.top)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left + bounds.width), Math.round(bounds.height + bounds.top)), new _drawing_Vector__WEBPACK_IMPORTED_MODULE_3__[\"default\"](Math.round(bounds.left), Math.round(bounds.height + bounds.top))];\n  }\n};\nvar parseBackground = function parseBackground(style, resourceLoader) {\n  return {\n    backgroundColor: new _Color__WEBPACK_IMPORTED_MODULE_0__[\"default\"](style.backgroundColor),\n    backgroundImage: parseBackgroundImages(style, resourceLoader),\n    backgroundClip: parseBackgroundClip(style.backgroundClip),\n    backgroundOrigin: parseBackgroundOrigin(style.backgroundOrigin)\n  };\n};\n\nvar parseBackgroundClip = function parseBackgroundClip(backgroundClip) {\n  switch (backgroundClip) {\n    case 'padding-box':\n      return BACKGROUND_CLIP.PADDING_BOX;\n\n    case 'content-box':\n      return BACKGROUND_CLIP.CONTENT_BOX;\n  }\n\n  return BACKGROUND_CLIP.BORDER_BOX;\n};\n\nvar parseBackgroundOrigin = function parseBackgroundOrigin(backgroundOrigin) {\n  switch (backgroundOrigin) {\n    case 'padding-box':\n      return BACKGROUND_ORIGIN.PADDING_BOX;\n\n    case 'content-box':\n      return BACKGROUND_ORIGIN.CONTENT_BOX;\n  }\n\n  return BACKGROUND_ORIGIN.BORDER_BOX;\n};\n\nvar parseBackgroundRepeat = function parseBackgroundRepeat(backgroundRepeat) {\n  switch (backgroundRepeat.trim()) {\n    case 'no-repeat':\n      return BACKGROUND_REPEAT.NO_REPEAT;\n\n    case 'repeat-x':\n    case 'repeat no-repeat':\n      return BACKGROUND_REPEAT.REPEAT_X;\n\n    case 'repeat-y':\n    case 'no-repeat repeat':\n      return BACKGROUND_REPEAT.REPEAT_Y;\n\n    case 'repeat':\n      return BACKGROUND_REPEAT.REPEAT;\n  }\n\n  if (true) {\n    console.error(\"Invalid background-repeat value \\\"\".concat(backgroundRepeat, \"\\\"\"));\n  }\n\n  return BACKGROUND_REPEAT.REPEAT;\n};\n\nvar parseBackgroundImages = function parseBackgroundImages(style, resourceLoader) {\n  var sources = parseBackgroundImage(style.backgroundImage).map(function (backgroundImage) {\n    if (backgroundImage.method === 'url') {\n      var key = resourceLoader.loadImage(backgroundImage.args[0]);\n      backgroundImage.args = key ? [key] : [];\n    }\n\n    return backgroundImage;\n  });\n  var positions = style.backgroundPosition.split(',');\n  var repeats = style.backgroundRepeat.split(',');\n  var sizes = style.backgroundSize.split(',');\n  return sources.map(function (source, index) {\n    var size = (sizes[index] || AUTO).trim().split(' ').map(parseBackgroundSize);\n    var position = (positions[index] || AUTO).trim().split(' ').map(parseBackgoundPosition);\n    return {\n      source: source,\n      repeat: parseBackgroundRepeat(typeof repeats[index] === 'string' ? repeats[index] : repeats[0]),\n      size: size.length < 2 ? [size[0], AUTO_SIZE] : [size[0], size[1]],\n      position: position.length < 2 ? [position[0], position[0]] : [position[0], position[1]]\n    };\n  });\n};\n\nvar parseBackgroundSize = function parseBackgroundSize(size) {\n  return size === 'auto' ? AUTO_SIZE : new BackgroundSize(size);\n};\n\nvar parseBackgoundPosition = function parseBackgoundPosition(position) {\n  switch (position) {\n    case 'bottom':\n    case 'right':\n      return new _Length__WEBPACK_IMPORTED_MODULE_1__[\"default\"]('100%');\n\n    case 'left':\n    case 'top':\n      return new _Length__WEBPACK_IMPORTED_MODULE_1__[\"default\"]('0%');\n\n    case 'auto':\n      return new _Length__WEBPACK_IMPORTED_MODULE_1__[\"default\"]('0');\n  }\n\n  return new _Length__WEBPACK_IMPORTED_MODULE_1__[\"default\"](position);\n};\n\nvar parseBackgroundImage = function parseBackgroundImage(image) {\n  var whitespace = /^\\s$/;\n  var results = [];\n  var args = [];\n  var method = '';\n  var quote = null;\n  var definition = '';\n  var mode = 0;\n  var numParen = 0;\n\n  var appendResult = function appendResult() {\n    var prefix = '';\n\n    if (method) {\n      if (definition.substr(0, 1) === '\"') {\n        definition = definition.substr(1, definition.length - 2);\n      }\n\n      if (definition) {\n        args.push(definition.trim());\n      }\n\n      var prefix_i = method.indexOf('-', 1) + 1;\n\n      if (method.substr(0, 1) === '-' && prefix_i > 0) {\n        prefix = method.substr(0, prefix_i).toLowerCase();\n        method = method.substr(prefix_i);\n      }\n\n      method = method.toLowerCase();\n\n      if (method !== 'none') {\n        results.push({\n          prefix: prefix,\n          method: method,\n          args: args\n        });\n      }\n    }\n\n    args = [];\n    method = definition = '';\n  };\n\n  image.split('').forEach(function (c) {\n    if (mode === 0 && whitespace.test(c)) {\n      return;\n    }\n\n    switch (c) {\n      case '\"':\n        if (!quote) {\n          quote = c;\n        } else if (quote === c) {\n          quote = null;\n        }\n\n        break;\n\n      case '(':\n        if (quote) {\n          break;\n        } else if (mode === 0) {\n          mode = 1;\n          return;\n        } else {\n          numParen++;\n        }\n\n        break;\n\n      case ')':\n        if (quote) {\n          break;\n        } else if (mode === 1) {\n          if (numParen === 0) {\n            mode = 0;\n            appendResult();\n            return;\n          } else {\n            numParen--;\n          }\n        }\n\n        break;\n\n      case ',':\n        if (quote) {\n          break;\n        } else if (mode === 0) {\n          appendResult();\n          return;\n        } else if (mode === 1) {\n          if (numParen === 0 && !method.match(/^url$/i)) {\n            args.push(definition.trim());\n            definition = '';\n            return;\n          }\n        }\n\n        break;\n    }\n\n    if (mode === 0) {\n      method += c;\n    } else {\n      definition += c;\n    }\n  });\n  appendResult();\n  return results;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/background.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/border.js":
+/*!*******************************!*\
+  !*** ./src/parsing/border.js ***!
+  \*******************************/
+/*! exports provided: BORDER_STYLE, BORDER_SIDES, parseBorder */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"BORDER_STYLE\", function() { return BORDER_STYLE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"BORDER_SIDES\", function() { return BORDER_SIDES; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseBorder\", function() { return parseBorder; });\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Color */ \"./src/Color.js\");\n\n\n\nvar BORDER_STYLE = {\n  NONE: 0,\n  SOLID: 1\n};\nvar BORDER_SIDES = {\n  TOP: 0,\n  RIGHT: 1,\n  BOTTOM: 2,\n  LEFT: 3\n};\nvar SIDES = Object.keys(BORDER_SIDES).map(function (s) {\n  return s.toLowerCase();\n});\n\nvar parseBorderStyle = function parseBorderStyle(style) {\n  switch (style) {\n    case 'none':\n      return BORDER_STYLE.NONE;\n  }\n\n  return BORDER_STYLE.SOLID;\n};\n\nvar parseBorder = function parseBorder(style) {\n  return SIDES.map(function (side) {\n    var borderColor = new _Color__WEBPACK_IMPORTED_MODULE_0__[\"default\"](style.getPropertyValue(\"border-\".concat(side, \"-color\")));\n    var borderStyle = parseBorderStyle(style.getPropertyValue(\"border-\".concat(side, \"-style\")));\n    var borderWidth = parseFloat(style.getPropertyValue(\"border-\".concat(side, \"-width\")));\n    return {\n      borderColor: borderColor,\n      borderStyle: borderStyle,\n      borderWidth: isNaN(borderWidth) ? 0 : borderWidth\n    };\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/border.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/borderRadius.js":
+/*!*************************************!*\
+  !*** ./src/parsing/borderRadius.js ***!
+  \*************************************/
+/*! exports provided: parseBorderRadius */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseBorderRadius\", function() { return parseBorderRadius; });\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Length */ \"./src/Length.js\");\n\n\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance\"); }\n\nfunction _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\n\nvar SIDES = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];\nvar parseBorderRadius = function parseBorderRadius(style) {\n  return SIDES.map(function (side) {\n    var value = style.getPropertyValue(\"border-\".concat(side, \"-radius\"));\n\n    var _value$split$map = value.split(' ').map(_Length__WEBPACK_IMPORTED_MODULE_0__[\"default\"].create),\n        _value$split$map2 = _slicedToArray(_value$split$map, 2),\n        horizontal = _value$split$map2[0],\n        vertical = _value$split$map2[1];\n\n    return typeof vertical === 'undefined' ? [horizontal, horizontal] : [horizontal, vertical];\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/borderRadius.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/display.js":
+/*!********************************!*\
+  !*** ./src/parsing/display.js ***!
+  \********************************/
+/*! exports provided: DISPLAY, parseDisplay */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"DISPLAY\", function() { return DISPLAY; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseDisplay\", function() { return parseDisplay; });\n\n\nvar DISPLAY = {\n  NONE: 1 << 0,\n  BLOCK: 1 << 1,\n  INLINE: 1 << 2,\n  RUN_IN: 1 << 3,\n  FLOW: 1 << 4,\n  FLOW_ROOT: 1 << 5,\n  TABLE: 1 << 6,\n  FLEX: 1 << 7,\n  GRID: 1 << 8,\n  RUBY: 1 << 9,\n  SUBGRID: 1 << 10,\n  LIST_ITEM: 1 << 11,\n  TABLE_ROW_GROUP: 1 << 12,\n  TABLE_HEADER_GROUP: 1 << 13,\n  TABLE_FOOTER_GROUP: 1 << 14,\n  TABLE_ROW: 1 << 15,\n  TABLE_CELL: 1 << 16,\n  TABLE_COLUMN_GROUP: 1 << 17,\n  TABLE_COLUMN: 1 << 18,\n  TABLE_CAPTION: 1 << 19,\n  RUBY_BASE: 1 << 20,\n  RUBY_TEXT: 1 << 21,\n  RUBY_BASE_CONTAINER: 1 << 22,\n  RUBY_TEXT_CONTAINER: 1 << 23,\n  CONTENTS: 1 << 24,\n  INLINE_BLOCK: 1 << 25,\n  INLINE_LIST_ITEM: 1 << 26,\n  INLINE_TABLE: 1 << 27,\n  INLINE_FLEX: 1 << 28,\n  INLINE_GRID: 1 << 29\n};\n\nvar parseDisplayValue = function parseDisplayValue(display) {\n  switch (display) {\n    case 'block':\n      return DISPLAY.BLOCK;\n\n    case 'inline':\n      return DISPLAY.INLINE;\n\n    case 'run-in':\n      return DISPLAY.RUN_IN;\n\n    case 'flow':\n      return DISPLAY.FLOW;\n\n    case 'flow-root':\n      return DISPLAY.FLOW_ROOT;\n\n    case 'table':\n      return DISPLAY.TABLE;\n\n    case 'flex':\n      return DISPLAY.FLEX;\n\n    case 'grid':\n      return DISPLAY.GRID;\n\n    case 'ruby':\n      return DISPLAY.RUBY;\n\n    case 'subgrid':\n      return DISPLAY.SUBGRID;\n\n    case 'list-item':\n      return DISPLAY.LIST_ITEM;\n\n    case 'table-row-group':\n      return DISPLAY.TABLE_ROW_GROUP;\n\n    case 'table-header-group':\n      return DISPLAY.TABLE_HEADER_GROUP;\n\n    case 'table-footer-group':\n      return DISPLAY.TABLE_FOOTER_GROUP;\n\n    case 'table-row':\n      return DISPLAY.TABLE_ROW;\n\n    case 'table-cell':\n      return DISPLAY.TABLE_CELL;\n\n    case 'table-column-group':\n      return DISPLAY.TABLE_COLUMN_GROUP;\n\n    case 'table-column':\n      return DISPLAY.TABLE_COLUMN;\n\n    case 'table-caption':\n      return DISPLAY.TABLE_CAPTION;\n\n    case 'ruby-base':\n      return DISPLAY.RUBY_BASE;\n\n    case 'ruby-text':\n      return DISPLAY.RUBY_TEXT;\n\n    case 'ruby-base-container':\n      return DISPLAY.RUBY_BASE_CONTAINER;\n\n    case 'ruby-text-container':\n      return DISPLAY.RUBY_TEXT_CONTAINER;\n\n    case 'contents':\n      return DISPLAY.CONTENTS;\n\n    case 'inline-block':\n      return DISPLAY.INLINE_BLOCK;\n\n    case 'inline-list-item':\n      return DISPLAY.INLINE_LIST_ITEM;\n\n    case 'inline-table':\n      return DISPLAY.INLINE_TABLE;\n\n    case 'inline-flex':\n      return DISPLAY.INLINE_FLEX;\n\n    case 'inline-grid':\n      return DISPLAY.INLINE_GRID;\n  }\n\n  return DISPLAY.NONE;\n};\n\nvar setDisplayBit = function setDisplayBit(bit, display) {\n  return bit | parseDisplayValue(display);\n};\n\nvar parseDisplay = function parseDisplay(display) {\n  return display.split(' ').reduce(setDisplayBit, 0);\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/display.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/float.js":
+/*!******************************!*\
+  !*** ./src/parsing/float.js ***!
+  \******************************/
+/*! exports provided: FLOAT, parseCSSFloat */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"FLOAT\", function() { return FLOAT; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseCSSFloat\", function() { return parseCSSFloat; });\n\n\nvar FLOAT = {\n  NONE: 0,\n  LEFT: 1,\n  RIGHT: 2,\n  INLINE_START: 3,\n  INLINE_END: 4\n};\nvar parseCSSFloat = function parseCSSFloat(float) {\n  switch (float) {\n    case 'left':\n      return FLOAT.LEFT;\n\n    case 'right':\n      return FLOAT.RIGHT;\n\n    case 'inline-start':\n      return FLOAT.INLINE_START;\n\n    case 'inline-end':\n      return FLOAT.INLINE_END;\n  }\n\n  return FLOAT.NONE;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/float.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/font.js":
+/*!*****************************!*\
+  !*** ./src/parsing/font.js ***!
+  \*****************************/
+/*! exports provided: parseFont */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseFont\", function() { return parseFont; });\n\n\nvar parseFontWeight = function parseFontWeight(weight) {\n  switch (weight) {\n    case 'normal':\n      return 400;\n\n    case 'bold':\n      return 700;\n  }\n\n  var value = parseInt(weight, 10);\n  return isNaN(value) ? 400 : value;\n};\n\nvar parseFont = function parseFont(style) {\n  var fontFamily = style.fontFamily;\n  var fontSize = style.fontSize;\n  var fontStyle = style.fontStyle;\n  var fontVariant = style.fontVariant;\n  var fontWeight = parseFontWeight(style.fontWeight);\n  return {\n    fontFamily: fontFamily,\n    fontSize: fontSize,\n    fontStyle: fontStyle,\n    fontVariant: fontVariant,\n    fontWeight: fontWeight\n  };\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/font.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/letterSpacing.js":
+/*!**************************************!*\
+  !*** ./src/parsing/letterSpacing.js ***!
+  \**************************************/
+/*! exports provided: parseLetterSpacing */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseLetterSpacing\", function() { return parseLetterSpacing; });\n\n\nvar parseLetterSpacing = function parseLetterSpacing(letterSpacing) {\n  if (letterSpacing === 'normal') {\n    return 0;\n  }\n\n  var value = parseFloat(letterSpacing);\n  return isNaN(value) ? 0 : value;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/letterSpacing.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/lineBreak.js":
+/*!**********************************!*\
+  !*** ./src/parsing/lineBreak.js ***!
+  \**********************************/
+/*! exports provided: LINE_BREAK, parseLineBreak */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LINE_BREAK\", function() { return LINE_BREAK; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseLineBreak\", function() { return parseLineBreak; });\n\n\nvar LINE_BREAK = {\n  NORMAL: 'normal',\n  STRICT: 'strict'\n};\nvar parseLineBreak = function parseLineBreak(wordBreak) {\n  switch (wordBreak) {\n    case 'strict':\n      return LINE_BREAK.STRICT;\n\n    case 'normal':\n    default:\n      return LINE_BREAK.NORMAL;\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/lineBreak.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/listStyle.js":
+/*!**********************************!*\
+  !*** ./src/parsing/listStyle.js ***!
+  \**********************************/
+/*! exports provided: LIST_STYLE_POSITION, LIST_STYLE_TYPE, parseListStyleType, parseListStyle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LIST_STYLE_POSITION\", function() { return LIST_STYLE_POSITION; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LIST_STYLE_TYPE\", function() { return LIST_STYLE_TYPE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseListStyleType\", function() { return parseListStyleType; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseListStyle\", function() { return parseListStyle; });\n/* harmony import */ var _background__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./background */ \"./src/parsing/background.js\");\n\n\n\nvar LIST_STYLE_POSITION = {\n  INSIDE: 0,\n  OUTSIDE: 1\n};\nvar LIST_STYLE_TYPE = {\n  NONE: -1,\n  DISC: 0,\n  CIRCLE: 1,\n  SQUARE: 2,\n  DECIMAL: 3,\n  CJK_DECIMAL: 4,\n  DECIMAL_LEADING_ZERO: 5,\n  LOWER_ROMAN: 6,\n  UPPER_ROMAN: 7,\n  LOWER_GREEK: 8,\n  LOWER_ALPHA: 9,\n  UPPER_ALPHA: 10,\n  ARABIC_INDIC: 11,\n  ARMENIAN: 12,\n  BENGALI: 13,\n  CAMBODIAN: 14,\n  CJK_EARTHLY_BRANCH: 15,\n  CJK_HEAVENLY_STEM: 16,\n  CJK_IDEOGRAPHIC: 17,\n  DEVANAGARI: 18,\n  ETHIOPIC_NUMERIC: 19,\n  GEORGIAN: 20,\n  GUJARATI: 21,\n  GURMUKHI: 22,\n  HEBREW: 22,\n  HIRAGANA: 23,\n  HIRAGANA_IROHA: 24,\n  JAPANESE_FORMAL: 25,\n  JAPANESE_INFORMAL: 26,\n  KANNADA: 27,\n  KATAKANA: 28,\n  KATAKANA_IROHA: 29,\n  KHMER: 30,\n  KOREAN_HANGUL_FORMAL: 31,\n  KOREAN_HANJA_FORMAL: 32,\n  KOREAN_HANJA_INFORMAL: 33,\n  LAO: 34,\n  LOWER_ARMENIAN: 35,\n  MALAYALAM: 36,\n  MONGOLIAN: 37,\n  MYANMAR: 38,\n  ORIYA: 39,\n  PERSIAN: 40,\n  SIMP_CHINESE_FORMAL: 41,\n  SIMP_CHINESE_INFORMAL: 42,\n  TAMIL: 43,\n  TELUGU: 44,\n  THAI: 45,\n  TIBETAN: 46,\n  TRAD_CHINESE_FORMAL: 47,\n  TRAD_CHINESE_INFORMAL: 48,\n  UPPER_ARMENIAN: 49,\n  DISCLOSURE_OPEN: 50,\n  DISCLOSURE_CLOSED: 51\n};\nvar parseListStyleType = function parseListStyleType(type) {\n  switch (type) {\n    case 'disc':\n      return LIST_STYLE_TYPE.DISC;\n\n    case 'circle':\n      return LIST_STYLE_TYPE.CIRCLE;\n\n    case 'square':\n      return LIST_STYLE_TYPE.SQUARE;\n\n    case 'decimal':\n      return LIST_STYLE_TYPE.DECIMAL;\n\n    case 'cjk-decimal':\n      return LIST_STYLE_TYPE.CJK_DECIMAL;\n\n    case 'decimal-leading-zero':\n      return LIST_STYLE_TYPE.DECIMAL_LEADING_ZERO;\n\n    case 'lower-roman':\n      return LIST_STYLE_TYPE.LOWER_ROMAN;\n\n    case 'upper-roman':\n      return LIST_STYLE_TYPE.UPPER_ROMAN;\n\n    case 'lower-greek':\n      return LIST_STYLE_TYPE.LOWER_GREEK;\n\n    case 'lower-alpha':\n      return LIST_STYLE_TYPE.LOWER_ALPHA;\n\n    case 'upper-alpha':\n      return LIST_STYLE_TYPE.UPPER_ALPHA;\n\n    case 'arabic-indic':\n      return LIST_STYLE_TYPE.ARABIC_INDIC;\n\n    case 'armenian':\n      return LIST_STYLE_TYPE.ARMENIAN;\n\n    case 'bengali':\n      return LIST_STYLE_TYPE.BENGALI;\n\n    case 'cambodian':\n      return LIST_STYLE_TYPE.CAMBODIAN;\n\n    case 'cjk-earthly-branch':\n      return LIST_STYLE_TYPE.CJK_EARTHLY_BRANCH;\n\n    case 'cjk-heavenly-stem':\n      return LIST_STYLE_TYPE.CJK_HEAVENLY_STEM;\n\n    case 'cjk-ideographic':\n      return LIST_STYLE_TYPE.CJK_IDEOGRAPHIC;\n\n    case 'devanagari':\n      return LIST_STYLE_TYPE.DEVANAGARI;\n\n    case 'ethiopic-numeric':\n      return LIST_STYLE_TYPE.ETHIOPIC_NUMERIC;\n\n    case 'georgian':\n      return LIST_STYLE_TYPE.GEORGIAN;\n\n    case 'gujarati':\n      return LIST_STYLE_TYPE.GUJARATI;\n\n    case 'gurmukhi':\n      return LIST_STYLE_TYPE.GURMUKHI;\n\n    case 'hebrew':\n      return LIST_STYLE_TYPE.HEBREW;\n\n    case 'hiragana':\n      return LIST_STYLE_TYPE.HIRAGANA;\n\n    case 'hiragana-iroha':\n      return LIST_STYLE_TYPE.HIRAGANA_IROHA;\n\n    case 'japanese-formal':\n      return LIST_STYLE_TYPE.JAPANESE_FORMAL;\n\n    case 'japanese-informal':\n      return LIST_STYLE_TYPE.JAPANESE_INFORMAL;\n\n    case 'kannada':\n      return LIST_STYLE_TYPE.KANNADA;\n\n    case 'katakana':\n      return LIST_STYLE_TYPE.KATAKANA;\n\n    case 'katakana-iroha':\n      return LIST_STYLE_TYPE.KATAKANA_IROHA;\n\n    case 'khmer':\n      return LIST_STYLE_TYPE.KHMER;\n\n    case 'korean-hangul-formal':\n      return LIST_STYLE_TYPE.KOREAN_HANGUL_FORMAL;\n\n    case 'korean-hanja-formal':\n      return LIST_STYLE_TYPE.KOREAN_HANJA_FORMAL;\n\n    case 'korean-hanja-informal':\n      return LIST_STYLE_TYPE.KOREAN_HANJA_INFORMAL;\n\n    case 'lao':\n      return LIST_STYLE_TYPE.LAO;\n\n    case 'lower-armenian':\n      return LIST_STYLE_TYPE.LOWER_ARMENIAN;\n\n    case 'malayalam':\n      return LIST_STYLE_TYPE.MALAYALAM;\n\n    case 'mongolian':\n      return LIST_STYLE_TYPE.MONGOLIAN;\n\n    case 'myanmar':\n      return LIST_STYLE_TYPE.MYANMAR;\n\n    case 'oriya':\n      return LIST_STYLE_TYPE.ORIYA;\n\n    case 'persian':\n      return LIST_STYLE_TYPE.PERSIAN;\n\n    case 'simp-chinese-formal':\n      return LIST_STYLE_TYPE.SIMP_CHINESE_FORMAL;\n\n    case 'simp-chinese-informal':\n      return LIST_STYLE_TYPE.SIMP_CHINESE_INFORMAL;\n\n    case 'tamil':\n      return LIST_STYLE_TYPE.TAMIL;\n\n    case 'telugu':\n      return LIST_STYLE_TYPE.TELUGU;\n\n    case 'thai':\n      return LIST_STYLE_TYPE.THAI;\n\n    case 'tibetan':\n      return LIST_STYLE_TYPE.TIBETAN;\n\n    case 'trad-chinese-formal':\n      return LIST_STYLE_TYPE.TRAD_CHINESE_FORMAL;\n\n    case 'trad-chinese-informal':\n      return LIST_STYLE_TYPE.TRAD_CHINESE_INFORMAL;\n\n    case 'upper-armenian':\n      return LIST_STYLE_TYPE.UPPER_ARMENIAN;\n\n    case 'disclosure-open':\n      return LIST_STYLE_TYPE.DISCLOSURE_OPEN;\n\n    case 'disclosure-closed':\n      return LIST_STYLE_TYPE.DISCLOSURE_CLOSED;\n\n    case 'none':\n    default:\n      return LIST_STYLE_TYPE.NONE;\n  }\n};\nvar parseListStyle = function parseListStyle(style) {\n  var listStyleImage = Object(_background__WEBPACK_IMPORTED_MODULE_0__[\"parseBackgroundImage\"])(style.getPropertyValue('list-style-image'));\n  return {\n    listStyleType: parseListStyleType(style.getPropertyValue('list-style-type')),\n    listStyleImage: listStyleImage.length ? listStyleImage[0] : null,\n    listStylePosition: parseListStylePosition(style.getPropertyValue('list-style-position'))\n  };\n};\n\nvar parseListStylePosition = function parseListStylePosition(position) {\n  switch (position) {\n    case 'inside':\n      return LIST_STYLE_POSITION.INSIDE;\n\n    case 'outside':\n    default:\n      return LIST_STYLE_POSITION.OUTSIDE;\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/listStyle.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/margin.js":
+/*!*******************************!*\
+  !*** ./src/parsing/margin.js ***!
+  \*******************************/
+/*! exports provided: parseMargin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseMargin\", function() { return parseMargin; });\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Length */ \"./src/Length.js\");\n\n\n\nvar SIDES = ['top', 'right', 'bottom', 'left'];\nvar parseMargin = function parseMargin(style) {\n  return SIDES.map(function (side) {\n    return new _Length__WEBPACK_IMPORTED_MODULE_0__[\"default\"](style.getPropertyValue(\"margin-\".concat(side)));\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/margin.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/overflow.js":
+/*!*********************************!*\
+  !*** ./src/parsing/overflow.js ***!
+  \*********************************/
+/*! exports provided: OVERFLOW, parseOverflow */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"OVERFLOW\", function() { return OVERFLOW; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseOverflow\", function() { return parseOverflow; });\n\n\nvar OVERFLOW = {\n  VISIBLE: 0,\n  HIDDEN: 1,\n  SCROLL: 2,\n  AUTO: 3\n};\nvar parseOverflow = function parseOverflow(overflow) {\n  switch (overflow) {\n    case 'hidden':\n      return OVERFLOW.HIDDEN;\n\n    case 'scroll':\n      return OVERFLOW.SCROLL;\n\n    case 'auto':\n      return OVERFLOW.AUTO;\n\n    case 'visible':\n    default:\n      return OVERFLOW.VISIBLE;\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/overflow.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/overflowWrap.js":
+/*!*************************************!*\
+  !*** ./src/parsing/overflowWrap.js ***!
+  \*************************************/
+/*! exports provided: OVERFLOW_WRAP, parseOverflowWrap */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"OVERFLOW_WRAP\", function() { return OVERFLOW_WRAP; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseOverflowWrap\", function() { return parseOverflowWrap; });\n\n\nvar OVERFLOW_WRAP = {\n  NORMAL: 0,\n  BREAK_WORD: 1\n};\nvar parseOverflowWrap = function parseOverflowWrap(overflow) {\n  switch (overflow) {\n    case 'break-word':\n      return OVERFLOW_WRAP.BREAK_WORD;\n\n    case 'normal':\n    default:\n      return OVERFLOW_WRAP.NORMAL;\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/overflowWrap.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/padding.js":
+/*!********************************!*\
+  !*** ./src/parsing/padding.js ***!
+  \********************************/
+/*! exports provided: PADDING_SIDES, parsePadding */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PADDING_SIDES\", function() { return PADDING_SIDES; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parsePadding\", function() { return parsePadding; });\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Length */ \"./src/Length.js\");\n\n\n\nvar PADDING_SIDES = {\n  TOP: 0,\n  RIGHT: 1,\n  BOTTOM: 2,\n  LEFT: 3\n};\nvar SIDES = ['top', 'right', 'bottom', 'left'];\nvar parsePadding = function parsePadding(style) {\n  return SIDES.map(function (side) {\n    return new _Length__WEBPACK_IMPORTED_MODULE_0__[\"default\"](style.getPropertyValue(\"padding-\".concat(side)));\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/padding.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/position.js":
+/*!*********************************!*\
+  !*** ./src/parsing/position.js ***!
+  \*********************************/
+/*! exports provided: POSITION, parsePosition */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"POSITION\", function() { return POSITION; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parsePosition\", function() { return parsePosition; });\n\n\nvar POSITION = {\n  STATIC: 0,\n  RELATIVE: 1,\n  ABSOLUTE: 2,\n  FIXED: 3,\n  STICKY: 4\n};\nvar parsePosition = function parsePosition(position) {\n  switch (position) {\n    case 'relative':\n      return POSITION.RELATIVE;\n\n    case 'absolute':\n      return POSITION.ABSOLUTE;\n\n    case 'fixed':\n      return POSITION.FIXED;\n\n    case 'sticky':\n      return POSITION.STICKY;\n  }\n\n  return POSITION.STATIC;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/position.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/textDecoration.js":
+/*!***************************************!*\
+  !*** ./src/parsing/textDecoration.js ***!
+  \***************************************/
+/*! exports provided: TEXT_DECORATION_STYLE, TEXT_DECORATION, TEXT_DECORATION_LINE, parseTextDecoration */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TEXT_DECORATION_STYLE\", function() { return TEXT_DECORATION_STYLE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TEXT_DECORATION\", function() { return TEXT_DECORATION; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TEXT_DECORATION_LINE\", function() { return TEXT_DECORATION_LINE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseTextDecoration\", function() { return parseTextDecoration; });\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Color */ \"./src/Color.js\");\n\n\n\nvar TEXT_DECORATION_STYLE = {\n  SOLID: 0,\n  DOUBLE: 1,\n  DOTTED: 2,\n  DASHED: 3,\n  WAVY: 4\n};\nvar TEXT_DECORATION = {\n  NONE: null\n};\nvar TEXT_DECORATION_LINE = {\n  UNDERLINE: 1,\n  OVERLINE: 2,\n  LINE_THROUGH: 3,\n  BLINK: 4\n};\n\nvar parseLine = function parseLine(line) {\n  switch (line) {\n    case 'underline':\n      return TEXT_DECORATION_LINE.UNDERLINE;\n\n    case 'overline':\n      return TEXT_DECORATION_LINE.OVERLINE;\n\n    case 'line-through':\n      return TEXT_DECORATION_LINE.LINE_THROUGH;\n  }\n\n  return TEXT_DECORATION_LINE.BLINK;\n};\n\nvar parseTextDecorationLine = function parseTextDecorationLine(line) {\n  if (line === 'none') {\n    return null;\n  }\n\n  return line.split(' ').map(parseLine);\n};\n\nvar parseTextDecorationStyle = function parseTextDecorationStyle(style) {\n  switch (style) {\n    case 'double':\n      return TEXT_DECORATION_STYLE.DOUBLE;\n\n    case 'dotted':\n      return TEXT_DECORATION_STYLE.DOTTED;\n\n    case 'dashed':\n      return TEXT_DECORATION_STYLE.DASHED;\n\n    case 'wavy':\n      return TEXT_DECORATION_STYLE.WAVY;\n  }\n\n  return TEXT_DECORATION_STYLE.SOLID;\n};\n\nvar parseTextDecoration = function parseTextDecoration(style) {\n  var textDecorationLine = parseTextDecorationLine(style.textDecorationLine ? style.textDecorationLine : style.textDecoration);\n\n  if (textDecorationLine === null) {\n    return TEXT_DECORATION.NONE;\n  }\n\n  var textDecorationColor = style.textDecorationColor ? new _Color__WEBPACK_IMPORTED_MODULE_0__[\"default\"](style.textDecorationColor) : null;\n  var textDecorationStyle = parseTextDecorationStyle(style.textDecorationStyle);\n  return {\n    textDecorationLine: textDecorationLine,\n    textDecorationColor: textDecorationColor,\n    textDecorationStyle: textDecorationStyle\n  };\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/textDecoration.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/textShadow.js":
+/*!***********************************!*\
+  !*** ./src/parsing/textShadow.js ***!
+  \***********************************/
+/*! exports provided: parseTextShadow */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseTextShadow\", function() { return parseTextShadow; });\n/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Color */ \"./src/Color.js\");\n\n\n\nvar NUMBER = /^([+-]|\\d|\\.)$/i;\nvar parseTextShadow = function parseTextShadow(textShadow) {\n  if (textShadow === 'none' || typeof textShadow !== 'string') {\n    return null;\n  }\n\n  var currentValue = '';\n  var isLength = false;\n  var values = [];\n  var shadows = [];\n  var numParens = 0;\n  var color = null;\n\n  var appendValue = function appendValue() {\n    if (currentValue.length) {\n      if (isLength) {\n        values.push(parseFloat(currentValue));\n      } else {\n        color = new _Color__WEBPACK_IMPORTED_MODULE_0__[\"default\"](currentValue);\n      }\n    }\n\n    isLength = false;\n    currentValue = '';\n  };\n\n  var appendShadow = function appendShadow() {\n    if (values.length && color !== null) {\n      shadows.push({\n        color: color,\n        offsetX: values[0] || 0,\n        offsetY: values[1] || 0,\n        blur: values[2] || 0\n      });\n    }\n\n    values.splice(0, values.length);\n    color = null;\n  };\n\n  for (var i = 0; i < textShadow.length; i++) {\n    var c = textShadow[i];\n\n    switch (c) {\n      case '(':\n        currentValue += c;\n        numParens++;\n        break;\n\n      case ')':\n        currentValue += c;\n        numParens--;\n        break;\n\n      case ',':\n        if (numParens === 0) {\n          appendValue();\n          appendShadow();\n        } else {\n          currentValue += c;\n        }\n\n        break;\n\n      case ' ':\n        if (numParens === 0) {\n          appendValue();\n        } else {\n          currentValue += c;\n        }\n\n        break;\n\n      default:\n        if (currentValue.length === 0 && NUMBER.test(c)) {\n          isLength = true;\n        }\n\n        currentValue += c;\n    }\n  }\n\n  appendValue();\n  appendShadow();\n\n  if (shadows.length === 0) {\n    return null;\n  }\n\n  return shadows;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/textShadow.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/textTransform.js":
+/*!**************************************!*\
+  !*** ./src/parsing/textTransform.js ***!
+  \**************************************/
+/*! exports provided: TEXT_TRANSFORM, parseTextTransform */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TEXT_TRANSFORM\", function() { return TEXT_TRANSFORM; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseTextTransform\", function() { return parseTextTransform; });\n\n\nvar TEXT_TRANSFORM = {\n  NONE: 0,\n  LOWERCASE: 1,\n  UPPERCASE: 2,\n  CAPITALIZE: 3\n};\nvar parseTextTransform = function parseTextTransform(textTransform) {\n  switch (textTransform) {\n    case 'uppercase':\n      return TEXT_TRANSFORM.UPPERCASE;\n\n    case 'lowercase':\n      return TEXT_TRANSFORM.LOWERCASE;\n\n    case 'capitalize':\n      return TEXT_TRANSFORM.CAPITALIZE;\n  }\n\n  return TEXT_TRANSFORM.NONE;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/textTransform.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/transform.js":
+/*!**********************************!*\
+  !*** ./src/parsing/transform.js ***!
+  \**********************************/
+/*! exports provided: parseTransform */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseTransform\", function() { return parseTransform; });\n/* harmony import */ var _Length__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Length */ \"./src/Length.js\");\n\n\n\n\nvar toFloat = function toFloat(s) {\n  return parseFloat(s.trim());\n};\n\nvar MATRIX = /(matrix|matrix3d)\\((.+)\\)/;\nvar parseTransform = function parseTransform(style) {\n  var transform = parseTransformMatrix(style.transform || style.webkitTransform || style.mozTransform || // $FlowFixMe\n  style.msTransform || // $FlowFixMe\n  style.oTransform);\n\n  if (transform === null) {\n    return null;\n  }\n\n  return {\n    transform: transform,\n    transformOrigin: parseTransformOrigin(style.transformOrigin || style.webkitTransformOrigin || style.mozTransformOrigin || // $FlowFixMe\n    style.msTransformOrigin || // $FlowFixMe\n    style.oTransformOrigin)\n  };\n}; // $FlowFixMe\n\nvar parseTransformOrigin = function parseTransformOrigin(origin) {\n  if (typeof origin !== 'string') {\n    var v = new _Length__WEBPACK_IMPORTED_MODULE_0__[\"default\"]('0');\n    return [v, v];\n  }\n\n  var values = origin.split(' ').map(_Length__WEBPACK_IMPORTED_MODULE_0__[\"default\"].create);\n  return [values[0], values[1]];\n}; // $FlowFixMe\n\n\nvar parseTransformMatrix = function parseTransformMatrix(transform) {\n  if (transform === 'none' || typeof transform !== 'string') {\n    return null;\n  }\n\n  var match = transform.match(MATRIX);\n\n  if (match) {\n    if (match[1] === 'matrix') {\n      var matrix = match[2].split(',').map(toFloat);\n      return [matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]];\n    } else {\n      var matrix3d = match[2].split(',').map(toFloat);\n      return [matrix3d[0], matrix3d[1], matrix3d[4], matrix3d[5], matrix3d[12], matrix3d[13]];\n    }\n  }\n\n  return null;\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/transform.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/visibility.js":
+/*!***********************************!*\
+  !*** ./src/parsing/visibility.js ***!
+  \***********************************/
+/*! exports provided: VISIBILITY, parseVisibility */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"VISIBILITY\", function() { return VISIBILITY; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseVisibility\", function() { return parseVisibility; });\n\n\nvar VISIBILITY = {\n  VISIBLE: 0,\n  HIDDEN: 1,\n  COLLAPSE: 2\n};\nvar parseVisibility = function parseVisibility(visibility) {\n  switch (visibility) {\n    case 'hidden':\n      return VISIBILITY.HIDDEN;\n\n    case 'collapse':\n      return VISIBILITY.COLLAPSE;\n\n    case 'visible':\n    default:\n      return VISIBILITY.VISIBLE;\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/visibility.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/word-break.js":
+/*!***********************************!*\
+  !*** ./src/parsing/word-break.js ***!
+  \***********************************/
+/*! exports provided: WORD_BREAK, parseWordBreak */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"WORD_BREAK\", function() { return WORD_BREAK; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseWordBreak\", function() { return parseWordBreak; });\n\n\nvar WORD_BREAK = {\n  NORMAL: 'normal',\n  BREAK_ALL: 'break-all',\n  KEEP_ALL: 'keep-all'\n};\nvar parseWordBreak = function parseWordBreak(wordBreak) {\n  switch (wordBreak) {\n    case 'break-all':\n      return WORD_BREAK.BREAK_ALL;\n\n    case 'keep-all':\n      return WORD_BREAK.KEEP_ALL;\n\n    case 'normal':\n    default:\n      return WORD_BREAK.NORMAL;\n  }\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/word-break.js?");
+
+/***/ }),
+
+/***/ "./src/parsing/zIndex.js":
+/*!*******************************!*\
+  !*** ./src/parsing/zIndex.js ***!
+  \*******************************/
+/*! exports provided: parseZIndex */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parseZIndex\", function() { return parseZIndex; });\n\n\nvar parseZIndex = function parseZIndex(zIndex) {\n  var auto = zIndex === 'auto';\n  return {\n    auto: auto,\n    order: auto ? 0 : parseInt(zIndex, 10)\n  };\n};\n\n//# sourceURL=webpack://html2canvas/./src/parsing/zIndex.js?");
+
+/***/ }),
+
+/***/ "./src/renderer/CanvasRenderer.js":
+/*!****************************************!*\
+  !*** ./src/renderer/CanvasRenderer.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return CanvasRenderer; });\n/* harmony import */ var _drawing_Path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../drawing/Path */ \"./src/drawing/Path.js\");\n/* harmony import */ var _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parsing/textDecoration */ \"./src/parsing/textDecoration.js\");\n\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\nvar addColorStops = function addColorStops(gradient, canvasGradient) {\n  var maxStop = Math.max.apply(null, gradient.colorStops.map(function (colorStop) {\n    return colorStop.stop;\n  }));\n  var f = 1 / Math.max(1, maxStop);\n  gradient.colorStops.forEach(function (colorStop) {\n    canvasGradient.addColorStop(Math.floor(Math.max(0, f * colorStop.stop)), colorStop.color.toString());\n  });\n};\n\nvar CanvasRenderer =\n/*#__PURE__*/\nfunction () {\n  function CanvasRenderer(canvas) {\n    _classCallCheck(this, CanvasRenderer);\n\n    this.canvas = canvas ? canvas : document.createElement('canvas');\n  }\n\n  _createClass(CanvasRenderer, [{\n    key: \"render\",\n    value: function render(options) {\n      this.ctx = this.canvas.getContext('2d');\n      this.options = options;\n      this.canvas.width = Math.floor(options.width * options.scale);\n      this.canvas.height = Math.floor(options.height * options.scale);\n      this.canvas.style.width = \"\".concat(options.width, \"px\");\n      this.canvas.style.height = \"\".concat(options.height, \"px\");\n      this.ctx.scale(this.options.scale, this.options.scale);\n      this.ctx.translate(-options.x, -options.y);\n      this.ctx.textBaseline = 'bottom';\n      options.logger.log(\"Canvas renderer initialized (\".concat(options.width, \"x\").concat(options.height, \" at \").concat(options.x, \",\").concat(options.y, \") with scale \").concat(this.options.scale));\n    }\n  }, {\n    key: \"clip\",\n    value: function clip(clipPaths, callback) {\n      var _this = this;\n\n      if (clipPaths.length) {\n        this.ctx.save();\n        clipPaths.forEach(function (path) {\n          _this.path(path);\n\n          _this.ctx.clip();\n        });\n      }\n\n      callback();\n\n      if (clipPaths.length) {\n        this.ctx.restore();\n      }\n    }\n  }, {\n    key: \"drawImage\",\n    value: function drawImage(image, source, destination) {\n      this.ctx.drawImage(image, source.left, source.top, source.width, source.height, destination.left, destination.top, destination.width, destination.height);\n    }\n  }, {\n    key: \"drawShape\",\n    value: function drawShape(path, color) {\n      this.path(path);\n      this.ctx.fillStyle = color.toString();\n      this.ctx.fill();\n    }\n  }, {\n    key: \"fill\",\n    value: function fill(color) {\n      this.ctx.fillStyle = color.toString();\n      this.ctx.fill();\n    }\n  }, {\n    key: \"getTarget\",\n    value: function getTarget() {\n      this.canvas.getContext('2d').setTransform(1, 0, 0, 1, 0, 0);\n      return Promise.resolve(this.canvas);\n    }\n  }, {\n    key: \"path\",\n    value: function path(_path) {\n      var _this2 = this;\n\n      this.ctx.beginPath();\n\n      if (Array.isArray(_path)) {\n        _path.forEach(function (point, index) {\n          var start = point.type === _drawing_Path__WEBPACK_IMPORTED_MODULE_0__[\"PATH\"].VECTOR ? point : point.start;\n\n          if (index === 0) {\n            _this2.ctx.moveTo(start.x, start.y);\n          } else {\n            _this2.ctx.lineTo(start.x, start.y);\n          }\n\n          if (point.type === _drawing_Path__WEBPACK_IMPORTED_MODULE_0__[\"PATH\"].BEZIER_CURVE) {\n            _this2.ctx.bezierCurveTo(point.startControl.x, point.startControl.y, point.endControl.x, point.endControl.y, point.end.x, point.end.y);\n          }\n        });\n      } else {\n        this.ctx.arc(_path.x + _path.radius, _path.y + _path.radius, _path.radius, 0, Math.PI * 2, true);\n      }\n\n      this.ctx.closePath();\n    }\n  }, {\n    key: \"rectangle\",\n    value: function rectangle(x, y, width, height, color) {\n      this.ctx.fillStyle = color.toString();\n      this.ctx.fillRect(x, y, width, height);\n    }\n  }, {\n    key: \"renderLinearGradient\",\n    value: function renderLinearGradient(bounds, gradient) {\n      var linearGradient = this.ctx.createLinearGradient(bounds.left + gradient.direction.x1, bounds.top + gradient.direction.y1, bounds.left + gradient.direction.x0, bounds.top + gradient.direction.y0);\n      addColorStops(gradient, linearGradient);\n      this.ctx.fillStyle = linearGradient;\n      this.ctx.fillRect(bounds.left, bounds.top, bounds.width, bounds.height);\n    }\n  }, {\n    key: \"renderRadialGradient\",\n    value: function renderRadialGradient(bounds, gradient) {\n      var _this3 = this;\n\n      var x = bounds.left + gradient.center.x;\n      var y = bounds.top + gradient.center.y;\n      var radialGradient = this.ctx.createRadialGradient(x, y, 0, x, y, gradient.radius.x);\n\n      if (!radialGradient) {\n        return;\n      }\n\n      addColorStops(gradient, radialGradient);\n      this.ctx.fillStyle = radialGradient;\n\n      if (gradient.radius.x !== gradient.radius.y) {\n        // transforms for elliptical radial gradient\n        var midX = bounds.left + 0.5 * bounds.width;\n        var midY = bounds.top + 0.5 * bounds.height;\n        var f = gradient.radius.y / gradient.radius.x;\n        var invF = 1 / f;\n        this.transform(midX, midY, [1, 0, 0, f, 0, 0], function () {\n          return _this3.ctx.fillRect(bounds.left, invF * (bounds.top - midY) + midY, bounds.width, bounds.height * invF);\n        });\n      } else {\n        this.ctx.fillRect(bounds.left, bounds.top, bounds.width, bounds.height);\n      }\n    }\n  }, {\n    key: \"renderRepeat\",\n    value: function renderRepeat(path, image, imageSize, offsetX, offsetY) {\n      this.path(path);\n      this.ctx.fillStyle = this.ctx.createPattern(this.resizeImage(image, imageSize), 'repeat');\n      this.ctx.translate(offsetX, offsetY);\n      this.ctx.fill();\n      this.ctx.translate(-offsetX, -offsetY);\n    }\n  }, {\n    key: \"renderTextNode\",\n    value: function renderTextNode(textBounds, color, font, textDecoration, textShadows) {\n      var _this4 = this;\n\n      this.ctx.font = [font.fontStyle, font.fontVariant, font.fontWeight, font.fontSize, font.fontFamily].join(' ');\n      textBounds.forEach(function (text) {\n        _this4.ctx.fillStyle = color.toString();\n\n        if (textShadows && text.text.trim().length) {\n          textShadows.slice(0).reverse().forEach(function (textShadow) {\n            _this4.ctx.shadowColor = textShadow.color.toString();\n            _this4.ctx.shadowOffsetX = textShadow.offsetX * _this4.options.scale;\n            _this4.ctx.shadowOffsetY = textShadow.offsetY * _this4.options.scale;\n            _this4.ctx.shadowBlur = textShadow.blur;\n\n            _this4.ctx.fillText(text.text, text.bounds.left, text.bounds.top + text.bounds.height);\n          });\n          _this4.ctx.shadowColor = '';\n          _this4.ctx.shadowOffsetX = 0;\n          _this4.ctx.shadowOffsetY = 0;\n          _this4.ctx.shadowBlur = 0;\n        } else {\n          _this4.ctx.fillText(text.text, text.bounds.left, text.bounds.top + text.bounds.height);\n        }\n\n        if (textDecoration !== null) {\n          var textDecorationColor = textDecoration.textDecorationColor || color;\n          textDecoration.textDecorationLine.forEach(function (textDecorationLine) {\n            switch (textDecorationLine) {\n              case _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_1__[\"TEXT_DECORATION_LINE\"].UNDERLINE:\n                // Draws a line at the baseline of the font\n                // TODO As some browsers display the line as more than 1px if the font-size is big,\n                // need to take that into account both in position and size\n                var _this4$options$fontMe = _this4.options.fontMetrics.getMetrics(font),\n                    baseline = _this4$options$fontMe.baseline;\n\n                _this4.rectangle(text.bounds.left, Math.round(text.bounds.top + baseline), text.bounds.width, 1, textDecorationColor);\n\n                break;\n\n              case _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_1__[\"TEXT_DECORATION_LINE\"].OVERLINE:\n                _this4.rectangle(text.bounds.left, Math.round(text.bounds.top), text.bounds.width, 1, textDecorationColor);\n\n                break;\n\n              case _parsing_textDecoration__WEBPACK_IMPORTED_MODULE_1__[\"TEXT_DECORATION_LINE\"].LINE_THROUGH:\n                // TODO try and find exact position for line-through\n                var _this4$options$fontMe2 = _this4.options.fontMetrics.getMetrics(font),\n                    middle = _this4$options$fontMe2.middle;\n\n                _this4.rectangle(text.bounds.left, Math.ceil(text.bounds.top + middle), text.bounds.width, 1, textDecorationColor);\n\n                break;\n            }\n          });\n        }\n      });\n    }\n  }, {\n    key: \"resizeImage\",\n    value: function resizeImage(image, size) {\n      if (image.width === size.width && image.height === size.height) {\n        return image;\n      }\n\n      var canvas = this.canvas.ownerDocument.createElement('canvas');\n      canvas.width = size.width;\n      canvas.height = size.height;\n      var ctx = canvas.getContext('2d');\n      ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, size.width, size.height);\n      return canvas;\n    }\n  }, {\n    key: \"setOpacity\",\n    value: function setOpacity(opacity) {\n      this.ctx.globalAlpha = opacity;\n    }\n  }, {\n    key: \"transform\",\n    value: function transform(offsetX, offsetY, matrix, callback) {\n      this.ctx.save();\n      this.ctx.translate(offsetX, offsetY);\n      this.ctx.transform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);\n      this.ctx.translate(-offsetX, -offsetY);\n      callback();\n      this.ctx.restore();\n    }\n  }]);\n\n  return CanvasRenderer;\n}();\n\n\n\n//# sourceURL=webpack://html2canvas/./src/renderer/CanvasRenderer.js?");
+
+/***/ }),
+
+/***/ "./src/renderer/ForeignObjectRenderer.js":
+/*!***********************************************!*\
+  !*** ./src/renderer/ForeignObjectRenderer.js ***!
+  \***********************************************/
+/*! exports provided: default, createForeignObjectSVG, loadSerializedSVG */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return ForeignObjectRenderer; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createForeignObjectSVG\", function() { return createForeignObjectSVG; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"loadSerializedSVG\", function() { return loadSerializedSVG; });\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar ForeignObjectRenderer =\n/*#__PURE__*/\nfunction () {\n  function ForeignObjectRenderer(element) {\n    _classCallCheck(this, ForeignObjectRenderer);\n\n    this.element = element;\n  }\n\n  _createClass(ForeignObjectRenderer, [{\n    key: \"render\",\n    value: function render(options) {\n      var _this = this;\n\n      this.options = options;\n      this.canvas = document.createElement('canvas');\n      this.ctx = this.canvas.getContext('2d');\n      this.canvas.width = Math.floor(options.width) * options.scale;\n      this.canvas.height = Math.floor(options.height) * options.scale;\n      this.canvas.style.width = \"\".concat(options.width, \"px\");\n      this.canvas.style.height = \"\".concat(options.height, \"px\");\n      this.ctx.scale(options.scale, options.scale);\n      options.logger.log(\"ForeignObject renderer initialized (\".concat(options.width, \"x\").concat(options.height, \" at \").concat(options.x, \",\").concat(options.y, \") with scale \").concat(options.scale));\n      var svg = createForeignObjectSVG(Math.max(options.windowWidth, options.width) * options.scale, Math.max(options.windowHeight, options.height) * options.scale, options.scrollX * options.scale, options.scrollY * options.scale, this.element);\n      return loadSerializedSVG(svg).then(function (img) {\n        if (options.backgroundColor) {\n          _this.ctx.fillStyle = options.backgroundColor.toString();\n\n          _this.ctx.fillRect(0, 0, options.width * options.scale, options.height * options.scale);\n        }\n\n        _this.ctx.drawImage(img, -options.x * options.scale, -options.y * options.scale);\n\n        return _this.canvas;\n      });\n    }\n  }]);\n\n  return ForeignObjectRenderer;\n}();\n\n\nvar createForeignObjectSVG = function createForeignObjectSVG(width, height, x, y, node) {\n  var xmlns = 'http://www.w3.org/2000/svg';\n  var svg = document.createElementNS(xmlns, 'svg');\n  var foreignObject = document.createElementNS(xmlns, 'foreignObject');\n  svg.setAttributeNS(null, 'width', width);\n  svg.setAttributeNS(null, 'height', height);\n  foreignObject.setAttributeNS(null, 'width', '100%');\n  foreignObject.setAttributeNS(null, 'height', '100%');\n  foreignObject.setAttributeNS(null, 'x', x);\n  foreignObject.setAttributeNS(null, 'y', y);\n  foreignObject.setAttributeNS(null, 'externalResourcesRequired', 'true');\n  svg.appendChild(foreignObject);\n  foreignObject.appendChild(node);\n  return svg;\n};\nvar loadSerializedSVG = function loadSerializedSVG(svg) {\n  return new Promise(function (resolve, reject) {\n    var img = new Image();\n\n    img.onload = function () {\n      return resolve(img);\n    };\n\n    img.onerror = reject;\n    img.src = \"data:image/svg+xml;charset=utf-8,\".concat(encodeURIComponent(new XMLSerializer().serializeToString(svg)));\n  });\n};\n\n//# sourceURL=webpack://html2canvas/./src/renderer/ForeignObjectRenderer.js?");
+
+/***/ })
+
+/******/ })["default"];
+});
+
+/***/ }),
+
 /***/ "./node_modules/invariant/browser.js":
 /*!*******************************************!*\
   !*** ./node_modules/invariant/browser.js ***!
@@ -31194,3714 +32110,6 @@ if (true) {
 var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-
-/***/ "./node_modules/react-dom/cjs/react-dom-server.browser.development.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/react-dom/cjs/react-dom-server.browser.development.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/** @license React v16.8.6
- * react-dom-server.browser.development.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-
-
-if (true) {
-  (function() {
-'use strict';
-
-var _assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js?7c21");
-var checkPropTypes = __webpack_require__(/*! prop-types/checkPropTypes */ "./node_modules/prop-types/checkPropTypes.js");
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function () {};
-
-{
-  validateFormat = function (format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error = void 0;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-// Relying on the `invariant()` implementation lets us
-// preserve the format and params in the www builds.
-
-// TODO: this is special because it gets imported during build.
-
-var ReactVersion = '16.8.6';
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warningWithoutStack = function () {};
-
-{
-  warningWithoutStack = function (condition, format) {
-    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      args[_key - 2] = arguments[_key];
-    }
-
-    if (format === undefined) {
-      throw new Error('`warningWithoutStack(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-    if (args.length > 8) {
-      // Check before the condition to catch violations early.
-      throw new Error('warningWithoutStack() currently supports at most 8 arguments.');
-    }
-    if (condition) {
-      return;
-    }
-    if (typeof console !== 'undefined') {
-      var argsWithFormat = args.map(function (item) {
-        return '' + item;
-      });
-      argsWithFormat.unshift('Warning: ' + format);
-
-      // We intentionally don't use spread (or .apply) directly because it
-      // breaks IE9: https://github.com/facebook/react/issues/13610
-      Function.prototype.apply.call(console.error, console, argsWithFormat);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      var argIndex = 0;
-      var message = 'Warning: ' + format.replace(/%s/g, function () {
-        return args[argIndex++];
-      });
-      throw new Error(message);
-    } catch (x) {}
-  };
-}
-
-var warningWithoutStack$1 = warningWithoutStack;
-
-// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
-var hasSymbol = typeof Symbol === 'function' && Symbol.for;
-
-
-var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
-var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
-var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
-var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
-var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
-
-var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
-var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
-var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
-var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
-
-var Resolved = 1;
-
-
-function refineResolvedLazyComponent(lazyComponent) {
-  return lazyComponent._status === Resolved ? lazyComponent._result : null;
-}
-
-function getWrappedName(outerType, innerType, wrapperName) {
-  var functionName = innerType.displayName || innerType.name || '';
-  return outerType.displayName || (functionName !== '' ? wrapperName + '(' + functionName + ')' : wrapperName);
-}
-
-function getComponentName(type) {
-  if (type == null) {
-    // Host root, text node or just invalid type.
-    return null;
-  }
-  {
-    if (typeof type.tag === 'number') {
-      warningWithoutStack$1(false, 'Received an unexpected object in getComponentName(). ' + 'This is likely a bug in React. Please file an issue.');
-    }
-  }
-  if (typeof type === 'function') {
-    return type.displayName || type.name || null;
-  }
-  if (typeof type === 'string') {
-    return type;
-  }
-  switch (type) {
-    case REACT_CONCURRENT_MODE_TYPE:
-      return 'ConcurrentMode';
-    case REACT_FRAGMENT_TYPE:
-      return 'Fragment';
-    case REACT_PORTAL_TYPE:
-      return 'Portal';
-    case REACT_PROFILER_TYPE:
-      return 'Profiler';
-    case REACT_STRICT_MODE_TYPE:
-      return 'StrictMode';
-    case REACT_SUSPENSE_TYPE:
-      return 'Suspense';
-  }
-  if (typeof type === 'object') {
-    switch (type.$$typeof) {
-      case REACT_CONTEXT_TYPE:
-        return 'Context.Consumer';
-      case REACT_PROVIDER_TYPE:
-        return 'Context.Provider';
-      case REACT_FORWARD_REF_TYPE:
-        return getWrappedName(type, type.render, 'ForwardRef');
-      case REACT_MEMO_TYPE:
-        return getComponentName(type.type);
-      case REACT_LAZY_TYPE:
-        {
-          var thenable = type;
-          var resolvedThenable = refineResolvedLazyComponent(thenable);
-          if (resolvedThenable) {
-            return getComponentName(resolvedThenable);
-          }
-        }
-    }
-  }
-  return null;
-}
-
-/**
- * Forked from fbjs/warning:
- * https://github.com/facebook/fbjs/blob/e66ba20ad5be433eb54423f2b097d829324d9de6/packages/fbjs/src/__forks__/warning.js
- *
- * Only change is we use console.warn instead of console.error,
- * and do nothing when 'console' is not supported.
- * This really simplifies the code.
- * ---
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var lowPriorityWarning = function () {};
-
-{
-  var printWarning = function (format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.warn(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  lowPriorityWarning = function (condition, format) {
-    if (format === undefined) {
-      throw new Error('`lowPriorityWarning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
-
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
-
-var lowPriorityWarning$1 = lowPriorityWarning;
-
-var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-
-// Prevent newer renderers from RTE when used with older react package versions.
-// Current owner and dispatcher used to share the same ref,
-// but PR #14548 split them out to better support the react-debug-tools package.
-if (!ReactSharedInternals.hasOwnProperty('ReactCurrentDispatcher')) {
-  ReactSharedInternals.ReactCurrentDispatcher = {
-    current: null
-  };
-}
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = warningWithoutStack$1;
-
-{
-  warning = function (condition, format) {
-    if (condition) {
-      return;
-    }
-    var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
-    var stack = ReactDebugCurrentFrame.getStackAddendum();
-    // eslint-disable-next-line react-internal/warning-and-invariant-args
-
-    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      args[_key - 2] = arguments[_key];
-    }
-
-    warningWithoutStack$1.apply(undefined, [false, format + '%s'].concat(args, [stack]));
-  };
-}
-
-var warning$1 = warning;
-
-var BEFORE_SLASH_RE = /^(.*)[\\\/]/;
-
-var describeComponentFrame = function (name, source, ownerName) {
-  var sourceInfo = '';
-  if (source) {
-    var path = source.fileName;
-    var fileName = path.replace(BEFORE_SLASH_RE, '');
-    {
-      // In DEV, include code for a common special case:
-      // prefer "folder/index.js" instead of just "index.js".
-      if (/^index\./.test(fileName)) {
-        var match = path.match(BEFORE_SLASH_RE);
-        if (match) {
-          var pathBeforeSlash = match[1];
-          if (pathBeforeSlash) {
-            var folderName = pathBeforeSlash.replace(BEFORE_SLASH_RE, '');
-            fileName = folderName + '/' + fileName;
-          }
-        }
-      }
-    }
-    sourceInfo = ' (at ' + fileName + ':' + source.lineNumber + ')';
-  } else if (ownerName) {
-    sourceInfo = ' (created by ' + ownerName + ')';
-  }
-  return '\n    in ' + (name || 'Unknown') + sourceInfo;
-};
-
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
-
-// In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
-
-
-// To preserve the "Pause on caught exceptions" behavior of the debugger, we
-// replay the begin phase of a failed component inside invokeGuardedCallback.
-
-
-// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
-var warnAboutDeprecatedLifecycles = false;
-
-// Gather advanced timing metrics for Profiler subtrees.
-
-
-// Trace which interactions trigger each commit.
-
-
-// Only used in www builds.
-var enableSuspenseServerRenderer = false; // TODO: true? Here it might just be false.
-
-// Only used in www builds.
-
-
-// Only used in www builds.
-
-
-// React Fire: prevent the value and checked attributes from syncing
-// with their related DOM properties
-
-
-// These APIs will no longer be "unstable" in the upcoming 16.7 release,
-// Control this behavior with a flag to support 16.6 minor releases in the meanwhile.
-
-var ReactDebugCurrentFrame$1 = void 0;
-var didWarnAboutInvalidateContextType = void 0;
-{
-  ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
-  didWarnAboutInvalidateContextType = new Set();
-}
-
-var emptyObject = {};
-{
-  Object.freeze(emptyObject);
-}
-
-function maskContext(type, context) {
-  var contextTypes = type.contextTypes;
-  if (!contextTypes) {
-    return emptyObject;
-  }
-  var maskedContext = {};
-  for (var contextName in contextTypes) {
-    maskedContext[contextName] = context[contextName];
-  }
-  return maskedContext;
-}
-
-function checkContextTypes(typeSpecs, values, location) {
-  {
-    checkPropTypes(typeSpecs, values, location, 'Component', ReactDebugCurrentFrame$1.getCurrentStack);
-  }
-}
-
-function validateContextBounds(context, threadID) {
-  // If we don't have enough slots in this context to store this threadID,
-  // fill it in without leaving any holes to ensure that the VM optimizes
-  // this as non-holey index properties.
-  // (Note: If `react` package is < 16.6, _threadCount is undefined.)
-  for (var i = context._threadCount | 0; i <= threadID; i++) {
-    // We assume that this is the same as the defaultValue which might not be
-    // true if we're rendering inside a secondary renderer but they are
-    // secondary because these use cases are very rare.
-    context[i] = context._currentValue2;
-    context._threadCount = i + 1;
-  }
-}
-
-function processContext(type, context, threadID) {
-  var contextType = type.contextType;
-  {
-    if ('contextType' in type) {
-      var isValid =
-      // Allow null for conditional declaration
-      contextType === null || contextType !== undefined && contextType.$$typeof === REACT_CONTEXT_TYPE && contextType._context === undefined; // Not a <Context.Consumer>
-
-      if (!isValid && !didWarnAboutInvalidateContextType.has(type)) {
-        didWarnAboutInvalidateContextType.add(type);
-
-        var addendum = '';
-        if (contextType === undefined) {
-          addendum = ' However, it is set to undefined. ' + 'This can be caused by a typo or by mixing up named and default imports. ' + 'This can also happen due to a circular dependency, so ' + 'try moving the createContext() call to a separate file.';
-        } else if (typeof contextType !== 'object') {
-          addendum = ' However, it is set to a ' + typeof contextType + '.';
-        } else if (contextType.$$typeof === REACT_PROVIDER_TYPE) {
-          addendum = ' Did you accidentally pass the Context.Provider instead?';
-        } else if (contextType._context !== undefined) {
-          // <Context.Consumer>
-          addendum = ' Did you accidentally pass the Context.Consumer instead?';
-        } else {
-          addendum = ' However, it is set to an object with keys {' + Object.keys(contextType).join(', ') + '}.';
-        }
-        warningWithoutStack$1(false, '%s defines an invalid contextType. ' + 'contextType should point to the Context object returned by React.createContext().%s', getComponentName(type) || 'Component', addendum);
-      }
-    }
-  }
-  if (typeof contextType === 'object' && contextType !== null) {
-    validateContextBounds(contextType, threadID);
-    return contextType[threadID];
-  } else {
-    var maskedContext = maskContext(type, context);
-    {
-      if (type.contextTypes) {
-        checkContextTypes(type.contextTypes, maskedContext, 'context');
-      }
-    }
-    return maskedContext;
-  }
-}
-
-// Allocates a new index for each request. Tries to stay as compact as possible so that these
-// indices can be used to reference a tightly packaged array. As opposed to being used in a Map.
-// The first allocated index is 1.
-
-var nextAvailableThreadIDs = new Uint16Array(16);
-for (var i = 0; i < 15; i++) {
-  nextAvailableThreadIDs[i] = i + 1;
-}
-nextAvailableThreadIDs[15] = 0;
-
-function growThreadCountAndReturnNextAvailable() {
-  var oldArray = nextAvailableThreadIDs;
-  var oldSize = oldArray.length;
-  var newSize = oldSize * 2;
-  !(newSize <= 0x10000) ? invariant(false, 'Maximum number of concurrent React renderers exceeded. This can happen if you are not properly destroying the Readable provided by React. Ensure that you call .destroy() on it if you no longer want to read from it, and did not read to the end. If you use .pipe() this should be automatic.') : void 0;
-  var newArray = new Uint16Array(newSize);
-  newArray.set(oldArray);
-  nextAvailableThreadIDs = newArray;
-  nextAvailableThreadIDs[0] = oldSize + 1;
-  for (var _i = oldSize; _i < newSize - 1; _i++) {
-    nextAvailableThreadIDs[_i] = _i + 1;
-  }
-  nextAvailableThreadIDs[newSize - 1] = 0;
-  return oldSize;
-}
-
-function allocThreadID() {
-  var nextID = nextAvailableThreadIDs[0];
-  if (nextID === 0) {
-    return growThreadCountAndReturnNextAvailable();
-  }
-  nextAvailableThreadIDs[0] = nextAvailableThreadIDs[nextID];
-  return nextID;
-}
-
-function freeThreadID(id) {
-  nextAvailableThreadIDs[id] = nextAvailableThreadIDs[0];
-  nextAvailableThreadIDs[0] = id;
-}
-
-// A reserved attribute.
-// It is handled by React separately and shouldn't be written to the DOM.
-var RESERVED = 0;
-
-// A simple string attribute.
-// Attributes that aren't in the whitelist are presumed to have this type.
-var STRING = 1;
-
-// A string attribute that accepts booleans in React. In HTML, these are called
-// "enumerated" attributes with "true" and "false" as possible values.
-// When true, it should be set to a "true" string.
-// When false, it should be set to a "false" string.
-var BOOLEANISH_STRING = 2;
-
-// A real boolean attribute.
-// When true, it should be present (set either to an empty string or its name).
-// When false, it should be omitted.
-var BOOLEAN = 3;
-
-// An attribute that can be used as a flag as well as with a value.
-// When true, it should be present (set either to an empty string or its name).
-// When false, it should be omitted.
-// For any other value, should be present with that value.
-var OVERLOADED_BOOLEAN = 4;
-
-// An attribute that must be numeric or parse as a numeric.
-// When falsy, it should be removed.
-var NUMERIC = 5;
-
-// An attribute that must be positive numeric or parse as a positive numeric.
-// When falsy, it should be removed.
-var POSITIVE_NUMERIC = 6;
-
-/* eslint-disable max-len */
-var ATTRIBUTE_NAME_START_CHAR = ':A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
-/* eslint-enable max-len */
-var ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + '\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040';
-
-
-var ROOT_ATTRIBUTE_NAME = 'data-reactroot';
-var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + ATTRIBUTE_NAME_START_CHAR + '][' + ATTRIBUTE_NAME_CHAR + ']*$');
-
-var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
-var illegalAttributeNameCache = {};
-var validatedAttributeNameCache = {};
-
-function isAttributeNameSafe(attributeName) {
-  if (hasOwnProperty$1.call(validatedAttributeNameCache, attributeName)) {
-    return true;
-  }
-  if (hasOwnProperty$1.call(illegalAttributeNameCache, attributeName)) {
-    return false;
-  }
-  if (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName)) {
-    validatedAttributeNameCache[attributeName] = true;
-    return true;
-  }
-  illegalAttributeNameCache[attributeName] = true;
-  {
-    warning$1(false, 'Invalid attribute name: `%s`', attributeName);
-  }
-  return false;
-}
-
-function shouldIgnoreAttribute(name, propertyInfo, isCustomComponentTag) {
-  if (propertyInfo !== null) {
-    return propertyInfo.type === RESERVED;
-  }
-  if (isCustomComponentTag) {
-    return false;
-  }
-  if (name.length > 2 && (name[0] === 'o' || name[0] === 'O') && (name[1] === 'n' || name[1] === 'N')) {
-    return true;
-  }
-  return false;
-}
-
-function shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag) {
-  if (propertyInfo !== null && propertyInfo.type === RESERVED) {
-    return false;
-  }
-  switch (typeof value) {
-    case 'function':
-    // $FlowIssue symbol is perfectly valid here
-    case 'symbol':
-      // eslint-disable-line
-      return true;
-    case 'boolean':
-      {
-        if (isCustomComponentTag) {
-          return false;
-        }
-        if (propertyInfo !== null) {
-          return !propertyInfo.acceptsBooleans;
-        } else {
-          var prefix = name.toLowerCase().slice(0, 5);
-          return prefix !== 'data-' && prefix !== 'aria-';
-        }
-      }
-    default:
-      return false;
-  }
-}
-
-function shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag) {
-  if (value === null || typeof value === 'undefined') {
-    return true;
-  }
-  if (shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) {
-    return true;
-  }
-  if (isCustomComponentTag) {
-    return false;
-  }
-  if (propertyInfo !== null) {
-    switch (propertyInfo.type) {
-      case BOOLEAN:
-        return !value;
-      case OVERLOADED_BOOLEAN:
-        return value === false;
-      case NUMERIC:
-        return isNaN(value);
-      case POSITIVE_NUMERIC:
-        return isNaN(value) || value < 1;
-    }
-  }
-  return false;
-}
-
-function getPropertyInfo(name) {
-  return properties.hasOwnProperty(name) ? properties[name] : null;
-}
-
-function PropertyInfoRecord(name, type, mustUseProperty, attributeName, attributeNamespace) {
-  this.acceptsBooleans = type === BOOLEANISH_STRING || type === BOOLEAN || type === OVERLOADED_BOOLEAN;
-  this.attributeName = attributeName;
-  this.attributeNamespace = attributeNamespace;
-  this.mustUseProperty = mustUseProperty;
-  this.propertyName = name;
-  this.type = type;
-}
-
-// When adding attributes to this list, be sure to also add them to
-// the `possibleStandardNames` module to ensure casing and incorrect
-// name warnings.
-var properties = {};
-
-// These props are reserved by React. They shouldn't be written to the DOM.
-['children', 'dangerouslySetInnerHTML',
-// TODO: This prevents the assignment of defaultValue to regular
-// elements (not just inputs). Now that ReactDOMInput assigns to the
-// defaultValue property -- do we need this?
-'defaultValue', 'defaultChecked', 'innerHTML', 'suppressContentEditableWarning', 'suppressHydrationWarning', 'style'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, RESERVED, false, // mustUseProperty
-  name, // attributeName
-  null);
-} // attributeNamespace
-);
-
-// A few React string attributes have a different name.
-// This is a mapping from React prop names to the attribute names.
-[['acceptCharset', 'accept-charset'], ['className', 'class'], ['htmlFor', 'for'], ['httpEquiv', 'http-equiv']].forEach(function (_ref) {
-  var name = _ref[0],
-      attributeName = _ref[1];
-
-  properties[name] = new PropertyInfoRecord(name, STRING, false, // mustUseProperty
-  attributeName, // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are "enumerated" HTML attributes that accept "true" and "false".
-// In React, we let users pass `true` and `false` even though technically
-// these aren't boolean attributes (they are coerced to strings).
-['contentEditable', 'draggable', 'spellCheck', 'value'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, BOOLEANISH_STRING, false, // mustUseProperty
-  name.toLowerCase(), // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are "enumerated" SVG attributes that accept "true" and "false".
-// In React, we let users pass `true` and `false` even though technically
-// these aren't boolean attributes (they are coerced to strings).
-// Since these are SVG attributes, their attribute names are case-sensitive.
-['autoReverse', 'externalResourcesRequired', 'focusable', 'preserveAlpha'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, BOOLEANISH_STRING, false, // mustUseProperty
-  name, // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are HTML boolean attributes.
-['allowFullScreen', 'async',
-// Note: there is a special case that prevents it from being written to the DOM
-// on the client side because the browsers are inconsistent. Instead we call focus().
-'autoFocus', 'autoPlay', 'controls', 'default', 'defer', 'disabled', 'formNoValidate', 'hidden', 'loop', 'noModule', 'noValidate', 'open', 'playsInline', 'readOnly', 'required', 'reversed', 'scoped', 'seamless',
-// Microdata
-'itemScope'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, BOOLEAN, false, // mustUseProperty
-  name.toLowerCase(), // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are the few React props that we set as DOM properties
-// rather than attributes. These are all booleans.
-['checked',
-// Note: `option.selected` is not updated if `select.multiple` is
-// disabled with `removeAttribute`. We have special logic for handling this.
-'multiple', 'muted', 'selected'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, BOOLEAN, true, // mustUseProperty
-  name, // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are HTML attributes that are "overloaded booleans": they behave like
-// booleans, but can also accept a string value.
-['capture', 'download'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, OVERLOADED_BOOLEAN, false, // mustUseProperty
-  name, // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are HTML attributes that must be positive numbers.
-['cols', 'rows', 'size', 'span'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, POSITIVE_NUMERIC, false, // mustUseProperty
-  name, // attributeName
-  null);
-} // attributeNamespace
-);
-
-// These are HTML attributes that must be numbers.
-['rowSpan', 'start'].forEach(function (name) {
-  properties[name] = new PropertyInfoRecord(name, NUMERIC, false, // mustUseProperty
-  name.toLowerCase(), // attributeName
-  null);
-} // attributeNamespace
-);
-
-var CAMELIZE = /[\-\:]([a-z])/g;
-var capitalize = function (token) {
-  return token[1].toUpperCase();
-};
-
-// This is a list of all SVG attributes that need special casing, namespacing,
-// or boolean value assignment. Regular attributes that just accept strings
-// and have the same names are omitted, just like in the HTML whitelist.
-// Some of these attributes can be hard to find. This list was created by
-// scrapping the MDN documentation.
-['accent-height', 'alignment-baseline', 'arabic-form', 'baseline-shift', 'cap-height', 'clip-path', 'clip-rule', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'dominant-baseline', 'enable-background', 'fill-opacity', 'fill-rule', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'glyph-name', 'glyph-orientation-horizontal', 'glyph-orientation-vertical', 'horiz-adv-x', 'horiz-origin-x', 'image-rendering', 'letter-spacing', 'lighting-color', 'marker-end', 'marker-mid', 'marker-start', 'overline-position', 'overline-thickness', 'paint-order', 'panose-1', 'pointer-events', 'rendering-intent', 'shape-rendering', 'stop-color', 'stop-opacity', 'strikethrough-position', 'strikethrough-thickness', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke-width', 'text-anchor', 'text-decoration', 'text-rendering', 'underline-position', 'underline-thickness', 'unicode-bidi', 'unicode-range', 'units-per-em', 'v-alphabetic', 'v-hanging', 'v-ideographic', 'v-mathematical', 'vector-effect', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'word-spacing', 'writing-mode', 'xmlns:xlink', 'x-height'].forEach(function (attributeName) {
-  var name = attributeName.replace(CAMELIZE, capitalize);
-  properties[name] = new PropertyInfoRecord(name, STRING, false, // mustUseProperty
-  attributeName, null);
-} // attributeNamespace
-);
-
-// String SVG attributes with the xlink namespace.
-['xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type'].forEach(function (attributeName) {
-  var name = attributeName.replace(CAMELIZE, capitalize);
-  properties[name] = new PropertyInfoRecord(name, STRING, false, // mustUseProperty
-  attributeName, 'http://www.w3.org/1999/xlink');
-});
-
-// String SVG attributes with the xml namespace.
-['xml:base', 'xml:lang', 'xml:space'].forEach(function (attributeName) {
-  var name = attributeName.replace(CAMELIZE, capitalize);
-  properties[name] = new PropertyInfoRecord(name, STRING, false, // mustUseProperty
-  attributeName, 'http://www.w3.org/XML/1998/namespace');
-});
-
-// These attribute exists both in HTML and SVG.
-// The attribute name is case-sensitive in SVG so we can't just use
-// the React name like we do for attributes that exist only in HTML.
-['tabIndex', 'crossOrigin'].forEach(function (attributeName) {
-  properties[attributeName] = new PropertyInfoRecord(attributeName, STRING, false, // mustUseProperty
-  attributeName.toLowerCase(), // attributeName
-  null);
-} // attributeNamespace
-);
-
-// code copied and modified from escape-html
-/**
- * Module variables.
- * @private
- */
-
-var matchHtmlRegExp = /["'&<>]/;
-
-/**
- * Escapes special characters and HTML entities in a given html string.
- *
- * @param  {string} string HTML string to escape for later insertion
- * @return {string}
- * @public
- */
-
-function escapeHtml(string) {
-  var str = '' + string;
-  var match = matchHtmlRegExp.exec(str);
-
-  if (!match) {
-    return str;
-  }
-
-  var escape = void 0;
-  var html = '';
-  var index = void 0;
-  var lastIndex = 0;
-
-  for (index = match.index; index < str.length; index++) {
-    switch (str.charCodeAt(index)) {
-      case 34:
-        // "
-        escape = '&quot;';
-        break;
-      case 38:
-        // &
-        escape = '&amp;';
-        break;
-      case 39:
-        // '
-        escape = '&#x27;'; // modified from escape-html; used to be '&#39'
-        break;
-      case 60:
-        // <
-        escape = '&lt;';
-        break;
-      case 62:
-        // >
-        escape = '&gt;';
-        break;
-      default:
-        continue;
-    }
-
-    if (lastIndex !== index) {
-      html += str.substring(lastIndex, index);
-    }
-
-    lastIndex = index + 1;
-    html += escape;
-  }
-
-  return lastIndex !== index ? html + str.substring(lastIndex, index) : html;
-}
-// end code copied and modified from escape-html
-
-/**
- * Escapes text to prevent scripting attacks.
- *
- * @param {*} text Text value to escape.
- * @return {string} An escaped string.
- */
-function escapeTextForBrowser(text) {
-  if (typeof text === 'boolean' || typeof text === 'number') {
-    // this shortcircuit helps perf for types that we know will never have
-    // special characters, especially given that this function is used often
-    // for numeric dom ids.
-    return '' + text;
-  }
-  return escapeHtml(text);
-}
-
-/**
- * Escapes attribute value to prevent scripting attacks.
- *
- * @param {*} value Value to escape.
- * @return {string} An escaped string.
- */
-function quoteAttributeValueForBrowser(value) {
-  return '"' + escapeTextForBrowser(value) + '"';
-}
-
-/**
- * Operations for dealing with DOM properties.
- */
-
-/**
- * Creates markup for the ID property.
- *
- * @param {string} id Unescaped ID.
- * @return {string} Markup string.
- */
-
-
-function createMarkupForRoot() {
-  return ROOT_ATTRIBUTE_NAME + '=""';
-}
-
-/**
- * Creates markup for a property.
- *
- * @param {string} name
- * @param {*} value
- * @return {?string} Markup string, or null if the property was invalid.
- */
-function createMarkupForProperty(name, value) {
-  var propertyInfo = getPropertyInfo(name);
-  if (name !== 'style' && shouldIgnoreAttribute(name, propertyInfo, false)) {
-    return '';
-  }
-  if (shouldRemoveAttribute(name, value, propertyInfo, false)) {
-    return '';
-  }
-  if (propertyInfo !== null) {
-    var attributeName = propertyInfo.attributeName;
-    var type = propertyInfo.type;
-
-    if (type === BOOLEAN || type === OVERLOADED_BOOLEAN && value === true) {
-      return attributeName + '=""';
-    } else {
-      return attributeName + '=' + quoteAttributeValueForBrowser(value);
-    }
-  } else if (isAttributeNameSafe(name)) {
-    return name + '=' + quoteAttributeValueForBrowser(value);
-  }
-  return '';
-}
-
-/**
- * Creates markup for a custom property.
- *
- * @param {string} name
- * @param {*} value
- * @return {string} Markup string, or empty string if the property was invalid.
- */
-function createMarkupForCustomAttribute(name, value) {
-  if (!isAttributeNameSafe(name) || value == null) {
-    return '';
-  }
-  return name + '=' + quoteAttributeValueForBrowser(value);
-}
-
-/**
- * inlined Object.is polyfill to avoid requiring consumers ship their own
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
- */
-function is(x, y) {
-  return x === y && (x !== 0 || 1 / x === 1 / y) || x !== x && y !== y // eslint-disable-line no-self-compare
-  ;
-}
-
-var currentlyRenderingComponent = null;
-var firstWorkInProgressHook = null;
-var workInProgressHook = null;
-// Whether the work-in-progress hook is a re-rendered hook
-var isReRender = false;
-// Whether an update was scheduled during the currently executing render pass.
-var didScheduleRenderPhaseUpdate = false;
-// Lazily created map of render-phase updates
-var renderPhaseUpdates = null;
-// Counter to prevent infinite loops.
-var numberOfReRenders = 0;
-var RE_RENDER_LIMIT = 25;
-
-var isInHookUserCodeInDev = false;
-
-// In DEV, this is the name of the currently executing primitive hook
-var currentHookNameInDev = void 0;
-
-function resolveCurrentlyRenderingComponent() {
-  !(currentlyRenderingComponent !== null) ? invariant(false, 'Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://fb.me/react-invalid-hook-call for tips about how to debug and fix this problem.') : void 0;
-  {
-    !!isInHookUserCodeInDev ? warning$1(false, 'Do not call Hooks inside useEffect(...), useMemo(...), or other built-in Hooks. ' + 'You can only call Hooks at the top level of your React function. ' + 'For more information, see ' + 'https://fb.me/rules-of-hooks') : void 0;
-  }
-  return currentlyRenderingComponent;
-}
-
-function areHookInputsEqual(nextDeps, prevDeps) {
-  if (prevDeps === null) {
-    {
-      warning$1(false, '%s received a final argument during this render, but not during ' + 'the previous render. Even though the final argument is optional, ' + 'its type cannot change between renders.', currentHookNameInDev);
-    }
-    return false;
-  }
-
-  {
-    // Don't bother comparing lengths in prod because these arrays should be
-    // passed inline.
-    if (nextDeps.length !== prevDeps.length) {
-      warning$1(false, 'The final argument passed to %s changed size between renders. The ' + 'order and size of this array must remain constant.\n\n' + 'Previous: %s\n' + 'Incoming: %s', currentHookNameInDev, '[' + nextDeps.join(', ') + ']', '[' + prevDeps.join(', ') + ']');
-    }
-  }
-  for (var i = 0; i < prevDeps.length && i < nextDeps.length; i++) {
-    if (is(nextDeps[i], prevDeps[i])) {
-      continue;
-    }
-    return false;
-  }
-  return true;
-}
-
-function createHook() {
-  if (numberOfReRenders > 0) {
-    invariant(false, 'Rendered more hooks than during the previous render');
-  }
-  return {
-    memoizedState: null,
-    queue: null,
-    next: null
-  };
-}
-
-function createWorkInProgressHook() {
-  if (workInProgressHook === null) {
-    // This is the first hook in the list
-    if (firstWorkInProgressHook === null) {
-      isReRender = false;
-      firstWorkInProgressHook = workInProgressHook = createHook();
-    } else {
-      // There's already a work-in-progress. Reuse it.
-      isReRender = true;
-      workInProgressHook = firstWorkInProgressHook;
-    }
-  } else {
-    if (workInProgressHook.next === null) {
-      isReRender = false;
-      // Append to the end of the list
-      workInProgressHook = workInProgressHook.next = createHook();
-    } else {
-      // There's already a work-in-progress. Reuse it.
-      isReRender = true;
-      workInProgressHook = workInProgressHook.next;
-    }
-  }
-  return workInProgressHook;
-}
-
-function prepareToUseHooks(componentIdentity) {
-  currentlyRenderingComponent = componentIdentity;
-  {
-    isInHookUserCodeInDev = false;
-  }
-
-  // The following should have already been reset
-  // didScheduleRenderPhaseUpdate = false;
-  // firstWorkInProgressHook = null;
-  // numberOfReRenders = 0;
-  // renderPhaseUpdates = null;
-  // workInProgressHook = null;
-}
-
-function finishHooks(Component, props, children, refOrContext) {
-  // This must be called after every function component to prevent hooks from
-  // being used in classes.
-
-  while (didScheduleRenderPhaseUpdate) {
-    // Updates were scheduled during the render phase. They are stored in
-    // the `renderPhaseUpdates` map. Call the component again, reusing the
-    // work-in-progress hooks and applying the additional updates on top. Keep
-    // restarting until no more updates are scheduled.
-    didScheduleRenderPhaseUpdate = false;
-    numberOfReRenders += 1;
-
-    // Start over from the beginning of the list
-    workInProgressHook = null;
-
-    children = Component(props, refOrContext);
-  }
-  currentlyRenderingComponent = null;
-  firstWorkInProgressHook = null;
-  numberOfReRenders = 0;
-  renderPhaseUpdates = null;
-  workInProgressHook = null;
-  {
-    isInHookUserCodeInDev = false;
-  }
-
-  // These were reset above
-  // currentlyRenderingComponent = null;
-  // didScheduleRenderPhaseUpdate = false;
-  // firstWorkInProgressHook = null;
-  // numberOfReRenders = 0;
-  // renderPhaseUpdates = null;
-  // workInProgressHook = null;
-
-  return children;
-}
-
-function readContext(context, observedBits) {
-  var threadID = currentThreadID;
-  validateContextBounds(context, threadID);
-  {
-    !!isInHookUserCodeInDev ? warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function components, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().') : void 0;
-  }
-  return context[threadID];
-}
-
-function useContext(context, observedBits) {
-  {
-    currentHookNameInDev = 'useContext';
-  }
-  resolveCurrentlyRenderingComponent();
-  var threadID = currentThreadID;
-  validateContextBounds(context, threadID);
-  return context[threadID];
-}
-
-function basicStateReducer(state, action) {
-  return typeof action === 'function' ? action(state) : action;
-}
-
-function useState(initialState) {
-  {
-    currentHookNameInDev = 'useState';
-  }
-  return useReducer(basicStateReducer,
-  // useReducer has a special case to support lazy useState initializers
-  initialState);
-}
-
-function useReducer(reducer, initialArg, init) {
-  {
-    if (reducer !== basicStateReducer) {
-      currentHookNameInDev = 'useReducer';
-    }
-  }
-  currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
-  workInProgressHook = createWorkInProgressHook();
-  if (isReRender) {
-    // This is a re-render. Apply the new render phase updates to the previous
-    var _queue = workInProgressHook.queue;
-    var _dispatch = _queue.dispatch;
-    if (renderPhaseUpdates !== null) {
-      // Render phase updates are stored in a map of queue -> linked list
-      var firstRenderPhaseUpdate = renderPhaseUpdates.get(_queue);
-      if (firstRenderPhaseUpdate !== undefined) {
-        renderPhaseUpdates.delete(_queue);
-        var newState = workInProgressHook.memoizedState;
-        var update = firstRenderPhaseUpdate;
-        do {
-          // Process this render phase update. We don't have to check the
-          // priority because it will always be the same as the current
-          // render's.
-          var _action = update.action;
-          {
-            isInHookUserCodeInDev = true;
-          }
-          newState = reducer(newState, _action);
-          {
-            isInHookUserCodeInDev = false;
-          }
-          update = update.next;
-        } while (update !== null);
-
-        workInProgressHook.memoizedState = newState;
-
-        return [newState, _dispatch];
-      }
-    }
-    return [workInProgressHook.memoizedState, _dispatch];
-  } else {
-    {
-      isInHookUserCodeInDev = true;
-    }
-    var initialState = void 0;
-    if (reducer === basicStateReducer) {
-      // Special case for `useState`.
-      initialState = typeof initialArg === 'function' ? initialArg() : initialArg;
-    } else {
-      initialState = init !== undefined ? init(initialArg) : initialArg;
-    }
-    {
-      isInHookUserCodeInDev = false;
-    }
-    workInProgressHook.memoizedState = initialState;
-    var _queue2 = workInProgressHook.queue = {
-      last: null,
-      dispatch: null
-    };
-    var _dispatch2 = _queue2.dispatch = dispatchAction.bind(null, currentlyRenderingComponent, _queue2);
-    return [workInProgressHook.memoizedState, _dispatch2];
-  }
-}
-
-function useMemo(nextCreate, deps) {
-  currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
-  workInProgressHook = createWorkInProgressHook();
-
-  var nextDeps = deps === undefined ? null : deps;
-
-  if (workInProgressHook !== null) {
-    var prevState = workInProgressHook.memoizedState;
-    if (prevState !== null) {
-      if (nextDeps !== null) {
-        var prevDeps = prevState[1];
-        if (areHookInputsEqual(nextDeps, prevDeps)) {
-          return prevState[0];
-        }
-      }
-    }
-  }
-
-  {
-    isInHookUserCodeInDev = true;
-  }
-  var nextValue = nextCreate();
-  {
-    isInHookUserCodeInDev = false;
-  }
-  workInProgressHook.memoizedState = [nextValue, nextDeps];
-  return nextValue;
-}
-
-function useRef(initialValue) {
-  currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
-  workInProgressHook = createWorkInProgressHook();
-  var previousRef = workInProgressHook.memoizedState;
-  if (previousRef === null) {
-    var ref = { current: initialValue };
-    {
-      Object.seal(ref);
-    }
-    workInProgressHook.memoizedState = ref;
-    return ref;
-  } else {
-    return previousRef;
-  }
-}
-
-function useLayoutEffect(create, inputs) {
-  {
-    currentHookNameInDev = 'useLayoutEffect';
-  }
-  warning$1(false, 'useLayoutEffect does nothing on the server, because its effect cannot ' + "be encoded into the server renderer's output format. This will lead " + 'to a mismatch between the initial, non-hydrated UI and the intended ' + 'UI. To avoid this, useLayoutEffect should only be used in ' + 'components that render exclusively on the client. ' + 'See https://fb.me/react-uselayouteffect-ssr for common fixes.');
-}
-
-function dispatchAction(componentIdentity, queue, action) {
-  !(numberOfReRenders < RE_RENDER_LIMIT) ? invariant(false, 'Too many re-renders. React limits the number of renders to prevent an infinite loop.') : void 0;
-
-  if (componentIdentity === currentlyRenderingComponent) {
-    // This is a render phase update. Stash it in a lazily-created map of
-    // queue -> linked list of updates. After this render pass, we'll restart
-    // and apply the stashed updates on top of the work-in-progress hook.
-    didScheduleRenderPhaseUpdate = true;
-    var update = {
-      action: action,
-      next: null
-    };
-    if (renderPhaseUpdates === null) {
-      renderPhaseUpdates = new Map();
-    }
-    var firstRenderPhaseUpdate = renderPhaseUpdates.get(queue);
-    if (firstRenderPhaseUpdate === undefined) {
-      renderPhaseUpdates.set(queue, update);
-    } else {
-      // Append the update to the end of the list.
-      var lastRenderPhaseUpdate = firstRenderPhaseUpdate;
-      while (lastRenderPhaseUpdate.next !== null) {
-        lastRenderPhaseUpdate = lastRenderPhaseUpdate.next;
-      }
-      lastRenderPhaseUpdate.next = update;
-    }
-  } else {
-    // This means an update has happened after the function component has
-    // returned. On the server this is a no-op. In React Fiber, the update
-    // would be scheduled for a future render.
-  }
-}
-
-function useCallback(callback, deps) {
-  // Callbacks are passed as they are in the server environment.
-  return callback;
-}
-
-function noop() {}
-
-var currentThreadID = 0;
-
-function setCurrentThreadID(threadID) {
-  currentThreadID = threadID;
-}
-
-var Dispatcher = {
-  readContext: readContext,
-  useContext: useContext,
-  useMemo: useMemo,
-  useReducer: useReducer,
-  useRef: useRef,
-  useState: useState,
-  useLayoutEffect: useLayoutEffect,
-  useCallback: useCallback,
-  // useImperativeHandle is not run in the server environment
-  useImperativeHandle: noop,
-  // Effects are not run in the server environment.
-  useEffect: noop,
-  // Debugging effect
-  useDebugValue: noop
-};
-
-var HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
-var MATH_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
-var SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
-
-var Namespaces = {
-  html: HTML_NAMESPACE,
-  mathml: MATH_NAMESPACE,
-  svg: SVG_NAMESPACE
-};
-
-// Assumes there is no parent namespace.
-function getIntrinsicNamespace(type) {
-  switch (type) {
-    case 'svg':
-      return SVG_NAMESPACE;
-    case 'math':
-      return MATH_NAMESPACE;
-    default:
-      return HTML_NAMESPACE;
-  }
-}
-
-function getChildNamespace(parentNamespace, type) {
-  if (parentNamespace == null || parentNamespace === HTML_NAMESPACE) {
-    // No (or default) parent namespace: potential entry point.
-    return getIntrinsicNamespace(type);
-  }
-  if (parentNamespace === SVG_NAMESPACE && type === 'foreignObject') {
-    // We're leaving SVG.
-    return HTML_NAMESPACE;
-  }
-  // By default, pass namespace below.
-  return parentNamespace;
-}
-
-var ReactDebugCurrentFrame$2 = null;
-
-var ReactControlledValuePropTypes = {
-  checkPropTypes: null
-};
-
-{
-  ReactDebugCurrentFrame$2 = ReactSharedInternals.ReactDebugCurrentFrame;
-
-  var hasReadOnlyValue = {
-    button: true,
-    checkbox: true,
-    image: true,
-    hidden: true,
-    radio: true,
-    reset: true,
-    submit: true
-  };
-
-  var propTypes = {
-    value: function (props, propName, componentName) {
-      if (hasReadOnlyValue[props.type] || props.onChange || props.readOnly || props.disabled || props[propName] == null) {
-        return null;
-      }
-      return new Error('You provided a `value` prop to a form field without an ' + '`onChange` handler. This will render a read-only field. If ' + 'the field should be mutable use `defaultValue`. Otherwise, ' + 'set either `onChange` or `readOnly`.');
-    },
-    checked: function (props, propName, componentName) {
-      if (props.onChange || props.readOnly || props.disabled || props[propName] == null) {
-        return null;
-      }
-      return new Error('You provided a `checked` prop to a form field without an ' + '`onChange` handler. This will render a read-only field. If ' + 'the field should be mutable use `defaultChecked`. Otherwise, ' + 'set either `onChange` or `readOnly`.');
-    }
-  };
-
-  /**
-   * Provide a linked `value` attribute for controlled forms. You should not use
-   * this outside of the ReactDOM controlled form components.
-   */
-  ReactControlledValuePropTypes.checkPropTypes = function (tagName, props) {
-    checkPropTypes(propTypes, props, 'prop', tagName, ReactDebugCurrentFrame$2.getStackAddendum);
-  };
-}
-
-// For HTML, certain tags should omit their close tag. We keep a whitelist for
-// those special-case tags.
-
-var omittedCloseTags = {
-  area: true,
-  base: true,
-  br: true,
-  col: true,
-  embed: true,
-  hr: true,
-  img: true,
-  input: true,
-  keygen: true,
-  link: true,
-  meta: true,
-  param: true,
-  source: true,
-  track: true,
-  wbr: true
-  // NOTE: menuitem's close tag should be omitted, but that causes problems.
-};
-
-// For HTML, certain tags cannot have children. This has the same purpose as
-// `omittedCloseTags` except that `menuitem` should still have its closing tag.
-
-var voidElementTags = _assign({
-  menuitem: true
-}, omittedCloseTags);
-
-// TODO: We can remove this if we add invariantWithStack()
-// or add stack by default to invariants where possible.
-var HTML = '__html';
-
-var ReactDebugCurrentFrame$3 = null;
-{
-  ReactDebugCurrentFrame$3 = ReactSharedInternals.ReactDebugCurrentFrame;
-}
-
-function assertValidProps(tag, props) {
-  if (!props) {
-    return;
-  }
-  // Note the use of `==` which checks for null or undefined.
-  if (voidElementTags[tag]) {
-    !(props.children == null && props.dangerouslySetInnerHTML == null) ? invariant(false, '%s is a void element tag and must neither have `children` nor use `dangerouslySetInnerHTML`.%s', tag, ReactDebugCurrentFrame$3.getStackAddendum()) : void 0;
-  }
-  if (props.dangerouslySetInnerHTML != null) {
-    !(props.children == null) ? invariant(false, 'Can only set one of `children` or `props.dangerouslySetInnerHTML`.') : void 0;
-    !(typeof props.dangerouslySetInnerHTML === 'object' && HTML in props.dangerouslySetInnerHTML) ? invariant(false, '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. Please visit https://fb.me/react-invariant-dangerously-set-inner-html for more information.') : void 0;
-  }
-  {
-    !(props.suppressContentEditableWarning || !props.contentEditable || props.children == null) ? warning$1(false, 'A component is `contentEditable` and contains `children` managed by ' + 'React. It is now your responsibility to guarantee that none of ' + 'those nodes are unexpectedly modified or duplicated. This is ' + 'probably not intentional.') : void 0;
-  }
-  !(props.style == null || typeof props.style === 'object') ? invariant(false, 'The `style` prop expects a mapping from style properties to values, not a string. For example, style={{marginRight: spacing + \'em\'}} when using JSX.%s', ReactDebugCurrentFrame$3.getStackAddendum()) : void 0;
-}
-
-/**
- * CSS properties which accept numbers but are not in units of "px".
- */
-var isUnitlessNumber = {
-  animationIterationCount: true,
-  borderImageOutset: true,
-  borderImageSlice: true,
-  borderImageWidth: true,
-  boxFlex: true,
-  boxFlexGroup: true,
-  boxOrdinalGroup: true,
-  columnCount: true,
-  columns: true,
-  flex: true,
-  flexGrow: true,
-  flexPositive: true,
-  flexShrink: true,
-  flexNegative: true,
-  flexOrder: true,
-  gridArea: true,
-  gridRow: true,
-  gridRowEnd: true,
-  gridRowSpan: true,
-  gridRowStart: true,
-  gridColumn: true,
-  gridColumnEnd: true,
-  gridColumnSpan: true,
-  gridColumnStart: true,
-  fontWeight: true,
-  lineClamp: true,
-  lineHeight: true,
-  opacity: true,
-  order: true,
-  orphans: true,
-  tabSize: true,
-  widows: true,
-  zIndex: true,
-  zoom: true,
-
-  // SVG-related properties
-  fillOpacity: true,
-  floodOpacity: true,
-  stopOpacity: true,
-  strokeDasharray: true,
-  strokeDashoffset: true,
-  strokeMiterlimit: true,
-  strokeOpacity: true,
-  strokeWidth: true
-};
-
-/**
- * @param {string} prefix vendor-specific prefix, eg: Webkit
- * @param {string} key style name, eg: transitionDuration
- * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
- * WebkitTransitionDuration
- */
-function prefixKey(prefix, key) {
-  return prefix + key.charAt(0).toUpperCase() + key.substring(1);
-}
-
-/**
- * Support style names that may come passed in prefixed by adding permutations
- * of vendor prefixes.
- */
-var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
-
-// Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
-// infinite loop, because it iterates over the newly added props too.
-Object.keys(isUnitlessNumber).forEach(function (prop) {
-  prefixes.forEach(function (prefix) {
-    isUnitlessNumber[prefixKey(prefix, prop)] = isUnitlessNumber[prop];
-  });
-});
-
-/**
- * Convert a value into the proper css writable value. The style name `name`
- * should be logical (no hyphens), as specified
- * in `CSSProperty.isUnitlessNumber`.
- *
- * @param {string} name CSS property name such as `topMargin`.
- * @param {*} value CSS property value such as `10px`.
- * @return {string} Normalized style value with dimensions applied.
- */
-function dangerousStyleValue(name, value, isCustomProperty) {
-  // Note that we've removed escapeTextForBrowser() calls here since the
-  // whole string will be escaped when the attribute is injected into
-  // the markup. If you provide unsafe user data here they can inject
-  // arbitrary CSS which may be problematic (I couldn't repro this):
-  // https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
-  // http://www.thespanner.co.uk/2007/11/26/ultimate-xss-css-injection/
-  // This is not an XSS hole but instead a potential CSS injection issue
-  // which has lead to a greater discussion about how we're going to
-  // trust URLs moving forward. See #2115901
-
-  var isEmpty = value == null || typeof value === 'boolean' || value === '';
-  if (isEmpty) {
-    return '';
-  }
-
-  if (!isCustomProperty && typeof value === 'number' && value !== 0 && !(isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name])) {
-    return value + 'px'; // Presumes implicit 'px' suffix for unitless numbers
-  }
-
-  return ('' + value).trim();
-}
-
-var uppercasePattern = /([A-Z])/g;
-var msPattern = /^ms-/;
-
-/**
- * Hyphenates a camelcased CSS property name, for example:
- *
- *   > hyphenateStyleName('backgroundColor')
- *   < "background-color"
- *   > hyphenateStyleName('MozTransition')
- *   < "-moz-transition"
- *   > hyphenateStyleName('msTransition')
- *   < "-ms-transition"
- *
- * As Modernizr suggests (http://modernizr.com/docs/#prefixed), an `ms` prefix
- * is converted to `-ms-`.
- */
-function hyphenateStyleName(name) {
-  return name.replace(uppercasePattern, '-$1').toLowerCase().replace(msPattern, '-ms-');
-}
-
-function isCustomComponent(tagName, props) {
-  if (tagName.indexOf('-') === -1) {
-    return typeof props.is === 'string';
-  }
-  switch (tagName) {
-    // These are reserved SVG and MathML elements.
-    // We don't mind this whitelist too much because we expect it to never grow.
-    // The alternative is to track the namespace in a few places which is convoluted.
-    // https://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
-    case 'annotation-xml':
-    case 'color-profile':
-    case 'font-face':
-    case 'font-face-src':
-    case 'font-face-uri':
-    case 'font-face-format':
-    case 'font-face-name':
-    case 'missing-glyph':
-      return false;
-    default:
-      return true;
-  }
-}
-
-var warnValidStyle = function () {};
-
-{
-  // 'msTransform' is correct, but the other prefixes should be capitalized
-  var badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/;
-  var msPattern$1 = /^-ms-/;
-  var hyphenPattern = /-(.)/g;
-
-  // style values shouldn't contain a semicolon
-  var badStyleValueWithSemicolonPattern = /;\s*$/;
-
-  var warnedStyleNames = {};
-  var warnedStyleValues = {};
-  var warnedForNaNValue = false;
-  var warnedForInfinityValue = false;
-
-  var camelize = function (string) {
-    return string.replace(hyphenPattern, function (_, character) {
-      return character.toUpperCase();
-    });
-  };
-
-  var warnHyphenatedStyleName = function (name) {
-    if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
-      return;
-    }
-
-    warnedStyleNames[name] = true;
-    warning$1(false, 'Unsupported style property %s. Did you mean %s?', name,
-    // As Andi Smith suggests
-    // (http://www.andismith.com/blog/2012/02/modernizr-prefixed/), an `-ms` prefix
-    // is converted to lowercase `ms`.
-    camelize(name.replace(msPattern$1, 'ms-')));
-  };
-
-  var warnBadVendoredStyleName = function (name) {
-    if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
-      return;
-    }
-
-    warnedStyleNames[name] = true;
-    warning$1(false, 'Unsupported vendor-prefixed style property %s. Did you mean %s?', name, name.charAt(0).toUpperCase() + name.slice(1));
-  };
-
-  var warnStyleValueWithSemicolon = function (name, value) {
-    if (warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value]) {
-      return;
-    }
-
-    warnedStyleValues[value] = true;
-    warning$1(false, "Style property values shouldn't contain a semicolon. " + 'Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, ''));
-  };
-
-  var warnStyleValueIsNaN = function (name, value) {
-    if (warnedForNaNValue) {
-      return;
-    }
-
-    warnedForNaNValue = true;
-    warning$1(false, '`NaN` is an invalid value for the `%s` css style property.', name);
-  };
-
-  var warnStyleValueIsInfinity = function (name, value) {
-    if (warnedForInfinityValue) {
-      return;
-    }
-
-    warnedForInfinityValue = true;
-    warning$1(false, '`Infinity` is an invalid value for the `%s` css style property.', name);
-  };
-
-  warnValidStyle = function (name, value) {
-    if (name.indexOf('-') > -1) {
-      warnHyphenatedStyleName(name);
-    } else if (badVendoredStyleNamePattern.test(name)) {
-      warnBadVendoredStyleName(name);
-    } else if (badStyleValueWithSemicolonPattern.test(value)) {
-      warnStyleValueWithSemicolon(name, value);
-    }
-
-    if (typeof value === 'number') {
-      if (isNaN(value)) {
-        warnStyleValueIsNaN(name, value);
-      } else if (!isFinite(value)) {
-        warnStyleValueIsInfinity(name, value);
-      }
-    }
-  };
-}
-
-var warnValidStyle$1 = warnValidStyle;
-
-var ariaProperties = {
-  'aria-current': 0, // state
-  'aria-details': 0,
-  'aria-disabled': 0, // state
-  'aria-hidden': 0, // state
-  'aria-invalid': 0, // state
-  'aria-keyshortcuts': 0,
-  'aria-label': 0,
-  'aria-roledescription': 0,
-  // Widget Attributes
-  'aria-autocomplete': 0,
-  'aria-checked': 0,
-  'aria-expanded': 0,
-  'aria-haspopup': 0,
-  'aria-level': 0,
-  'aria-modal': 0,
-  'aria-multiline': 0,
-  'aria-multiselectable': 0,
-  'aria-orientation': 0,
-  'aria-placeholder': 0,
-  'aria-pressed': 0,
-  'aria-readonly': 0,
-  'aria-required': 0,
-  'aria-selected': 0,
-  'aria-sort': 0,
-  'aria-valuemax': 0,
-  'aria-valuemin': 0,
-  'aria-valuenow': 0,
-  'aria-valuetext': 0,
-  // Live Region Attributes
-  'aria-atomic': 0,
-  'aria-busy': 0,
-  'aria-live': 0,
-  'aria-relevant': 0,
-  // Drag-and-Drop Attributes
-  'aria-dropeffect': 0,
-  'aria-grabbed': 0,
-  // Relationship Attributes
-  'aria-activedescendant': 0,
-  'aria-colcount': 0,
-  'aria-colindex': 0,
-  'aria-colspan': 0,
-  'aria-controls': 0,
-  'aria-describedby': 0,
-  'aria-errormessage': 0,
-  'aria-flowto': 0,
-  'aria-labelledby': 0,
-  'aria-owns': 0,
-  'aria-posinset': 0,
-  'aria-rowcount': 0,
-  'aria-rowindex': 0,
-  'aria-rowspan': 0,
-  'aria-setsize': 0
-};
-
-var warnedProperties = {};
-var rARIA = new RegExp('^(aria)-[' + ATTRIBUTE_NAME_CHAR + ']*$');
-var rARIACamel = new RegExp('^(aria)[A-Z][' + ATTRIBUTE_NAME_CHAR + ']*$');
-
-var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
-
-function validateProperty(tagName, name) {
-  if (hasOwnProperty$2.call(warnedProperties, name) && warnedProperties[name]) {
-    return true;
-  }
-
-  if (rARIACamel.test(name)) {
-    var ariaName = 'aria-' + name.slice(4).toLowerCase();
-    var correctName = ariaProperties.hasOwnProperty(ariaName) ? ariaName : null;
-
-    // If this is an aria-* attribute, but is not listed in the known DOM
-    // DOM properties, then it is an invalid aria-* attribute.
-    if (correctName == null) {
-      warning$1(false, 'Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.', name);
-      warnedProperties[name] = true;
-      return true;
-    }
-    // aria-* attributes should be lowercase; suggest the lowercase version.
-    if (name !== correctName) {
-      warning$1(false, 'Invalid ARIA attribute `%s`. Did you mean `%s`?', name, correctName);
-      warnedProperties[name] = true;
-      return true;
-    }
-  }
-
-  if (rARIA.test(name)) {
-    var lowerCasedName = name.toLowerCase();
-    var standardName = ariaProperties.hasOwnProperty(lowerCasedName) ? lowerCasedName : null;
-
-    // If this is an aria-* attribute, but is not listed in the known DOM
-    // DOM properties, then it is an invalid aria-* attribute.
-    if (standardName == null) {
-      warnedProperties[name] = true;
-      return false;
-    }
-    // aria-* attributes should be lowercase; suggest the lowercase version.
-    if (name !== standardName) {
-      warning$1(false, 'Unknown ARIA attribute `%s`. Did you mean `%s`?', name, standardName);
-      warnedProperties[name] = true;
-      return true;
-    }
-  }
-
-  return true;
-}
-
-function warnInvalidARIAProps(type, props) {
-  var invalidProps = [];
-
-  for (var key in props) {
-    var isValid = validateProperty(type, key);
-    if (!isValid) {
-      invalidProps.push(key);
-    }
-  }
-
-  var unknownPropString = invalidProps.map(function (prop) {
-    return '`' + prop + '`';
-  }).join(', ');
-
-  if (invalidProps.length === 1) {
-    warning$1(false, 'Invalid aria prop %s on <%s> tag. ' + 'For details, see https://fb.me/invalid-aria-prop', unknownPropString, type);
-  } else if (invalidProps.length > 1) {
-    warning$1(false, 'Invalid aria props %s on <%s> tag. ' + 'For details, see https://fb.me/invalid-aria-prop', unknownPropString, type);
-  }
-}
-
-function validateProperties(type, props) {
-  if (isCustomComponent(type, props)) {
-    return;
-  }
-  warnInvalidARIAProps(type, props);
-}
-
-var didWarnValueNull = false;
-
-function validateProperties$1(type, props) {
-  if (type !== 'input' && type !== 'textarea' && type !== 'select') {
-    return;
-  }
-
-  if (props != null && props.value === null && !didWarnValueNull) {
-    didWarnValueNull = true;
-    if (type === 'select' && props.multiple) {
-      warning$1(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty array when `multiple` is set to `true` ' + 'to clear the component or `undefined` for uncontrolled components.', type);
-    } else {
-      warning$1(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty string to clear the component or `undefined` ' + 'for uncontrolled components.', type);
-    }
-  }
-}
-
-/**
- * Registers plugins so that they can extract and dispatch events.
- *
- * @see {EventPluginHub}
- */
-
-/**
- * Ordered list of injected plugins.
- */
-
-
-/**
- * Mapping from event name to dispatch config
- */
-
-
-/**
- * Mapping from registration name to plugin module
- */
-var registrationNameModules = {};
-
-/**
- * Mapping from registration name to event name
- */
-
-
-/**
- * Mapping from lowercase registration names to the properly cased version,
- * used to warn in the case of missing event handlers. Available
- * only in true.
- * @type {Object}
- */
-var possibleRegistrationNames = {};
-// Trust the developer to only use possibleRegistrationNames in true
-
-/**
- * Injects an ordering of plugins (by plugin name). This allows the ordering
- * to be decoupled from injection of the actual plugins so that ordering is
- * always deterministic regardless of packaging, on-the-fly injection, etc.
- *
- * @param {array} InjectedEventPluginOrder
- * @internal
- * @see {EventPluginHub.injection.injectEventPluginOrder}
- */
-
-
-/**
- * Injects plugins to be used by `EventPluginHub`. The plugin names must be
- * in the ordering injected by `injectEventPluginOrder`.
- *
- * Plugins can be injected as part of page initialization or on-the-fly.
- *
- * @param {object} injectedNamesToPlugins Map from names to plugin modules.
- * @internal
- * @see {EventPluginHub.injection.injectEventPluginsByName}
- */
-
-// When adding attributes to the HTML or SVG whitelist, be sure to
-// also add them to this module to ensure casing and incorrect name
-// warnings.
-var possibleStandardNames = {
-  // HTML
-  accept: 'accept',
-  acceptcharset: 'acceptCharset',
-  'accept-charset': 'acceptCharset',
-  accesskey: 'accessKey',
-  action: 'action',
-  allowfullscreen: 'allowFullScreen',
-  alt: 'alt',
-  as: 'as',
-  async: 'async',
-  autocapitalize: 'autoCapitalize',
-  autocomplete: 'autoComplete',
-  autocorrect: 'autoCorrect',
-  autofocus: 'autoFocus',
-  autoplay: 'autoPlay',
-  autosave: 'autoSave',
-  capture: 'capture',
-  cellpadding: 'cellPadding',
-  cellspacing: 'cellSpacing',
-  challenge: 'challenge',
-  charset: 'charSet',
-  checked: 'checked',
-  children: 'children',
-  cite: 'cite',
-  class: 'className',
-  classid: 'classID',
-  classname: 'className',
-  cols: 'cols',
-  colspan: 'colSpan',
-  content: 'content',
-  contenteditable: 'contentEditable',
-  contextmenu: 'contextMenu',
-  controls: 'controls',
-  controlslist: 'controlsList',
-  coords: 'coords',
-  crossorigin: 'crossOrigin',
-  dangerouslysetinnerhtml: 'dangerouslySetInnerHTML',
-  data: 'data',
-  datetime: 'dateTime',
-  default: 'default',
-  defaultchecked: 'defaultChecked',
-  defaultvalue: 'defaultValue',
-  defer: 'defer',
-  dir: 'dir',
-  disabled: 'disabled',
-  download: 'download',
-  draggable: 'draggable',
-  enctype: 'encType',
-  for: 'htmlFor',
-  form: 'form',
-  formmethod: 'formMethod',
-  formaction: 'formAction',
-  formenctype: 'formEncType',
-  formnovalidate: 'formNoValidate',
-  formtarget: 'formTarget',
-  frameborder: 'frameBorder',
-  headers: 'headers',
-  height: 'height',
-  hidden: 'hidden',
-  high: 'high',
-  href: 'href',
-  hreflang: 'hrefLang',
-  htmlfor: 'htmlFor',
-  httpequiv: 'httpEquiv',
-  'http-equiv': 'httpEquiv',
-  icon: 'icon',
-  id: 'id',
-  innerhtml: 'innerHTML',
-  inputmode: 'inputMode',
-  integrity: 'integrity',
-  is: 'is',
-  itemid: 'itemID',
-  itemprop: 'itemProp',
-  itemref: 'itemRef',
-  itemscope: 'itemScope',
-  itemtype: 'itemType',
-  keyparams: 'keyParams',
-  keytype: 'keyType',
-  kind: 'kind',
-  label: 'label',
-  lang: 'lang',
-  list: 'list',
-  loop: 'loop',
-  low: 'low',
-  manifest: 'manifest',
-  marginwidth: 'marginWidth',
-  marginheight: 'marginHeight',
-  max: 'max',
-  maxlength: 'maxLength',
-  media: 'media',
-  mediagroup: 'mediaGroup',
-  method: 'method',
-  min: 'min',
-  minlength: 'minLength',
-  multiple: 'multiple',
-  muted: 'muted',
-  name: 'name',
-  nomodule: 'noModule',
-  nonce: 'nonce',
-  novalidate: 'noValidate',
-  open: 'open',
-  optimum: 'optimum',
-  pattern: 'pattern',
-  placeholder: 'placeholder',
-  playsinline: 'playsInline',
-  poster: 'poster',
-  preload: 'preload',
-  profile: 'profile',
-  radiogroup: 'radioGroup',
-  readonly: 'readOnly',
-  referrerpolicy: 'referrerPolicy',
-  rel: 'rel',
-  required: 'required',
-  reversed: 'reversed',
-  role: 'role',
-  rows: 'rows',
-  rowspan: 'rowSpan',
-  sandbox: 'sandbox',
-  scope: 'scope',
-  scoped: 'scoped',
-  scrolling: 'scrolling',
-  seamless: 'seamless',
-  selected: 'selected',
-  shape: 'shape',
-  size: 'size',
-  sizes: 'sizes',
-  span: 'span',
-  spellcheck: 'spellCheck',
-  src: 'src',
-  srcdoc: 'srcDoc',
-  srclang: 'srcLang',
-  srcset: 'srcSet',
-  start: 'start',
-  step: 'step',
-  style: 'style',
-  summary: 'summary',
-  tabindex: 'tabIndex',
-  target: 'target',
-  title: 'title',
-  type: 'type',
-  usemap: 'useMap',
-  value: 'value',
-  width: 'width',
-  wmode: 'wmode',
-  wrap: 'wrap',
-
-  // SVG
-  about: 'about',
-  accentheight: 'accentHeight',
-  'accent-height': 'accentHeight',
-  accumulate: 'accumulate',
-  additive: 'additive',
-  alignmentbaseline: 'alignmentBaseline',
-  'alignment-baseline': 'alignmentBaseline',
-  allowreorder: 'allowReorder',
-  alphabetic: 'alphabetic',
-  amplitude: 'amplitude',
-  arabicform: 'arabicForm',
-  'arabic-form': 'arabicForm',
-  ascent: 'ascent',
-  attributename: 'attributeName',
-  attributetype: 'attributeType',
-  autoreverse: 'autoReverse',
-  azimuth: 'azimuth',
-  basefrequency: 'baseFrequency',
-  baselineshift: 'baselineShift',
-  'baseline-shift': 'baselineShift',
-  baseprofile: 'baseProfile',
-  bbox: 'bbox',
-  begin: 'begin',
-  bias: 'bias',
-  by: 'by',
-  calcmode: 'calcMode',
-  capheight: 'capHeight',
-  'cap-height': 'capHeight',
-  clip: 'clip',
-  clippath: 'clipPath',
-  'clip-path': 'clipPath',
-  clippathunits: 'clipPathUnits',
-  cliprule: 'clipRule',
-  'clip-rule': 'clipRule',
-  color: 'color',
-  colorinterpolation: 'colorInterpolation',
-  'color-interpolation': 'colorInterpolation',
-  colorinterpolationfilters: 'colorInterpolationFilters',
-  'color-interpolation-filters': 'colorInterpolationFilters',
-  colorprofile: 'colorProfile',
-  'color-profile': 'colorProfile',
-  colorrendering: 'colorRendering',
-  'color-rendering': 'colorRendering',
-  contentscripttype: 'contentScriptType',
-  contentstyletype: 'contentStyleType',
-  cursor: 'cursor',
-  cx: 'cx',
-  cy: 'cy',
-  d: 'd',
-  datatype: 'datatype',
-  decelerate: 'decelerate',
-  descent: 'descent',
-  diffuseconstant: 'diffuseConstant',
-  direction: 'direction',
-  display: 'display',
-  divisor: 'divisor',
-  dominantbaseline: 'dominantBaseline',
-  'dominant-baseline': 'dominantBaseline',
-  dur: 'dur',
-  dx: 'dx',
-  dy: 'dy',
-  edgemode: 'edgeMode',
-  elevation: 'elevation',
-  enablebackground: 'enableBackground',
-  'enable-background': 'enableBackground',
-  end: 'end',
-  exponent: 'exponent',
-  externalresourcesrequired: 'externalResourcesRequired',
-  fill: 'fill',
-  fillopacity: 'fillOpacity',
-  'fill-opacity': 'fillOpacity',
-  fillrule: 'fillRule',
-  'fill-rule': 'fillRule',
-  filter: 'filter',
-  filterres: 'filterRes',
-  filterunits: 'filterUnits',
-  floodopacity: 'floodOpacity',
-  'flood-opacity': 'floodOpacity',
-  floodcolor: 'floodColor',
-  'flood-color': 'floodColor',
-  focusable: 'focusable',
-  fontfamily: 'fontFamily',
-  'font-family': 'fontFamily',
-  fontsize: 'fontSize',
-  'font-size': 'fontSize',
-  fontsizeadjust: 'fontSizeAdjust',
-  'font-size-adjust': 'fontSizeAdjust',
-  fontstretch: 'fontStretch',
-  'font-stretch': 'fontStretch',
-  fontstyle: 'fontStyle',
-  'font-style': 'fontStyle',
-  fontvariant: 'fontVariant',
-  'font-variant': 'fontVariant',
-  fontweight: 'fontWeight',
-  'font-weight': 'fontWeight',
-  format: 'format',
-  from: 'from',
-  fx: 'fx',
-  fy: 'fy',
-  g1: 'g1',
-  g2: 'g2',
-  glyphname: 'glyphName',
-  'glyph-name': 'glyphName',
-  glyphorientationhorizontal: 'glyphOrientationHorizontal',
-  'glyph-orientation-horizontal': 'glyphOrientationHorizontal',
-  glyphorientationvertical: 'glyphOrientationVertical',
-  'glyph-orientation-vertical': 'glyphOrientationVertical',
-  glyphref: 'glyphRef',
-  gradienttransform: 'gradientTransform',
-  gradientunits: 'gradientUnits',
-  hanging: 'hanging',
-  horizadvx: 'horizAdvX',
-  'horiz-adv-x': 'horizAdvX',
-  horizoriginx: 'horizOriginX',
-  'horiz-origin-x': 'horizOriginX',
-  ideographic: 'ideographic',
-  imagerendering: 'imageRendering',
-  'image-rendering': 'imageRendering',
-  in2: 'in2',
-  in: 'in',
-  inlist: 'inlist',
-  intercept: 'intercept',
-  k1: 'k1',
-  k2: 'k2',
-  k3: 'k3',
-  k4: 'k4',
-  k: 'k',
-  kernelmatrix: 'kernelMatrix',
-  kernelunitlength: 'kernelUnitLength',
-  kerning: 'kerning',
-  keypoints: 'keyPoints',
-  keysplines: 'keySplines',
-  keytimes: 'keyTimes',
-  lengthadjust: 'lengthAdjust',
-  letterspacing: 'letterSpacing',
-  'letter-spacing': 'letterSpacing',
-  lightingcolor: 'lightingColor',
-  'lighting-color': 'lightingColor',
-  limitingconeangle: 'limitingConeAngle',
-  local: 'local',
-  markerend: 'markerEnd',
-  'marker-end': 'markerEnd',
-  markerheight: 'markerHeight',
-  markermid: 'markerMid',
-  'marker-mid': 'markerMid',
-  markerstart: 'markerStart',
-  'marker-start': 'markerStart',
-  markerunits: 'markerUnits',
-  markerwidth: 'markerWidth',
-  mask: 'mask',
-  maskcontentunits: 'maskContentUnits',
-  maskunits: 'maskUnits',
-  mathematical: 'mathematical',
-  mode: 'mode',
-  numoctaves: 'numOctaves',
-  offset: 'offset',
-  opacity: 'opacity',
-  operator: 'operator',
-  order: 'order',
-  orient: 'orient',
-  orientation: 'orientation',
-  origin: 'origin',
-  overflow: 'overflow',
-  overlineposition: 'overlinePosition',
-  'overline-position': 'overlinePosition',
-  overlinethickness: 'overlineThickness',
-  'overline-thickness': 'overlineThickness',
-  paintorder: 'paintOrder',
-  'paint-order': 'paintOrder',
-  panose1: 'panose1',
-  'panose-1': 'panose1',
-  pathlength: 'pathLength',
-  patterncontentunits: 'patternContentUnits',
-  patterntransform: 'patternTransform',
-  patternunits: 'patternUnits',
-  pointerevents: 'pointerEvents',
-  'pointer-events': 'pointerEvents',
-  points: 'points',
-  pointsatx: 'pointsAtX',
-  pointsaty: 'pointsAtY',
-  pointsatz: 'pointsAtZ',
-  prefix: 'prefix',
-  preservealpha: 'preserveAlpha',
-  preserveaspectratio: 'preserveAspectRatio',
-  primitiveunits: 'primitiveUnits',
-  property: 'property',
-  r: 'r',
-  radius: 'radius',
-  refx: 'refX',
-  refy: 'refY',
-  renderingintent: 'renderingIntent',
-  'rendering-intent': 'renderingIntent',
-  repeatcount: 'repeatCount',
-  repeatdur: 'repeatDur',
-  requiredextensions: 'requiredExtensions',
-  requiredfeatures: 'requiredFeatures',
-  resource: 'resource',
-  restart: 'restart',
-  result: 'result',
-  results: 'results',
-  rotate: 'rotate',
-  rx: 'rx',
-  ry: 'ry',
-  scale: 'scale',
-  security: 'security',
-  seed: 'seed',
-  shaperendering: 'shapeRendering',
-  'shape-rendering': 'shapeRendering',
-  slope: 'slope',
-  spacing: 'spacing',
-  specularconstant: 'specularConstant',
-  specularexponent: 'specularExponent',
-  speed: 'speed',
-  spreadmethod: 'spreadMethod',
-  startoffset: 'startOffset',
-  stddeviation: 'stdDeviation',
-  stemh: 'stemh',
-  stemv: 'stemv',
-  stitchtiles: 'stitchTiles',
-  stopcolor: 'stopColor',
-  'stop-color': 'stopColor',
-  stopopacity: 'stopOpacity',
-  'stop-opacity': 'stopOpacity',
-  strikethroughposition: 'strikethroughPosition',
-  'strikethrough-position': 'strikethroughPosition',
-  strikethroughthickness: 'strikethroughThickness',
-  'strikethrough-thickness': 'strikethroughThickness',
-  string: 'string',
-  stroke: 'stroke',
-  strokedasharray: 'strokeDasharray',
-  'stroke-dasharray': 'strokeDasharray',
-  strokedashoffset: 'strokeDashoffset',
-  'stroke-dashoffset': 'strokeDashoffset',
-  strokelinecap: 'strokeLinecap',
-  'stroke-linecap': 'strokeLinecap',
-  strokelinejoin: 'strokeLinejoin',
-  'stroke-linejoin': 'strokeLinejoin',
-  strokemiterlimit: 'strokeMiterlimit',
-  'stroke-miterlimit': 'strokeMiterlimit',
-  strokewidth: 'strokeWidth',
-  'stroke-width': 'strokeWidth',
-  strokeopacity: 'strokeOpacity',
-  'stroke-opacity': 'strokeOpacity',
-  suppresscontenteditablewarning: 'suppressContentEditableWarning',
-  suppresshydrationwarning: 'suppressHydrationWarning',
-  surfacescale: 'surfaceScale',
-  systemlanguage: 'systemLanguage',
-  tablevalues: 'tableValues',
-  targetx: 'targetX',
-  targety: 'targetY',
-  textanchor: 'textAnchor',
-  'text-anchor': 'textAnchor',
-  textdecoration: 'textDecoration',
-  'text-decoration': 'textDecoration',
-  textlength: 'textLength',
-  textrendering: 'textRendering',
-  'text-rendering': 'textRendering',
-  to: 'to',
-  transform: 'transform',
-  typeof: 'typeof',
-  u1: 'u1',
-  u2: 'u2',
-  underlineposition: 'underlinePosition',
-  'underline-position': 'underlinePosition',
-  underlinethickness: 'underlineThickness',
-  'underline-thickness': 'underlineThickness',
-  unicode: 'unicode',
-  unicodebidi: 'unicodeBidi',
-  'unicode-bidi': 'unicodeBidi',
-  unicoderange: 'unicodeRange',
-  'unicode-range': 'unicodeRange',
-  unitsperem: 'unitsPerEm',
-  'units-per-em': 'unitsPerEm',
-  unselectable: 'unselectable',
-  valphabetic: 'vAlphabetic',
-  'v-alphabetic': 'vAlphabetic',
-  values: 'values',
-  vectoreffect: 'vectorEffect',
-  'vector-effect': 'vectorEffect',
-  version: 'version',
-  vertadvy: 'vertAdvY',
-  'vert-adv-y': 'vertAdvY',
-  vertoriginx: 'vertOriginX',
-  'vert-origin-x': 'vertOriginX',
-  vertoriginy: 'vertOriginY',
-  'vert-origin-y': 'vertOriginY',
-  vhanging: 'vHanging',
-  'v-hanging': 'vHanging',
-  videographic: 'vIdeographic',
-  'v-ideographic': 'vIdeographic',
-  viewbox: 'viewBox',
-  viewtarget: 'viewTarget',
-  visibility: 'visibility',
-  vmathematical: 'vMathematical',
-  'v-mathematical': 'vMathematical',
-  vocab: 'vocab',
-  widths: 'widths',
-  wordspacing: 'wordSpacing',
-  'word-spacing': 'wordSpacing',
-  writingmode: 'writingMode',
-  'writing-mode': 'writingMode',
-  x1: 'x1',
-  x2: 'x2',
-  x: 'x',
-  xchannelselector: 'xChannelSelector',
-  xheight: 'xHeight',
-  'x-height': 'xHeight',
-  xlinkactuate: 'xlinkActuate',
-  'xlink:actuate': 'xlinkActuate',
-  xlinkarcrole: 'xlinkArcrole',
-  'xlink:arcrole': 'xlinkArcrole',
-  xlinkhref: 'xlinkHref',
-  'xlink:href': 'xlinkHref',
-  xlinkrole: 'xlinkRole',
-  'xlink:role': 'xlinkRole',
-  xlinkshow: 'xlinkShow',
-  'xlink:show': 'xlinkShow',
-  xlinktitle: 'xlinkTitle',
-  'xlink:title': 'xlinkTitle',
-  xlinktype: 'xlinkType',
-  'xlink:type': 'xlinkType',
-  xmlbase: 'xmlBase',
-  'xml:base': 'xmlBase',
-  xmllang: 'xmlLang',
-  'xml:lang': 'xmlLang',
-  xmlns: 'xmlns',
-  'xml:space': 'xmlSpace',
-  xmlnsxlink: 'xmlnsXlink',
-  'xmlns:xlink': 'xmlnsXlink',
-  xmlspace: 'xmlSpace',
-  y1: 'y1',
-  y2: 'y2',
-  y: 'y',
-  ychannelselector: 'yChannelSelector',
-  z: 'z',
-  zoomandpan: 'zoomAndPan'
-};
-
-var validateProperty$1 = function () {};
-
-{
-  var warnedProperties$1 = {};
-  var _hasOwnProperty = Object.prototype.hasOwnProperty;
-  var EVENT_NAME_REGEX = /^on./;
-  var INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/;
-  var rARIA$1 = new RegExp('^(aria)-[' + ATTRIBUTE_NAME_CHAR + ']*$');
-  var rARIACamel$1 = new RegExp('^(aria)[A-Z][' + ATTRIBUTE_NAME_CHAR + ']*$');
-
-  validateProperty$1 = function (tagName, name, value, canUseEventSystem) {
-    if (_hasOwnProperty.call(warnedProperties$1, name) && warnedProperties$1[name]) {
-      return true;
-    }
-
-    var lowerCasedName = name.toLowerCase();
-    if (lowerCasedName === 'onfocusin' || lowerCasedName === 'onfocusout') {
-      warning$1(false, 'React uses onFocus and onBlur instead of onFocusIn and onFocusOut. ' + 'All React events are normalized to bubble, so onFocusIn and onFocusOut ' + 'are not needed/supported by React.');
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    // We can't rely on the event system being injected on the server.
-    if (canUseEventSystem) {
-      if (registrationNameModules.hasOwnProperty(name)) {
-        return true;
-      }
-      var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
-      if (registrationName != null) {
-        warning$1(false, 'Invalid event handler property `%s`. Did you mean `%s`?', name, registrationName);
-        warnedProperties$1[name] = true;
-        return true;
-      }
-      if (EVENT_NAME_REGEX.test(name)) {
-        warning$1(false, 'Unknown event handler property `%s`. It will be ignored.', name);
-        warnedProperties$1[name] = true;
-        return true;
-      }
-    } else if (EVENT_NAME_REGEX.test(name)) {
-      // If no event plugins have been injected, we are in a server environment.
-      // So we can't tell if the event name is correct for sure, but we can filter
-      // out known bad ones like `onclick`. We can't suggest a specific replacement though.
-      if (INVALID_EVENT_NAME_REGEX.test(name)) {
-        warning$1(false, 'Invalid event handler property `%s`. ' + 'React events use the camelCase naming convention, for example `onClick`.', name);
-      }
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    // Let the ARIA attribute hook validate ARIA attributes
-    if (rARIA$1.test(name) || rARIACamel$1.test(name)) {
-      return true;
-    }
-
-    if (lowerCasedName === 'innerhtml') {
-      warning$1(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (lowerCasedName === 'aria') {
-      warning$1(false, 'The `aria` attribute is reserved for future use in React. ' + 'Pass individual `aria-` attributes instead.');
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (lowerCasedName === 'is' && value !== null && value !== undefined && typeof value !== 'string') {
-      warning$1(false, 'Received a `%s` for a string attribute `is`. If this is expected, cast ' + 'the value to a string.', typeof value);
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (typeof value === 'number' && isNaN(value)) {
-      warning$1(false, 'Received NaN for the `%s` attribute. If this is expected, cast ' + 'the value to a string.', name);
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    var propertyInfo = getPropertyInfo(name);
-    var isReserved = propertyInfo !== null && propertyInfo.type === RESERVED;
-
-    // Known attributes should match the casing specified in the property config.
-    if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
-      var standardName = possibleStandardNames[lowerCasedName];
-      if (standardName !== name) {
-        warning$1(false, 'Invalid DOM property `%s`. Did you mean `%s`?', name, standardName);
-        warnedProperties$1[name] = true;
-        return true;
-      }
-    } else if (!isReserved && name !== lowerCasedName) {
-      // Unknown attributes should have lowercase casing since that's how they
-      // will be cased anyway with server rendering.
-      warning$1(false, 'React does not recognize the `%s` prop on a DOM element. If you ' + 'intentionally want it to appear in the DOM as a custom ' + 'attribute, spell it as lowercase `%s` instead. ' + 'If you accidentally passed it from a parent component, remove ' + 'it from the DOM element.', name, lowerCasedName);
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (typeof value === 'boolean' && shouldRemoveAttributeWithWarning(name, value, propertyInfo, false)) {
-      if (value) {
-        warning$1(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.', value, name, name, value, name);
-      } else {
-        warning$1(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.', value, name, name, value, name, name, name);
-      }
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    // Now that we've validated casing, do not validate
-    // data types for reserved props
-    if (isReserved) {
-      return true;
-    }
-
-    // Warn when a known attribute is a bad type
-    if (shouldRemoveAttributeWithWarning(name, value, propertyInfo, false)) {
-      warnedProperties$1[name] = true;
-      return false;
-    }
-
-    // Warn when passing the strings 'false' or 'true' into a boolean prop
-    if ((value === 'false' || value === 'true') && propertyInfo !== null && propertyInfo.type === BOOLEAN) {
-      warning$1(false, 'Received the string `%s` for the boolean attribute `%s`. ' + '%s ' + 'Did you mean %s={%s}?', value, name, value === 'false' ? 'The browser will interpret it as a truthy value.' : 'Although this works, it will not work as expected if you pass the string "false".', name, value);
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    return true;
-  };
-}
-
-var warnUnknownProperties = function (type, props, canUseEventSystem) {
-  var unknownProps = [];
-  for (var key in props) {
-    var isValid = validateProperty$1(type, key, props[key], canUseEventSystem);
-    if (!isValid) {
-      unknownProps.push(key);
-    }
-  }
-
-  var unknownPropString = unknownProps.map(function (prop) {
-    return '`' + prop + '`';
-  }).join(', ');
-  if (unknownProps.length === 1) {
-    warning$1(false, 'Invalid value for prop %s on <%s> tag. Either remove it from the element, ' + 'or pass a string or number value to keep it in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior', unknownPropString, type);
-  } else if (unknownProps.length > 1) {
-    warning$1(false, 'Invalid values for props %s on <%s> tag. Either remove them from the element, ' + 'or pass a string or number value to keep them in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior', unknownPropString, type);
-  }
-};
-
-function validateProperties$2(type, props, canUseEventSystem) {
-  if (isCustomComponent(type, props)) {
-    return;
-  }
-  warnUnknownProperties(type, props, canUseEventSystem);
-}
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// Based on reading the React.Children implementation. TODO: type this somewhere?
-
-var toArray = React.Children.toArray;
-
-// This is only used in DEV.
-// Each entry is `this.stack` from a currently executing renderer instance.
-// (There may be more than one because ReactDOMServer is reentrant).
-// Each stack is an array of frames which may contain nested stacks of elements.
-var currentDebugStacks = [];
-
-var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
-var ReactDebugCurrentFrame = void 0;
-var prevGetCurrentStackImpl = null;
-var getCurrentServerStackImpl = function () {
-  return '';
-};
-var describeStackFrame = function (element) {
-  return '';
-};
-
-var validatePropertiesInDevelopment = function (type, props) {};
-var pushCurrentDebugStack = function (stack) {};
-var pushElementToDebugStack = function (element) {};
-var popCurrentDebugStack = function () {};
-var hasWarnedAboutUsingContextAsConsumer = false;
-
-{
-  ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
-
-  validatePropertiesInDevelopment = function (type, props) {
-    validateProperties(type, props);
-    validateProperties$1(type, props);
-    validateProperties$2(type, props, /* canUseEventSystem */false);
-  };
-
-  describeStackFrame = function (element) {
-    var source = element._source;
-    var type = element.type;
-    var name = getComponentName(type);
-    var ownerName = null;
-    return describeComponentFrame(name, source, ownerName);
-  };
-
-  pushCurrentDebugStack = function (stack) {
-    currentDebugStacks.push(stack);
-
-    if (currentDebugStacks.length === 1) {
-      // We are entering a server renderer.
-      // Remember the previous (e.g. client) global stack implementation.
-      prevGetCurrentStackImpl = ReactDebugCurrentFrame.getCurrentStack;
-      ReactDebugCurrentFrame.getCurrentStack = getCurrentServerStackImpl;
-    }
-  };
-
-  pushElementToDebugStack = function (element) {
-    // For the innermost executing ReactDOMServer call,
-    var stack = currentDebugStacks[currentDebugStacks.length - 1];
-    // Take the innermost executing frame (e.g. <Foo>),
-    var frame = stack[stack.length - 1];
-    // and record that it has one more element associated with it.
-    frame.debugElementStack.push(element);
-    // We only need this because we tail-optimize single-element
-    // children and directly handle them in an inner loop instead of
-    // creating separate frames for them.
-  };
-
-  popCurrentDebugStack = function () {
-    currentDebugStacks.pop();
-
-    if (currentDebugStacks.length === 0) {
-      // We are exiting the server renderer.
-      // Restore the previous (e.g. client) global stack implementation.
-      ReactDebugCurrentFrame.getCurrentStack = prevGetCurrentStackImpl;
-      prevGetCurrentStackImpl = null;
-    }
-  };
-
-  getCurrentServerStackImpl = function () {
-    if (currentDebugStacks.length === 0) {
-      // Nothing is currently rendering.
-      return '';
-    }
-    // ReactDOMServer is reentrant so there may be multiple calls at the same time.
-    // Take the frames from the innermost call which is the last in the array.
-    var frames = currentDebugStacks[currentDebugStacks.length - 1];
-    var stack = '';
-    // Go through every frame in the stack from the innermost one.
-    for (var i = frames.length - 1; i >= 0; i--) {
-      var frame = frames[i];
-      // Every frame might have more than one debug element stack entry associated with it.
-      // This is because single-child nesting doesn't create materialized frames.
-      // Instead it would push them through `pushElementToDebugStack()`.
-      var _debugElementStack = frame.debugElementStack;
-      for (var ii = _debugElementStack.length - 1; ii >= 0; ii--) {
-        stack += describeStackFrame(_debugElementStack[ii]);
-      }
-    }
-    return stack;
-  };
-}
-
-var didWarnDefaultInputValue = false;
-var didWarnDefaultChecked = false;
-var didWarnDefaultSelectValue = false;
-var didWarnDefaultTextareaValue = false;
-var didWarnInvalidOptionChildren = false;
-var didWarnAboutNoopUpdateForComponent = {};
-var didWarnAboutBadClass = {};
-var didWarnAboutDeprecatedWillMount = {};
-var didWarnAboutUndefinedDerivedState = {};
-var didWarnAboutUninitializedState = {};
-var valuePropNames = ['value', 'defaultValue'];
-var newlineEatingTags = {
-  listing: true,
-  pre: true,
-  textarea: true
-};
-
-// We accept any tag to be rendered but since this gets injected into arbitrary
-// HTML, we want to make sure that it's a safe tag.
-// http://www.w3.org/TR/REC-xml/#NT-Name
-var VALID_TAG_REGEX = /^[a-zA-Z][a-zA-Z:_\.\-\d]*$/; // Simplified subset
-var validatedTagCache = {};
-function validateDangerousTag(tag) {
-  if (!validatedTagCache.hasOwnProperty(tag)) {
-    !VALID_TAG_REGEX.test(tag) ? invariant(false, 'Invalid tag: %s', tag) : void 0;
-    validatedTagCache[tag] = true;
-  }
-}
-
-var styleNameCache = {};
-var processStyleName = function (styleName) {
-  if (styleNameCache.hasOwnProperty(styleName)) {
-    return styleNameCache[styleName];
-  }
-  var result = hyphenateStyleName(styleName);
-  styleNameCache[styleName] = result;
-  return result;
-};
-
-function createMarkupForStyles(styles) {
-  var serialized = '';
-  var delimiter = '';
-  for (var styleName in styles) {
-    if (!styles.hasOwnProperty(styleName)) {
-      continue;
-    }
-    var isCustomProperty = styleName.indexOf('--') === 0;
-    var styleValue = styles[styleName];
-    {
-      if (!isCustomProperty) {
-        warnValidStyle$1(styleName, styleValue);
-      }
-    }
-    if (styleValue != null) {
-      serialized += delimiter + processStyleName(styleName) + ':';
-      serialized += dangerousStyleValue(styleName, styleValue, isCustomProperty);
-
-      delimiter = ';';
-    }
-  }
-  return serialized || null;
-}
-
-function warnNoop(publicInstance, callerName) {
-  {
-    var _constructor = publicInstance.constructor;
-    var componentName = _constructor && getComponentName(_constructor) || 'ReactClass';
-    var warningKey = componentName + '.' + callerName;
-    if (didWarnAboutNoopUpdateForComponent[warningKey]) {
-      return;
-    }
-
-    warningWithoutStack$1(false, '%s(...): Can only update a mounting component. ' + 'This usually means you called %s() outside componentWillMount() on the server. ' + 'This is a no-op.\n\nPlease check the code for the %s component.', callerName, callerName, componentName);
-    didWarnAboutNoopUpdateForComponent[warningKey] = true;
-  }
-}
-
-function shouldConstruct(Component) {
-  return Component.prototype && Component.prototype.isReactComponent;
-}
-
-function getNonChildrenInnerMarkup(props) {
-  var innerHTML = props.dangerouslySetInnerHTML;
-  if (innerHTML != null) {
-    if (innerHTML.__html != null) {
-      return innerHTML.__html;
-    }
-  } else {
-    var content = props.children;
-    if (typeof content === 'string' || typeof content === 'number') {
-      return escapeTextForBrowser(content);
-    }
-  }
-  return null;
-}
-
-function flattenTopLevelChildren(children) {
-  if (!React.isValidElement(children)) {
-    return toArray(children);
-  }
-  var element = children;
-  if (element.type !== REACT_FRAGMENT_TYPE) {
-    return [element];
-  }
-  var fragmentChildren = element.props.children;
-  if (!React.isValidElement(fragmentChildren)) {
-    return toArray(fragmentChildren);
-  }
-  var fragmentChildElement = fragmentChildren;
-  return [fragmentChildElement];
-}
-
-function flattenOptionChildren(children) {
-  if (children === undefined || children === null) {
-    return children;
-  }
-  var content = '';
-  // Flatten children and warn if they aren't strings or numbers;
-  // invalid types are ignored.
-  React.Children.forEach(children, function (child) {
-    if (child == null) {
-      return;
-    }
-    content += child;
-    {
-      if (!didWarnInvalidOptionChildren && typeof child !== 'string' && typeof child !== 'number') {
-        didWarnInvalidOptionChildren = true;
-        warning$1(false, 'Only strings and numbers are supported as <option> children.');
-      }
-    }
-  });
-  return content;
-}
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var STYLE = 'style';
-var RESERVED_PROPS = {
-  children: null,
-  dangerouslySetInnerHTML: null,
-  suppressContentEditableWarning: null,
-  suppressHydrationWarning: null
-};
-
-function createOpenTagMarkup(tagVerbatim, tagLowercase, props, namespace, makeStaticMarkup, isRootElement) {
-  var ret = '<' + tagVerbatim;
-
-  for (var propKey in props) {
-    if (!hasOwnProperty.call(props, propKey)) {
-      continue;
-    }
-    var propValue = props[propKey];
-    if (propValue == null) {
-      continue;
-    }
-    if (propKey === STYLE) {
-      propValue = createMarkupForStyles(propValue);
-    }
-    var markup = null;
-    if (isCustomComponent(tagLowercase, props)) {
-      if (!RESERVED_PROPS.hasOwnProperty(propKey)) {
-        markup = createMarkupForCustomAttribute(propKey, propValue);
-      }
-    } else {
-      markup = createMarkupForProperty(propKey, propValue);
-    }
-    if (markup) {
-      ret += ' ' + markup;
-    }
-  }
-
-  // For static pages, no need to put React ID and checksum. Saves lots of
-  // bytes.
-  if (makeStaticMarkup) {
-    return ret;
-  }
-
-  if (isRootElement) {
-    ret += ' ' + createMarkupForRoot();
-  }
-  return ret;
-}
-
-function validateRenderResult(child, type) {
-  if (child === undefined) {
-    invariant(false, '%s(...): Nothing was returned from render. This usually means a return statement is missing. Or, to render nothing, return null.', getComponentName(type) || 'Component');
-  }
-}
-
-function resolve(child, context, threadID) {
-  while (React.isValidElement(child)) {
-    // Safe because we just checked it's an element.
-    var element = child;
-    var Component = element.type;
-    {
-      pushElementToDebugStack(element);
-    }
-    if (typeof Component !== 'function') {
-      break;
-    }
-    processChild(element, Component);
-  }
-
-  // Extra closure so queue and replace can be captured properly
-  function processChild(element, Component) {
-    var publicContext = processContext(Component, context, threadID);
-
-    var queue = [];
-    var replace = false;
-    var updater = {
-      isMounted: function (publicInstance) {
-        return false;
-      },
-      enqueueForceUpdate: function (publicInstance) {
-        if (queue === null) {
-          warnNoop(publicInstance, 'forceUpdate');
-          return null;
-        }
-      },
-      enqueueReplaceState: function (publicInstance, completeState) {
-        replace = true;
-        queue = [completeState];
-      },
-      enqueueSetState: function (publicInstance, currentPartialState) {
-        if (queue === null) {
-          warnNoop(publicInstance, 'setState');
-          return null;
-        }
-        queue.push(currentPartialState);
-      }
-    };
-
-    var inst = void 0;
-    if (shouldConstruct(Component)) {
-      inst = new Component(element.props, publicContext, updater);
-
-      if (typeof Component.getDerivedStateFromProps === 'function') {
-        {
-          if (inst.state === null || inst.state === undefined) {
-            var componentName = getComponentName(Component) || 'Unknown';
-            if (!didWarnAboutUninitializedState[componentName]) {
-              warningWithoutStack$1(false, '`%s` uses `getDerivedStateFromProps` but its initial state is ' + '%s. This is not recommended. Instead, define the initial state by ' + 'assigning an object to `this.state` in the constructor of `%s`. ' + 'This ensures that `getDerivedStateFromProps` arguments have a consistent shape.', componentName, inst.state === null ? 'null' : 'undefined', componentName);
-              didWarnAboutUninitializedState[componentName] = true;
-            }
-          }
-        }
-
-        var partialState = Component.getDerivedStateFromProps.call(null, element.props, inst.state);
-
-        {
-          if (partialState === undefined) {
-            var _componentName = getComponentName(Component) || 'Unknown';
-            if (!didWarnAboutUndefinedDerivedState[_componentName]) {
-              warningWithoutStack$1(false, '%s.getDerivedStateFromProps(): A valid state object (or null) must be returned. ' + 'You have returned undefined.', _componentName);
-              didWarnAboutUndefinedDerivedState[_componentName] = true;
-            }
-          }
-        }
-
-        if (partialState != null) {
-          inst.state = _assign({}, inst.state, partialState);
-        }
-      }
-    } else {
-      {
-        if (Component.prototype && typeof Component.prototype.render === 'function') {
-          var _componentName2 = getComponentName(Component) || 'Unknown';
-
-          if (!didWarnAboutBadClass[_componentName2]) {
-            warningWithoutStack$1(false, "The <%s /> component appears to have a render method, but doesn't extend React.Component. " + 'This is likely to cause errors. Change %s to extend React.Component instead.', _componentName2, _componentName2);
-            didWarnAboutBadClass[_componentName2] = true;
-          }
-        }
-      }
-      var componentIdentity = {};
-      prepareToUseHooks(componentIdentity);
-      inst = Component(element.props, publicContext, updater);
-      inst = finishHooks(Component, element.props, inst, publicContext);
-
-      if (inst == null || inst.render == null) {
-        child = inst;
-        validateRenderResult(child, Component);
-        return;
-      }
-    }
-
-    inst.props = element.props;
-    inst.context = publicContext;
-    inst.updater = updater;
-
-    var initialState = inst.state;
-    if (initialState === undefined) {
-      inst.state = initialState = null;
-    }
-    if (typeof inst.UNSAFE_componentWillMount === 'function' || typeof inst.componentWillMount === 'function') {
-      if (typeof inst.componentWillMount === 'function') {
-        {
-          if (warnAboutDeprecatedLifecycles && inst.componentWillMount.__suppressDeprecationWarning !== true) {
-            var _componentName3 = getComponentName(Component) || 'Unknown';
-
-            if (!didWarnAboutDeprecatedWillMount[_componentName3]) {
-              lowPriorityWarning$1(false, '%s: componentWillMount() is deprecated and will be ' + 'removed in the next major version. Read about the motivations ' + 'behind this change: ' + 'https://fb.me/react-async-component-lifecycle-hooks' + '\n\n' + 'As a temporary workaround, you can rename to ' + 'UNSAFE_componentWillMount instead.', _componentName3);
-              didWarnAboutDeprecatedWillMount[_componentName3] = true;
-            }
-          }
-        }
-
-        // In order to support react-lifecycles-compat polyfilled components,
-        // Unsafe lifecycles should not be invoked for any component with the new gDSFP.
-        if (typeof Component.getDerivedStateFromProps !== 'function') {
-          inst.componentWillMount();
-        }
-      }
-      if (typeof inst.UNSAFE_componentWillMount === 'function' && typeof Component.getDerivedStateFromProps !== 'function') {
-        // In order to support react-lifecycles-compat polyfilled components,
-        // Unsafe lifecycles should not be invoked for any component with the new gDSFP.
-        inst.UNSAFE_componentWillMount();
-      }
-      if (queue.length) {
-        var oldQueue = queue;
-        var oldReplace = replace;
-        queue = null;
-        replace = false;
-
-        if (oldReplace && oldQueue.length === 1) {
-          inst.state = oldQueue[0];
-        } else {
-          var nextState = oldReplace ? oldQueue[0] : inst.state;
-          var dontMutate = true;
-          for (var i = oldReplace ? 1 : 0; i < oldQueue.length; i++) {
-            var partial = oldQueue[i];
-            var _partialState = typeof partial === 'function' ? partial.call(inst, nextState, element.props, publicContext) : partial;
-            if (_partialState != null) {
-              if (dontMutate) {
-                dontMutate = false;
-                nextState = _assign({}, nextState, _partialState);
-              } else {
-                _assign(nextState, _partialState);
-              }
-            }
-          }
-          inst.state = nextState;
-        }
-      } else {
-        queue = null;
-      }
-    }
-    child = inst.render();
-
-    {
-      if (child === undefined && inst.render._isMockFunction) {
-        // This is probably bad practice. Consider warning here and
-        // deprecating this convenience.
-        child = null;
-      }
-    }
-    validateRenderResult(child, Component);
-
-    var childContext = void 0;
-    if (typeof inst.getChildContext === 'function') {
-      var childContextTypes = Component.childContextTypes;
-      if (typeof childContextTypes === 'object') {
-        childContext = inst.getChildContext();
-        for (var contextKey in childContext) {
-          !(contextKey in childContextTypes) ? invariant(false, '%s.getChildContext(): key "%s" is not defined in childContextTypes.', getComponentName(Component) || 'Unknown', contextKey) : void 0;
-        }
-      } else {
-        warningWithoutStack$1(false, '%s.getChildContext(): childContextTypes must be defined in order to ' + 'use getChildContext().', getComponentName(Component) || 'Unknown');
-      }
-    }
-    if (childContext) {
-      context = _assign({}, context, childContext);
-    }
-  }
-  return { child: child, context: context };
-}
-
-var ReactDOMServerRenderer = function () {
-  // DEV-only
-
-  // TODO: type this more strictly:
-  function ReactDOMServerRenderer(children, makeStaticMarkup) {
-    _classCallCheck(this, ReactDOMServerRenderer);
-
-    var flatChildren = flattenTopLevelChildren(children);
-
-    var topFrame = {
-      type: null,
-      // Assume all trees start in the HTML namespace (not totally true, but
-      // this is what we did historically)
-      domNamespace: Namespaces.html,
-      children: flatChildren,
-      childIndex: 0,
-      context: emptyObject,
-      footer: ''
-    };
-    {
-      topFrame.debugElementStack = [];
-    }
-    this.threadID = allocThreadID();
-    this.stack = [topFrame];
-    this.exhausted = false;
-    this.currentSelectValue = null;
-    this.previousWasTextNode = false;
-    this.makeStaticMarkup = makeStaticMarkup;
-    this.suspenseDepth = 0;
-
-    // Context (new API)
-    this.contextIndex = -1;
-    this.contextStack = [];
-    this.contextValueStack = [];
-    {
-      this.contextProviderStack = [];
-    }
-  }
-
-  ReactDOMServerRenderer.prototype.destroy = function destroy() {
-    if (!this.exhausted) {
-      this.exhausted = true;
-      this.clearProviders();
-      freeThreadID(this.threadID);
-    }
-  };
-
-  /**
-   * Note: We use just two stacks regardless of how many context providers you have.
-   * Providers are always popped in the reverse order to how they were pushed
-   * so we always know on the way down which provider you'll encounter next on the way up.
-   * On the way down, we push the current provider, and its context value *before*
-   * we mutated it, onto the stacks. Therefore, on the way up, we always know which
-   * provider needs to be "restored" to which value.
-   * https://github.com/facebook/react/pull/12985#issuecomment-396301248
-   */
-
-  ReactDOMServerRenderer.prototype.pushProvider = function pushProvider(provider) {
-    var index = ++this.contextIndex;
-    var context = provider.type._context;
-    var threadID = this.threadID;
-    validateContextBounds(context, threadID);
-    var previousValue = context[threadID];
-
-    // Remember which value to restore this context to on our way up.
-    this.contextStack[index] = context;
-    this.contextValueStack[index] = previousValue;
-    {
-      // Only used for push/pop mismatch warnings.
-      this.contextProviderStack[index] = provider;
-    }
-
-    // Mutate the current value.
-    context[threadID] = provider.props.value;
-  };
-
-  ReactDOMServerRenderer.prototype.popProvider = function popProvider(provider) {
-    var index = this.contextIndex;
-    {
-      !(index > -1 && provider === this.contextProviderStack[index]) ? warningWithoutStack$1(false, 'Unexpected pop.') : void 0;
-    }
-
-    var context = this.contextStack[index];
-    var previousValue = this.contextValueStack[index];
-
-    // "Hide" these null assignments from Flow by using `any`
-    // because conceptually they are deletions--as long as we
-    // promise to never access values beyond `this.contextIndex`.
-    this.contextStack[index] = null;
-    this.contextValueStack[index] = null;
-    {
-      this.contextProviderStack[index] = null;
-    }
-    this.contextIndex--;
-
-    // Restore to the previous value we stored as we were walking down.
-    // We've already verified that this context has been expanded to accommodate
-    // this thread id, so we don't need to do it again.
-    context[this.threadID] = previousValue;
-  };
-
-  ReactDOMServerRenderer.prototype.clearProviders = function clearProviders() {
-    // Restore any remaining providers on the stack to previous values
-    for (var index = this.contextIndex; index >= 0; index--) {
-      var _context = this.contextStack[index];
-      var previousValue = this.contextValueStack[index];
-      _context[this.threadID] = previousValue;
-    }
-  };
-
-  ReactDOMServerRenderer.prototype.read = function read(bytes) {
-    if (this.exhausted) {
-      return null;
-    }
-
-    var prevThreadID = currentThreadID;
-    setCurrentThreadID(this.threadID);
-    var prevDispatcher = ReactCurrentDispatcher.current;
-    ReactCurrentDispatcher.current = Dispatcher;
-    try {
-      // Markup generated within <Suspense> ends up buffered until we know
-      // nothing in that boundary suspended
-      var out = [''];
-      var suspended = false;
-      while (out[0].length < bytes) {
-        if (this.stack.length === 0) {
-          this.exhausted = true;
-          freeThreadID(this.threadID);
-          break;
-        }
-        var frame = this.stack[this.stack.length - 1];
-        if (suspended || frame.childIndex >= frame.children.length) {
-          var _footer = frame.footer;
-          if (_footer !== '') {
-            this.previousWasTextNode = false;
-          }
-          this.stack.pop();
-          if (frame.type === 'select') {
-            this.currentSelectValue = null;
-          } else if (frame.type != null && frame.type.type != null && frame.type.type.$$typeof === REACT_PROVIDER_TYPE) {
-            var provider = frame.type;
-            this.popProvider(provider);
-          } else if (frame.type === REACT_SUSPENSE_TYPE) {
-            this.suspenseDepth--;
-            var buffered = out.pop();
-
-            if (suspended) {
-              suspended = false;
-              // If rendering was suspended at this boundary, render the fallbackFrame
-              var _fallbackFrame = frame.fallbackFrame;
-              !_fallbackFrame ? invariant(false, 'suspense fallback not found, something is broken') : void 0;
-              this.stack.push(_fallbackFrame);
-              // Skip flushing output since we're switching to the fallback
-              continue;
-            } else {
-              out[this.suspenseDepth] += buffered;
-            }
-          }
-
-          // Flush output
-          out[this.suspenseDepth] += _footer;
-          continue;
-        }
-        var child = frame.children[frame.childIndex++];
-
-        var outBuffer = '';
-        {
-          pushCurrentDebugStack(this.stack);
-          // We're starting work on this frame, so reset its inner stack.
-          frame.debugElementStack.length = 0;
-        }
-        try {
-          outBuffer += this.render(child, frame.context, frame.domNamespace);
-        } catch (err) {
-          if (enableSuspenseServerRenderer && typeof err.then === 'function') {
-            suspended = true;
-          } else {
-            throw err;
-          }
-        } finally {
-          {
-            popCurrentDebugStack();
-          }
-        }
-        if (out.length <= this.suspenseDepth) {
-          out.push('');
-        }
-        out[this.suspenseDepth] += outBuffer;
-      }
-      return out[0];
-    } finally {
-      ReactCurrentDispatcher.current = prevDispatcher;
-      setCurrentThreadID(prevThreadID);
-    }
-  };
-
-  ReactDOMServerRenderer.prototype.render = function render(child, context, parentNamespace) {
-    if (typeof child === 'string' || typeof child === 'number') {
-      var text = '' + child;
-      if (text === '') {
-        return '';
-      }
-      if (this.makeStaticMarkup) {
-        return escapeTextForBrowser(text);
-      }
-      if (this.previousWasTextNode) {
-        return '<!-- -->' + escapeTextForBrowser(text);
-      }
-      this.previousWasTextNode = true;
-      return escapeTextForBrowser(text);
-    } else {
-      var nextChild = void 0;
-
-      var _resolve = resolve(child, context, this.threadID);
-
-      nextChild = _resolve.child;
-      context = _resolve.context;
-
-      if (nextChild === null || nextChild === false) {
-        return '';
-      } else if (!React.isValidElement(nextChild)) {
-        if (nextChild != null && nextChild.$$typeof != null) {
-          // Catch unexpected special types early.
-          var $$typeof = nextChild.$$typeof;
-          !($$typeof !== REACT_PORTAL_TYPE) ? invariant(false, 'Portals are not currently supported by the server renderer. Render them conditionally so that they only appear on the client render.') : void 0;
-          // Catch-all to prevent an infinite loop if React.Children.toArray() supports some new type.
-          invariant(false, 'Unknown element-like object type: %s. This is likely a bug in React. Please file an issue.', $$typeof.toString());
-        }
-        var nextChildren = toArray(nextChild);
-        var frame = {
-          type: null,
-          domNamespace: parentNamespace,
-          children: nextChildren,
-          childIndex: 0,
-          context: context,
-          footer: ''
-        };
-        {
-          frame.debugElementStack = [];
-        }
-        this.stack.push(frame);
-        return '';
-      }
-      // Safe because we just checked it's an element.
-      var nextElement = nextChild;
-      var elementType = nextElement.type;
-
-      if (typeof elementType === 'string') {
-        return this.renderDOM(nextElement, context, parentNamespace);
-      }
-
-      switch (elementType) {
-        case REACT_STRICT_MODE_TYPE:
-        case REACT_CONCURRENT_MODE_TYPE:
-        case REACT_PROFILER_TYPE:
-        case REACT_FRAGMENT_TYPE:
-          {
-            var _nextChildren = toArray(nextChild.props.children);
-            var _frame = {
-              type: null,
-              domNamespace: parentNamespace,
-              children: _nextChildren,
-              childIndex: 0,
-              context: context,
-              footer: ''
-            };
-            {
-              _frame.debugElementStack = [];
-            }
-            this.stack.push(_frame);
-            return '';
-          }
-        case REACT_SUSPENSE_TYPE:
-          {
-            if (enableSuspenseServerRenderer) {
-              var fallback = nextChild.props.fallback;
-              if (fallback === undefined) {
-                // If there is no fallback, then this just behaves as a fragment.
-                var _nextChildren3 = toArray(nextChild.props.children);
-                var _frame3 = {
-                  type: null,
-                  domNamespace: parentNamespace,
-                  children: _nextChildren3,
-                  childIndex: 0,
-                  context: context,
-                  footer: ''
-                };
-                {
-                  _frame3.debugElementStack = [];
-                }
-                this.stack.push(_frame3);
-                return '';
-              }
-              var fallbackChildren = toArray(fallback);
-              var _nextChildren2 = toArray(nextChild.props.children);
-              var _fallbackFrame2 = {
-                type: null,
-                domNamespace: parentNamespace,
-                children: fallbackChildren,
-                childIndex: 0,
-                context: context,
-                footer: '',
-                out: ''
-              };
-              var _frame2 = {
-                fallbackFrame: _fallbackFrame2,
-                type: REACT_SUSPENSE_TYPE,
-                domNamespace: parentNamespace,
-                children: _nextChildren2,
-                childIndex: 0,
-                context: context,
-                footer: '<!--/$-->'
-              };
-              {
-                _frame2.debugElementStack = [];
-                _fallbackFrame2.debugElementStack = [];
-              }
-              this.stack.push(_frame2);
-              this.suspenseDepth++;
-              return '<!--$-->';
-            } else {
-              invariant(false, 'ReactDOMServer does not yet support Suspense.');
-            }
-          }
-        // eslint-disable-next-line-no-fallthrough
-        default:
-          break;
-      }
-      if (typeof elementType === 'object' && elementType !== null) {
-        switch (elementType.$$typeof) {
-          case REACT_FORWARD_REF_TYPE:
-            {
-              var element = nextChild;
-              var _nextChildren4 = void 0;
-              var componentIdentity = {};
-              prepareToUseHooks(componentIdentity);
-              _nextChildren4 = elementType.render(element.props, element.ref);
-              _nextChildren4 = finishHooks(elementType.render, element.props, _nextChildren4, element.ref);
-              _nextChildren4 = toArray(_nextChildren4);
-              var _frame4 = {
-                type: null,
-                domNamespace: parentNamespace,
-                children: _nextChildren4,
-                childIndex: 0,
-                context: context,
-                footer: ''
-              };
-              {
-                _frame4.debugElementStack = [];
-              }
-              this.stack.push(_frame4);
-              return '';
-            }
-          case REACT_MEMO_TYPE:
-            {
-              var _element = nextChild;
-              var _nextChildren5 = [React.createElement(elementType.type, _assign({ ref: _element.ref }, _element.props))];
-              var _frame5 = {
-                type: null,
-                domNamespace: parentNamespace,
-                children: _nextChildren5,
-                childIndex: 0,
-                context: context,
-                footer: ''
-              };
-              {
-                _frame5.debugElementStack = [];
-              }
-              this.stack.push(_frame5);
-              return '';
-            }
-          case REACT_PROVIDER_TYPE:
-            {
-              var provider = nextChild;
-              var nextProps = provider.props;
-              var _nextChildren6 = toArray(nextProps.children);
-              var _frame6 = {
-                type: provider,
-                domNamespace: parentNamespace,
-                children: _nextChildren6,
-                childIndex: 0,
-                context: context,
-                footer: ''
-              };
-              {
-                _frame6.debugElementStack = [];
-              }
-
-              this.pushProvider(provider);
-
-              this.stack.push(_frame6);
-              return '';
-            }
-          case REACT_CONTEXT_TYPE:
-            {
-              var reactContext = nextChild.type;
-              // The logic below for Context differs depending on PROD or DEV mode. In
-              // DEV mode, we create a separate object for Context.Consumer that acts
-              // like a proxy to Context. This proxy object adds unnecessary code in PROD
-              // so we use the old behaviour (Context.Consumer references Context) to
-              // reduce size and overhead. The separate object references context via
-              // a property called "_context", which also gives us the ability to check
-              // in DEV mode if this property exists or not and warn if it does not.
-              {
-                if (reactContext._context === undefined) {
-                  // This may be because it's a Context (rather than a Consumer).
-                  // Or it may be because it's older React where they're the same thing.
-                  // We only want to warn if we're sure it's a new React.
-                  if (reactContext !== reactContext.Consumer) {
-                    if (!hasWarnedAboutUsingContextAsConsumer) {
-                      hasWarnedAboutUsingContextAsConsumer = true;
-                      warning$1(false, 'Rendering <Context> directly is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Consumer> instead?');
-                    }
-                  }
-                } else {
-                  reactContext = reactContext._context;
-                }
-              }
-              var _nextProps = nextChild.props;
-              var threadID = this.threadID;
-              validateContextBounds(reactContext, threadID);
-              var nextValue = reactContext[threadID];
-
-              var _nextChildren7 = toArray(_nextProps.children(nextValue));
-              var _frame7 = {
-                type: nextChild,
-                domNamespace: parentNamespace,
-                children: _nextChildren7,
-                childIndex: 0,
-                context: context,
-                footer: ''
-              };
-              {
-                _frame7.debugElementStack = [];
-              }
-              this.stack.push(_frame7);
-              return '';
-            }
-          case REACT_LAZY_TYPE:
-            invariant(false, 'ReactDOMServer does not yet support lazy-loaded components.');
-        }
-      }
-
-      var info = '';
-      {
-        var owner = nextElement._owner;
-        if (elementType === undefined || typeof elementType === 'object' && elementType !== null && Object.keys(elementType).length === 0) {
-          info += ' You likely forgot to export your component from the file ' + "it's defined in, or you might have mixed up default and " + 'named imports.';
-        }
-        var ownerName = owner ? getComponentName(owner) : null;
-        if (ownerName) {
-          info += '\n\nCheck the render method of `' + ownerName + '`.';
-        }
-      }
-      invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', elementType == null ? elementType : typeof elementType, info);
-    }
-  };
-
-  ReactDOMServerRenderer.prototype.renderDOM = function renderDOM(element, context, parentNamespace) {
-    var tag = element.type.toLowerCase();
-
-    var namespace = parentNamespace;
-    if (parentNamespace === Namespaces.html) {
-      namespace = getIntrinsicNamespace(tag);
-    }
-
-    {
-      if (namespace === Namespaces.html) {
-        // Should this check be gated by parent namespace? Not sure we want to
-        // allow <SVG> or <mATH>.
-        !(tag === element.type) ? warning$1(false, '<%s /> is using incorrect casing. ' + 'Use PascalCase for React components, ' + 'or lowercase for HTML elements.', element.type) : void 0;
-      }
-    }
-
-    validateDangerousTag(tag);
-
-    var props = element.props;
-    if (tag === 'input') {
-      {
-        ReactControlledValuePropTypes.checkPropTypes('input', props);
-
-        if (props.checked !== undefined && props.defaultChecked !== undefined && !didWarnDefaultChecked) {
-          warning$1(false, '%s contains an input of type %s with both checked and defaultChecked props. ' + 'Input elements must be either controlled or uncontrolled ' + '(specify either the checked prop, or the defaultChecked prop, but not ' + 'both). Decide between using a controlled or uncontrolled input ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components', 'A component', props.type);
-          didWarnDefaultChecked = true;
-        }
-        if (props.value !== undefined && props.defaultValue !== undefined && !didWarnDefaultInputValue) {
-          warning$1(false, '%s contains an input of type %s with both value and defaultValue props. ' + 'Input elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled input ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components', 'A component', props.type);
-          didWarnDefaultInputValue = true;
-        }
-      }
-
-      props = _assign({
-        type: undefined
-      }, props, {
-        defaultChecked: undefined,
-        defaultValue: undefined,
-        value: props.value != null ? props.value : props.defaultValue,
-        checked: props.checked != null ? props.checked : props.defaultChecked
-      });
-    } else if (tag === 'textarea') {
-      {
-        ReactControlledValuePropTypes.checkPropTypes('textarea', props);
-        if (props.value !== undefined && props.defaultValue !== undefined && !didWarnDefaultTextareaValue) {
-          warning$1(false, 'Textarea elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled textarea ' + 'and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components');
-          didWarnDefaultTextareaValue = true;
-        }
-      }
-
-      var initialValue = props.value;
-      if (initialValue == null) {
-        var defaultValue = props.defaultValue;
-        // TODO (yungsters): Remove support for children content in <textarea>.
-        var textareaChildren = props.children;
-        if (textareaChildren != null) {
-          {
-            warning$1(false, 'Use the `defaultValue` or `value` props instead of setting ' + 'children on <textarea>.');
-          }
-          !(defaultValue == null) ? invariant(false, 'If you supply `defaultValue` on a <textarea>, do not pass children.') : void 0;
-          if (Array.isArray(textareaChildren)) {
-            !(textareaChildren.length <= 1) ? invariant(false, '<textarea> can only have at most one child.') : void 0;
-            textareaChildren = textareaChildren[0];
-          }
-
-          defaultValue = '' + textareaChildren;
-        }
-        if (defaultValue == null) {
-          defaultValue = '';
-        }
-        initialValue = defaultValue;
-      }
-
-      props = _assign({}, props, {
-        value: undefined,
-        children: '' + initialValue
-      });
-    } else if (tag === 'select') {
-      {
-        ReactControlledValuePropTypes.checkPropTypes('select', props);
-
-        for (var i = 0; i < valuePropNames.length; i++) {
-          var propName = valuePropNames[i];
-          if (props[propName] == null) {
-            continue;
-          }
-          var isArray = Array.isArray(props[propName]);
-          if (props.multiple && !isArray) {
-            warning$1(false, 'The `%s` prop supplied to <select> must be an array if ' + '`multiple` is true.', propName);
-          } else if (!props.multiple && isArray) {
-            warning$1(false, 'The `%s` prop supplied to <select> must be a scalar ' + 'value if `multiple` is false.', propName);
-          }
-        }
-
-        if (props.value !== undefined && props.defaultValue !== undefined && !didWarnDefaultSelectValue) {
-          warning$1(false, 'Select elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled select ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components');
-          didWarnDefaultSelectValue = true;
-        }
-      }
-      this.currentSelectValue = props.value != null ? props.value : props.defaultValue;
-      props = _assign({}, props, {
-        value: undefined
-      });
-    } else if (tag === 'option') {
-      var selected = null;
-      var selectValue = this.currentSelectValue;
-      var optionChildren = flattenOptionChildren(props.children);
-      if (selectValue != null) {
-        var value = void 0;
-        if (props.value != null) {
-          value = props.value + '';
-        } else {
-          value = optionChildren;
-        }
-        selected = false;
-        if (Array.isArray(selectValue)) {
-          // multiple
-          for (var j = 0; j < selectValue.length; j++) {
-            if ('' + selectValue[j] === value) {
-              selected = true;
-              break;
-            }
-          }
-        } else {
-          selected = '' + selectValue === value;
-        }
-
-        props = _assign({
-          selected: undefined,
-          children: undefined
-        }, props, {
-          selected: selected,
-          children: optionChildren
-        });
-      }
-    }
-
-    {
-      validatePropertiesInDevelopment(tag, props);
-    }
-
-    assertValidProps(tag, props);
-
-    var out = createOpenTagMarkup(element.type, tag, props, namespace, this.makeStaticMarkup, this.stack.length === 1);
-    var footer = '';
-    if (omittedCloseTags.hasOwnProperty(tag)) {
-      out += '/>';
-    } else {
-      out += '>';
-      footer = '</' + element.type + '>';
-    }
-    var children = void 0;
-    var innerMarkup = getNonChildrenInnerMarkup(props);
-    if (innerMarkup != null) {
-      children = [];
-      if (newlineEatingTags[tag] && innerMarkup.charAt(0) === '\n') {
-        // text/html ignores the first character in these tags if it's a newline
-        // Prefer to break application/xml over text/html (for now) by adding
-        // a newline specifically to get eaten by the parser. (Alternately for
-        // textareas, replacing "^\n" with "\r\n" doesn't get eaten, and the first
-        // \r is normalized out by HTMLTextAreaElement#value.)
-        // See: <http://www.w3.org/TR/html-polyglot/#newlines-in-textarea-and-pre>
-        // See: <http://www.w3.org/TR/html5/syntax.html#element-restrictions>
-        // See: <http://www.w3.org/TR/html5/syntax.html#newlines>
-        // See: Parsing of "textarea" "listing" and "pre" elements
-        //  from <http://www.w3.org/TR/html5/syntax.html#parsing-main-inbody>
-        out += '\n';
-      }
-      out += innerMarkup;
-    } else {
-      children = toArray(props.children);
-    }
-    var frame = {
-      domNamespace: getChildNamespace(parentNamespace, element.type),
-      type: tag,
-      children: children,
-      childIndex: 0,
-      context: context,
-      footer: footer
-    };
-    {
-      frame.debugElementStack = [];
-    }
-    this.stack.push(frame);
-    this.previousWasTextNode = false;
-    return out;
-  };
-
-  return ReactDOMServerRenderer;
-}();
-
-/**
- * Render a ReactElement to its initial HTML. This should only be used on the
- * server.
- * See https://reactjs.org/docs/react-dom-server.html#rendertostring
- */
-function renderToString(element) {
-  var renderer = new ReactDOMServerRenderer(element, false);
-  try {
-    var markup = renderer.read(Infinity);
-    return markup;
-  } finally {
-    renderer.destroy();
-  }
-}
-
-/**
- * Similar to renderToString, except this doesn't create extra DOM attributes
- * such as data-react-id that React uses internally.
- * See https://reactjs.org/docs/react-dom-server.html#rendertostaticmarkup
- */
-function renderToStaticMarkup(element) {
-  var renderer = new ReactDOMServerRenderer(element, true);
-  try {
-    var markup = renderer.read(Infinity);
-    return markup;
-  } finally {
-    renderer.destroy();
-  }
-}
-
-function renderToNodeStream() {
-  invariant(false, 'ReactDOMServer.renderToNodeStream(): The streaming API is not available in the browser. Use ReactDOMServer.renderToString() instead.');
-}
-
-function renderToStaticNodeStream() {
-  invariant(false, 'ReactDOMServer.renderToStaticNodeStream(): The streaming API is not available in the browser. Use ReactDOMServer.renderToStaticMarkup() instead.');
-}
-
-// Note: when changing this, also consider https://github.com/facebook/react/issues/11526
-var ReactDOMServerBrowser = {
-  renderToString: renderToString,
-  renderToStaticMarkup: renderToStaticMarkup,
-  renderToNodeStream: renderToNodeStream,
-  renderToStaticNodeStream: renderToStaticNodeStream,
-  version: ReactVersion
-};
-
-var ReactDOMServerBrowser$1 = Object.freeze({
-	default: ReactDOMServerBrowser
-});
-
-var ReactDOMServer = ( ReactDOMServerBrowser$1 && ReactDOMServerBrowser ) || ReactDOMServerBrowser$1;
-
-// TODO: decide on the top-level export form.
-// This is hacky but makes it work with both Rollup and Jest
-var server_browser = ReactDOMServer.default || ReactDOMServer;
-
-module.exports = server_browser;
-  })();
-}
 
 
 /***/ }),
@@ -56253,23 +53461,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/react-dom/server.browser.js":
-/*!**************************************************!*\
-  !*** ./node_modules/react-dom/server.browser.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-if (false) {} else {
-  module.exports = __webpack_require__(/*! ./cjs/react-dom-server.browser.development.js */ "./node_modules/react-dom/cjs/react-dom-server.browser.development.js");
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/react-is/cjs/react-is.development.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-is/cjs/react-is.development.js ***!
@@ -61697,4 +58888,4 @@ module.exports = function(originalModule) {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=server.js.map
+//# sourceMappingURL=client.js.map

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as ReactDOMServer from 'react-dom/server';
+import { SSCharting } from './containers/SSCharting';
 
-// @ts-ignore
-global.React = React;
-// @ts-ignore
-global.ReactDOM = ReactDOM;
-// @ts-ignore
-global.ReactDOMServer = ReactDOMServer;
+(global as any).React = React;
+(global as any).ReactDOM = ReactDOM;
+(global as any).ReactDOMServer = ReactDOMServer;
 
-import './app';
+import './shared';
+//(global as any).Charting = SSCharting;
+

@@ -28,10 +28,18 @@
         @Html.React("Charting", new { Animate=true }, clientOnly: false)
         @switch (language) {
             case "en-ca":
-                @:<button id="btnSaveChart" class="btn btn-success btn-sm">Save Chart</button>
+                @Html.React("SaveBtn", new
+                {
+                    label = "Save",
+                    target = ".chartContainer"
+                }, clientOnly: true)
                 break;
             case "fr-ca":
-                @:<button id="btnSaveChart" class="btn btn-success btn-sm">Enregistrer</button>
+                @Html.React("SaveBtn", new
+                {
+                    label = "Enregistrer",
+                    target = ".chartContainer"
+                }, clientOnly: true)
                 break;
         }
         

@@ -5,7 +5,7 @@ module.exports = {
     mode: "development",
     target: 'web',
     entry: {
-        app: './Client/app.ts',
+        client: './Client/client.ts',
         server: './Client/server.ts'
     },
     devtool: "source-map",
@@ -14,6 +14,12 @@ module.exports = {
         filename: '[name].js',
         chunkFilename: 'app.[name].[hash].js',
         publicPath: '/js/'
+    },
+    node: {
+        tls: "empty",
+        fs: "empty",
+        net: "empty",
+        child_process: "empty"
     },
     module: {
         rules: [
