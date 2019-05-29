@@ -12,7 +12,7 @@ export const YesScript: React.FC<{children: React.ReactElement, className?: stri
             yesScriptEl.current.style.display = null;
     }, [])
     return (
-        <div ref={yesScriptEl} style={{display: "none"}} {...props}>
+        <div ref={yesScriptEl} style={{display: "none"}}>
             {props.children}
         </div>
     );

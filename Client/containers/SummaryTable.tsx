@@ -13,10 +13,7 @@ import { Dispatch } from 'redux';
 const mapStateToSummaryTableProps: MapStateToProps<{chartData: ChartData}, SummaryTableProps, DataExplorerState> = (state, props) => (
     {
         chartData: state.chartData,
-        cvWarning: props.cvWarning,
-        cvSuppressed: props.cvSuppressed,
-        cvWarningAlt: props.cvWarningAlt,
-        cvSuppressedAlt: props.cvSuppressedAlt
+        ...props
     }
 );
 
@@ -29,15 +26,14 @@ type SummaryTableProps = {
     cvWarning: string,
     cvWarningAlt: string,
     cvSuppressed: string,
-    cvSuppressedAlt: string
+    cvSuppressedAlt: string,
+    confidenceInterval: string,
+    confidenceIntervalAbbr: string
 }
 export const SummaryTable: React.FC<SummaryTableProps> = (props) => {
     return (
         <Provider store={dataExplorerStore}>
-            <SummaryTableConnect cvWarning={props.cvWarning}
-                cvSuppressed={props.cvSuppressed}
-                cvWarningAlt={props.cvWarningAlt}
-                cvSuppressedAlt={props.cvSuppressedAlt} />
+            <SummaryTableConnect {...props} />
         </Provider>
     )
 }

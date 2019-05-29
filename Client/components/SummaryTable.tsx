@@ -8,7 +8,9 @@ type SummaryTableProps = {
     cvWarning: string,
     cvSuppressed: string,
     cvWarningAlt: string,
-    cvSuppressedAlt: string
+    cvSuppressedAlt: string,
+    confidenceInterval: string,
+    confidenceIntervalAbbr: string
 }
 
 
@@ -47,7 +49,7 @@ export function SummaryTable(props: SummaryTableProps) {
                                 <tr>
                                     <th className="text-left" scope="col">{props.chartData.xAxis}</th>
                                     <th className="text-center" scope="col">{props.chartData.yAxis}</th>
-                                    <th className="text-center" scope="col">95% <abbr title="Confidence Interval">CI</abbr></th>
+                                    <th className="text-center" scope="col">95% <abbr title={props.confidenceInterval}>{props.confidenceIntervalAbbr}</abbr></th>
                                 </tr>
                             </thead>
                             <tbody>

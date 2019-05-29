@@ -12,5 +12,5 @@ export function SSCharting(props: ChartingProps) {
     let fakeDOM = new JSDOM(html);
     let graph = fakeDOM.window.document.querySelector("#graph");
     renderChart(graph, dataExplorerStore.getState().chartData, false, -1, -1, -1, false, console.log)
-    return (<div dangerouslySetInnerHTML={{__html: graph.innerHTML}}></div>);
+    return (<figure dangerouslySetInnerHTML={{__html: fakeDOM.window.document.querySelector('figure').innerHTML}}></figure>);
 }

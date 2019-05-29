@@ -156,13 +156,8 @@ namespace Infobase.Controllers
         }
 
         [ActionName("indicator-details")] 
-        public async Task<IActionResult> Details(string language, int? id)
+        public async Task<IActionResult> Details(string language, int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var measure = await _context.Measure.FirstOrDefaultAsync(m => m.Index == id);
             if (measure == null)
             {

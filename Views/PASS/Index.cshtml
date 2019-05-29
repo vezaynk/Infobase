@@ -60,7 +60,7 @@
                 break;
             case "fr-ca":
                 @:<h2>Statistiques rapides</h2>
-	            @:<p>Vous pouvez obtenir des informations supplémentaires sur ces indicateurs en cliquant sur les domaines ci-dessous :</p>
+	            @:<p>Vous pouvez obtenir des informations supplémentaires sur ces indicateurs en cliquant sur les catégories ci-dessous :</p>
                 break;
         }
 <div>
@@ -78,12 +78,24 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="width-20" scope="col">Indicator Group</th>
-                                    <th class="width-20" scope="col">Indicator</th>
-                                    <th class="width-30" scope="col">Indicator Measure(s)</th>
-                                    <th class="width-10" scope="col">Latest Data</th>
-                                    <th class="width-20" scope="col">Source (Year)</th>
-                                    <th scope="col">Description</th>
+                                    @switch (language) {
+                                        case "en-ca":
+                                            @:<th class="width-20" scope="col">Indicator Group</th>
+                                            @:<th class="width-20" scope="col">Indicator</th>
+                                            @:<th class="width-30" scope="col">Indicator Measure(s)</th>
+                                            @:<th class="width-10" scope="col">Latest Data</th>
+                                            @:<th class="width-20" scope="col">Source (Year)</th>
+                                            @:<th scope="col">Description</th>
+                                            break;
+                                        case "fr-ca":
+                                            @:<th class="width-20" scope="col">Groupe d'indicateur</th>
+                                            @:<th class="width-20" scope="col">Indicateur</th>
+                                            @:<th class="width-30" scope="col">Mesure(s) d'indicateurs</th>
+                                            @:<th class="width-10" scope="col">Données les plus récentes</th>
+                                            @:<th class="width-20" scope="col">Source de données (année)</th>
+                                            @:<th scope="col">Description</th>
+                                            break;
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,15 +180,15 @@
             case "en-ca":
                     @:<li><strong>Abbreviations:</strong> CCHS, Canadian Community Health Survey; CCHS RR, Canadian Community Health Survey Rapid Response; CHMS, Canadian Health Measures Survey;GSS, General Social Survey; HBSC, Health Behaviours in School-aged Children; HBSC-Admin, Health Behaviours in School-aged Children Administrator Survey; PAM, Physical Activity Monitor.</li>
                     @:<li><strong>Note:</strong> “In development” refers to measures that are under development either because a data source is currently not available or because more research has to be done to identify a promising measure and data source.</li>
-                    @:<li><strong>Correspondence:</strong> Behaviours, Environments and Lifespan Team, Centre for Surveillance and Applied Research, Public Health Agency of Canada, 785 Carling Avenue, Ottawa, ON K1A 0K9; Email: <a href="mailto:Infobase@phac-aspc.gc.ca">Infobase@phac-aspc.gc.ca</a></li>			
+                    @:<li><strong>Correspondence:</strong> Behaviours, Environments and Lifespan Team, Centre for Surveillance and Applied Research, Public Health Agency of Canada, 785 Carling Avenue, Ottawa, ON K1A 0K9; Email: <a href="mailto:phac.infobase.aspc@canada.ca">phac.infobase.aspc@canada.ca</a></li>			
                     @:<li><strong>Suggested citation (adults):</strong> Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators, Quick Stats, Adults (18+ years), 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</li>
                     @:<li><strong>Suggested citation (children and youth):</strong> Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators, Quick Stats, Children and Youth (5 to 17 years), 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</li>
                 
                 break;
             case "fr-ca":
-                    @:<li><strong>Abbreviations:</strong> CCHS, Canadian Community Health Survey; CCHS RR, Canadian Community Health Survey Rapid Response; CHMS, Canadian Health Measures Survey;GSS, General Social Survey; HBSC, Health Behaviours in School-aged Children; HBSC-Admin, Health Behaviours in School-aged Children Administrator Survey; PAM, Physical Activity Monitor.</li>
-                    @:<li><strong>Note:</strong> “In development” refers to measures that are under development either because a data source is currently not available or because more research has to be done to identify a promising measure and data source.</li>
-                    @:<li><strong>Correspondence:</strong> Behaviours, Environments and Lifespan Team, Centre for Surveillance and Applied Research, Public Health Agency of Canada, 785 Carling Avenue, Ottawa, ON K1A 0K9; Email: <a href="mailto:Infobase@phac-aspc.gc.ca">Infobase@phac-aspc.gc.ca</a></li>			
+                    @:<li><strong>Abréviations:</strong> ECMS, Enquête canadienne sur les mesures de la santé; ECSEAS, Enquête sur les comportements liés à la santé des enfants d’âge scolaire; ECSEAS-Admin, Enquête sur les comportements liés à la santé des enfants d’âge scolaire – questionnaire des administrateurs; ESCC, Enquête sur la santé dans les collectivités canadiennes; ESCC RR, Enquête sur la santé dans les collectivités canadiennes – réponses rapides; ESG, Enquête sociale générale; SIAP, Sondage indicateur de l’activité physique.</li>
+                    @:<li><strong>Remarque:</strong> La mention « En cours d’élaboration » s’applique aux indicateurs dont la source de données est actuellement indisponible et à ceux pour lesquels d’autres recherches sont nécessaires afin d’en déterminer une mesure et une source de données satisfaisantes.</li>
+                    @:<li><strong>Correspondance:</strong> Équipe sur les comportements, l’environnement et la durée de vie, Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada, 785, avenue Carling, Ottawa (Ontario) K1A 0K9; courriel: <a href="mailto:phac.infobase.aspc@canada.ca">phac.infobase.aspc@canada.ca</a></li>			
                     @:<li><strong>Citation suggérée (adultes):</strong> Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) : Statistiques rapides, adultes (18 ans et plus), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</li>
                     @:<li>Citation suggérée (enfants et jeunes):</strong> Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) : Statistiques rapides, enfants et jeunes (5 à 17 ans), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</li>
                 break;

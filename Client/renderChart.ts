@@ -46,6 +46,9 @@ const isPointInRange = (upper: number | void, lower: number | void, point: TPoin
 }
 
 function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: number, inverted: boolean = false) {
+    if (Object.keys(window).length == 0)
+        return;
+        
     text.each(function () {
         let text = d3.select(this),
             words = text.text().split(/\s+/).reverse(),

@@ -75,10 +75,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <div class="col-md-12">
                         <ul class="list-inline margin-bottom-none">
                             <li>
-                                @* <a asp-action="@RouteLocalizer.ReverseLookup("FR", ViewContext.RouteData.Values["action"].ToString().ToLower())" 
-                                asp-controller="@RouteLocalizer.ReverseLookup("FR", ViewContext.RouteData.Values["controller"].ToString())" 
-                                asp-route-culture="FR" asp-route-id="@ViewContext.RouteData.Values["id"]?.ToString()">Francais</a> *@
-								<a asp-route-language="fr-ca">Francais</a>
+                                @if (ViewContext.RouteData.Values["id"] == null) {
+                                    <a rel="keep-params" asp-route-language="fr-ca">Francais</a>
+                                } else {
+                                    <a rel="keep-params" asp-route-language="fr-ca" asp-route-id='@ViewContext.RouteData.Values["id"]'>Francais</a>
+                                }
                             </li>
                         </ul>
                     </div>

@@ -2,7 +2,7 @@
 PASS-DB Normalization Script v4
  - Denormalized languages
  - Removed most tables
- - Data and text are not together
+ - Data and text are now together
  - Switched to ANSI joins
 
 PASS-DB Normalization Script v3
