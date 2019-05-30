@@ -2,11 +2,12 @@
     "compilerOptions": {
         "noImplicitAny": false,
         "lib": ["dom", "es7"],
-        "module": "es6",
+        "module": "esNext",
         "target": "es5",
         "jsx": "react",
         "allowJs": true,
         "moduleResolution": "node",
     },
-    "include": ["./Client"]
+    "include": ["./Client"],
+    "exclude": ["./Client/common/*.js"]
 }

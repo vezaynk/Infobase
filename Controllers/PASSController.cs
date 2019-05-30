@@ -21,21 +21,44 @@ namespace Infobase.Controllers
 
         public PASSController(PASSContext context)
         {
-            //context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _context = context;
         }
 
         public async Task<IActionResult> Index(string language)
         {
             // Get all activities
-            return View(await _context.Activity.ToListAsync());
+            var activities = _context.Activity
+                                        // Include Measure names
+                                        .Include(a => a.DefaultIndicatorGroup)
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                    .ThenInclude(i => i.Measures)
+
+                                        // Include latest data by including points. Will filter later.
+                                        .Include(a => a.IndicatorGroups)
+                                                .ThenInclude(ig => ig.LifeCourses)
+                                                .ThenInclude(lc => lc.Indicators)
+                                                .ThenInclude(i => i.Measures)
+                                                    .ThenInclude(m => m.DefaultStrata.Points);
+
+
+            // Razor handles the rest
+            return View(await activities.ToListAsync());
         }
 
-        [ActionName("data-tool")] 
-        public async Task<IActionResult> Datatool(string language, int index=1, bool api = false)
+        [ActionName("data-tool")]
+        public async Task<IActionResult> Datatool(string language, int index = 1, bool api = false)
         {
             var strata = await _context.Strata
-                .FirstOrDefaultAsync(m => m.Index == index);
+                .Include(s => s.Measure)
+                    .ThenInclude(m => m.Indicator)
+                        .ThenInclude(i => i.LifeCourse)
+                            .ThenInclude(lc => lc.IndicatorGroup)
+                                .ThenInclude(ig => ig.Activity)
+                .Include(s => s.Points)
+                .FirstOrDefaultAsync(s => s.Index == index);
 
 
             if (strata == null)
@@ -44,41 +67,40 @@ namespace Infobase.Controllers
             }
 
             ChartData chart = chart = new ChartData
+            {
+                XAxis = strata.StrataName(language),
+                YAxis = strata.Measure.MeasureUnitLong(language),
+                Unit = strata.Measure.MeasureUnitShort(language),
+                Source = strata.StrataSource(language),
+                Population = strata.Measure.MeasurePopulationGroup(language),
+                Notes = strata.StrataNotes(language),
+                Remarks = strata.Measure.MeasureAdditionalRemarks(language),
+                Definition = strata.Measure.MeasureDefinition(language),
+                Method = strata.Measure.MeasureMethod(language),
+                DataAvailable = strata.Measure.MeasureDataAvailable(language),
+                Points = strata.Points.OrderBy(p => p.Index).Select(p => new ChartData.Point
                 {
-                    XAxis = strata.StrataName(language),
-                    YAxis = strata.Measure.MeasureUnitLong(language),
-                    Unit = strata.Measure.MeasureUnitShort(language),
-                    Source = strata.StrataSource(language),
-                    // Both stratas AND measure contain populations. They must be merged.
-                    // Population = new Translatable(strata.Measure.MeasurePopulation.Union(strata.StrataPopulation).ToDictionary(p => p.Key, p => p.Value)),
-                    Notes = strata.StrataNotes(language),
-                    Remarks = strata.Measure.MeasureAdditionalRemarks(language),
-                    Definition = strata.Measure.MeasureDefinition(language),
-                    Method = strata.Measure.MeasureMethod(language),
-                    DataAvailable = strata.Measure.MeasureDataAvailable(language),
-                    Points = strata.Points.OrderBy(p => p.Index).Select(p => new ChartData.Point
-                    {
-                        CVInterpretation = p.CVInterpretation,
-                        CVValue = p.CVValue,
-                        Value = p.ValueAverage,
-                        ValueUpper = p.ValueUpper,
-                        ValueLower = p.ValueLower,
-                        Label = p.PointLabel(language),
-                        Text = p.PointText(language),
-                        Type = p.Type
-                    }),
-                    WarningCV = strata.Measure.CVWarnAt,
-                    SuppressCV = strata.Measure.CVSuppressAt,
-                    MeasureName = strata.Measure.MeasureNameDataTool(language),
-                    Title = strata.Measure.MeasureNameIndex(language) + ", " + strata.StrataPopulationTitleFragment(language)
-                };
+                    CVInterpretation = p.CVInterpretation,
+                    CVValue = p.CVValue,
+                    Value = p.ValueAverage,
+                    ValueUpper = p.ValueUpper,
+                    ValueLower = p.ValueLower,
+                    Label = p.PointLabel(language),
+                    Text = p.PointText(language),
+                    Type = p.Type
+                }),
+                WarningCV = strata.Measure.CVWarnAt,
+                SuppressCV = strata.Measure.CVSuppressAt,
+                MeasureName = strata.Measure.MeasureNameDataTool(language),
+                Title = strata.Measure.MeasureNameIndex(language) + ", " + strata.StrataPopulationTitleFragment(language)
+            };
 
             var cpm = new ChartPageModel(language, chart);
 
             // top level requires a new query
             var activities = _context.Activity
-                                     .Where(ac => ac.DefaultIndicatorGroupId != null)
-                                     .AsEnumerable()
+                                     .Include(a => a.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata)
+                                     .Where(ac => ac.DefaultIndicatorGroup != null)
                                      .OrderBy(x => x.Index)
                                      .Select(ac => new DropdownItem
                                      {
@@ -88,9 +110,9 @@ namespace Infobase.Controllers
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, strata.Index));
 
-            var indicatorGroups = strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.IndicatorGroups
-                                     .Where(ig => ig.DefaultLifeCourseId != null)
-                                     .AsEnumerable()
+            var indicatorGroups = _context.IndicatorGroup
+                                     .Include(ig => ig.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata)
+                                     .Where(ig => ig.DefaultLifeCourseId != null && ig.ActivityId == strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId)
                                      .OrderBy(x => x.Index)
                                      .Select(ig => new DropdownItem
                                      {
@@ -100,9 +122,9 @@ namespace Infobase.Controllers
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Index));
 
-            var lifeCourses = strata.Measure.Indicator.LifeCourse.IndicatorGroup.LifeCourses
-                                     .Where(lc => lc.DefaultIndicatorId != null)
-                                     .AsEnumerable()
+            var lifeCourses = _context.LifeCourse
+                                     .Include(lc => lc.DefaultIndicator.DefaultMeasure.DefaultStrata)
+                                     .Where(lc => lc.DefaultIndicator != null && lc.IndicatorGroupId == strata.Measure.Indicator.LifeCourse.IndicatorGroupId)
                                      .OrderBy(x => x.Index)
                                      .Select(lc => new DropdownItem
                                      {
@@ -112,9 +134,9 @@ namespace Infobase.Controllers
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Index));
 
-            var indicators = strata.Measure.Indicator.LifeCourse.Indicators
-                                     .Where(i => i.DefaultMeasureId != null)
-                                     .AsEnumerable()
+            var indicators = _context.Indicator
+                                    .Include(i => i.DefaultMeasure.DefaultStrata)
+                                     .Where(i => i.DefaultMeasure != null && i.LifeCourseId == strata.Measure.Indicator.LifeCourseId)
                                      .OrderBy(x => x.Index)
                                      .Select(i => new DropdownItem
                                      {
@@ -124,9 +146,9 @@ namespace Infobase.Controllers
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Index));
 
-            var measures = strata.Measure.Indicator.Measures
-                                     .Where(m => m.DefaultStrataId != null && m.Included)
-                                     .AsEnumerable()
+            var measures = _context.Measure
+                                     .Include(i => i.DefaultStrata)
+                                     .Where(i => i.DefaultStrata != null && i.IndicatorId == strata.Measure.IndicatorId)
                                      .OrderBy(x => x.Index)
                                      .Select(m => new DropdownItem
                                      {
@@ -136,8 +158,8 @@ namespace Infobase.Controllers
 
             cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Index));
 
-            var stratas = strata.Measure.Stratas
-                                     .AsEnumerable()
+            var stratas = _context.Strata
+                                     .Where(i => i.MeasureId == strata.MeasureId)
                                      .OrderBy(x => x.Index)
                                      .Select(s => new DropdownItem
                                      {
@@ -155,7 +177,7 @@ namespace Infobase.Controllers
 
         }
 
-        [ActionName("indicator-details")] 
+        [ActionName("indicator-details")]
         public async Task<IActionResult> Details(string language, int id)
         {
             var measure = await _context.Measure.FirstOrDefaultAsync(m => m.Index == id);

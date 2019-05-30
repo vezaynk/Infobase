@@ -2,13 +2,14 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = [{
-    devtool: false,
     mode: "development",
     target: 'web',
+    performance: {
+        hints: false
+    },
     entry: {
         server: './Client/server.ts'
     },
-    devtool: "source-map",
     output: {
         path: path.join(__dirname, 'wwwroot', 'js'),
         filename: '[name].js',
@@ -40,7 +41,6 @@ module.exports = [{
         clearTimeout: [path.resolve(path.join(__dirname, 'Client/common/shim.js')), 'noCallback']
     })]
 }, {
-    devtool: false,
     mode: "development",
     target: 'web',
     entry: {
@@ -50,7 +50,7 @@ module.exports = [{
     output: {
         path: path.join(__dirname, 'wwwroot', 'js'),
         filename: '[name].js',
-        chunkFilename: 'app.[name].[hash].js',
+        chunkFilename: 'chunk.[id].js',
         publicPath: '/js/'
     },
     module: {

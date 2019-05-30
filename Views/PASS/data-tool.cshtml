@@ -26,22 +26,33 @@
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
         @Html.React("Charting", new { Animate=true }, clientOnly: false)
+
         @switch (language) {
-            case "en-ca":
-                @Html.React("SaveBtn", new
-                {
-                    label = "Save",
-                    target = ".chartContainer"
-                }, clientOnly: true)
-                break;
-            case "fr-ca":
-                @Html.React("SaveBtn", new
-                {
-                    label = "Enregistrer",
-                    target = ".chartContainer"
-                }, clientOnly: true)
-                break;
-        }
+        case "en-ca":
+            @Html.React("SaveChartBtn", new { 
+                label = "Save",
+                cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
+                cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%.",
+                cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
+                cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable.",
+                confidenceInterval = "Confidence Interval",
+                confidenceIntervalAbbr = "CI"
+            },
+            clientOnly: true);
+            break;
+        case "fr-ca":
+            @Html.React("SaveChartBtn", new {
+                label = "Enregistrer",
+                cvWarning = "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
+                cvSuppressed = "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
+                cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
+                cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
+                confidenceInterval = "Interval de Confiance",
+                confidenceIntervalAbbr = "IC"
+            },
+            clientOnly: true);
+            break;
+    }
         
     </div>
 </div>
@@ -138,35 +149,6 @@
                 }
     </div>
 </section>
-<div style="width: 0; height: 0; overflow: hidden;">
-<div style="width: 820px;" class="chartContainer">
-    @Html.React("Charting", new { Animate = false }, clientOnly: false)
-    @switch (language) {
-        case "en-ca":
-            @Html.React("SummaryTable", new { 
-                cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
-                cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%.",
-                cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
-                cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable.",
-                confidenceInterval = "Confidence Interval",
-                confidenceIntervalAbbr = "CI"
-            },
-            clientOnly: false);
-            break;
-        case "fr-ca":
-            @Html.React("SummaryTable", new {
-                cvWarning = "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
-                cvSuppressed = "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
-                cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
-                cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
-                confidenceInterval = "Interval de Confiance",
-                confidenceIntervalAbbr = "IC"
-            },
-            clientOnly: false);
-            break;
-    }
-</div>
-</div>
 <script>
     // all <a> tags containing a certain rel=""
 $("a[rel~='keep-params']").click(function(e) {

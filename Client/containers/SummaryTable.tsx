@@ -22,7 +22,7 @@ export const SummaryTableConnect = connect(
     mapStateToSummaryTableProps
 )(ST)
 
-type SummaryTableProps = {
+export type SummaryTableProps = {
     cvWarning: string,
     cvWarningAlt: string,
     cvSuppressed: string,

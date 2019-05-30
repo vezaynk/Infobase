@@ -26,7 +26,11 @@ Notes:
          - Bad type-casting on import
 
     Most of these have already been safe-guarded against at least once in the script below.
+    
+It is important to note however, that the precautions taken cover the vast majority of potential problems.
+An issue with importing is more likely to be a problem with the data than a with the script.
  **/
+
 INSERT INTO "Activity" ("Index", "ActivityNameEn")
 SELECT
     min(id::Integer),

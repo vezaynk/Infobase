@@ -1,6 +1,5 @@
 
 import * as React from 'react';
-import * as html2canvas from 'html2canvas';
 import { YesScript } from '../HOC/YesScript';
 
 function addFooterToCanvas(canvas: HTMLCanvasElement) {
@@ -31,11 +30,24 @@ function addFooterToCanvas(canvas: HTMLCanvasElement) {
 
 }
 
-export const SaveBtn: React.FC<{ label: string, target: string }> = props => {
-    const save = async () => addFooterToCanvas(await html2canvas(document.querySelector(props.target)));
+export const SaveBtn: React.FC<{ label: string, children: React.ReactElement | React.ReactElement[] }> = props => {
+    const saveArea = React.useRef(null);
+    const save = () => {
+        import("html2canvas").then(async html2canvas => {
+            // @ts-ignore: Calling default is necessary, but TS doesn't know that
+            addFooterToCanvas(await html2canvas.default(saveArea.current))
+        })
+    };
     return (
-        <YesScript ieAsNoScript={true}>
-            <button className="btn btn-success btn-sm" onClick={() => save()}>{props.label}</button>
-        </YesScript>
+        <div>
+            <YesScript ieAsNoScript={true}>
+                <button className="btn btn-success btn-sm" onClick={() => save()}>{props.label}</button>
+            </YesScript>
+            <div style={{width: 0, height: 0, overflow: "hidden"}}>
+                <div style={{width: "820px"}} className="chartContainer" ref={saveArea}>
+                    { props.children }
+                </div>
+            </div>
+        </div>
     )
 }

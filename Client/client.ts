@@ -1,4 +1,4 @@
 import './shared.ts';
-import { SaveBtn } from './components/SaveBtn';
+import { SaveChartBtn } from './containers/SaveChartBtn';
 
-(global as any).SaveBtn = SaveBtn;
+(global as any).SaveChartBtn = SaveChartBtn;
