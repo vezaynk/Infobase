@@ -48,13 +48,14 @@ namespace Infobase
             services.AddDbContext<PASSContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("PASSDB")));
 
+
+            //services.AddMiniProfiler();
+
             return services.BuildServiceProvider();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UsePathBase("/pass");
-
             // Uncomment
             if (env.IsDevelopment())
             {
@@ -70,6 +71,7 @@ namespace Infobase
             {
                 config
                     .SetLoadReact(false)
+                    .SetAllowJavaScriptPrecompilation(true)
                     .AddScriptWithoutTransform("~/js/server.js")
                     .SetReuseJavaScriptEngines(false);
             });
@@ -101,34 +103,34 @@ namespace Infobase
                     })
                 },
             };
-
+            //
+            //app.UseMiniProfiler();
             app.Use(async (context, next) =>
                     {
                         var newContent = string.Empty;
                         var existingBody = context.Response.Body;
                         using (var newBody = new MemoryStream())
                         {
-                                    // We set the response body to our stream so we can read after the chain of middlewares have been called.
-                                    context.Response.Body = newBody;
+                            // We set the response body to our stream so we can read after the chain of middlewares have been called.
+                            context.Response.Body = newBody;
 
                             await next();
 
-                                    // Reset the body so nothing from the latter middlewares goes to the output.
-                                                    context.Response.Body = existingBody;
+                            // Reset the body so nothing from the latter middlewares goes to the output.
+                            context.Response.Body = existingBody;
 
                             newBody.Seek(0, SeekOrigin.Begin);
 
-                                    // newContent will be `Hello`.
-                                    newContent = new StreamReader(newBody).ReadToEnd();
+                            // newContent will be `Hello`.
+                            newContent = new StreamReader(newBody).ReadToEnd();
 
-                                    newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                                    newContent = Regex.Replace(newContent, @"/(.*)/fr-ca/(.*)", "https://sante-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                                    
-                                    // Send our modified content to the response body.
-                                    await context.Response.WriteAsync(newContent);
+                            newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                            newContent = Regex.Replace(newContent, @"/(.*)/fr-ca/(.*)", "https://sante-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+                            // Send our modified content to the response body.
+                            await context.Response.WriteAsync(newContent);
                         }
                     });
-
             app.UseMvc(routes =>
              {
                  routes.Routes.Add(new TranslationRoute(

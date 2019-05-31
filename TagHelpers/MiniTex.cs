@@ -27,7 +27,7 @@ namespace Infobase.TagHelpers
         }
         public static string Parse(string data) {
             // apply superscript
-            data = Regex.Replace(data, "\\\\superscript{([a-zA-Z0-9]+)}", "<sup>$1</sup>");
+            data = Regex.Replace(data, "\\\\superscript{([a-zA-Z0-9]+)}", "<sup>$1</sup>", RegexOptions.Compiled);
             return data;
         }
     }

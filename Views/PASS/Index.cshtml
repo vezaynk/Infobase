@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<Infobase.Models.PASS.Activity>
 @{
     Layout = "_Layout.cshtml";
+    
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
     string language = ViewContext.RouteData.Values["language"].ToString();
     var lifeCourseNames = Model.OrderBy(x => x.Index)
                                 .SelectMany(a => a.IndicatorGroups
                                                     .OrderBy(x => x.Index)
                                                     .SelectMany(ig => ig.LifeCourses.OrderBy(x => x.Index).Select(lc => lc.LifeCourseName(language)))
-                                           ).Distinct();
+                                        ).Distinct();
 
 }
 
