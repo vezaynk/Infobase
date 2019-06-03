@@ -13,10 +13,11 @@ type FiltersProps = {
 
 export const Filters: React.FC<FiltersProps> = (props) => {
 
-    async function selectFilter(selected: number): Promise<boolean> {
+    const updateUrlIndex = index => {
+        window.history.pushState(null, document.title, `?index=${index}`);
+    }
+    const loadNewData = async index => {
         props.updateLoadState(true);
-        window.history.pushState(null, document.title, `?index=${selected}`);
-
         let request = await fetch(window.location.toString(), {
             method: 'POST'
         })
@@ -32,7 +33,23 @@ export const Filters: React.FC<FiltersProps> = (props) => {
             return false;
         }
     }
+    async function selectFilter(selected: number) {
+        updateUrlIndex(selected);
+        await loadNewData(selected);
+    }
 
+    React.useEffect(() => {
+        const handler = (event) => {
+            const index = Number.parseInt(new URLSearchParams(window.location.search).get("index"));
+
+            //updateUrlIndex(index);
+            loadNewData(index);
+        };
+        window.addEventListener('popstate', handler);
+        return () => {
+            window.removeEventListener('popstate', handler);
+        }
+    })
     return (
         <div className="col-md-3 padding-15 ">
             <span className="text-info">{props.prompt}:</span>
