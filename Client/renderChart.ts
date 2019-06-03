@@ -320,4 +320,37 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .remove();
 
     averageBinding.raise();
+
+    // @ts-ignore
+    let myLine = d3.line().x((d, i) => ((i + 0.5) * (width / points.length) - 10 / 2 + 2.5)).y(d => y(d.value))
+
+
+    let paths = chart.selectAll("path.line").data(isTrend ? [points] : []);
+
+    paths.enter().append("path")
+        .attr("class", "line")
+        // @ts-ignore
+        .attr("d", myLine)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 2)
+        .attr("opacity", 0)
+        .attr("transform", "translate(" + (marginX) + ",-" + 10 + ")")
+        .transition()
+        .duration(animationDuration)
+        .attr("transform", "translate(" + (marginX) + "," + marginY + ")")
+        .attr("opacity", 1)
+
+    paths.attr("class", "line")
+        // @ts-ignore
+        .attr("d", myLine)
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 2)
+
+    paths.exit()
+        .transition()
+        .duration(animationDuration)
+        .attr("transform", "translate(" + (marginX + 2.5) + ",-" + 10 + ")")
+        .attr("opacity", 0)
+        .remove();
 }
