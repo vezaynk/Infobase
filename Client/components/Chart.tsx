@@ -16,7 +16,7 @@ export const Chart: React.FC<ChartProps> = props => {
     React.useEffect(() => {
         let valueUpper = -1;
         let valueLower = -2;
-        let isTrend = props.chartData.xAxis.includes("Trend") || props.chartData.xAxis.includes("Tendence");
+        let isTrend = props.chartData.xAxis.includes("Trend") || props.chartData.xAxis.includes("Tendance");
         let highlighted = props.chartData.points.filter(p => p.type == 0 || isTrend)[highlightIndex];
         if (highlighted) {
             if (highlighted.valueUpper)

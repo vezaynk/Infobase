@@ -188,5 +188,11 @@ namespace Infobase.Controllers
 
             return View(measure);
         }
+
+        [ActionName("publications")]
+        public IActionResult Publications(string language, int id)
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,51 @@
+@{
+    Layout = "_Layout.cshtml";
+    string language = ViewContext.RouteData.Values["language"].ToString();
+}
+
+@switch (language) {
+    case "en-ca":
+        @:<div class="row">
+            @:<div class="col-sm-12">
+                @:<h2>This section contains the Physical Activity, Sedentary Behavior and Sleep (PASS) related publications.</h2>
+                @:<h3>Data Blogs</h3>
+                @:<ul>
+                    @:<li><a href="https://health-infobase.canada.ca/datalab/pass-blog.html">Physical Activity, Sedentary Behaviour, and Sleep (PASS): A New Way of Tracking Healthy Daily Activity</a></li>
+                    @:<li><a href="https://health-infobase.canada.ca/datalab/sedentary-measurement-blog.html">What is sedentary behaviour and how do we measure it?</a></li>
+                @:</ul>
+                @:<h3>Infographics</h3>
+                @:<ul>
+                    @:<li><a href="https://www.canada.ca/en/public-health/services/publications/healthy-living/canadian-children-getting-enough-sleep-infographic.html">Are Canadian children getting enough sleep?</a></li>
+                    @:<li><a href="https://www.canada.ca/en/public-health/services/publications/healthy-living/canadian-adults-getting-enough-sleep-infographic.html">Are Canadian adults getting enough sleep?</a></li>
+                @:</ul>
+                @:<h3>Publication</h3>
+                @:<ul>
+                    @:<li><a href="https://www.canada.ca/en/public-health/services/reports-publications/health-promotion-chronic-disease-prevention-canada-research-policy-practice/vol-39-no-5-2019/conceptualizing-framework-for-surveillance-physical-activity-sedentary-behaviour-and-sleep.html">At-a-glance – Conceptualizing a framework for the surveillance of physical activity, sedentary behaviour and sleep in Canada</a></li>
+                @:</ul>
+            @:</div>
+        @:</div>
+        break;
+    case "fr-ca":
+	    
+        @:<div class="row">
+            @:<div class="col-sm-12">
+                @:<h2>This section contains the Physical Activity, Sedentary Behavior and Sleep (PASS) related publications.</h2>
+                @:<h3>Blogue de Données</h3>
+                @:<ul>
+                    @:<li><a href="https://sante-infobase.canada.ca/labo-de-donnees/blogue-mesure-comportement-sedentaire.html">Data Blog, French is missing</a></li>
+                    @:<li><a href="https://sante-infobase.canada.ca/labo-de-donnees/blogue-mesure-comportement-sedentaire.html">Qu’est ce qu’un comportement sédentaire et comment le mesure-t-on?</a></li>
+                @:</ul>
+                @:<h3>Infographiques</h3>
+                @:<ul>
+                    @:<li><a href="https://www.canada.ca/fr/sante-publique/services/publications/vie-saine/enfants-canadiens-dorment-suffisamment-infographique.html">Les enfants Canadiens dorment-ils suffisamment?</a></li>
+                    @:<li><a href="https://www.canada.ca/fr/sante-publique/services/publications/vie-saine/adultes-canadiens-dorment-suffisamment-infographique.html">Les adultes canadiens dorment-ils suffisamment?</a></li>
+                @:</ul>
+                @:<h3>Publication</h3>
+                @:<ul>
+                    @:<li><a href="https://www.canada.ca/fr/sante-publique/services/rapports-publications/promotion-sante-prevention-maladies-chroniques-canada-recherche-politiques-pratiques/vol-39-no-5-2019/conceptualisation-cadre-surveillance-activite-physique-comportement-sedentaire-et-sommeil.html">Aperçu – Conceptualisation d'un cadre de surveillance de l'activité physique, du comportement sédentaire et du sommeil au Canada</a></li>
+                @:</ul>
+            @:</div>
+        @:</div>
+        break;
+}
+

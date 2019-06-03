@@ -29,13 +29,13 @@
                 {
 			<a asp-action="index" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
 			<a asp-action="data-tool" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
-			<a href="#" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
+			<a asp-action="publications" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publications" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
                 else
                 {
 			<a asp-action="index" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
 			<a asp-action="data-tool" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
-			<a href="#" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publication" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
+			<a asp-action="publications" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publications" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
 		</div>
 		</div>

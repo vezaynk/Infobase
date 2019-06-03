@@ -1,14 +1,10 @@
 // @flow
 
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { render } from 'react-dom';
 import { connect, Provider, MapStateToProps } from 'react-redux';
 import { SummaryTable as ST } from "../components/SummaryTable";
-import { updateChartData } from '../reducers/dataExplorerReducer';
 import { dataExplorerStore } from '../store/dataExplorer'
-import { DataExplorerState, FilterData, ChartData } from "../types";
-import { Dispatch } from 'redux';
+import { DataExplorerState, ChartData } from "../types";
 
 const mapStateToSummaryTableProps: MapStateToProps<{chartData: ChartData}, SummaryTableProps, DataExplorerState> = (state, props) => (
     {

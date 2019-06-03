@@ -30,7 +30,8 @@ function addFooterToCanvas(canvas: HTMLCanvasElement) {
 
 }
 
-export const SaveBtn: React.FC<{ label: string, children: React.ReactElement | React.ReactElement[] }> = props => {
+export type SaveBtnProps = { label: string, children: React.ReactElement | React.ReactElement[], enabled: boolean };
+export const SaveBtn: React.FC<SaveBtnProps> = props => {
     const saveArea = React.useRef(null);
     const save = () => {
         import("html2canvas").then(async html2canvas => {
@@ -41,7 +42,7 @@ export const SaveBtn: React.FC<{ label: string, children: React.ReactElement | R
     return (
         <div>
             <YesScript ieAsNoScript={true}>
-                <button className="btn btn-success btn-sm" onClick={() => save()}>{props.label}</button>
+                <button disabled={!props.enabled} className="btn btn-success btn-sm" onClick={() => save()}>{props.label}</button>
             </YesScript>
             <div style={{width: 0, height: 0, overflow: "hidden"}}>
                 <div style={{width: "820px"}} className="chartContainer" ref={saveArea}>
