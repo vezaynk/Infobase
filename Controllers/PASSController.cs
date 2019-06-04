@@ -44,6 +44,7 @@ namespace Infobase.Controllers
                                                     .ThenInclude(m => m.DefaultStrata.Points);
 
 
+
             // Razor handles the rest
             return View(await activities.ToListAsync());
         }
@@ -58,7 +59,9 @@ namespace Infobase.Controllers
                             .ThenInclude(lc => lc.IndicatorGroup)
                                 .ThenInclude(ig => ig.Activity)
                 .Include(s => s.Points)
-                .FirstOrDefaultAsync(s => s.Index == index);
+                .Where(s => s.Index >= index)
+                .OrderBy(s => s.Index)
+                .FirstOrDefaultAsync();
 
 
             if (strata == null)
@@ -99,64 +102,59 @@ namespace Infobase.Controllers
 
             // top level requires a new query
             var activities = _context.Activity
-                                     .Include(a => a.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata)
-                                     .Where(ac => ac.DefaultIndicatorGroup != null)
+                                     .Where(ac => ac.DefaultIndicatorGroupId != null)
                                      .OrderBy(x => x.Index)
                                      .Select(ac => new DropdownItem
                                      {
-                                         Value = ac.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
+                                         Value = ac.Index,
                                          Text = ac.ActivityName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, strata.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.Index));
 
             var indicatorGroups = _context.IndicatorGroup
-                                     .Include(ig => ig.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata)
                                      .Where(ig => ig.DefaultLifeCourseId != null && ig.ActivityId == strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId)
                                      .OrderBy(x => x.Index)
                                      .Select(ig => new DropdownItem
                                      {
-                                         Value = ig.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
+                                         Value = ig.Index,
                                          Text = ig.IndicatorGroupName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroup.Index));
 
             var lifeCourses = _context.LifeCourse
-                                     .Include(lc => lc.DefaultIndicator.DefaultMeasure.DefaultStrata)
                                      .Where(lc => lc.DefaultIndicator != null && lc.IndicatorGroupId == strata.Measure.Indicator.LifeCourse.IndicatorGroupId)
                                      .OrderBy(x => x.Index)
                                      .Select(lc => new DropdownItem
                                      {
-                                         Value = lc.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
+                                         Value = lc.Index,
                                          Text = lc.LifeCourseName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Measure.Indicator.LifeCourse.Index));
 
             var indicators = _context.Indicator
-                                    .Include(i => i.DefaultMeasure.DefaultStrata)
-                                     .Where(i => i.DefaultMeasure != null && i.LifeCourseId == strata.Measure.Indicator.LifeCourseId)
+                                     .Where(i => i.DefaultMeasureId != null && i.LifeCourseId == strata.Measure.Indicator.LifeCourseId)
                                      .OrderBy(x => x.Index)
                                      .Select(i => new DropdownItem
                                      {
-                                         Value = i.DefaultMeasure.DefaultStrata.Index,
+                                         Value = i.Index,
                                          Text = i.IndicatorName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Measure.Indicator.Index));
 
             var measures = _context.Measure
-                                     .Include(i => i.DefaultStrata)
-                                     .Where(i => i.DefaultStrata != null && i.IndicatorId == strata.Measure.IndicatorId)
+                                     .Where(i => i.DefaultStrataId != null && i.IndicatorId == strata.Measure.IndicatorId)
                                      .OrderBy(x => x.Index)
                                      .Select(m => new DropdownItem
                                      {
-                                         Value = m.DefaultStrata.Index,
+                                         Value = m.Index,
                                          Text = m.MeasureNameIndex(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Measure.Index));
 
             var stratas = _context.Strata
                                      .Where(i => i.MeasureId == strata.MeasureId)

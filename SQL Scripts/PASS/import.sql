@@ -82,7 +82,7 @@ FROM
         "LifeCourseId",
         masterA. "indicator";
 
-INSERT INTO "Measure" ("IndicatorId", "Index", "CVWarnAt", "CVSuppressAt", "Included", "Aggregator", "MeasureNameIndexEn", "MeasureNameDataToolEn", "MeasureAdditionalRemarksEn", "MeasureDataAvailableEn", "MeasureMethodEn", "MeasureDefinitionEn", "MeasurePopulationGroupEn", "MeasureSourceShortEn", "MeasureSourceLongEn", "MeasureUnitLongEn", "MeasureUnitShortEn")
+INSERT INTO "Measure" ("IndicatorId", "Index", "CVWarnAt", "CVSuppressAt", "Included", "Aggregator", "MeasureNameIndexEn", "MeasureNameDataToolEn", "MeasureAdditionalRemarksEn", "MeasureDataAvailableEn", "MeasureDefinitionEn", "MeasureMethodEn", "MeasurePopulationGroupEn", "MeasureSourceShortEn", "MeasureSourceLongEn", "MeasureUnitLongEn", "MeasureUnitShortEn")
 SELECT
     "IndicatorId",
     min(masterA.id::Integer),
