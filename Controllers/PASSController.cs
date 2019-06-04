@@ -92,7 +92,7 @@ namespace Infobase.Controllers
                 WarningCV = strata.Measure.CVWarnAt,
                 SuppressCV = strata.Measure.CVSuppressAt,
                 MeasureName = strata.Measure.MeasureNameDataTool(language),
-                Title = strata.Measure.MeasureNameIndex(language) + ", " + strata.StrataPopulationTitleFragment(language)
+                Title = strata.Measure.MeasureNameIndex(language) + (strata.StrataPopulationTitleFragment(language) != null ? ", " + strata.StrataPopulationTitleFragment(language) : "")
             };
 
             var cpm = new ChartPageModel(language, chart);

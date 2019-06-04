@@ -1,6 +1,7 @@
 
 import * as React from 'react';
 import { YesScript } from '../HOC/YesScript';
+import { dataExplorerStore } from '../store/dataExplorer';
 
 function addFooterToCanvas(canvas: HTMLCanvasElement) {
     let footerImage = new Image();
@@ -25,7 +26,8 @@ function addFooterToCanvas(canvas: HTMLCanvasElement) {
         document.body.appendChild(link);
         link.click();
     })
-    footerImage.src = "/src/img/exportServer.png";
+    const lc = dataExplorerStore.getState().languageCode;
+    footerImage.src = `/src/img/exportServer-${lc}.png`;
 
 
 }
