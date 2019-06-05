@@ -211,7 +211,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     let points = dataset.points.filter(point => point.type == 0 || isTrend)
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
 
-    let animationDuration = 600;
+    let animationDuration = 525;
     d3.selection.prototype.optionalTransition = function() {
         if (!animate)
             return this;

@@ -59,7 +59,7 @@ namespace Infobase.Controllers
                             .ThenInclude(lc => lc.IndicatorGroup)
                                 .ThenInclude(ig => ig.Activity)
                 .Include(s => s.Points)
-                .Where(s => s.Index >= index)
+                .Where(s => s.Index >= index && s.Measure.Included)
                 .OrderBy(s => s.Index)
                 .FirstOrDefaultAsync();
 
