@@ -3,10 +3,13 @@ jobs:
   build:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.2
-      - image: node
+      - image: circleci/node
     steps:
       - checkout
       - run:
           name: "Publish project with windows"
           command: |
-            dotnet publish -r win10-x64
+            dotnet publish -c Release -r win10-x64
+            cd /root/project/bin/Release/netcoreapp2.2/
+            zip -r infobase-latest-win10-x64.zip win10-x64
+            ghr --delete latest infobase-latest-win10-x64.zip
