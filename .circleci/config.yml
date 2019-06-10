@@ -8,6 +8,7 @@ jobs:
       - run:
           name: "Publish project with windows"
           command: |
+            install-npm
             dotnet publish -c Release -r win10-x64
             cd /root/project/bin/Release/netcoreapp2.2/
             zip -r infobase-latest-win10-x64.zip win10-x64
