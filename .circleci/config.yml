@@ -9,6 +9,7 @@ jobs:
           name: "Install node, zip and ghr"
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+            source /root/.bashrc
             nvm install node
             apt update
             apt -y install zip
