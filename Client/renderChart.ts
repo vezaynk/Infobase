@@ -101,7 +101,7 @@ const widthTableAxisLabel = {
     "x": 8.241206169128418,
     "y": 8.241206169128418,
     "z": 7.06389045715332
-  }
+}
 const widthTablePointLabel = {
     "A": 7.06389045715332,
     "B": 7.06389045715332,
@@ -155,17 +155,17 @@ const widthTablePointLabel = {
     "x": 4.7092604637146,
     "y": 4.7092604637146,
     "z": 4.7092604637146
-  }
-let getComputedTextLength = function (node: SVGTextElement | SVGTSpanElement, table: {[key: string]: number}) {
+}
+let getComputedTextLength = function (node: SVGTextElement | SVGTSpanElement, table: { [key: string]: number }) {
     if (Object.keys(window).length > 0)
         return node.getComputedTextLength()
-    
-        let totalWidth = 0;
+
+    let totalWidth = 0;
     for (let c of node.innerHTML) {
         let cWidth = table[c];
 
         if (!cWidth)
-            return Object.values(table).reduce((a, b) => a+b)/Object.values(table).length;
+            return Object.values(table).reduce((a, b) => a + b) / Object.values(table).length;
     }
 
     return totalWidth;
@@ -212,7 +212,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     let averages = dataset.points.filter(point => point.type != 0 && !isTrend)
 
     let animationDuration = 525;
-    d3.selection.prototype.optionalTransition = function() {
+    d3.selection.prototype.optionalTransition = function () {
         if (!animate)
             return this;
 
@@ -248,15 +248,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("font-size", "10px")
         .attr("y", 15)
         .attr("text-anchor", "middle")
-        .call(wrap, 500/points.length, widthTablePointLabel);
+        .call(wrap, 500 / points.length, widthTablePointLabel);
 
     chart.select('.xAxisLabel')
-          .text(dataset.xAxis)
-          .call(wrap, 600, widthTableAxisLabel)
+        .text(dataset.xAxis)
+        .call(wrap, 600, widthTableAxisLabel)
 
-      chart.select('.yAxisLabel')
-          .text(dataset.yAxis)
-          .call(wrap, 400, widthTableAxisLabel)
+    chart.select('.yAxisLabel')
+        .text(dataset.yAxis)
+        .call(wrap, 400, widthTableAxisLabel)
 
     let pointBinding = select.selectAll('g.point').data(points);
     let averageBinding = select.selectAll('g.average').data(averages);
@@ -268,7 +268,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     let exitCvLower = cvLowerBinding.exit();
     let exitCvConnect = cvConnectBinding.exit();
     let exitPoint = pointBinding.exit();
-    
+
 
     let enteredRect = pointBinding.enter().append("g").attr("class", "point").append("rect")
 
@@ -309,15 +309,15 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
 
     exitPoint.select("rect")
-    //@ts-ignore
-    .optionalTransition()
-    .style("opacity", 0)
-    .attr("x", width);
+        //@ts-ignore
+        .optionalTransition()
+        .style("opacity", 0)
+        .attr("x", width);
 
     exitPoint
-    //@ts-ignore
-    .optionalTransition()
-    .remove();
+        //@ts-ignore
+        .optionalTransition()
+        .remove();
 
 
 
@@ -340,17 +340,17 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("height", 2)
         .attr("y", (d) => y(d.valueUpper || 0))
         .style("fill", "black");
-    
+
     exitCvUpper.select("rect")
-    //@ts-ignore
-    .optionalTransition()
-    .style("opacity", 0)
-    .attr("x", width);
+        //@ts-ignore
+        .optionalTransition()
+        .style("opacity", 0)
+        .attr("x", width);
 
     exitCvUpper
-    //@ts-ignore
-    .optionalTransition()
-    .remove();
+        //@ts-ignore
+        .optionalTransition()
+        .remove();
 
 
     let enteredcvConnect = cvConnectBinding.enter().append("g").attr("class", "cvConnect").append("rect")
@@ -376,13 +376,13 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .style("fill", "black");
 
 
-        exitCvConnect.select("rect")
+    exitCvConnect.select("rect")
         //@ts-ignore
         .optionalTransition()
         .style("opacity", 0)
         .attr("x", width);
-    
-        exitCvConnect
+
+    exitCvConnect
         //@ts-ignore
         .optionalTransition()
         .remove();
@@ -410,13 +410,13 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .style("fill", "black");
 
 
-        exitCvLower.select("rect")
+    exitCvLower.select("rect")
         //@ts-ignore
         .optionalTransition()
         .style("opacity", 0)
         .attr("x", width);
-    
-        exitCvLower
+
+    exitCvLower
         //@ts-ignore
         .optionalTransition()
         .remove();
@@ -482,8 +482,8 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .style("opacity", 0)
 
     averageBinding.exit()
-    // @ts-ignore    
-    .optionalTransition()
+        // @ts-ignore    
+        .optionalTransition()
         .remove();
 
     averageBinding.raise();

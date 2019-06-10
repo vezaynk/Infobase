@@ -4,3 +4,9 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.2
       - image: node
+    steps:
+      - checkout
+      - run:
+          name: "Publish project with windows"
+          command: |
+            dotnet publish -r win10-x64
