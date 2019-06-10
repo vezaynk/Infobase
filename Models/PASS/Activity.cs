@@ -10,12 +10,14 @@ namespace Infobase.Models.PASS
     public class Activity
     {
         public int ActivityId { get; set; }
-        public int Index {get;set;}
+        public int Index { get; set; }
         [InverseProperty("Activity")]
         public virtual ICollection<IndicatorGroup> IndicatorGroups { get; set; }
         /* Text getters */
-        public string ActivityName(string culture) {
-            switch (culture) {
+        public string ActivityName(string culture)
+        {
+            switch (culture)
+            {
                 case "en-ca": return ActivityNameEn;
                 case "fr-ca": return ActivityNameFr;
             }

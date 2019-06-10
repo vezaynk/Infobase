@@ -129,13 +129,14 @@
                                                 }
                                                 else
                                                 {
-                                                    if (measure.MeasurePoint == null || measure.MeasurePoint.ValueAverage == null)
+                                                    var measurePoint = measure.DefaultStrata.Points.OrderByDescending(p => p.Type == 1 ? 1 : 0).ThenBy(p => p.Index).FirstOrDefault();
+                                                    if (measurePoint == null || measurePoint.ValueAverage == null)
                                                     {
                                                         <td>-</td>
                                                     }
                                                     else
                                                     {
-                                                        <td data-index="@measure.MeasurePoint.Index"><MiniTex>@Formatter.Standard(measure.MeasurePoint.ValueAverage ?? 0, measure.MeasureUnitShort(language), language)</MiniTex></td>
+                                                        <td data-index="@measurePoint.Index"><MiniTex>@Formatter.Standard(measurePoint.ValueAverage ?? 0, measure.MeasureUnitShort(language), language)</MiniTex></td>
                                                     }
                                                 }
 

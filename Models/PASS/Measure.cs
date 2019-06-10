@@ -122,7 +122,6 @@ namespace Infobase.Models.PASS
         public string MeasureSourceLongFr { get; set; }
         public string MeasureUnitShortFr { get; set; }
         public string MeasureUnitLongFr { get; set; }
-        public Point MeasurePoint => DefaultStrata.Points.OrderByDescending(p => p.Type == 1 ? 1 : 0).ThenBy(p => p.Index).FirstOrDefault();
 
         public int? DefaultStrataId { get; set; }
         [ForeignKey("DefaultStrataId")]

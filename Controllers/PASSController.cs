@@ -58,6 +58,7 @@ namespace Infobase.Controllers
                         .ThenInclude(i => i.LifeCourse)
                             .ThenInclude(lc => lc.IndicatorGroup)
                                 .ThenInclude(ig => ig.Activity)
+                                    .ThenInclude(a => a.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata)
                 .Include(s => s.Points)
                 .Where(s => s.Index >= index && s.Measure.Included)
                 .OrderBy(s => s.Index)
@@ -106,55 +107,55 @@ namespace Infobase.Controllers
                                      .OrderBy(x => x.Index)
                                      .Select(ac => new DropdownItem
                                      {
-                                         Value = ac.Index,
+                                         Value = ac.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
                                          Text = ac.ActivityName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, strata.Measure.Indicator.LifeCourse.IndicatorGroup.Activity.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, strata.Index));
 
             var indicatorGroups = _context.IndicatorGroup
                                      .Where(ig => ig.DefaultLifeCourseId != null && ig.ActivityId == strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId)
                                      .OrderBy(x => x.Index)
                                      .Select(ig => new DropdownItem
                                      {
-                                         Value = ig.Index,
+                                         Value = ig.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
                                          Text = ig.IndicatorGroupName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Measure.Indicator.LifeCourse.IndicatorGroup.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Index));
 
             var lifeCourses = _context.LifeCourse
                                      .Where(lc => lc.DefaultIndicator != null && lc.IndicatorGroupId == strata.Measure.Indicator.LifeCourse.IndicatorGroupId)
                                      .OrderBy(x => x.Index)
                                      .Select(lc => new DropdownItem
                                      {
-                                         Value = lc.Index,
+                                         Value = lc.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
                                          Text = lc.LifeCourseName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Measure.Indicator.LifeCourse.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Index));
 
             var indicators = _context.Indicator
                                      .Where(i => i.DefaultMeasureId != null && i.LifeCourseId == strata.Measure.Indicator.LifeCourseId)
                                      .OrderBy(x => x.Index)
                                      .Select(i => new DropdownItem
                                      {
-                                         Value = i.Index,
+                                         Value = i.DefaultMeasure.DefaultStrata.Index,
                                          Text = i.IndicatorName(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Measure.Indicator.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Index));
 
             var measures = _context.Measure
                                      .Where(i => i.DefaultStrataId != null && i.IndicatorId == strata.Measure.IndicatorId)
-                                     .OrderBy(x => x.Index)
+                                     .OrderBy(x => x.DefaultStrata.Index)
                                      .Select(m => new DropdownItem
                                      {
                                          Value = m.Index,
                                          Text = m.MeasureNameIndex(language)
                                      });
 
-            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Measure.Index));
+            cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Index));
 
             var stratas = _context.Strata
                                      .Where(i => i.MeasureId == strata.MeasureId)
