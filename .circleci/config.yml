@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:2.2
-      - image: circleci/node
     steps:
       - checkout
       - run:
@@ -13,3 +12,5 @@ jobs:
             cd /root/project/bin/Release/netcoreapp2.2/
             zip -r infobase-latest-win10-x64.zip win10-x64
             ghr --delete latest infobase-latest-win10-x64.zip
+    orbs:
+      node: circleci/node@1.0.1
