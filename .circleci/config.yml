@@ -8,10 +8,9 @@ jobs:
       - run:
           name: "Publish project with windows"
           command: |
-            install-npm
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
             dotnet publish -c Release -r win10-x64
             cd /root/project/bin/Release/netcoreapp2.2/
             zip -r infobase-latest-win10-x64.zip win10-x64
             ghr --delete latest infobase-latest-win10-x64.zip
-    orbs:
-      node: circleci/node@1.0.1

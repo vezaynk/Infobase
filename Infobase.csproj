@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <Target Name="BuildAssets" BeforeTargets="Build">
+    <Exec Command="npm install" />
     <Exec Command="npm run webpack -- -p" />
   </Target>
 </Project>
