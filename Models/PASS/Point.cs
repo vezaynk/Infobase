@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Infobase.Automation;
 
 namespace Infobase.Models.PASS
 {
+    [TextData("Label")]
+    [TextData("Text")]
+    [ChildOf(typeof(Strata))]
+    [Modifier(ModelModifier.Data)]
     public class Point
     {
         public int PointId { get; set; }

@@ -4,9 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Infobase.Automation;
 
 namespace Infobase.Models.PASS
 {
+    [TextData("Name")]
+    [ParentOf(typeof(IndicatorGroup))]
     public class Activity
     {
         public int ActivityId { get; set; }

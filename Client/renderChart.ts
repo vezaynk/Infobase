@@ -264,8 +264,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
     let cvLowerBinding = select.selectAll('g.cvLower').data(points);
     let cvConnectBinding = select.selectAll('g.cvConnect').data(points);
 
-    let enteredCvUpper = pointBinding.enter().append("g").attr("class", "cvUpper").append("rect")
-
     let exitCvUpper = cvUpperBinding.exit();
     let exitCvLower = cvLowerBinding.exit();
     let exitCvConnect = cvConnectBinding.exit();
@@ -323,6 +321,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
 
 
 
+    let enteredCvUpper = pointBinding.enter().append("g").attr("class", "cvUpper").append("rect")
     enteredCvUpper.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("width", 25)
         .style("fill", "black")
@@ -330,7 +329,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         // @ts-ignore
         .optionalTransition()
         .attr("y", (d) => y(d.valueUpper || 0))
-        .attr("height", 2)
+        .attr("height", 2);
 
     cvUpperBinding
         .select("rect")
@@ -341,7 +340,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("height", 2)
         .attr("y", (d) => y(d.valueUpper || 0))
         .style("fill", "black");
-
+    
     exitCvUpper.select("rect")
     //@ts-ignore
     .optionalTransition()
@@ -364,7 +363,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         // @ts-ignore
         .optionalTransition()
         .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
-        .attr("y", (d) => y(d.valueUpper || 0))
+        .attr("y", (d) => y(d.valueUpper || 0));
 
     cvConnectBinding
         .select("rect")
@@ -374,7 +373,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 2 / 2)
         .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
         .attr("y", (d) => y(d.valueUpper || 0))
-        .style("fill", "black")
+        .style("fill", "black");
 
 
         exitCvConnect.select("rect")
@@ -398,7 +397,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         // @ts-ignore
         .optionalTransition()
         .attr("y", (d) => y(d.valueLower || 0))
-        .attr("height", 2)
+        .attr("height", 2);
 
     cvLowerBinding
         .select("rect")
@@ -408,7 +407,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
         .attr("height", 2)
         .attr("y", (d) => y(d.valueLower || 0))
-        .style("fill", "black")
+        .style("fill", "black");
 
 
         exitCvLower.select("rect")
@@ -437,7 +436,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         // .attr("y", height)
         // @ts-ignore
         .optionalTransition()
-        .attr("y", (d) => y(d.value || 0))
+        .attr("y", (d) => y(d.value || 0));
 
 
     let lowestValueIndex = (points.map(p => +p.value).indexOf(Math.min(...points.map(p => +p.value))));

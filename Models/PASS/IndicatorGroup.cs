@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Infobase.Automation;
 
 namespace Infobase.Models.PASS
 {
+    [TextData("Name")]
+    [ChildOf(typeof(Activity))]
+    [ParentOf(typeof(LifeCourse))]
     public class IndicatorGroup
     {
         public int IndicatorGroupId { get; set; }

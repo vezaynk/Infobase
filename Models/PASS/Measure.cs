@@ -3,9 +3,24 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Infobase.Automation;
 
 namespace Infobase.Models.PASS
 {
+    [TextData("NameIndex")]
+    [TextData("NameDataTool")]
+    [TextData("AdditionalRemarks")]
+    [TextData("DataAvailable")]
+    [TextData("Definition")]
+    [TextData("Method")]
+    [TextData("PopulationGroup")]
+    [TextData("SourceLong")]
+    [TextData("SourceShort")]
+    [TextData("UnitLong")]
+    [TextData("UnitShort")]
+    [ChildOf(typeof(Indicator))]
+    [ParentOf(typeof(Strata))]
+    [Modifier(ModelModifier.Aggregator | ModelModifier.CVBoundries | ModelModifier.Include)]
     public class Measure
     {
         public int MeasureId { get; set; }

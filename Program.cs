@@ -7,7 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using Infobase.Automation;
 namespace Infobase
 {
     public class Program
@@ -15,6 +15,7 @@ namespace Infobase
         private static int Port {get;set;} = 8080;
         public static void Main(string[] args)
         {
+            ModelParser.GetModelsByDataset("PASS");
             string portEnv = System.Environment.GetEnvironmentVariable("PORT");
             int n = 8080;
             bool isNumeric = int.TryParse(portEnv, out n);
