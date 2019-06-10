@@ -9,6 +9,7 @@ jobs:
           name: "Publish project with windows"
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+            source /root/.bashrc
             nvm install node
             dotnet publish -c Release -r win10-x64
             cd /root/project/bin/Release/netcoreapp2.2/
