@@ -6,12 +6,23 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Publish project with windows"
+          name: "Install node, zip and ghr"
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
             source /root/.bashrc
             nvm install node
+            apt update
+            apt install zip
+            wget https://github.com/tcnksm/ghr/releases/download/v0.12.1/ghr_v0.12.1_linux_amd64.tar.gz
+            tar -C /usr/local/bin -xf ghr_v0.12.1_linux_amd64.tar.gz --strip-components=1 ghr_v0.12.1_linux_amd64/ghr
+
+          name: "Publish project at target windows"
+          command: |
             dotnet publish -c Release -r win10-x64
-            cd /root/project/bin/Release/netcoreapp2.2/
-            zip -r infobase-latest-win10-x64.zip win10-x64
+
+          name: "Upload to GitHub"
+          command: |
+            cd bin/Release/netcoreapp2.2/win10-x64/publish
+            zip -r infobase-latest-win10-x64.zip .
             ghr --delete latest infobase-latest-win10-x64.zip
+            cd -
