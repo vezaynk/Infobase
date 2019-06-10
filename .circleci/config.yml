@@ -12,7 +12,7 @@ jobs:
             source /root/.bashrc
             nvm install node
             apt update
-            apt install zip
+            apt -y install zip
             wget https://github.com/tcnksm/ghr/releases/download/v0.12.1/ghr_v0.12.1_linux_amd64.tar.gz
             tar -C /usr/local/bin -xf ghr_v0.12.1_linux_amd64.tar.gz --strip-components=1 ghr_v0.12.1_linux_amd64/ghr
 
