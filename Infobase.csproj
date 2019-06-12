@@ -13,17 +13,22 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="React.AspNet" Version="5.0.0-alpha7" />
+    <PackageReference Include="RazorLight" Version="2.0.0-*" />
+    <PackageReference Include="React.AspNet" Version="5.0.0-*" />
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore" Version="3.1.1" />
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.win-x64" Version="3.1.1" />
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64" Version="3.1.1" />
     <PackageReference Include="JavaScriptEngineSwitcher.Core" Version="3.1.0" />
     <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.1.0" />
 
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ScriptyFiles Include="codegen.csx" />
   </ItemGroup>
 
   <Target Name="BuildAssets" BeforeTargets="Build">

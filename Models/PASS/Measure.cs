@@ -19,7 +19,7 @@ namespace Infobase.Models.PASS
     [TextData("UnitLong")]
     [TextData("UnitShort")]
     [ChildOf(typeof(Indicator))]
-    [ParentOf(typeof(Strata))]
+    [ParentOf(typeof(Strata), true)]
     [Modifier(ModelModifier.Aggregator | ModelModifier.CVBoundries | ModelModifier.Include)]
     public class Measure
     {

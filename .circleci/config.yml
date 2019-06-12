@@ -27,5 +27,5 @@ jobs:
           command: |
             cd bin/Release/netcoreapp2.2/win10-x64/publish
             zip -qr $CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
-            ghr --delete latest $CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip
+            ghr -n "Automatic nightly build" -b "The latest nightly builds per branch. May contain broken code." --replace latest $CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip
             cd -

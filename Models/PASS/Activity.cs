@@ -9,7 +9,7 @@ using Infobase.Automation;
 namespace Infobase.Models.PASS
 {
     [TextData("Name")]
-    [ParentOf(typeof(IndicatorGroup))]
+    [ParentOf(typeof(IndicatorGroup), true)]
     public class Activity
     {
         public int ActivityId { get; set; }

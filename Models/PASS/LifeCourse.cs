@@ -9,7 +9,7 @@ namespace Infobase.Models.PASS
 {
     [TextData("Name")]
     [ChildOf(typeof(IndicatorGroup))]
-    [ParentOf(typeof(Indicator))]
+    [ParentOf(typeof(Indicator), true)]
     public class LifeCourse
     {
         public int LifeCourseId { get; set; }

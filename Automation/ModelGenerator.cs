@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Infobase.Models;
 using System.Reflection;
+using RazorLight;
+using System.IO;
 
 namespace Infobase.Automation
 {
@@ -21,7 +23,8 @@ namespace Infobase.Automation
     public class Modifier : Attribute
     {
         public ModelModifier Modifiers { get; set; }
-        public Modifier(ModelModifier modifiers) {
+        public Modifier(ModelModifier modifiers)
+        {
             Modifiers = modifiers;
         }
     }
@@ -33,6 +36,11 @@ namespace Infobase.Automation
         {
             Child = child;
         }
+        public ParentOf(Type child, bool includeDefault): this(child)
+        {
+            IncludeDefault = includeDefault;
+        }
+        public bool IncludeDefault { get; set; } = true;
         public Type Child { get; set; }
     }
 
@@ -58,37 +66,57 @@ namespace Infobase.Automation
     public class ModelParser
     {
 
-        public static void GetModelsByDataset(string dataset)
+        public static async void GetModelsByDataset(string dataset)
         {
             var Models = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == $"Infobase.Models.{dataset}");
             foreach (var a in Models)
             {
-                var childAttribute = a.GetCustomAttribute<ChildOf>();
-                if (childAttribute == null) {
-                    Console.WriteLine("Null");
-                } else {
-                    Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
-                }
-                var parentAttribute = a.GetCustomAttribute<ParentOf>();
-                if (parentAttribute == null) {
-                    Console.WriteLine("Null");
-                } else {
-                    Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
-                }
 
-                var textDataAttributes = a.GetCustomAttributes<TextData>();
-                foreach (var textDataAttribute in textDataAttributes) {
-                    Console.WriteLine($"Text Name: {textDataAttribute.Name}");
-                }
+                var engine = new RazorLightEngineBuilder()
+                            .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Automation/Templates")
+                            .UseMemoryCachingProvider()
+                            .Build();
+
+                string result = await engine.CompileRenderAsync("Entity.cshtml", a);
+                Console.WriteLine(result);
+                // var childAttribute = a.GetCustomAttribute<ChildOf>();
+                // if (childAttribute == null)
+                // {
+                //     Console.WriteLine("Null");
+                // }
+                // else
+                // {
+                //     Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
+                // }
+                // var parentAttribute = a.GetCustomAttribute<ParentOf>();
+                // if (parentAttribute == null)
+                // {
+                //     Console.WriteLine("Null");
+                // }
+                // else
+                // {
+                //     Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
+                // }
+
+                // var textDataAttributes = a.GetCustomAttributes<TextData>();
+                // foreach (var textDataAttribute in textDataAttributes)
+                // {
+                //     Console.WriteLine($"Text Name: {textDataAttribute.Name}");
+                // }
 
 
-                var modifierAttribute = a.GetCustomAttribute<Modifier>();
-                if (modifierAttribute == null) {
-                    Console.WriteLine("Null");
-                } else {
-                    Console.WriteLine($"Modifiers: {modifierAttribute}");
-                }
-                
+                // var modifierAttribute = a.GetCustomAttribute<Modifier>();
+                // if (modifierAttribute == null)
+                // {
+                //     Console.WriteLine("Null");
+                // }
+                // else
+                // {
+                //     Console.WriteLine($"Modifiers: {modifierAttribute}");
+                // }
+
+                // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
+
             }
             var x = typeof(Models.PASS.Activity);
         }
