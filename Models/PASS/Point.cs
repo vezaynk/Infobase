@@ -20,6 +20,7 @@ namespace Infobase.Models.PASS
         public double? ValueLower { get; set; }
         public int CVInterpretation { get; set; }
         public int? CVValue { get; set; }
+        public int Type { get; set; }
         public virtual Strata Strata { get; set; }
 
         /* Text getters */
@@ -46,6 +47,5 @@ namespace Infobase.Models.PASS
         public string PointTextFr { get; set; }
         
 
-        public int Type { get; set; }
     }
 }

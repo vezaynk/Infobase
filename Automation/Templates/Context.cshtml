@@ -1,9 +1,11 @@
 @model (string, IEnumerable<Type>)
+@using Infobase.Automation
+@using System.Reflection
 @{
     string dataset = Model.Item1;
     IEnumerable<Type> models = Model.Item2;
 }
-
+// This file was written by a tool
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +32,27 @@ namespace Infobase.Models
             @:modelBuilder.Entity<@m.Name>().HasAlternateKey(entity => entity.Index);
 }
         }
+    }
+
+    public class MasterEntity {
+@foreach (Type m in models) {
+    var textDataAttributes = m.GetCustomAttributes<TextData>();
+    
+    @foreach (var textDataAttribute in textDataAttributes) {
+        @:public string @m.Name@textDataAttribute { get; set }
+    }
+
+        
+        @:public bool Aggregator { get; set; }
+        @:public bool Included { get; set; }
+        @:public double? CVWarnAt { get; set; }
+        @:public double? CVSuppressAt { get; set; }
+        @:public double? ValueAverage { get; set; }
+        @:public double? ValueUpper { get; set; }
+        @:public double? ValueLower { get; set; }
+        @:public int CVInterpretation { get; set; }
+        @:public int? CVValue { get; set; }
+        @:public int Type { get; set; }
+}
     }
 }

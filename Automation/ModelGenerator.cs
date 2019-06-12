@@ -80,8 +80,6 @@ namespace Infobase.Automation
                 return numberOfChildren;
             }).AsEnumerable();
 
-
-
             var engine = new RazorLightEngineBuilder()
                         .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Automation/Templates")
                         .UseMemoryCachingProvider()

@@ -29,4 +29,6 @@ namespace Infobase.Models
             modelBuilder.Entity<Point>().HasAlternateKey(entity => entity.Index);
         }
     }
+
+
 }

@@ -314,12 +314,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .style("opacity", 0)
         .attr("x", width);
 
-    exitPoint
-        //@ts-ignore
-        .optionalTransition()
-        .remove();
-
-
 
     let enteredCvUpper = pointBinding.enter().append("g").attr("class", "cvUpper").append("rect")
     enteredCvUpper.attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
@@ -346,12 +340,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .optionalTransition()
         .style("opacity", 0)
         .attr("x", width);
-
-    exitCvUpper
-        //@ts-ignore
-        .optionalTransition()
-        .remove();
-
 
     let enteredcvConnect = cvConnectBinding.enter().append("g").attr("class", "cvConnect").append("rect")
 
@@ -382,11 +370,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .style("opacity", 0)
         .attr("x", width);
 
-    exitCvConnect
-        //@ts-ignore
-        .optionalTransition()
-        .remove();
-
     let enteredcvLower = pointBinding.enter().append("g").attr("class", "cvLower").append("rect")
 
 
@@ -415,12 +398,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .optionalTransition()
         .style("opacity", 0)
         .attr("x", width);
-
-    exitCvLower
-        //@ts-ignore
-        .optionalTransition()
-        .remove();
-
 
     let enteredAverage = averageBinding.enter().append("g");
 
@@ -474,18 +451,6 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
-    averageBinding.exit()
-        .selectAll("rect, text")
-        // @ts-ignore
-        .optionalTransition()
-        .attr("y", -marginY)
-        .style("opacity", 0)
-
-    averageBinding.exit()
-        // @ts-ignore    
-        .optionalTransition()
-        .remove();
-
     averageBinding.raise();
 
     // @ts-ignore
@@ -514,10 +479,45 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2)
 
+
+
+    exitCvLower
+        //@ts-ignore
+        .optionalTransition()
+        .remove();
+
+    exitCvConnect
+        //@ts-ignore
+        .optionalTransition()
+        .remove();
+
+    exitCvUpper
+        //@ts-ignore
+        .optionalTransition()
+        .remove();
+
+
+    exitPoint
+        //@ts-ignore
+        .optionalTransition()
+        .remove();
+
+
     paths.exit()
         .transition()
         .duration(animationDuration)
         .attr("transform", "translate(" + (marginX + 2.5) + ",-" + 10 + ")")
         .attr("opacity", 0)
+        .remove();
+    averageBinding.exit()
+        .selectAll("rect, text")
+        // @ts-ignore
+        .optionalTransition()
+        .attr("y", -marginY)
+        .style("opacity", 0)
+
+    averageBinding.exit()
+        // @ts-ignore    
+        .optionalTransition()
         .remove();
 }
