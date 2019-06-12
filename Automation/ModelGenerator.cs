@@ -36,7 +36,7 @@ namespace Infobase.Automation
         {
             Child = child;
         }
-        public ParentOf(Type child, bool includeDefault): this(child)
+        public ParentOf(Type child, bool includeDefault) : this(child)
         {
             IncludeDefault = includeDefault;
         }
@@ -68,17 +68,32 @@ namespace Infobase.Automation
 
         public static async void GetModelsByDataset(string dataset)
         {
-            var Models = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == $"Infobase.Models.{dataset}");
-            foreach (var a in Models)
+            var models = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == $"Infobase.Models.{dataset}").OrderByDescending(m =>
+            {
+                int numberOfChildren = 0;
+                Type currentModel = m;
+                while (currentModel != null)
+                {
+                    currentModel = currentModel.GetCustomAttribute<ParentOf>()?.Child;
+                    numberOfChildren++;
+                }
+                return numberOfChildren;
+            }).AsEnumerable();
+
+
+
+            var engine = new RazorLightEngineBuilder()
+                        .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Automation/Templates")
+                        .UseMemoryCachingProvider()
+                        .Build();
+
+            Console.WriteLine(await engine.CompileRenderAsync("Context.cshtml", (dataset, models)));
+
+            foreach (var a in models)
             {
 
-                var engine = new RazorLightEngineBuilder()
-                            .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Automation/Templates")
-                            .UseMemoryCachingProvider()
-                            .Build();
-
                 string result = await engine.CompileRenderAsync("Entity.cshtml", a);
-                Console.WriteLine(result);
+                Console.WriteLine(a);
                 // var childAttribute = a.GetCustomAttribute<ChildOf>();
                 // if (childAttribute == null)
                 // {

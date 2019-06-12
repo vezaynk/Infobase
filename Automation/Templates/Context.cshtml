@@ -1,50 +1,34 @@
+@model (string, IEnumerable<Type>)
+@{
+    string dataset = Model.Item1;
+    IEnumerable<Type> models = Model.Item2;
+}
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Infobase.Models.PASS;
+using Infobase.Models.@(dataset);
 
 namespace Infobase.Models
 {
-    public class PASSContext : DbContext
+    public class @(dataset)Context : DbContext
     {
-        public PASSContext(DbContextOptions<PASSContext> options)
-            : base(options) { }
-        public DbSet<Activity> Activity { get; set; }
-        public DbSet<Measure> Measure { get; set; }
-        public DbSet<IndicatorGroup> IndicatorGroup { get; set; }
-        public DbSet<LifeCourse> LifeCourse { get; set; }
-        public DbSet<Indicator> Indicator { get; set; }
-        public DbSet<Strata> Strata { get; set; }
-        public DbSet<Point> Point { get; set; }
+        public @(dataset)Context(DbContextOptions<@(dataset)Context> options): base(options) { }
+
+@foreach (Type m in models) {
+        @:public DbSet<@m.Name> @m.Name { get; set; }
+}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // AutoIncrement the indexes
             modelBuilder.ForNpgsqlUseIdentityColumns();
-
             /* Make the Indexes unique. Conflcits must FAIL. */
-            modelBuilder.Entity<Activity>()
-                .HasAlternateKey(entity => entity.Index);
-
-            modelBuilder.Entity<IndicatorGroup>()
-                .HasAlternateKey(entity => entity.Index);
-
-            modelBuilder.Entity<Indicator>()
-                .HasAlternateKey(entity => entity.Index);
-
-            modelBuilder.Entity<LifeCourse>()
-                .HasAlternateKey(entity => entity.Index);
-
-            modelBuilder.Entity<Measure>()
-                .HasAlternateKey(entity => entity.Index);
-
-            modelBuilder.Entity<Strata>()
-                .HasAlternateKey(entity => entity.Index);
-
-            modelBuilder.Entity<Point>()
-                .HasAlternateKey(entity => entity.Index);
+@foreach (Type m in models) {
+            @:modelBuilder.Entity<@m.Name>().HasAlternateKey(entity => entity.Index);
+}
         }
     }
 }
