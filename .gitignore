@@ -334,3 +334,7 @@ ASALocalRun/
 
 flow-typed
 appsettings.*
+
+/wwwroot/js/client.*
+/wwwroot/js/chunk.*
+/wwwroot/js/server.*
