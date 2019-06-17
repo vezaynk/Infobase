@@ -80,18 +80,21 @@ namespace Infobase.Automation
                 return numberOfChildren;
             }).AsEnumerable();
 
-            var engine = new RazorLightEngineBuilder()
+    try
+    {
+        var engine = new RazorLightEngineBuilder()
                         .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Automation/Templates")
                         .UseMemoryCachingProvider()
                         .Build();
 
             Console.WriteLine(await engine.CompileRenderAsync("Context.cshtml", (dataset, models)));
+            //Console.WriteLine(await engine.CompileRenderAsync("ImportSQL.cshtml", models));
 
             foreach (var a in models)
             {
 
-                string result = await engine.CompileRenderAsync("Entity.cshtml", a);
-                Console.WriteLine(a);
+                //string result = await engine.CompileRenderAsync("Entity.cshtml", a);
+                //Console.WriteLine(a);
                 // var childAttribute = a.GetCustomAttribute<ChildOf>();
                 // if (childAttribute == null)
                 // {
@@ -132,6 +135,12 @@ namespace Infobase.Automation
 
             }
             var x = typeof(Models.PASS.Activity);
+    }
+    catch (System.Exception e)
+    {
+        Console.Write(e);
+    }
+            
         }
     }
     // public class ModelProperty

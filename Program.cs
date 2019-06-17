@@ -15,7 +15,10 @@ namespace Infobase
         private static int Port {get;set;} = 8080;
         public static void Main(string[] args)
         {
-            ModelParser.GetModelsByDataset("PASS");
+            while (true) {
+                ModelParser.GetModelsByDataset("PASS");
+                Console.ReadLine();
+            }
             string portEnv = System.Environment.GetEnvironmentVariable("PORT");
             int n = 8080;
             bool isNumeric = int.TryParse(portEnv, out n);

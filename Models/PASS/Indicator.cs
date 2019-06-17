@@ -14,14 +14,16 @@ namespace Infobase.Models.PASS
     {
         public int IndicatorId { get; set; }
         public int LifeCourseId { get; set; }
-        public int Index {get;set;}
+        public int Index { get; set; }
         public virtual LifeCourse LifeCourse { get; set; }
         [InverseProperty("Indicator")]
         public virtual ICollection<Measure> Measures { get; set; }
 
         /* Text getters */
-        public string IndicatorName(string culture) {
-            switch (culture) {
+        public string IndicatorName(string culture)
+        {
+            switch (culture)
+            {
                 case "en-ca": return IndicatorNameEn;
                 case "fr-ca": return IndicatorNameFr;
             }
@@ -34,5 +36,5 @@ namespace Infobase.Models.PASS
         [ForeignKey("DefaultMeasureId")]
         public virtual Measure DefaultMeasure { get; set; }
     }
-    
+
 }

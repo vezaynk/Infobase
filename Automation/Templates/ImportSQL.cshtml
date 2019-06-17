@@ -1,0 +1,39 @@
+@model IEnumerable<Type>
+@using Infobase.Automation
+@using System.Reflection
+
+==Script Begin==
+@foreach (Type m in @Model) {
+    var textDataAttributes = m.GetCustomAttributes<TextData>();
+    var sqlTextAttributes = textDataAttributes.Select(tda => $"\"{m.Name}{tda.Name}En\"").ToArray();
+    var parents = Model.Where((parent, i) => i < Model.TakeWhile(x => x != m).Count());
+    var lastParent = parents.LastOrDefault()?.Name;
+
+@: ==Statement Begin==
+@:INSERT INTO "@m.Name" (
+    @:"Index",
+    if (lastParent != null) {
+    @:"@(lastParent)Id"
+    }
+    @:@Raw(String.Join(",\n    ", sqlTextAttributes))
+@:)
+@:SELECT
+    @:min("Index"),
+    if (lastParent != null) {
+    @:"@(lastParent)Id"
+    }
+    @:@Raw(String.Join(",\n    ", sqlTextAttributes.Select(pida => $"MasterA.{pida}")))
+@:FROM
+    if (lastParent != null) {
+    @:@lastParent
+    @:inner join "Master" masterB on masterB."Index" == "@lastParent"."Index"
+    @:inner join "Master" masterA on @Raw(String.Join("\n\tand ", parents.SelectMany(p => p.GetCustomAttributes<TextData>().Select(psta => $"masterB.{p.Name}{psta.Name}En = masterA.{p.Name}{psta.Name}En"))))
+    } else {
+    @:"Master" masterA
+    }
+@:GROUP BY
+if (lastParent != null) {
+    @:"@(lastParent)Id",
+}
+    @:@Raw(String.Join(",\n    ", sqlTextAttributes.Select(pida => $"MasterA.{pida}")));
+}

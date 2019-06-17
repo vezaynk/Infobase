@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Client\**" />
+    <None Remove="tsconfig.json" />
+    <None Remove="package-lock.json" />
+    <None Remove="package.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,4 +38,8 @@
     <Exec Command="npm install" />
     <Exec Command="npm run webpack -- -p" />
   </Target>
+
+  <ItemGroup>
+    <MvcRazorFilesToCompile Include="**/*.cshtml" Exclude="Automation/Templates/*.cshtml" />
+  </ItemGroup>
 </Project>

@@ -25,12 +25,25 @@ export const Chart: React.FC<ChartProps> = props => {
                 valueLower = highlighted.valueLower;
         }
 
-        if (isMounted && graphEl.current)
-            renderChart(graphEl.current, props.chartData, props.animate, highlightIndex, valueUpper, valueLower, isTrend, newHighlightIndex => setHighlightIndex(newHighlightIndex));
-    
-            return () => {
-                setHighlightIndex(-1);
-            }
+        let render = () => {
+            if (isMounted && graphEl.current)
+                renderChart(graphEl.current,
+                    props.chartData,
+                    props.animate,
+                    highlightIndex,
+                    valueUpper,
+                    valueLower,
+                    isTrend,
+                    newHighlightIndex => setHighlightIndex(newHighlightIndex)
+                );
+        }
+
+        render();
+        const secondRender = setTimeout(render, 600);
+        return () => {
+            clearTimeout(secondRender);
+            setHighlightIndex(-1);
+        }
     })
 
     return (

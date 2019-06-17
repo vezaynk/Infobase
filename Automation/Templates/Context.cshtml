@@ -18,7 +18,7 @@ namespace Infobase.Models
     public class @(dataset)Context : DbContext
     {
         public @(dataset)Context(DbContextOptions<@(dataset)Context> options): base(options) { }
-
+        public DbSet<Master> Master { get; set; }
 @foreach (Type m in models) {
         @:public DbSet<@m.Name> @m.Name { get; set; }
 }
@@ -34,25 +34,25 @@ namespace Infobase.Models
         }
     }
 
-    public class MasterEntity {
+    public class Master {
+        
+        public bool Aggregator { get; set; }
+        public bool Included { get; set; }
+        public double? CVWarnAt { get; set; }
+        public double? CVSuppressAt { get; set; }
+        public double? ValueAverage { get; set; }
+        public double? ValueUpper { get; set; }
+        public double? ValueLower { get; set; }
+        public int CVInterpretation { get; set; }
+        public int? CVValue { get; set; }
+        public int Type { get; set; }
 @foreach (Type m in models) {
     var textDataAttributes = m.GetCustomAttributes<TextData>();
     
     @foreach (var textDataAttribute in textDataAttributes) {
-        @:public string @m.Name@textDataAttribute { get; set }
+        @:public string @(m.Name)@(textDataAttribute.Name)En { get; set; }
     }
 
-        
-        @:public bool Aggregator { get; set; }
-        @:public bool Included { get; set; }
-        @:public double? CVWarnAt { get; set; }
-        @:public double? CVSuppressAt { get; set; }
-        @:public double? ValueAverage { get; set; }
-        @:public double? ValueUpper { get; set; }
-        @:public double? ValueLower { get; set; }
-        @:public int CVInterpretation { get; set; }
-        @:public int? CVValue { get; set; }
-        @:public int Type { get; set; }
 }
     }
 }

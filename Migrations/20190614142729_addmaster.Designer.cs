@@ -3,93 +3,23 @@ using System;
 using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infobase.Migrations
 {
     [DbContext(typeof(PASSContext))]
-    partial class PASSContextModelSnapshot : ModelSnapshot
+    [Migration("20190614142729_addmaster")]
+    partial class addmaster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("Infobase.Models.Master", b =>
-                {
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ActivityNameEn");
-
-                    b.Property<bool>("Aggregator");
-
-                    b.Property<int>("CVInterpretation");
-
-                    b.Property<double?>("CVSuppressAt");
-
-                    b.Property<int?>("CVValue");
-
-                    b.Property<double?>("CVWarnAt");
-
-                    b.Property<bool>("Included");
-
-                    b.Property<string>("IndicatorGroupNameEn");
-
-                    b.Property<string>("IndicatorNameEn");
-
-                    b.Property<string>("LifeCourseNameEn");
-
-                    b.Property<string>("MeasureAdditionalRemarksEn");
-
-                    b.Property<string>("MeasureDataAvailableEn");
-
-                    b.Property<string>("MeasureDefinitionEn");
-
-                    b.Property<string>("MeasureMethodEn");
-
-                    b.Property<string>("MeasureNameDataToolEn");
-
-                    b.Property<string>("MeasureNameIndexEn");
-
-                    b.Property<string>("MeasurePopulationGroupEn");
-
-                    b.Property<string>("MeasureSourceLongEn");
-
-                    b.Property<string>("MeasureSourceShortEn");
-
-                    b.Property<string>("MeasureUnitLongEn");
-
-                    b.Property<string>("MeasureUnitShortEn");
-
-                    b.Property<string>("PointLabelEn");
-
-                    b.Property<string>("PointTextEn");
-
-                    b.Property<string>("StrataNameEn");
-
-                    b.Property<string>("StrataNotesEn");
-
-                    b.Property<string>("StrataPopulationTitleFragmentEn");
-
-                    b.Property<string>("StrataSourceEn");
-
-                    b.Property<int>("Type");
-
-                    b.Property<double?>("ValueAverage");
-
-                    b.Property<double?>("ValueLower");
-
-                    b.Property<double?>("ValueUpper");
-
-                    b.HasKey("Index");
-
-                    b.ToTable("Master");
-                });
 
             modelBuilder.Entity("Infobase.Models.PASS.Activity", b =>
                 {
