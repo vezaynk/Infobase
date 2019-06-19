@@ -9,11 +9,10 @@ namespace model_generator.annotations
     [AttributeUsage(AttributeTargets.Property)]
     public class FilterProperty : Attribute
     {
-        private static int CurrentLevel { get; set; } = 0;
         public int Level { get; set; }
-        public FilterProperty()
+        public FilterProperty(int level)
         {
-            Level = CurrentLevel++;
+            Level = level;
         }
     }
 }

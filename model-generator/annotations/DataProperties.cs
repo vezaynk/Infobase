@@ -31,5 +31,4 @@ namespace model_generator.annotations
     public class UnitLong : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitShort : Attribute { }
-
 }
