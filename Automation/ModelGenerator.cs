@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Infobase.Models;
 using System.Reflection;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
 
 namespace Infobase.Automation
 {
@@ -60,6 +62,7 @@ namespace Infobase.Automation
 
         public static void GetModelsByDataset(string dataset)
         {
+            
             var Models = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == $"Infobase.Models.{dataset}");
             foreach (var a in Models)
             {
