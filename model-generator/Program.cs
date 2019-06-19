@@ -11,7 +11,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Text;
-
+using model_generator.annotations;
 namespace model_generator
 {
     class Program
@@ -20,7 +20,7 @@ namespace model_generator
         {
             Console.WriteLine("Hello World!");
             Program2.DoThing();
-            
+
         }
 
     }
@@ -38,32 +38,30 @@ namespace model_generator
             using System.IO;
             using System.Text;
             using model_generator;
+            using model_generator.annotations;
             namespace RoslynCompileSample
             {
+                [TextProperty(""Hello"",""World"")]
                 public class Writer
                 {
                     public void Write(string message)
                     {
                         Console.WriteLine($""you said '{message}!'"");
-                        Program2.DoThing();
                         //File.WriteAllBytes(""./Hi.txt"", Encoding.ASCII.GetBytes(message));
+                        //Program2.DoThing();
                     }
                 }
             }";
-
-
+            File.WriteAllBytes("./Hi.txt", Encoding.ASCII.GetBytes(""));
             Write("Parsing the code into the SyntaxTree");
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
 
             string assemblyName = Path.GetRandomFileName();
-            MetadataReference[] references = new MetadataReference[]
-            {
-                MetadataReference.CreateFromFile("/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/System.Private.CoreLib.dll"),
-                MetadataReference.CreateFromFile("/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/System.Console.dll"),
-                MetadataReference.CreateFromFile("/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/System.Runtime.dll"),
-                MetadataReference.CreateFromFile(Assembly.GetExecutingAssembly().Location),
-                MetadataReference.CreateFromFile("/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/System.dll")
-            };
+            var references = Directory
+                                .GetFileSystemEntries("/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/", "*.dll")
+                                .Append(Assembly.GetExecutingAssembly().Location)
+                                .Select(path => MetadataReference.CreateFromFile(path));
+
 
             Write(typeof(object).Assembly.Location);
 
@@ -99,6 +97,7 @@ namespace model_generator
                     var type = assembly.GetType("RoslynCompileSample.Writer");
                     var instance = assembly.CreateInstance("RoslynCompileSample.Writer");
                     var meth = type.GetMember("Write").First() as MethodInfo;
+                    type.GetCustomAttribute<TextProperty>();
                     meth.Invoke(instance, new[] { "Hello World" });
                 }
             }

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace model_generator.annotations
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
     public class TextProperty : Attribute
     {
         public string Name { get; set; }
