@@ -1,0 +1,31 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    steps:
+      - checkout
+      - run:
+          name: "Install node, zip and ghr"
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+            source /root/.bashrc
+            nvm install node
+            apt update
+            apt -y install zip
+            wget https://github.com/tcnksm/ghr/releases/download/v0.12.1/ghr_v0.12.1_linux_amd64.tar.gz
+            tar -C /usr/local/bin -xf ghr_v0.12.1_linux_amd64.tar.gz --strip-components=1 ghr_v0.12.1_linux_amd64/ghr
+
+      - run:
+          name: "Publish project at target windows"
+          command: |
+            source /root/.bashrc
+            dotnet publish -c Release -r win10-x64
+
+      - run:
+          name: "Upload to GitHub"
+          command: |
+            cd bin/Release/netcoreapp2.2/win10-x64/publish
+            zip -qr $CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            ghr --delete latest $CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip
+            cd -

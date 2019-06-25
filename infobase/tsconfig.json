@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "lib": ["dom", "es7"],
+        "module": "esNext",
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+    },
+    "include": ["./Client"],
+    "exclude": ["./Client/common/*.js"]
+}

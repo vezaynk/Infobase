@@ -1,0 +1,107 @@
+﻿/*CSS file used to nicely display the webpage when the user tries to print*/
+
+body {
+background: #fff;
+color: #000;
+font-size: 8pt;
+line-height: 150%;
+margin: 0px;
+}
+
+/*Removes the URL from the footer in most browsers*/
+@page{
+    size:auto;
+    margin-bottom:0mm;
+}
+
+hr {
+color: #ccc;
+background-color: #ccc;
+}
+h1, h2, h3, h4, h5, h6, code, pre {
+color: #000;
+text-transform: none;
+}
+h1 {
+font-size: 11pt;
+margin-top: 1em;
+}
+h2 {
+font-size: 10pt;
+}
+h3 {
+font-size: 9pt;
+}
+h4, h5, h6 {
+font-size: 8pt;
+}
+code, pre {
+font-size: 8pt;
+background-color: transparent;
+/* just in case the user configured browser to print backgrounds */
+}
+blockquote {
+background-image: none;
+/* though they may not print, I’d rather be sure */
+}
+a:link, a:visited {
+text-decoration: underline;
+color: #000;
+}
+
+#wb-bnr p#Title{        /*Header - Banner*/
+    font-size:24pt;
+}
+
+#wb-bnr p#Title a, #banner p#Title a:link, #wb-bnr p#Title a:visited{
+    color:#000;
+}
+
+#wb-info {      /*Footer*/
+font-size: 6pt; /* make the text small */
+color: #000;
+}
+
+
+#pg-det, #table-links, #pg-share, #wb-srch, #Selections, #Selections2, #Selections3, #ContentPlaceHolder_Body_PanelPSMap, #PSChart, #navTab{
+    display:none;
+}
+
+#wb-bc a:link, #wb-bc a:visited {
+text-decoration: underline; /* leave a clue that it&rsquo;s a link */
+color: #000;
+}
+#wb-bc {
+color: #000;
+font-size: 6pt; /* make the text small */
+}
+#wb-bc > a:after {
+content: ""; /* disable URL display if in #Content */
+}
+
+/*This is for the map legend, to make the colors display on print*/
+#td0{
+    box-shadow: inset 0 0 0 1000px #D3D3D3 !important;
+} 
+#td1{
+    box-shadow: inset 0 0 0 1000px #FFFF00 !important;
+} 
+#td2{
+    box-shadow: inset 0 0 0 1000px #FFCC00 !important;
+} 
+#td3{
+    box-shadow: inset 0 0 0 1000px #FF9900 !important;
+} 
+#td4{
+    box-shadow: inset 0 0 0 1000px #FF6600 !important;
+} 
+#td5{
+    box-shadow: inset 0 0 0 1000px #FF3300 !important;
+}
+#td6{
+    box-shadow: inset 0 0 0 1000px #FF0200 !important;
+}
+
+/*Prevents page breaks for the tables*/
+table{ page-break-inside:avoid;}
+tr { page-break-inside:avoid; page-break-after:auto;}

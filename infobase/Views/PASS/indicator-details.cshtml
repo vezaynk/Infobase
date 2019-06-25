@@ -1,0 +1,121 @@
+@model Infobase.Models.PASS.Measure
+@{
+    Layout = "_Layout.cshtml";
+    string language = ViewContext.RouteData.Values["language"].ToString();
+}
+
+
+@switch (language) {
+                case "en-ca":
+                    @:<h2>Measure Description</h2>
+                    break;
+                case "fr-ca":
+                    @:<h2>Description de mesure</h2>
+                    break;
+            }
+<table class="table table-striped table-hover table-condensed table-bordered">
+<tbody>
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Measure</strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Mesure</strong>
+                    break;
+            }
+        </td>
+        <td>@Model.MeasureNameDataTool(language)</td>
+    </tr>
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Definition</strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Définition</strong>
+                    break;
+            }
+        </td>
+        <td>@Model.MeasureDefinition(language)</td>
+    </tr>
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Data Source</strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Source de données</strong>
+                    break;
+            }
+        </td>
+        <td>@Model.MeasureSourceLong(language)</td>
+    </tr>
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Population</strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Population</strong>
+                    break;
+            }
+            
+        </td>
+        <td>@Model.MeasurePopulationGroup(language)</td>
+    </tr>
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Data Available</strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Ventilation des données</strong>
+                    break;
+            }
+        </td>
+        <td>@Model.MeasureDataAvailable(language)</td>
+    </tr>
+
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Estimate Calculation</strong></strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Calcul des estimés</strong>
+                    break;
+            }
+        </td>
+        <td>@Model.MeasureMethod(language)</td>
+    </tr>
+    <tr>
+        <td>
+            @switch (language) {
+                case "en-ca":
+                    @:<strong>Additional Remarks</strong></strong>
+                    break;
+                case "fr-ca":
+                    @:<strong>Remarque additionnelle</strong>
+                    break;
+            }
+        </td>
+        <td>@Model.MeasureAdditionalRemarks(language)</td>
+    </tr>
+</tbody></table>
+@if (Model.Included) {
+	switch (language) {
+        case "en-ca":
+		    @:<a class="btn btn-success" href="https://health-infobase.canada.ca/pass/data-tool/?index=@Model.Index">Open in Data Tool</a>
+            break;
+        case "fr-ca":
+		    @:<a class="btn btn-success" href="https://sante-infobase.canada.ca/apcss/outil-de-donnees/?index=@Model.Index">Ouvrir dans l'outil de donnees</a>
+            break;
+	}
+}

@@ -1,0 +1,200 @@
+﻿@model IEnumerable<Infobase.Models.PASS.Activity>
+@{
+    Layout = "_Layout.cshtml";
+    
+    // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
+    string language = ViewContext.RouteData.Values["language"].ToString();
+    var lifeCourseNames = Model.OrderBy(x => x.Index)
+                                .SelectMany(a => a.IndicatorGroups
+                                                    .OrderBy(x => x.Index)
+                                                    .SelectMany(ig => ig.LifeCourses.OrderBy(x => x.Index).Select(lc => lc.LifeCourseName(language)))
+                                        ).Distinct();
+
+}
+
+    <div class="row">
+        <div class="col-md-8">
+        @switch (language) {
+            case "en-ca":
+                @:<p>The Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators provides important surveillance information on physical activity, sedentary and sleep behaviours in Canadians as well as factors that influence them. The PASS Indicators include 55 unique indicators and their measures, grouped by movement behaviour (physical activity, sedentary behaviour and sleep) and three key domains: individual, family/social environment, and built/society environment.</p>
+                @:<p>For an overview of the 2018 edition of the PASS Indicators, see the Quick Stats Overview below. Click on any of the three activities listed under adults (aged 18+ years) or children and youth (aged 5 to 17 years). A list of all indicator groups, indicators and their measures with their corresponding pan-Canadian estimates, where available, will unfold. Additionally, a detailed description of each measure, excluding those considered “In development”, can be obtained by clicking on the “Description” link next to each measure.</p>
+                @:<p>To dive deeper into the pan-Canadian estimates from the 2018 edition of the PASS Indicators, click the "Data Tool" tab above. This interactive “Data Tool” provides access to all available data breakdowns by key demographic and socioeconomic variables for every measure where data is available.</p>
+                @:<p>The 2017 edition of the PASS Indicators Quick Stats is available in printer-friendly PDFs for both <a href="../src/doc/pass_childrenyouth_en.pdf">children and youth</a> and <a href="../src/doc/pass_adults_en.pdf">adults</a>. The 2018 edition is only available online at this time.</p>
+                @:<p><a href="https://www.canada.ca/en/services/health/monitoring-surveillance/physical-activity-sedentary-behaviour-sleep.html">Learn more about PASS</a>.</p>
+                break;
+            case "fr-ca":
+                @:<p>Les indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) fournissent des renseignements importants sur l’activité physique, le comportement sédentaire et le sommeil chez les Canadiens, de même que sur les facteurs qui les influencent. Les indicateurs de l’APCSS comportent 55 indicateurs uniques et leurs mesures, regroupés en comportements en matière de mouvement (activité physique, comportement sédentaire et sommeil) et dans trois domaines clés : l’individu, l’environnement familial ou social et l’environnement bâti ou la société.</p>
+                @:<p>Pour obtenir un aperçu de l’édition 2018 des indicateurs de l’APCSS, consultez l’aperçu Statistiques rapides ci-dessous. Cliquez sur l’une des trois activités énoncées ci dessous sous la rubrique Adultes (âgés de 18 ans et plus) ou Enfants et jeunes (âgés de 5 à 17 ans). Une liste de tous les groupes indicateurs, des indicateurs et de leurs mesures, de même que de leurs estimations pancanadiennes correspondantes, s’affichera lorsque disponible. De plus, pour obtenir une description détaillée de chaque mesure, excluant celles qui sont considérées comme « en cours d’élaboration », il suffit de cliquer sur le lien « Description » à côté de celle ci.</p>
+                @:<p>Pour explorer de façon plus approfondie les estimations pancanadiennes pour l’édition 2018 des indicateurs de l’APCSS, cliquez « Outil des données » sur l’onglet ci-dessus. Cet « outil de données » interactif fournit un accès à toutes les données ventilées selon des variables démographiques et socioéconomiques clés pour chaque mesure pour laquelle il existe des données.</p>
+                @:<p>L’édition 2017 des Statistique rapides des indicateurs de l’APCSS est disponible dans un format PDF pour imprimable, à la fois pour <a href="../src/doc/pass_childrenyouth_fr.pdf">les enfants et les jeunes</a> et <a href="../src/doc/pass_adults_fr.pdf">pour les adultes</a>. L'édition 2018 est disponible uniquement en ligne à ce moment.</p>
+                @:<p><a href="https://www.canada.ca/fr/services/sante/controle-et-surveillance/activite-physique-comportement-sedentaire-sommeil.html">Pour de plus amples renseignements sur l’APCSS</a>.</p>
+                break;
+        }
+        </div>
+        <div class="col-md-4">
+        @switch (language) {
+            case "en-ca":
+                    @:<figure class="thumbnail">
+                        @:<a href="https://www.canada.ca/en/public-health/services/reports-publications/health-promotion-chronic-disease-prevention-canada-research-policy-practice/vol-39-no-5-2019/conceptualizing-framework-for-surveillance-physical-activity-sedentary-behaviour-and-sleep.html"><img src='@Url.Content("~/img/pass-thumbnail-en.jpg")' width="350" height="350" alt="Current physical activity, sedentary behaviour and sleep (PASS) visual model of the conceptual framework for surveillance in Canada "></a>
+                        @:<figcaption class="caption">
+                            @:<p><strong>The <a href="https://www.canada.ca/en/public-health/services/reports-publications/health-promotion-chronic-disease-prevention-canada-research-policy-practice/vol-39-no-5-2019/conceptualizing-framework-for-surveillance-physical-activity-sedentary-behaviour-and-sleep.html">PASS visual model of the conceptual framework for surveillance</a> is also available.</strong></p>
+                        @:</figcaption>
+                    @:</figure>
+                break;
+            case "fr-ca":
+                    @:<figure class="thumbnail">
+                        @:<a href="https://www.canada.ca/fr/sante-publique/services/rapports-publications/promotion-sante-prevention-maladies-chroniques-canada-recherche-politiques-pratiques/vol-39-no-5-2019/conceptualisation-cadre-surveillance-activite-physique-comportement-sedentaire-et-sommeil.html"><img src='@Url.Content("~/img/pass-thumbnail-fr.jpg")' width="350" height="350" alt="Figure 2. Nouveau modèle visuel du cadre conceptuel de surveillance de l’activité physique, du comportement sédentaire et du sommeil (APCSS) au Canada"></a>
+                        @:<figcaption class="caption">
+                            @:<p><strong>Le modèle visuel du <a href="https://www.canada.ca/fr/sante-publique/services/rapports-publications/promotion-sante-prevention-maladies-chroniques-canada-recherche-politiques-pratiques/vol-39-no-5-2019/conceptualisation-cadre-surveillance-activite-physique-comportement-sedentaire-et-sommeil.html">cadre conceptuel de surveillance de l'APCSS</a> est aussi disponible.</strong></p>
+                        @:</figcaption>
+                    @:</figure>
+                break;
+        }
+        </div>
+    </div>
+    <br>
+
+@switch (language) {
+            case "en-ca":
+                @:<h2>Quick Stats Overview</h2>
+                @:<p>For more information about each indicator, click on the categories below:</p>
+                break;
+            case "fr-ca":
+                @:<h2>Statistiques rapides</h2>
+	            @:<p>Vous pouvez obtenir des informations supplémentaires sur ces indicateurs en cliquant sur les catégories ci-dessous :</p>
+                break;
+        }
+<div>
+        @foreach (var lifeCourseName in lifeCourseNames)
+        {
+
+            <h3>@lifeCourseName</h3>
+
+            foreach (var activity in Model.OrderBy(x => x.DefaultIndicatorGroup.Index))
+            {
+
+                <details>
+                    <summary>@activity.ActivityName(language)</summary>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    @switch (language) {
+                                        case "en-ca":
+                                            @:<th class="width-20" scope="col">Indicator Group</th>
+                                            @:<th class="width-20" scope="col">Indicator</th>
+                                            @:<th class="width-30" scope="col">Indicator Measure(s)</th>
+                                            @:<th class="width-10" scope="col">Latest Data</th>
+                                            @:<th class="width-20" scope="col">Source (Year)</th>
+                                            @:<th scope="col">Description</th>
+                                            break;
+                                        case "fr-ca":
+                                            @:<th class="width-20" scope="col">Groupe d'indicateur</th>
+                                            @:<th class="width-20" scope="col">Indicateur</th>
+                                            @:<th class="width-30" scope="col">Mesure(s) d'indicateurs</th>
+                                            @:<th class="width-10" scope="col">Données les plus récentes</th>
+                                            @:<th class="width-20" scope="col">Source de données (année)</th>
+                                            @:<th scope="col">Description</th>
+                                            break;
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var indicatorGroup in activity.IndicatorGroups.OrderBy(x => x.Index))
+                                {
+
+                                    var igFirst = true;
+                                    // Must only select indicators which are a subset of the desired lifecourse
+                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName(language) == lifeCourseName).SelectMany(lc => lc.Indicators);
+                                    foreach (var indicator in indicators.OrderBy(x => x.Index))
+                                    {
+                                        var indicatorFirst = true;
+                                        foreach (var measure in indicator.Measures.OrderBy(x => x.Index))
+                                        {
+                                            <tr>
+                                                @if (igFirst)
+                                                {
+                                                    igFirst = false;
+                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupName(language) </MiniTex></td>
+                                                }
+                                                @if (indicatorFirst)
+                                                {
+                                                    indicatorFirst = false;
+                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorName(language)</MiniTex></td>
+                                                }
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureNameIndex(language)</MiniTex></td>
+                                                @if (measure.DefaultStrataId == null)
+                                                {
+                                                    <td><MiniTex>-</MiniTex></td>
+                                                }
+                                                else
+                                                {
+                                                    var measurePoint = measure.DefaultStrata.Points.OrderByDescending(p => p.Type == 1 ? 1 : 0).ThenBy(p => p.Index).FirstOrDefault();
+                                                    if (measurePoint == null || measurePoint.ValueAverage == null)
+                                                    {
+                                                        <td>-</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td data-index="@measurePoint.Index"><MiniTex>@Formatter.Standard(measurePoint.ValueAverage ?? 0, measure.MeasureUnitShort(language), language)</MiniTex></td>
+                                                    }
+                                                }
+
+                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSourceShort(language)</MiniTex></td>
+                                                <td>
+                                                    @if (measure.Included)
+                                                    {
+                                                        @*
+														@if (language == "en-ca") {
+															<a class="btn btn-default" href="https://health-infobase.canada.ca/pass/indicator-details/@measure.Index">Description</a>
+														}else{
+															<a class="btn btn-default" href="https://sante-infobase.canada.ca/apcss/description-de-mesure/@measure.Index">Description</a>
+														}
+                                                        *@
+                                                        <a asp-action="indicator-details" asp-route-id="@measure.Index" class="btn btn-default">Description</a>
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+
+            }
+        }
+    </div>
+</div>
+<div class="clearfix"></div>
+<br/>
+<div class="col-sm-12">
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title">Notes</h2>
+    </div>
+    <div class="panel-body small">
+        <ul class="list-unstyled">
+            @switch (language) {
+            case "en-ca":
+                    @:<li><strong>Abbreviations:</strong> CCHS, Canadian Community Health Survey; CCHS RR, Canadian Community Health Survey Rapid Response; CHMS, Canadian Health Measures Survey;GSS, General Social Survey; HBSC, Health Behaviours in School-aged Children; HBSC-Admin, Health Behaviours in School-aged Children Administrator Survey; PAM, Physical Activity Monitor.</li>
+                    @:<li><strong>Note:</strong> “In development” refers to measures that are under development either because a data source is currently not available or because more research has to be done to identify a promising measure and data source.</li>
+                    @:<li><strong>Correspondence:</strong> Behaviours, Environments and Lifespan Team, Centre for Surveillance and Applied Research, Public Health Agency of Canada, 785 Carling Avenue, Ottawa, ON K1A 0K9; Email: <a href="mailto:phac.infobase.aspc@canada.ca">phac.infobase.aspc@canada.ca</a></li>			
+                    @:<li><strong>Suggested citation (adults):</strong> Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators, Quick Stats, Adults (18+ years), 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</li>
+                    @:<li><strong>Suggested citation (children and youth):</strong> Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators, Quick Stats, Children and Youth (5 to 17 years), 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</li>
+                
+                break;
+            case "fr-ca":
+                    @:<li><strong>Abréviations:</strong> ECMS, Enquête canadienne sur les mesures de la santé; ECSEAS, Enquête sur les comportements liés à la santé des enfants d’âge scolaire; ECSEAS-Admin, Enquête sur les comportements liés à la santé des enfants d’âge scolaire – questionnaire des administrateurs; ESCC, Enquête sur la santé dans les collectivités canadiennes; ESCC RR, Enquête sur la santé dans les collectivités canadiennes – réponses rapides; ESG, Enquête sociale générale; SIAP, Sondage indicateur de l’activité physique.</li>
+                    @:<li><strong>Remarque:</strong> La mention « En cours d’élaboration » s’applique aux indicateurs dont la source de données est actuellement indisponible et à ceux pour lesquels d’autres recherches sont nécessaires afin d’en déterminer une mesure et une source de données satisfaisantes.</li>
+                    @:<li><strong>Correspondance:</strong> Équipe sur les comportements, l’environnement et la durée de vie, Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada, 785, avenue Carling, Ottawa (Ontario) K1A 0K9; courriel: <a href="mailto:phac.infobase.aspc@canada.ca">phac.infobase.aspc@canada.ca</a></li>			
+                    @:<li><strong>Citation suggérée (adultes):</strong> Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) : Statistiques rapides, adultes (18 ans et plus), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</li>
+                    @:<li>Citation suggérée (enfants et jeunes):</strong> Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS) : Statistiques rapides, enfants et jeunes (5 à 17 ans), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</li>
+                break;
+        }
+            </ul>
+    </div>
+</div>
