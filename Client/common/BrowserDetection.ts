@@ -1,1 +1,0 @@
-export const isIE = () => window.navigator.userAgent.match(/(MSIE|Trident)/);

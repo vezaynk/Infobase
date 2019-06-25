@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using System.Text;
-using model_generator.annotations;
+using metadata_annotations;
 using model_generator;
+using System.Net;
 namespace RoslynCompileSample
 {
     public class Writer
@@ -12,6 +13,7 @@ namespace RoslynCompileSample
         public void Write(string message)
         {
             Console.WriteLine($"you said '{message}!'");
+            Dns.Resolve("google.com");
             //Program2.DoThing();
         }
     }

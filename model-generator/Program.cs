@@ -10,7 +10,8 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Text;
-using model_generator.annotations;
+using System.Collections.ObjectModel;
+using metadata_annotations;
 using CSharpLoader;
 using CsvHelper;
 
@@ -22,26 +23,29 @@ namespace model_generator
         {
 
 
-            var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
+            using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
             {
                 Delimiter = ",",
                 Encoding = Encoding.UTF8
-            });
-            csv.Read();
-            csv.ReadHeader();
-            Console.WriteLine(csv.Context.HeaderRecord.First());
-            csv.Dispose();
+            }))
+            {
 
-            var csmemcompiler = new CSharpInMemoryCompiler("./Test.cs", "/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/");
-            Type loadedWriterType = csmemcompiler.GetType("RoslynCompileSample.Writer");
-            var textProperty = loadedWriterType.GetProperty("MyProperty").GetCustomAttribute<TextProperty>();
-            Console.WriteLine(textProperty.Name + " " + textProperty.Culture);
+                csv.Read();
+                csv.ReadHeader();
+                Console.WriteLine(csv.Context.HeaderRecord.First());
+            }
 
-            //var instance = (RoslynCompileSample.Writer)Activator.CreateInstance(loadedWriterType);
 
-            var instance = Activator.CreateInstance(loadedWriterType);
-            var meth = loadedWriterType.GetMember("Write").First() as MethodInfo;
-            meth.Invoke(instance, new[] { "Hello World" });
+            // var csmemcompiler = new InMemoryCompiler(new[] {"./Test.cs", "../infobase/Models/PASS/Activity.cs"}, "/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/");
+            // Type loadedWriterType = csmemcompiler.GetType("RoslynCompileSample.Writer");
+            // var textProperty = loadedWriterType.GetProperty("MyProperty").GetCustomAttribute<TextProperty>();
+            // Console.WriteLine(textProperty.Name + " " + textProperty.Culture);
+
+            // //var instance = (RoslynCompileSample.Writer)Activator.CreateInstance(loadedWriterType);
+
+            // var instance = Activator.CreateInstance(loadedWriterType);
+            // var meth = loadedWriterType.GetMember("Write").First() as MethodInfo;
+            // meth.Invoke(instance, new[] { "Hello World" });
         }
 
     }

@@ -1,0 +1,9 @@
+/home/slava/Desktop/infobase2/metadata-annotations/bin/Debug/netstandard2.0/metadata-annotations.deps.json
+/home/slava/Desktop/infobase2/metadata-annotations/bin/Debug/netstandard2.0/metadata-annotations.dll
+/home/slava/Desktop/infobase2/metadata-annotations/bin/Debug/netstandard2.0/metadata-annotations.pdb
+/home/slava/Desktop/infobase2/metadata-annotations/obj/Debug/netstandard2.0/metadata-annotations.csprojAssemblyReference.cache
+/home/slava/Desktop/infobase2/metadata-annotations/obj/Debug/netstandard2.0/metadata-annotations.csproj.CoreCompileInputs.cache
+/home/slava/Desktop/infobase2/metadata-annotations/obj/Debug/netstandard2.0/metadata-annotations.AssemblyInfoInputs.cache
+/home/slava/Desktop/infobase2/metadata-annotations/obj/Debug/netstandard2.0/metadata-annotations.AssemblyInfo.cs
+/home/slava/Desktop/infobase2/metadata-annotations/obj/Debug/netstandard2.0/metadata-annotations.dll
+/home/slava/Desktop/infobase2/metadata-annotations/obj/Debug/netstandard2.0/metadata-annotations.pdb
