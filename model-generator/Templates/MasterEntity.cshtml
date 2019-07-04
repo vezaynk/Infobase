@@ -1,22 +1,23 @@
+@using model_generator;
+@model MasterEntityModel
 // This file was written by a tool
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Infobase.Models.@(Model.dataset);
+using model_generator;
+using metadata_annotations;
 
-public class Master {
-        
-        public bool IsAggregator { get; set; }
-        public bool IsIncluded { get; set; }
-        public double? CVWarnAt { get; set; }
-        public double? CVSuppressAt { get; set; }
-        public double? ValueAverage { get; set; }
-        public double? ValueUpper { get; set; }
-        public double? ValueLower { get; set; }
-        public int CVInterpretation { get; set; }
-        public int? CVValue { get; set; }
-        public int RepresentativeScore { get; set; }
-        @*public string @(m.Name)@(textDataAttribute.Name)En { get; set; }*@
+namespace Infobase.Models.@(Model.DatasetName) {
+    public class Master {
+        public int Index { get; set; }
+@foreach (var property in @Model.Properties) {
+        @:[FilterProperty(0)]
+        @:[TextProperty("@property", "en-ca")]
+        @:[TextProperty("@property", "fr-ca")]
+        @:[CSVColumn("@property")]
+        @:public string @(Program.ToPascalCase(property)) { get; set; }
+        @:
+}
+    }
 }
