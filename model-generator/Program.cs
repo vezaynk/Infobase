@@ -65,16 +65,25 @@ namespace model_generator
     {
         public static async Task Main(string[] args)
         {
-            Console.Write("Migrating database...");
+
+            var imc = new InMemoryCompiler();
+            // imc.AddFile("../infobase/Migrations/20190705145030_sefesrgfqE.cs");
+            // imc.AddFile("../infobase/Migrations/20190705145030_sefesrgfqE.Designer.cs");
+            // imc.AddFile("../infobase/Migrations/PASSContextModelSnapshot.cs");
+            //var asm = imc.CompileAssembly();
+            // Console.WriteLine(asm.GetName());
+            // foreach (var t in asm.GetTypes())
+            //     Console.WriteLine(t);
+            Console.WriteLine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
             var optionsBuilder = new DbContextOptionsBuilder<PASSContext>();
-            optionsBuilder.UseNpgsql(connectionstring, o => o.MigrationsAssembly("Infobase"));
+            optionsBuilder.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc.CompileAssembly().GetName().ToString()));
 
-            PASSContext dbContext = new PASSContext(optionsBuilder.Options);
-
-            //await dbContext.Database.MigrateAsync();
-            Console.WriteLine("Done!");
+            // PASSContext dbContext = new PASSContext(optionsBuilder.Options);
+            
+            // //await dbContext.Database.MigrateAsync();
+            // Console.WriteLine("Done!");
 
             //   var designTimeServiceCollection = new ServiceCollection()
             //                 .AddEntityFrameworkDesignTimeServices()
@@ -88,93 +97,25 @@ namespace model_generator
 
             using (var db = new PASSContext(optionsBuilder.Options))
             {
-                var reporter = new OperationReporter(
-                    new OperationReportHandler(
-                        m => Console.WriteLine("  error: " + m),
-                        m => Console.WriteLine("   warn: " + m),
-                        m => Console.WriteLine("   info: " + m),
-                        m => Console.WriteLine("verbose: " + m)));
+                var migration = model_generator2.MigrationGenerator.CreateMigration(db, optionsBuilder.Options);
 
-                var designTimeServices = new ServiceCollection()
-                    .AddSingleton(db.GetService<IHistoryRepository>())
-                    .AddSingleton(db.GetService<IMigrationsIdGenerator>())
-                    .AddSingleton(db.GetService<IMigrationsModelDiffer>())
-                    .AddSingleton(db.GetService<IMigrationsAssembly>())
-                    .AddSingleton(db.Model)
-                    .AddSingleton(db.GetService<ICurrentDbContext>())
-                    .AddSingleton(db.GetService<IDatabaseProvider>())
-                    .AddSingleton<ValueConverterSelectorDependencies>()
-                    .AddSingleton<IValueConverterSelector, ValueConverterSelector>()
-                    .AddSingleton<MigrationsCodeGeneratorDependencies>()
-                    .AddSingleton<TypeMappingSourceDependencies>()
-                    .AddSingleton<RelationalTypeMappingSourceDependencies>()
-                    .AddSingleton<RelationalSqlGenerationHelperDependencies>()
-                    .AddSingleton<ISqlGenerationHelper, NpgsqlSqlGenerationHelper>()
-                    .AddSingleton<IRelationalTypeMappingSource,NpgsqlTypeMappingSource>()
-                    .AddSingleton<ICSharpHelper, CSharpHelper>()
-                    .AddSingleton<CSharpMigrationOperationGeneratorDependencies>()
-                    .AddSingleton<ICSharpMigrationOperationGenerator, CSharpMigrationOperationGenerator>()
-                    .AddSingleton<IMigrationsCodeGeneratorSelector, MigrationsCodeGeneratorSelector>()
-                    .AddSingleton<CSharpSnapshotGeneratorDependencies>()
-                    .AddSingleton<ICSharpSnapshotGenerator, CSharpSnapshotGenerator>()
-                    .AddSingleton<CSharpMigrationsGeneratorDependencies>()
-                    .AddSingleton<IMigrationsCodeGenerator, CSharpMigrationsGenerator>()
-                    .AddSingleton<IOperationReporter>(reporter)
-                    .AddSingleton<ISnapshotModelProcessor, SnapshotModelProcessor>()
-                    .AddSingleton<IDbContextOptions>(optionsBuilder.Options)
-                    .AddSingleton<ILoggingOptions>(new LoggingOptions())
-                    .AddSingleton<ILoggerFactory, LoggerFactory>()
-                    .AddSingleton<DiagnosticSource>(new DiagnosticListener("my diagnostics listener"))
-                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Database.Transaction>, DiagnosticsLogger<DbLoggerCategory.Database.Transaction>>()
-                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Database.Connection>, DiagnosticsLogger<DbLoggerCategory.Database.Connection>>()
-                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Database.Command>, DiagnosticsLogger<DbLoggerCategory.Database.Command>>()
-                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Infrastructure>, DiagnosticsLogger<DbLoggerCategory.Infrastructure>>()
-                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Migrations>, DiagnosticsLogger<DbLoggerCategory.Migrations>>()
-                    .AddSingleton<INamedConnectionStringResolver, NamedConnectionStringResolver>()
-                    .AddSingleton<RelationalTransactionFactoryDependencies>()
-                    .AddSingleton<IRelationalTransactionFactory, RelationalTransactionFactory>()
-                    .AddSingleton<RelationalConnectionDependencies>()
-                    .AddSingleton<IRelationalConnection, NpgsqlRelationalConnection>()
-                    .AddSingleton<IRelationalCommandBuilderFactory, RelationalCommandBuilderFactory>()
-                    .AddSingleton<IRelationalTypeMapper, DummyTypeMapper>()
-                    .AddSingleton<MigrationsSqlGeneratorDependencies>()
-                    .AddSingleton<UpdateSqlGeneratorDependencies>()
-                    .AddSingleton<ISingletonUpdateSqlGenerator, NpgsqlUpdateSqlGenerator>()
-                    .AddSingleton<IMigrationsSqlGenerator, MigrationsSqlGenerator>()
-                    .AddSingleton<IMigrationCommandExecutor, MigrationCommandExecutor>()
-                    .AddSingleton<ExecutionStrategyDependencies>()
-                    .AddSingleton<IExecutionStrategyFactory, ExecutionStrategyFactory>()
-                    .AddSingleton<RelationalDatabaseCreatorDependencies>()
-                    .AddSingleton<INpgsqlRelationalConnection, NpgsqlRelationalConnection>()
-                    .AddSingleton<ParameterNameGeneratorDependencies>()
-                    .AddSingleton<IParameterNameGeneratorFactory, ParameterNameGeneratorFactory>()
-                    .AddSingleton<IRawSqlCommandBuilder, RawSqlCommandBuilder>()
-                    .AddSingleton<IDatabaseCreator, NpgsqlDatabaseCreator>()
-                    .AddSingleton<IMigrator, Migrator>()
-                    .AddSingleton<MigrationsScaffolderDependencies>()
-                    .AddSingleton<MigrationsScaffolder>()
-                    .BuildServiceProvider();
-                    
+                var imc2 = new InMemoryCompiler();
+                imc2.AddCodeBody(migration.SnapshotCode);
+                imc2.AddCodeBody(migration.MigrationCode);
+                imc2.AddCodeBody(migration.MetadataCode);
+                imc2.CompileAssembly();
 
-                //var scaffolderDependencies = designTimeServices.GetRequiredService<MigrationsScaffolderDependencies>();
 
-                var scaffolder = designTimeServices.GetRequiredService<MigrationsScaffolder>();
+                var optionsBuilder2 = new DbContextOptionsBuilder<PASSContext>();
+                optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc2.CompileAssembly().GetName().ToString()));
+                // var migration = model_generator2.MigrationGenerator.CreateMigration(db, optionsBuilder.Options);
+                using (var db2 = new PASSContext(optionsBuilder2.Options)) {
+                    var migration2 = model_generator2.MigrationGenerator.CreateMigration(db2, optionsBuilder2.Options);
 
-                var migration = scaffolder.ScaffoldMigration(
-                    "MyMigration",
-                    "Infobase");
-
+                    await db2.Database.MigrateAsync();
+                    Console.WriteLine(migration2.MigrationCode);
+                }
                 
-                Console.WriteLine(migration.MigrationCode);
-
-                // File.WriteAllText(
-                //     migration.MigrationId + migration.FileExtension,
-                //     migration.MigrationCode);
-                // File.WriteAllText(
-                //     migration.MigrationId + ".Designer" + migration.FileExtension,
-                //     migration.MetadataCode);
-                // File.WriteAllText(migration.SnapshotName + migration.FileExtension,
-                //    migration.SnapshotCode);
 
             }
 

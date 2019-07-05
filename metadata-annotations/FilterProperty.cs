@@ -7,10 +7,10 @@ using System.Reflection;
 namespace metadata_annotations
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class FilterProperty : Attribute
+    public class FilterPropertyAttribute : Attribute
     {
         public int Level { get; set; }
-        public FilterProperty(int level)
+        public FilterPropertyAttribute(int level)
         {
             Level = level;
         }

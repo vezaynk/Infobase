@@ -7,28 +7,28 @@ using System.Reflection;
 namespace metadata_annotations
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class PointAverage : Attribute { }
+    public class PointAverageAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class PointUpper : Attribute { }
+    public class PointUpperAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class PointLower : Attribute { }
+    public class PointLowerAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVInterpretation : Attribute { }
+    public class CVInterpretationAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVRangeUpper : Attribute { }
+    public class CVRangeUpperAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVRangeLower : Attribute { }
+    public class CVRangeLowerAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CV : Attribute { }
+    public class CVAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class UnitLong : Attribute { }
+    public class UnitLongAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
-    public class UnitShort : Attribute { }
+    public class UnitShortAttribute : Attribute { }
 }
