@@ -42,6 +42,25 @@ using Microsoft.EntityFrameworkCore.Update;
 
 namespace model_generator
 {
+    public class DummyTypeMapper: IRelationalTypeMapper {
+        public IByteArrayRelationalTypeMapper ByteArrayMapper { get; }
+        public IStringRelationalTypeMapper StringMapper { get; }
+        public RelationalTypeMapping FindMapping(Microsoft.EntityFrameworkCore.Metadata.IProperty property) {
+            throw new NotImplementedException("This is a dummy");
+        }
+        public RelationalTypeMapping FindMapping(string storeType) {
+            throw new NotImplementedException("This is a dummy");
+        }
+        public RelationalTypeMapping FindMapping(Type clrType) {
+            throw new NotImplementedException("This is a dummy");
+        }
+        public void ValidateTypeName (string storeType) {
+            throw new NotImplementedException("This is a dummy");
+        }
+        public bool IsTypeMapped (Type clrType) {
+            throw new NotImplementedException("This is a dummy");
+        }
+    }
     public class Program
     {
         public static async Task Main(string[] args)
@@ -109,18 +128,27 @@ namespace model_generator
                     .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Database.Transaction>, DiagnosticsLogger<DbLoggerCategory.Database.Transaction>>()
                     .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Database.Connection>, DiagnosticsLogger<DbLoggerCategory.Database.Connection>>()
                     .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Database.Command>, DiagnosticsLogger<DbLoggerCategory.Database.Command>>()
+                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Infrastructure>, DiagnosticsLogger<DbLoggerCategory.Infrastructure>>()
+                    .AddSingleton<IDiagnosticsLogger<DbLoggerCategory.Migrations>, DiagnosticsLogger<DbLoggerCategory.Migrations>>()
                     .AddSingleton<INamedConnectionStringResolver, NamedConnectionStringResolver>()
                     .AddSingleton<RelationalTransactionFactoryDependencies>()
                     .AddSingleton<IRelationalTransactionFactory, RelationalTransactionFactory>()
                     .AddSingleton<RelationalConnectionDependencies>()
                     .AddSingleton<IRelationalConnection, NpgsqlRelationalConnection>()
                     .AddSingleton<IRelationalCommandBuilderFactory, RelationalCommandBuilderFactory>()
-                    .AddSingleton<IRelationalTypeMapper>(implementationInstance: null)
+                    .AddSingleton<IRelationalTypeMapper, DummyTypeMapper>()
                     .AddSingleton<MigrationsSqlGeneratorDependencies>()
                     .AddSingleton<UpdateSqlGeneratorDependencies>()
                     .AddSingleton<ISingletonUpdateSqlGenerator, NpgsqlUpdateSqlGenerator>()
                     .AddSingleton<IMigrationsSqlGenerator, MigrationsSqlGenerator>()
+                    .AddSingleton<IMigrationCommandExecutor, MigrationCommandExecutor>()
+                    .AddSingleton<ExecutionStrategyDependencies>()
+                    .AddSingleton<IExecutionStrategyFactory, ExecutionStrategyFactory>()
                     .AddSingleton<RelationalDatabaseCreatorDependencies>()
+                    .AddSingleton<INpgsqlRelationalConnection, NpgsqlRelationalConnection>()
+                    .AddSingleton<ParameterNameGeneratorDependencies>()
+                    .AddSingleton<IParameterNameGeneratorFactory, ParameterNameGeneratorFactory>()
+                    .AddSingleton<IRawSqlCommandBuilder, RawSqlCommandBuilder>()
                     .AddSingleton<IDatabaseCreator, NpgsqlDatabaseCreator>()
                     .AddSingleton<IMigrator, Migrator>()
                     .AddSingleton<MigrationsScaffolderDependencies>()
@@ -135,6 +163,9 @@ namespace model_generator
                 var migration = scaffolder.ScaffoldMigration(
                     "MyMigration",
                     "Infobase");
+
+                
+                Console.WriteLine(migration.MigrationCode);
 
                 // File.WriteAllText(
                 //     migration.MigrationId + migration.FileExtension,
@@ -252,6 +283,5 @@ namespace model_generator
         {
             return new string(text.Split(new[] { "_", " ", "-" }, StringSplitOptions.RemoveEmptyEntries).Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1, s.Length - 1)).Aggregate(string.Empty, (s1, s2) => s1 + s2).Where(c => char.IsLetterOrDigit(c)).ToArray());
         }
-
     }
 }
