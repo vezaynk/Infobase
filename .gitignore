@@ -2,3 +2,4 @@
 */**/obj
 appsettings.json
 /csharploader
+*/**/node_modules
