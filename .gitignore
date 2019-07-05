@@ -2,4 +2,8 @@
 */**/obj
 appsettings.json
 /csharploader
-*/**/node_modules
+/infobase/node_modules
+/infobase/wwwroot/js/chunk.*.js
+/infobase/wwwroot/js/*.js.map
+/infobase/wwwroot/js/client.js
+/infobase/wwwroot/js/server.js
