@@ -42,22 +42,28 @@ using Microsoft.EntityFrameworkCore.Update;
 
 namespace model_generator
 {
-    public class DummyTypeMapper: IRelationalTypeMapper {
+    public class DummyTypeMapper : IRelationalTypeMapper
+    {
         public IByteArrayRelationalTypeMapper ByteArrayMapper { get; }
         public IStringRelationalTypeMapper StringMapper { get; }
-        public RelationalTypeMapping FindMapping(Microsoft.EntityFrameworkCore.Metadata.IProperty property) {
+        public RelationalTypeMapping FindMapping(Microsoft.EntityFrameworkCore.Metadata.IProperty property)
+        {
             throw new NotImplementedException("This is a dummy");
         }
-        public RelationalTypeMapping FindMapping(string storeType) {
+        public RelationalTypeMapping FindMapping(string storeType)
+        {
             throw new NotImplementedException("This is a dummy");
         }
-        public RelationalTypeMapping FindMapping(Type clrType) {
+        public RelationalTypeMapping FindMapping(Type clrType)
+        {
             throw new NotImplementedException("This is a dummy");
         }
-        public void ValidateTypeName (string storeType) {
+        public void ValidateTypeName(string storeType)
+        {
             throw new NotImplementedException("This is a dummy");
         }
-        public bool IsTypeMapped (Type clrType) {
+        public bool IsTypeMapped(Type clrType)
+        {
             throw new NotImplementedException("This is a dummy");
         }
     }
@@ -81,7 +87,7 @@ namespace model_generator
             optionsBuilder.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc.CompileAssembly().GetName().ToString()));
 
             // PASSContext dbContext = new PASSContext(optionsBuilder.Options);
-            
+
             // //await dbContext.Database.MigrateAsync();
             // Console.WriteLine("Done!");
 
@@ -95,9 +101,9 @@ namespace model_generator
             //             var migration = scaffolder.ScaffoldMigration("MyMigration", "Infobase");
             //             Console.WriteLine(migration.MigrationCode);
 
-            using (var db = new PASSContext(optionsBuilder.Options))
+            using (var mg = new model_generator2.MigrationGenerator<PASSContext>(optionsBuilder.Options))
             {
-                var migration = model_generator2.MigrationGenerator.CreateMigration(db, optionsBuilder.Options);
+                var migration = mg.CreateMigration();
 
                 var imc2 = new InMemoryCompiler();
                 imc2.AddCodeBody(migration.SnapshotCode);
@@ -105,19 +111,20 @@ namespace model_generator
                 imc2.AddCodeBody(migration.MetadataCode);
                 imc2.CompileAssembly();
 
-
                 var optionsBuilder2 = new DbContextOptionsBuilder<PASSContext>();
                 optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc2.CompileAssembly().GetName().ToString()));
-                // var migration = model_generator2.MigrationGenerator.CreateMigration(db, optionsBuilder.Options);
-                using (var db2 = new PASSContext(optionsBuilder2.Options)) {
-                    var migration2 = model_generator2.MigrationGenerator.CreateMigration(db2, optionsBuilder2.Options);
 
-                    await db2.Database.MigrateAsync();
+                using (var mg2 = new model_generator2.MigrationGenerator<PASSContext>(optionsBuilder2.Options))
+                {
+
+                    var migration2 = mg2.CreateMigration();
+
+                    await mg2.DbContext.Database.MigrateAsync();
                     Console.WriteLine(migration2.MigrationCode);
                 }
-                
-
             }
+
+
 
             // using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
             // {

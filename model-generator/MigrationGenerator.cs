@@ -51,25 +51,37 @@ namespace model_generator2
             throw new NotImplementedException("This is a dummy");
         }
     }
-    public class MigrationGenerator
+    public class MigrationGenerator<T> : IDisposable where T : DbContext
     {
-        public static ScaffoldedMigration CreateMigration(DbContext dbContext, IDbContextOptions options)
+        public IDbContextOptions Options { get; set; }
+        public DbContext DbContext { get; set; }
+        public MigrationGenerator(IDbContextOptions options)
+        {
+            Options = options;
+            DbContext = (DbContext)Activator.CreateInstance(typeof(T), options);
+        }
+        public void Dispose()
+        {
+            DbContext.Dispose();
+        }
+
+        public ScaffoldedMigration CreateMigration()
         {
             var reporter = new OperationReporter(
-                new OperationReportHandler(
-                    m => Console.WriteLine("  error: " + m),
-                    m => Console.WriteLine("   warn: " + m),
-                    m => Console.WriteLine("   info: " + m),
-                    m => Console.WriteLine("verbose: " + m)));
+            new OperationReportHandler(
+                m => Console.WriteLine("  error: " + m),
+                m => Console.WriteLine("   warn: " + m),
+                m => Console.WriteLine("   info: " + m),
+                m => Console.WriteLine("verbose: " + m)));
 
             var designTimeServices = new ServiceCollection()
-                .AddSingleton(dbContext.GetService<IHistoryRepository>())
-                .AddSingleton(dbContext.GetService<IMigrationsIdGenerator>())
-                .AddSingleton(dbContext.GetService<IMigrationsModelDiffer>())
-                .AddSingleton(dbContext.GetService<IMigrationsAssembly>())
-                .AddSingleton(dbContext.Model)
-                .AddSingleton(dbContext.GetService<ICurrentDbContext>())
-                .AddSingleton(dbContext.GetService<IDatabaseProvider>())
+                .AddSingleton(DbContext.GetService<IHistoryRepository>())
+                .AddSingleton(DbContext.GetService<IMigrationsIdGenerator>())
+                .AddSingleton(DbContext.GetService<IMigrationsModelDiffer>())
+                .AddSingleton(DbContext.GetService<IMigrationsAssembly>())
+                .AddSingleton(DbContext.Model)
+                .AddSingleton(DbContext.GetService<ICurrentDbContext>())
+                .AddSingleton(DbContext.GetService<IDatabaseProvider>())
                 .AddSingleton<ValueConverterSelectorDependencies>()
                 .AddSingleton<IValueConverterSelector, ValueConverterSelector>()
                 .AddSingleton<MigrationsCodeGeneratorDependencies>()
@@ -88,7 +100,7 @@ namespace model_generator2
                 .AddSingleton<IMigrationsCodeGenerator, CSharpMigrationsGenerator>()
                 .AddSingleton<IOperationReporter>(reporter)
                 .AddSingleton<ISnapshotModelProcessor, SnapshotModelProcessor>()
-                .AddSingleton<IDbContextOptions>(options)
+                .AddSingleton<IDbContextOptions>(Options)
                 .AddSingleton<ILoggingOptions>(new LoggingOptions())
                 .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .AddSingleton<DiagnosticSource>(new DiagnosticListener("my diagnostics listener"))
