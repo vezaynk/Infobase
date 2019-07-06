@@ -22,9 +22,9 @@ namespace model_generator
 {
     public class Program
     {
-        public static DbContext GetDBContext(Assembly dbContextASM, string dbContextFullName, Action<DbContextOptionsBuilder> configureOptionBuilder)
+        public static DbContext GetDBContext(Assembly dbContextASM, string dbContextName, Action<DbContextOptionsBuilder> configureOptionBuilder)
         {
-            var dbContextRuntime = dbContextASM.GetType(dbContextFullName);
+            var dbContextRuntime = dbContextASM.GetType($"Infobase.Models.{dbContextName}Context");
             Type genericOptionBuilder = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextRuntime });
             var optionsBuilderDyn = Activator.CreateInstance(genericOptionBuilder);
             configureOptionBuilder(((DbContextOptionsBuilder)optionsBuilderDyn));
@@ -34,7 +34,7 @@ namespace model_generator
             return dbContextDyn;
         }
 
-        public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder> configureOptionBuilder)
+        public static Assembly CompileDBContextAssembly(string name, string path)
         {
             // We can either load the assembly via compilation
             var dbContextIMC = new InMemoryCompiler();
@@ -43,25 +43,15 @@ namespace model_generator
             {
                 dbContextIMC.AddFile(filename);
             }
-            return GetDBContext(dbContextIMC.CompileAssembly(), $"Infobase.Models.{name}Context", configureOptionBuilder);
+            return dbContextIMC.CompileAssembly();
         }
 
-        public static void Main(string[] args)
+        public static void RunDBMigrationsFor(Assembly dbContextASM, string name)
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
-
-            Console.Write("Load or Compile Database Context Assembly...");
-            // // We can either load the assembly via compilation
-            // GetDBContextFromSource("PASS", "../infobase/Models", dcob => dcob.UseNpgsql(connectionstring));
-            // var dbContextASMAlt = dbContextIMC.CompileAssembly();
-
-            // Or directly if its compiled already
-            var dbContextASM = Assembly.LoadFile(Path.GetFullPath("../infobase/bin/Debug/netcoreapp2.2/Infobase.dll"));//
-            var dbContextRuntime = dbContextASM.GetType("Infobase.Models.PASSContext");
-
-            var dbContextDyn = GetDBContext(dbContextASM, "Infobase.Models.PASSContext", dcob => dcob.UseNpgsql(connectionstring));
-            Console.WriteLine("Done!");
+            var dbContextDyn = GetDBContext(dbContextASM, name, dcob => dcob.UseNpgsql(connectionstring));
+            // Console.WriteLine("Done!");
 
             Console.Write("Generate migration...");
             var mg = new model_generator.MigrationGenerator(dbContextDyn);
@@ -75,7 +65,7 @@ namespace model_generator
             migrationIMC.AddCodeBody(migration.MetadataCode);
             //migrationIMC.CompileAssembly();
 
-            var dbContextDyn2 = GetDBContext(dbContextASM, "Infobase.Models.PASSContext", dcob => dcob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString())));
+            var dbContextDyn2 = GetDBContext(dbContextASM, name, dcob => dcob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString())));
             Console.WriteLine("Done!");
 
             // var optionsBuilder2 = new DbContextOptionsBuilder<dbContext>();
@@ -88,8 +78,29 @@ namespace model_generator
             Console.Write("Migrate...");
             db.Migrate();
             Console.WriteLine("Done!");
+        }
 
+        public static void Main(string[] args)
+        {
+            bool useSource = false;
+            string contextName = "PASS";
+            string pathToAssembly = "../infobase/bin/Debug/netcoreapp2.2/Infobase.dll";
+            string pathToSource = "../infobase/Models";
 
+            foreach (string arg in args) {
+                Console.WriteLine($"arg: {arg}");
+            }
+
+            Console.Write("Load or Compile Database Context Assembly...");
+            // We can either load the assembly via compilation
+            // Or directly if its compiled already
+            Assembly dbContextASM = useSource ?
+                    CompileDBContextAssembly(contextName, pathToSource)
+                    : Assembly.LoadFile(Path.GetFullPath(pathToAssembly));
+
+            Console.WriteLine("Done!");
+
+            RunDBMigrationsFor(dbContextASM, contextName);
 
             // using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
             // {
@@ -118,7 +129,7 @@ namespace model_generator
 
             //         var output = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
             //         {
-            //             DatasetName = "PASS",
+            //             DatasetName = contextName,
             //             Properties = csv.Context.HeaderRecord
             //         });
             //         var imc = new InMemoryCompiler();
