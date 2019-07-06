@@ -18,7 +18,7 @@ using RazorLight;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Infobase.Models;
+// using Infobase.Models;
 using Microsoft.EntityFrameworkCore.Migrations.Design;
 using Microsoft.EntityFrameworkCore.Design.Internal;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -42,87 +42,51 @@ using Microsoft.EntityFrameworkCore.Update;
 
 namespace model_generator
 {
-    public class DummyTypeMapper : IRelationalTypeMapper
-    {
-        public IByteArrayRelationalTypeMapper ByteArrayMapper { get; }
-        public IStringRelationalTypeMapper StringMapper { get; }
-        public RelationalTypeMapping FindMapping(Microsoft.EntityFrameworkCore.Metadata.IProperty property)
-        {
-            throw new NotImplementedException("This is a dummy");
-        }
-        public RelationalTypeMapping FindMapping(string storeType)
-        {
-            throw new NotImplementedException("This is a dummy");
-        }
-        public RelationalTypeMapping FindMapping(Type clrType)
-        {
-            throw new NotImplementedException("This is a dummy");
-        }
-        public void ValidateTypeName(string storeType)
-        {
-            throw new NotImplementedException("This is a dummy");
-        }
-        public bool IsTypeMapped(Type clrType)
-        {
-            throw new NotImplementedException("This is a dummy");
-        }
-    }
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-
-            var imc = new InMemoryCompiler();
-            // imc.AddFile("../infobase/Migrations/20190705145030_sefesrgfqE.cs");
-            // imc.AddFile("../infobase/Migrations/20190705145030_sefesrgfqE.Designer.cs");
-            // imc.AddFile("../infobase/Migrations/PASSContextModelSnapshot.cs");
-            //var asm = imc.CompileAssembly();
-            // Console.WriteLine(asm.GetName());
-            // foreach (var t in asm.GetTypes())
-            //     Console.WriteLine(t);
-            Console.WriteLine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
-            var optionsBuilder = new DbContextOptionsBuilder<PASSContext>();
-            optionsBuilder.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc.CompileAssembly().GetName().ToString()));
-
-            // PASSContext dbContext = new PASSContext(optionsBuilder.Options);
-
-            // //await dbContext.Database.MigrateAsync();
-            // Console.WriteLine("Done!");
-
-            //   var designTimeServiceCollection = new ServiceCollection()
-            //                 .AddEntityFrameworkDesignTimeServices()
-            //                 //.AddSingleton<MigrationsScaffolder>()
-            //                 .AddDbContextDesignTimeServices(dbContext);
-            //             new NpgsqlDesignTimeServices().ConfigureDesignTimeServices(designTimeServiceCollection);
-            //             var sp = designTimeServiceCollection.BuildServiceProvider();
-            //             var scaffolder = sp.GetRequiredService<MigrationsScaffolder>();
-            //             var migration = scaffolder.ScaffoldMigration("MyMigration", "Infobase");
-            //             Console.WriteLine(migration.MigrationCode);
-
-            using (var mg = new model_generator2.MigrationGenerator<PASSContext>(optionsBuilder.Options))
-            {
-                var migration = mg.CreateMigration();
-
-                var imc2 = new InMemoryCompiler();
-                imc2.AddCodeBody(migration.SnapshotCode);
-                imc2.AddCodeBody(migration.MigrationCode);
-                imc2.AddCodeBody(migration.MetadataCode);
-                imc2.CompileAssembly();
-
-                var optionsBuilder2 = new DbContextOptionsBuilder<PASSContext>();
-                optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc2.CompileAssembly().GetName().ToString()));
-
-                using (var mg2 = new model_generator2.MigrationGenerator<PASSContext>(optionsBuilder2.Options))
-                {
-
-                    var migration2 = mg2.CreateMigration();
-
-                    await mg2.DbContext.Database.MigrateAsync();
-                    Console.WriteLine(migration2.MigrationCode);
-                }
+            var dbContextIMC = new InMemoryCompiler();
+            dbContextIMC.AddFile("../infobase/Models/PASSContext.cs");
+            foreach (var filename in Directory.GetFileSystemEntries("../infobase/Models/PASS", "*.cs")) {
+                dbContextIMC.AddFile(filename);
             }
+            var dbContextASM = dbContextIMC.CompileAssembly();
+            var PASSContextRuntime = dbContextASM.GetType("Infobase.Models.PASSContext");
+
+            Type genericType = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { PASSContextRuntime });
+            var optionsBuilderDyn = Activator.CreateInstance(genericType);
+            ((DbContextOptionsBuilder)optionsBuilderDyn).UseNpgsql(connectionstring);
+            
+            var PASSContextDyn = (DbContext) Activator.CreateInstance(PASSContextRuntime, new object[] {  optionsBuilderDyn.GetType().BaseType.GetProperty("Options").GetValue(optionsBuilderDyn) });
+                
+            // var optionsBuilder = new DbContextOptionsBuilder<PASSContext>();
+            // optionsBuilder.UseNpgsql(connectionstring);
+
+            var mg = new model_generator.MigrationGenerator(PASSContextDyn);
+            var migration = mg.CreateMigration();
+
+            var migrationIMC = new InMemoryCompiler();
+            migrationIMC.AddCodeBody(migration.SnapshotCode);
+            migrationIMC.AddCodeBody(migration.MigrationCode);
+            migrationIMC.AddCodeBody(migration.MetadataCode);
+            migrationIMC.CompileAssembly();
+
+
+            var optionsBuilderDyn2 = Activator.CreateInstance(genericType);
+            ((DbContextOptionsBuilder)optionsBuilderDyn2).UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString()));
+            
+            var PASSContextDyn2 = (DbContext) Activator.CreateInstance(PASSContextRuntime, new object[] {  optionsBuilderDyn2.GetType().BaseType.GetProperty("Options").GetValue(optionsBuilderDyn2) });
+                
+            
+            // var optionsBuilder2 = new DbContextOptionsBuilder<PASSContext>();
+            // optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString()));
+
+            var db = PASSContextDyn2.Database;
+            db.EnsureDeleted();
+            db.Migrate();
 
 
 

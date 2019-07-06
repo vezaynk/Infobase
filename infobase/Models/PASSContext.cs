@@ -9,7 +9,7 @@ namespace Infobase.Models
 {
     public class PASSContext : DbContext
     {
-        public PASSContext (DbContextOptions<PASSContext> options)
+        public PASSContext (DbContextOptions options)
             : base(options)
         {
         }
@@ -54,11 +54,7 @@ namespace Infobase.Models
 
             modelBuilder.Entity<Point>()
                 .HasAlternateKey(entity => entity.Index);
-
-
         }
-        
-
     
     }
 }
