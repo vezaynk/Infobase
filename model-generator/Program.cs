@@ -15,30 +15,8 @@ using metadata_annotations;
 using CSharpLoader;
 using CsvHelper;
 using RazorLight;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-// using Infobase.Models;
-using Microsoft.EntityFrameworkCore.Migrations.Design;
-using Microsoft.EntityFrameworkCore.Design.Internal;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using System.Diagnostics;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Update.Internal;
-using Microsoft.EntityFrameworkCore.Update;
 
 namespace model_generator
 {
@@ -73,6 +51,7 @@ namespace model_generator
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
 
+            Console.Write("Load or Compile Database Context Assembly...");
             // // We can either load the assembly via compilation
             // GetDBContextFromSource("PASS", "../infobase/Models", dcob => dcob.UseNpgsql(connectionstring));
             // var dbContextASMAlt = dbContextIMC.CompileAssembly();
@@ -82,13 +61,14 @@ namespace model_generator
             var dbContextRuntime = dbContextASM.GetType("Infobase.Models.PASSContext");
 
             var dbContextDyn = GetDBContext(dbContextASM, "Infobase.Models.PASSContext", dcob => dcob.UseNpgsql(connectionstring));
+            Console.WriteLine("Done!");
 
-            // var optionsBuilder = new DbContextOptionsBuilder<dbContext>();
-            // optionsBuilder.UseNpgsql(connectionstring);
-
+            Console.Write("Generate migration...");
             var mg = new model_generator.MigrationGenerator(dbContextDyn);
             var migration = mg.CreateMigration();
+            Console.WriteLine("Done!");
 
+            Console.Write("Compile migration and reload Database Context...");
             var migrationIMC = new InMemoryCompiler();
             migrationIMC.AddCodeBody(migration.SnapshotCode);
             migrationIMC.AddCodeBody(migration.MigrationCode);
@@ -96,13 +76,18 @@ namespace model_generator
             //migrationIMC.CompileAssembly();
 
             var dbContextDyn2 = GetDBContext(dbContextASM, "Infobase.Models.PASSContext", dcob => dcob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString())));
+            Console.WriteLine("Done!");
 
             // var optionsBuilder2 = new DbContextOptionsBuilder<dbContext>();
             // optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString()));
 
+            Console.Write("Apply migration...");
             var db = dbContextDyn2.Database;
+            Console.Write("Clean...");
             db.EnsureDeleted();
+            Console.Write("Migrate...");
             db.Migrate();
+            Console.WriteLine("Done!");
 
 
 
