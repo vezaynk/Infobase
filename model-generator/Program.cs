@@ -17,6 +17,7 @@ using CsvHelper;
 using RazorLight;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NDesk.Options;
 
 namespace model_generator
 {
@@ -87,9 +88,13 @@ namespace model_generator
             string pathToAssembly = "../infobase/bin/Debug/netcoreapp2.2/Infobase.dll";
             string pathToSource = "../infobase/Models";
 
-            foreach (string arg in args) {
-                Console.WriteLine($"arg: {arg}");
-            }
+            // var p = new OptionSet()  {
+            //     {"source", "The {source} directory containing the compilable models (Usually infobase/Models)", (a) => {
+            //         Console.WriteLine(a);
+            //     }}
+            // };
+
+            // p.Parse(args);
 
             Console.Write("Load or Compile Database Context Assembly...");
             // We can either load the assembly via compilation

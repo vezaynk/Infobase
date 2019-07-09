@@ -12,12 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
-using Infobase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
-using Infobase.Common;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Infobase
 {
@@ -45,9 +44,27 @@ namespace Infobase
             services.AddReact();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<PASSContext>(options =>
-                    options.UseNpgsql(Configuration.GetConnectionString("PASSDB")));
 
+
+            // Higher-order abstraction for DbContext Dependency Injection
+            // services.AddDbContext<PASSContext>(options =>
+            //           options.UseNpgsql(Configuration.GetConnectionString("PASSDB")));
+
+            // Generic overloads make it both non-trivial and fragile. Playing with the methods via the debugger is necessary find a way to identify our desired override.
+            MethodInfo AddDbContextMethod = typeof(EntityFrameworkServiceCollectionExtensions)
+                    .GetMethods()
+                    .Where(method => method.Name == "AddDbContext" && method.GetGenericArguments().First().BaseType == typeof(DbContext))
+                    .First(method => method.GetParameters()[1].ParameterType == typeof(Action<DbContextOptionsBuilder>));
+
+            var dbContextTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "Infobase.Models" && t.BaseType == typeof(DbContext));
+
+            foreach (var dbContextType in dbContextTypes)
+            {
+                AddDbContextMethod
+                    .MakeGenericMethod(new Type[] { dbContextType })
+                    .Invoke(services, new object[] {services, new Action<DbContextOptionsBuilder>(options =>
+                        options.UseNpgsql(Configuration.GetConnectionString(dbContextType.Name))), AddDbContextMethod.GetParameters()[2].DefaultValue, AddDbContextMethod.GetParameters()[3].DefaultValue});
+            }
 
             //services.AddMiniProfiler();
 
@@ -56,17 +73,17 @@ namespace Infobase
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Uncomment
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                // TODO: Use real error pages
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            //
+
             app.UseReact(config =>
             {
                 config
@@ -85,7 +102,6 @@ namespace Infobase
                     new Translations(new (string, string)[]
                     {
                         ("pass", "pass"),
-                        ("localhost:5000", "localhost:5000"),
                         ("data-tool", "data-tool"),
                         ("index", "index"),
                         ("indicator-details", "indicator-details")
@@ -96,7 +112,6 @@ namespace Infobase
                     new Translations(new (string, string)[]
                     {
                         ("pass", "apcss"),
-                        ("localhost:5000", "127.0.0.1:5000"),
                         ("data-tool", "outil-de-donnees"),
                         ("index", "index"),
                         ("indicator-details", "description-de-mesure")
@@ -146,4 +161,5 @@ namespace Infobase
              });
         }
     }
+
 }
