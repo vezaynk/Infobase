@@ -15,13 +15,53 @@ using metadata_annotations;
 using CSharpLoader;
 using CsvHelper;
 using RazorLight;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Infobase.Models;
+using Microsoft.EntityFrameworkCore.Migrations.Design;
+using Microsoft.EntityFrameworkCore.Design.Internal;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Update.Internal;
+using System.Diagnostics;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Update.Internal;
+using Microsoft.EntityFrameworkCore.Update;
 
 namespace model_generator
 {
     public class Program
     {
+        public static ScaffoldedMigration CreateMigration(DbContext dbContext)
+        {
+            var designTimeServiceCollection = new ServiceCollection()
+                .AddEntityFrameworkDesignTimeServices()
+                .AddDbContextDesignTimeServices(dbContext);
+            new NpgsqlDesignTimeServices().ConfigureDesignTimeServices(designTimeServiceCollection);
+
+            var designTimeServiceProvider = designTimeServiceCollection.BuildServiceProvider();
+
+            var migrationsScaffolder = designTimeServiceProvider.GetService<IMigrationsScaffolder>();
+
+            var migration = migrationsScaffolder.ScaffoldMigration(
+                Path.GetRandomFileName(),
+                "Infobase");
+
+            return migration;
+        }
+
         public static DbContext GetDBContext(Assembly dbContextASM, string dbContextFullName, Action<DbContextOptionsBuilder> configureOptionBuilder)
         {
             var dbContextRuntime = dbContextASM.GetType(dbContextFullName);
@@ -34,7 +74,7 @@ namespace model_generator
             return dbContextDyn;
         }
 
-        public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder> configureOptionBuilder)
+        public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder, Assembly> configureOptionBuilder, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
         {
             // We can either load the assembly via compilation
             var dbContextIMC = new InMemoryCompiler();
@@ -43,51 +83,53 @@ namespace model_generator
             {
                 dbContextIMC.AddFile(filename);
             }
-            return GetDBContext(dbContextIMC.CompileAssembly(), $"Infobase.Models.{name}Context", configureOptionBuilder);
+            if (migrations != null)
+            {
+                foreach (var migration in migrations)
+                {
+                    dbContextIMC.AddCodeBody(migration.MetadataCode);
+                    dbContextIMC.AddCodeBody(migration.MigrationCode);
+                    dbContextIMC.AddCodeBody(migration.SnapshotCode);
+                }
+            }
+            if (migrationsDirectory != null)
+                foreach (string filename in Directory.GetFiles(migrationsDirectory, "*.cs"))
+                {
+                    dbContextIMC.AddFile(filename);
+                }
+
+            var asm = dbContextIMC.CompileAssembly();
+            return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
         }
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
+            Console.Write("Building DBContext from source...");
+            var passdb = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: "../infobase/Migrations");
+            Console.WriteLine("Created " + passdb.GetType().Name);
+
+            Console.Write("Creating migration...");
+            var migration = CreateMigration(passdb);
+            File.WriteAllText("../infobase/Migrations/" +
+                    migration.MigrationId + migration.FileExtension,
+                    migration.MigrationCode);
+            File.WriteAllText("../infobase/Migrations/" +
+                migration.MigrationId + ".Designer" + migration.FileExtension,
+                migration.MetadataCode);
+            File.WriteAllText("../infobase/Migrations/" + migration.SnapshotName + migration.FileExtension,
+               migration.SnapshotCode);
+
+            Console.WriteLine("Created " + passdb.GetType().Name);
 
 
-            Console.Write("Load or Compile Database Context Assembly...");
-            // // We can either load the assembly via compilation
-            // GetDBContextFromSource("PASS", "../infobase/Models", dcob => dcob.UseNpgsql(connectionstring));
-            // var dbContextASMAlt = dbContextIMC.CompileAssembly();
+            Console.Write("Rebuilding with migration...");
+            var passdb2 = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, "../infobase/Migrations");
 
-            // Or directly if its compiled already
-            var dbContextASM = Assembly.LoadFile(Path.GetFullPath("../infobase/bin/Debug/netcoreapp2.2/Infobase.dll"));//
-            var dbContextRuntime = dbContextASM.GetType("Infobase.Models.PASSContext");
+            Console.WriteLine("Pending migrations: " + passdb2.Database.GetPendingMigrations().Count());
 
-            var dbContextDyn = GetDBContext(dbContextASM, "Infobase.Models.PASSContext", dcob => dcob.UseNpgsql(connectionstring));
-            Console.WriteLine("Done!");
+            await passdb2.Database.MigrateAsync();
 
-            Console.Write("Generate migration...");
-            var mg = new model_generator.MigrationGenerator(dbContextDyn);
-            var migration = mg.CreateMigration();
-            Console.WriteLine("Done!");
-
-            Console.Write("Compile migration and reload Database Context...");
-            var migrationIMC = new InMemoryCompiler();
-            migrationIMC.AddCodeBody(migration.SnapshotCode);
-            migrationIMC.AddCodeBody(migration.MigrationCode);
-            migrationIMC.AddCodeBody(migration.MetadataCode);
-            //migrationIMC.CompileAssembly();
-
-            var dbContextDyn2 = GetDBContext(dbContextASM, "Infobase.Models.PASSContext", dcob => dcob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString())));
-            Console.WriteLine("Done!");
-
-            // var optionsBuilder2 = new DbContextOptionsBuilder<dbContext>();
-            // optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(migrationIMC.CompileAssembly().GetName().ToString()));
-
-            Console.Write("Apply migration...");
-            var db = dbContextDyn2.Database;
-            Console.Write("Clean...");
-            db.EnsureDeleted();
-            Console.Write("Migrate...");
-            db.Migrate();
-            Console.WriteLine("Done!");
 
 
 
