@@ -86,19 +86,37 @@ namespace model_generator
             return GetDBContext(dbContextIMC.CompileAssembly(), $"Infobase.Models.{name}Context", configureOptionBuilder);
         }
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
-
             var passdb = GetDBContextFromSource("PASS", "../infobase/Models", ob => ob.UseNpgsql(connectionstring));
-
             var migration = CreateMigration(passdb);
 
             var imc = new InMemoryCompiler();
+            imc.AddFile("../infobase/Models/PASSContext.cs");
+            // imc.AddFile("../infobase/Models/PASS/Activity.cs");
+            // imc.AddFile("../infobase/Models/PASS/Indicator.cs");
+            // imc.AddFile("../infobase/Models/PASS/IndicatorGroup.cs");
+            // imc.AddFile("../infobase/Models/PASS/LifeCourse.cs");
+            // imc.AddFile("../infobase/Models/PASS/Measure.cs");
+            // imc.AddFile("../infobase/Models/PASS/Point.cs");
+            // imc.AddFile("../infobase/Models/PASS/Strata.cs");
             imc.AddCodeBody(migration.SnapshotCode);
             imc.AddCodeBody(migration.MigrationCode);
             imc.AddCodeBody(migration.MetadataCode);
             imc.CompileAssembly();
+
+            var asm = imc.CompileAssembly();
+            var passdb2 = GetDBContext(asm, "Infobase.Models.PASSContext", ob => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())));
+            Console.WriteLine("Pending migrations: " + passdb2.Database.GetPendingMigrations().Count());
+            var optionsBuilder2 = new DbContextOptionsBuilder<PASSContext>();
+            optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc.CompileAssembly().GetName().ToString()));
+
+            var db = new PASSContext(optionsBuilder2.Options);
+            await db.Database.MigrateAsync();
+
+
+
 
             // using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
             // {
