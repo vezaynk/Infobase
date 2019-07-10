@@ -74,7 +74,7 @@ namespace model_generator
             return dbContextDyn;
         }
 
-        public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder> configureOptionBuilder)
+        public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder, Assembly> configureOptionBuilder, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
         {
             // We can either load the assembly via compilation
             var dbContextIMC = new InMemoryCompiler();
@@ -83,37 +83,52 @@ namespace model_generator
             {
                 dbContextIMC.AddFile(filename);
             }
-            return GetDBContext(dbContextIMC.CompileAssembly(), $"Infobase.Models.{name}Context", configureOptionBuilder);
+            if (migrations != null)
+            {
+                foreach (var migration in migrations)
+                {
+                    dbContextIMC.AddCodeBody(migration.MetadataCode);
+                    dbContextIMC.AddCodeBody(migration.MigrationCode);
+                    dbContextIMC.AddCodeBody(migration.SnapshotCode);
+                }
+            }
+            if (migrationsDirectory != null)
+                foreach (string filename in Directory.GetFiles(migrationsDirectory, "*.cs"))
+                {
+                    dbContextIMC.AddFile(filename);
+                }
+
+            var asm = dbContextIMC.CompileAssembly();
+            return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
         }
 
         public static async Task Main(string[] args)
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
-            var passdb = GetDBContextFromSource("PASS", "../infobase/Models", ob => ob.UseNpgsql(connectionstring));
+            Console.Write("Building DBContext from source...");
+            var passdb = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: "../infobase/Migrations");
+            Console.WriteLine("Created " + passdb.GetType().Name);
+
+            Console.Write("Creating migration...");
             var migration = CreateMigration(passdb);
+            File.WriteAllText("../infobase/Migrations/" +
+                    migration.MigrationId + migration.FileExtension,
+                    migration.MigrationCode);
+            File.WriteAllText("../infobase/Migrations/" +
+                migration.MigrationId + ".Designer" + migration.FileExtension,
+                migration.MetadataCode);
+            File.WriteAllText("../infobase/Migrations/" + migration.SnapshotName + migration.FileExtension,
+               migration.SnapshotCode);
 
-            var imc = new InMemoryCompiler();
-            imc.AddFile("../infobase/Models/PASSContext.cs");
-            // imc.AddFile("../infobase/Models/PASS/Activity.cs");
-            // imc.AddFile("../infobase/Models/PASS/Indicator.cs");
-            // imc.AddFile("../infobase/Models/PASS/IndicatorGroup.cs");
-            // imc.AddFile("../infobase/Models/PASS/LifeCourse.cs");
-            // imc.AddFile("../infobase/Models/PASS/Measure.cs");
-            // imc.AddFile("../infobase/Models/PASS/Point.cs");
-            // imc.AddFile("../infobase/Models/PASS/Strata.cs");
-            imc.AddCodeBody(migration.SnapshotCode);
-            imc.AddCodeBody(migration.MigrationCode);
-            imc.AddCodeBody(migration.MetadataCode);
-            imc.CompileAssembly();
+            Console.WriteLine("Created " + passdb.GetType().Name);
 
-            var asm = imc.CompileAssembly();
-            var passdb2 = GetDBContext(asm, "Infobase.Models.PASSContext", ob => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())));
+
+            Console.Write("Rebuilding with migration...");
+            var passdb2 = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, "../infobase/Migrations");
+
             Console.WriteLine("Pending migrations: " + passdb2.Database.GetPendingMigrations().Count());
-            var optionsBuilder2 = new DbContextOptionsBuilder<PASSContext>();
-            optionsBuilder2.UseNpgsql(connectionstring, o => o.MigrationsAssembly(imc.CompileAssembly().GetName().ToString()));
 
-            var db = new PASSContext(optionsBuilder2.Options);
-            await db.Database.MigrateAsync();
+            await passdb2.Database.MigrateAsync();
 
 
 
