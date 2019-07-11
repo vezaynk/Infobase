@@ -33,8 +33,8 @@
     <ProjectReference Include="..\metadata-annotations\metadata-annotations.csproj" />
   </ItemGroup>
 
-  <!-- <Target Name="BuildAssets" BeforeTargets="Build">
+  <Target Name="BuildAssets" BeforeTargets="Build">
     <Exec Command="npm install" /> 
-    <Exec Command="npm run webpack - - -p" /> 
-  </Target>-->
+    <Exec Command="npm run webpack -- -p" /> 
+  </Target>
 </Project>

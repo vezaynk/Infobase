@@ -118,8 +118,8 @@ namespace Infobase
                     })
                 },
             };
-            //
-            //app.UseMiniProfiler();
+            // breaks due to context.Response.ContentLength mismatch
+            // app.UseMiniProfiler();
             app.Use(async (context, next) =>
                     {
                         var newContent = string.Empty;
@@ -136,7 +136,6 @@ namespace Infobase
 
                             newBody.Seek(0, SeekOrigin.Begin);
 
-                            // newContent will be `Hello`.
                             newContent = new StreamReader(newBody).ReadToEnd();
 
                             newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -146,6 +145,7 @@ namespace Infobase
                             await context.Response.WriteAsync(newContent);
                         }
                     });
+
             app.UseMvc(routes =>
              {
                  routes.Routes.Add(new TranslationRoute(

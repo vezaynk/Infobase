@@ -18,27 +18,12 @@ using RazorLight;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Infobase.Models;
 using Microsoft.EntityFrameworkCore.Migrations.Design;
-using Microsoft.EntityFrameworkCore.Design.Internal;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using System.Diagnostics;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Update.Internal;
-using Microsoft.EntityFrameworkCore.Update;
 
 namespace model_generator
 {
@@ -105,30 +90,44 @@ namespace model_generator
         public static async Task Main(string[] args)
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
+            var migrationsDirectory = "../infobase/Migrations/";
+
             Console.Write("Building DBContext from source...");
-            var passdb = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: "../infobase/Migrations");
+            var passdb = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
             Console.WriteLine("Created " + passdb.GetType().Name);
 
             Console.Write("Creating migration...");
             var migration = CreateMigration(passdb);
-            File.WriteAllText("../infobase/Migrations/" +
-                    migration.MigrationId + migration.FileExtension,
+            Console.WriteLine($"Created migration (ID:{migration.MigrationId})");
+
+            Console.WriteLine("Writing migration files...");
+            Console.WriteLine($"Migration: {migrationsDirectory + migration.MigrationId + migration.FileExtension}");
+            File.WriteAllText(migrationsDirectory + migration.MigrationId + migration.FileExtension,
                     migration.MigrationCode);
-            File.WriteAllText("../infobase/Migrations/" +
-                migration.MigrationId + ".Designer" + migration.FileExtension,
+
+            Console.WriteLine($"Designer: {migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension}");
+            File.WriteAllText(migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension,
                 migration.MetadataCode);
-            File.WriteAllText("../infobase/Migrations/" + migration.SnapshotName + migration.FileExtension,
+
+            Console.WriteLine($"Snapshot: {migrationsDirectory + migration.SnapshotName + migration.FileExtension}");
+            File.WriteAllText(migrationsDirectory + migration.SnapshotName + migration.FileExtension,
                migration.SnapshotCode);
 
-            Console.WriteLine("Created " + passdb.GetType().Name);
+            Console.WriteLine("Done!");
 
 
             Console.Write("Rebuilding with migration...");
-            var passdb2 = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, "../infobase/Migrations");
+            var passdb2 = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
+            Console.WriteLine("Rebuilt!");
 
-            Console.WriteLine("Pending migrations: " + passdb2.Database.GetPendingMigrations().Count());
+            Console.Write($"Migrating ({passdb2.Database.GetPendingMigrations().Count()} pending migrations)...");
+            Console.Write("Cleaning...");
+
+            await passdb2.Database.EnsureDeletedAsync();
+            Console.Write("Applying...");
 
             await passdb2.Database.MigrateAsync();
+            Console.WriteLine($"Done! Database has been updated to match the models.");
 
 
 
