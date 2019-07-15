@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
+    [Text("Data Breakdown", "en-ca")]
+    [Text("", "fr-ca")]
+    [Filter(5)]
     public class Strata
     {
         public int StrataId { get; set; }

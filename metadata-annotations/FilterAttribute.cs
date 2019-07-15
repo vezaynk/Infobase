@@ -6,11 +6,11 @@ using System.Reflection;
 
 namespace metadata_annotations
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class FilterPropertyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
+    public class FilterAttribute : Attribute
     {
         public int Level { get; set; }
-        public FilterPropertyAttribute(int level)
+        public FilterAttribute(int level)
         {
             Level = level;
         }

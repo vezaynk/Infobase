@@ -12,10 +12,9 @@ namespace Infobase.Models.@(Model.DatasetName) {
     public class Master {
         public int Index { get; set; }
 @foreach (var property in @Model.Properties) {
-        @:[FilterProperty(0)]
-        @:[TextProperty("@property", "en-ca")]
-        @:[TextProperty("@property", "fr-ca")]
-        @:[CSVColumn("@property")]
+        @:[Text("@property", "en-ca")]
+        @:[Text("@property", "fr-ca")]
+        @:[CSV("@property")]
         @:public string @(Program.ToPascalCase(property)) { get; set; }
         @:
 }

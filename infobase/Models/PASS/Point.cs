@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
+    [Filter(6)]
     public class Point
     {
         public int PointId { get; set; }

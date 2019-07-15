@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
+    [Text("Life Course", "en-ca")]
+    [Filter(2)]
     public class LifeCourse
     {
         public int LifeCourseId { get; set; }

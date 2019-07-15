@@ -4,9 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
+    [Filter(0)]
+    [Text("Activity", "en-ca")]
+    [Text("Activité", "fr-ca")]
     public class Activity
     {
         public int ActivityId { get; set; }

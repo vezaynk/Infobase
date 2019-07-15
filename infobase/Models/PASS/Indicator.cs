@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
-    
+    [Filter(3)]
+    [Text("Indicator", "en-ca")]
+    [Text("Indicateur", "fr-ca")]
     public class Indicator
     {
         public int IndicatorId { get; set; }

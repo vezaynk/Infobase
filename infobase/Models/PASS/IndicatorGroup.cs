@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
+    [Text("Data Breakdowns", "en-ca")]
+    [Filter(1)]
     public class IndicatorGroup
     {
         public int IndicatorGroupId { get; set; }

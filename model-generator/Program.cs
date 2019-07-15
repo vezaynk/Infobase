@@ -100,21 +100,20 @@ namespace model_generator
             var migration = CreateMigration(passdb);
             Console.WriteLine($"Created migration (ID:{migration.MigrationId})");
 
-            Console.WriteLine("Writing migration files...");
-            Console.WriteLine($"Migration: {migrationsDirectory + migration.MigrationId + migration.FileExtension}");
-            File.WriteAllText(migrationsDirectory + migration.MigrationId + migration.FileExtension,
-                    migration.MigrationCode);
+            // Console.WriteLine("Writing migration files...");
+            // Console.WriteLine($"Migration: {migrationsDirectory + migration.MigrationId + migration.FileExtension}");
+            // File.WriteAllText(migrationsDirectory + migration.MigrationId + migration.FileExtension,
+            //         migration.MigrationCode);
 
-            Console.WriteLine($"Designer: {migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension}");
-            File.WriteAllText(migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension,
-                migration.MetadataCode);
+            // Console.WriteLine($"Designer: {migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension}");
+            // File.WriteAllText(migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension,
+            //     migration.MetadataCode);
 
-            Console.WriteLine($"Snapshot: {migrationsDirectory + migration.SnapshotName + migration.FileExtension}");
-            File.WriteAllText(migrationsDirectory + migration.SnapshotName + migration.FileExtension,
-               migration.SnapshotCode);
+            // Console.WriteLine($"Snapshot: {migrationsDirectory + migration.SnapshotName + migration.FileExtension}");
+            // File.WriteAllText(migrationsDirectory + migration.SnapshotName + migration.FileExtension,
+            //    migration.SnapshotCode);
 
-            Console.WriteLine("Done!");
-
+            // Console.WriteLine("Done!");
 
             Console.Write("Rebuilding with migration...");
             var passdb2 = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
@@ -130,107 +129,124 @@ namespace model_generator
             Console.WriteLine($"Done! Database has been updated to match the models.");
 
 
+            var hi = passdb.Model.GetEntityTypes().First();
+            var types = passdb.GetType().Assembly.GetTypes().Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master").ToList();
+            Type masterType = types.First();
+            var dbSet = passdb.GetType().GetMethod("Set").MakeGenericMethod(new[] { masterType }).Invoke(passdb, new object[] {  });
+            
+                Console.WriteLine("Hello");
+            using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
+            {
+                Delimiter = ",",
+                Encoding = Encoding.UTF8
+            }))
+            {
+                Console.WriteLine("Hello");
+                csv.Read();
+                csv.ReadHeader();
+
+                var records = csv.GetRecords<dynamic>();
+                foreach (var record in records) {
+
+                    var dict = (IDictionary<string, object>) record;
+                    var masterInstance = Activator.CreateInstance(masterType);
+                    
+                    masterType.GetProperties()
+                        .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null)
+                        .ToList()
+                        .ForEach(p => {
+                            string column = p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
+                            dict.TryGetValue(column, out var value);
+                            p.SetValue(masterInstance, value);
+                        });
+
+                    dbSet.GetType().GetMethod("Add").Invoke(dbSet, new object[]{ masterInstance });
+
+                
+                }
+
+                passdb.SaveChanges();
+                
+                // foreach (string header in csv.Context.HeaderRecord)
+                // {
+                //     var row = Activator.CreateInstance(masterType);
+                //     row.GetType().GetProperty("Activity").SetValue(row, "Hello World");
+                //     dbSet.GetType().GetMethod("Add").Invoke(dbSet, new object[]{ row });
+                //     passdb.SaveChanges();
+                // }
 
 
-            // using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
-            // {
-            //     Delimiter = ",",
-            //     Encoding = Encoding.UTF8
-            // }))
-            // {
+                try
+                {
+                    // var engine = new RazorLightEngineBuilder()
+                    //                 .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Templates")
+                    //                 .UseMemoryCachingProvider()
+                    //                 .Build();
 
-            //     csv.Read();
-            //     csv.ReadHeader();
+                    // var output = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
+                    // {
+                    //     DatasetName = "PASS",
+                    //     Properties = csv.Context.HeaderRecord
+                    // });
+                    // Console.WriteLine(output);
+                    // var imc = new InMemoryCompiler();
+                    // imc.AddCodeBody(output);
+                    // var asm = imc.CompileAssembly();
+                    // Console.WriteLine(output);
+                    //Console.WriteLine(await engine.CompileRenderAsync("ImportSQL.cshtml", models));
 
-            //     // foreach (string header in csv.Context.HeaderRecord)
-            //     // {
-            //     //     Console.WriteLine("Original: " + header);
-            //     //     Console.WriteLine("Pascal: " + ToPascalCase(header));
-            //     //     Console.WriteLine();
-            //     // }
+                    // foreach (var a in models)
+                    // {
 
+                    //string result = await engine.CompileRenderAsync("Entity.cshtml", a);
+                    //Console.WriteLine(a);
+                    // var childAttribute = a.GetCustomAttribute<ChildOf>();
+                    // if (childAttribute == null)
+                    // {
+                    //     Console.WriteLine("Null");
+                    // }
+                    // else
+                    // {
+                    //     Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
+                    // }
+                    // var parentAttribute = a.GetCustomAttribute<ParentOf>();
+                    // if (parentAttribute == null)
+                    // {
+                    //     Console.WriteLine("Null");
+                    // }
+                    // else
+                    // {
+                    //     Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
+                    // }
 
-            //     try
-            //     {
-            //         var engine = new RazorLightEngineBuilder()
-            //                         .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Templates")
-            //                         .UseMemoryCachingProvider()
-            //                         .Build();
-
-            //         var output = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
-            //         {
-            //             DatasetName = "PASS",
-            //             Properties = csv.Context.HeaderRecord
-            //         });
-            //         var imc = new InMemoryCompiler();
-            //         imc.AddCodeBody(output);
-            //         var asm = imc.CompileAssembly();
-            //         Console.WriteLine(output);
-            //         //Console.WriteLine(await engine.CompileRenderAsync("ImportSQL.cshtml", models));
-
-            //         // foreach (var a in models)
-            //         // {
-
-            //         //string result = await engine.CompileRenderAsync("Entity.cshtml", a);
-            //         //Console.WriteLine(a);
-            //         // var childAttribute = a.GetCustomAttribute<ChildOf>();
-            //         // if (childAttribute == null)
-            //         // {
-            //         //     Console.WriteLine("Null");
-            //         // }
-            //         // else
-            //         // {
-            //         //     Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
-            //         // }
-            //         // var parentAttribute = a.GetCustomAttribute<ParentOf>();
-            //         // if (parentAttribute == null)
-            //         // {
-            //         //     Console.WriteLine("Null");
-            //         // }
-            //         // else
-            //         // {
-            //         //     Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
-            //         // }
-
-            //         // var textDataAttributes = a.GetCustomAttributes<TextData>();
-            //         // foreach (var textDataAttribute in textDataAttributes)
-            //         // {
-            //         //     Console.WriteLine($"Text Name: {textDataAttribute.Name}");
-            //         // }
+                    // var textDataAttributes = a.GetCustomAttributes<TextData>();
+                    // foreach (var textDataAttribute in textDataAttributes)
+                    // {
+                    //     Console.WriteLine($"Text Name: {textDataAttribute.Name}");
+                    // }
 
 
-            //         // var modifierAttribute = a.GetCustomAttribute<Modifier>();
-            //         // if (modifierAttribute == null)
-            //         // {
-            //         //     Console.WriteLine("Null");
-            //         // }
-            //         // else
-            //         // {
-            //         //     Console.WriteLine($"Modifiers: {modifierAttribute}");
-            //         // }
+                    // var modifierAttribute = a.GetCustomAttribute<Modifier>();
+                    // if (modifierAttribute == null)
+                    // {
+                    //     Console.WriteLine("Null");
+                    // }
+                    // else
+                    // {
+                    //     Console.WriteLine($"Modifiers: {modifierAttribute}");
+                    // }
 
-            //         //     // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
+                    //     // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
 
-            //         // }
-            //         // var x = typeof(Models.PASS.Activity);
-            //     }
-            //     catch (System.Exception e)
-            //     {
-            //         Console.Write(e);
-            //     }
+                    // }
+                    // var x = typeof(Models.PASS.Activity);
+                }
+                catch (System.Exception e)
+                {
+                    Console.Write(e);
+                }
 
-            // }
-
-            // // var csmemcompiler = new InMemoryCompiler(new[] {"./Test.cs", "../infobase/Models/PASS/Activity.cs"}, "/opt/dotnet/shared/Microsoft.NETCore.App/2.2.3/");
-            // // Type loadedWriterType = csmemcompiler.GetType("RoslynCompileSample.Writer");
-            // // var textProperty = loadedWriterType.GetProperty("MyProperty").GetCustomAttribute<TextProperty>();
-            // // Console.WriteLine(textProperty.Name + " " + textProperty.Culture);
-
-            // // //var instance = (RoslynCompileSample.Writer)Activator.CreateInstance(loadedWriterType);
-
-            // // var instance = Activator.CreateInstance(loadedWriterType);
-            // // var meth = loadedWriterType.GetMember("Write").First() as MethodInfo;
-            // // meth.Invoke(instance, new[] { "Hello World" });
+            }
         }
 
         public static string ToPascalCase(string text)

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using metadata_annotations;
 
 namespace Infobase.Models.PASS
 {
+    [Text("Measure", "en-ca")]
+    [Text("Measure", "fr-ca")]
+    [Filter(4)]
     public class Measure
     {
         public int MeasureId { get; set; }
