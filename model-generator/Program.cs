@@ -132,8 +132,10 @@ namespace model_generator
 
             var types = dbContext.GetType().Assembly.GetTypes()
                 .Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name != "Master")
-                .OrderBy(t => t.GetCustomAttribute<FilterAttribute>().Level).Take(1);
+                .OrderBy(t => t.GetCustomAttribute<FilterAttribute>().Level).Take(2);
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
+            var masterIndexProperty = masterType.GetProperty("Index");
+
             var masterDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { masterType }).Invoke(dbContext, new object[] { }));
 
             // Load all into Master
@@ -145,14 +147,14 @@ namespace model_generator
             {
                 csv.Read();
                 csv.ReadHeader();
-
+                int i = 1;
                 var records = csv.GetRecords<dynamic>();
                 foreach (var record in records)
                 {
 
                     var dict = (IDictionary<string, object>)record;
                     var masterInstance = Activator.CreateInstance(masterType);
-
+                    masterIndexProperty.SetValue(masterInstance, i++);
                     masterType.GetProperties()
                         .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null)
                         .ToList()
@@ -170,135 +172,183 @@ namespace model_generator
                 }
 
                 dbContext.SaveChanges();
-                var indexProperty = masterType.GetProperty("Index");
 
-                foreach (Type type in types)
+            }
+
+
+            foreach (Type type in types)
+            {
+
+                Type parentType = null;
+                int currentLevel = type.GetCustomAttribute<FilterAttribute>().Level;
+                if (currentLevel > 0)
                 {
-                    Console.WriteLine("Processing Type: " + type);
-                    foreach (object entity in masterDbSet
-                                            .OrderBy(indexProperty.GetValue)
-                                            .DistinctBy(e =>
+                    parentType = types.First(t => t.GetCustomAttribute<FilterAttribute>().Level == currentLevel - 1);
+                }
+
+                var fromCsvColumns = types.Take(currentLevel + 1).SelectMany(t => t.GetProperties())
+                    .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
+                var distinctColumnNames = fromCsvColumns
+                        .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
+                var currentTypeIndexProperty = type.GetProperty("Index");
+
+                Console.WriteLine("Processing Type: " + type);
+                foreach (object entity in masterDbSet
+                                        .OrderBy(masterIndexProperty.GetValue)
+                                        .DistinctBy(e =>
+                                        {
+                                            var currentEntityIndex = masterIndexProperty.GetValue(e);
+
+                                            var distinctProperties = e.GetType().GetProperties()
+                                                .Where(p => distinctColumnNames
+                                                    .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
+
+
+                                            return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
+                                        })
+                                        .Select(e =>
+                                        {
+
+                                            var instance = Activator.CreateInstance(type);
+                                            var currentEntityIndex = masterIndexProperty.GetValue(e);
+                                            currentTypeIndexProperty.SetValue(instance, currentEntityIndex);
+                                            Console.WriteLine(currentEntityIndex);
+                                            if (parentType != null)
                                             {
+                                                var parentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { parentType }).Invoke(dbContext, new object[] { }));
+                                                var parentIndexProperty = parentType.GetProperty("Index");
 
-                                                var distinctColumnNames = type.GetProperties()
-                                                    .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null)
-                                                    .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
+                                                var parentInstance = parentDbSet.OrderBy(parentIndexProperty.GetValue).First(pi =>
+                                                {
+                                                    foreach (string columnName in distinctColumnNames)
+                                                    {
+                                                        Console.WriteLine(columnName);
+                                                        try
+                                                        {
+                                                            var parentProperty = parentType.GetProperties().First(pt => pt.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == columnName);
+                                                            var childProperty = masterType.GetProperties().First(pt => pt.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == columnName);
+                                                            var parentValue = parentProperty.GetValue(pi);
+                                                            var childValue = childProperty.GetValue(e);
+                                                            if (childValue.ToString() != parentValue.ToString())
+                                                                return false;
+                                                        }
+                                                        catch
+                                                        {
+                                                        }
 
-                                                var distinctProperties = e.GetType().GetProperties()
-                                                    .Where(p => distinctColumnNames
-                                                        .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName))
-                                                    .Select(p => p.GetValue(e));
-
-                                                var parentId = 0;
-
-                                                return string.Join("", distinctProperties.Append(parentId));
-                                            })
-                                            .Select(e =>
+                                                    }
+                                                    return true;
+                                                });
+                                                var parentId = parentType.GetProperty(parentType.Name + "Id").GetValue(parentInstance);
+                                                type.GetProperty(parentType.Name + "Id").SetValue(instance, parentId);
+                                            }
+                                            foreach (var p in e.GetType().GetProperties())
                                             {
-                                                var fromCsvColumns = type.GetProperties()
-                                                    .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
-                                                var instanceIndexProperty = type.GetProperty("Index");
-
-                                                var instance = Activator.CreateInstance(type);
-                                                instanceIndexProperty.SetValue(instance, indexProperty.GetValue(e));
-                                                foreach (var p in e.GetType().GetProperties()) {
-                                                    foreach (var column in fromCsvColumns) {
-                                                        if (p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == column.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName) {
+                                                foreach (var column in fromCsvColumns)
+                                                {
+                                                    if (p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == column.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName)
+                                                    {
+                                                        Console.WriteLine(p.GetValue(e));
+                                                        try
+                                                        {
                                                             column.SetValue(instance, p.GetValue(e));
                                                         }
+                                                        catch
+                                                        {
+
+                                                        }
+
                                                     }
                                                 }
-                                                return instance;
-                                            })
-                )
-                    {
-                        var currentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { type }).Invoke(dbContext, new object[] { }));
-                        currentDbSet.GetType().GetMethod("Add").Invoke(currentDbSet, new object[] { entity });
+                                            }
+                                            return instance;
+                                        })
+            )
+                {
+                    var currentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { type }).Invoke(dbContext, new object[] { }));
+                    currentDbSet.GetType().GetMethod("Add").Invoke(currentDbSet, new object[] { entity });
 
-
-                    }
                 }
                 dbContext.SaveChanges();
+            }
 
-                // foreach (string header in csv.Context.HeaderRecord)
+            // foreach (string header in csv.Context.HeaderRecord)
+            // {
+            //     var row = Activator.CreateInstance(masterType);
+            //     row.GetType().GetProperty("Activity").SetValue(row, "Hello World");
+            //     dbSet.GetType().GetMethod("Add").Invoke(dbSet, new object[]{ row });
+            //     passdb.SaveChanges();
+            // }
+
+
+            try
+            {
+                // var engine = new RazorLightEngineBuilder()
+                //                 .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Templates")
+                //                 .UseMemoryCachingProvider()
+                //                 .Build();
+
+                // var output = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
                 // {
-                //     var row = Activator.CreateInstance(masterType);
-                //     row.GetType().GetProperty("Activity").SetValue(row, "Hello World");
-                //     dbSet.GetType().GetMethod("Add").Invoke(dbSet, new object[]{ row });
-                //     passdb.SaveChanges();
+                //     DatasetName = "PASS",
+                //     Properties = csv.Context.HeaderRecord
+                // });
+                // Console.WriteLine(output);
+                // var imc = new InMemoryCompiler();
+                // imc.AddCodeBody(output);
+                // var asm = imc.CompileAssembly();
+                // Console.WriteLine(output);
+                //Console.WriteLine(await engine.CompileRenderAsync("ImportSQL.cshtml", models));
+
+                // foreach (var a in models)
+                // {
+
+                //string result = await engine.CompileRenderAsync("Entity.cshtml", a);
+                //Console.WriteLine(a);
+                // var childAttribute = a.GetCustomAttribute<ChildOf>();
+                // if (childAttribute == null)
+                // {
+                //     Console.WriteLine("Null");
+                // }
+                // else
+                // {
+                //     Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
+                // }
+                // var parentAttribute = a.GetCustomAttribute<ParentOf>();
+                // if (parentAttribute == null)
+                // {
+                //     Console.WriteLine("Null");
+                // }
+                // else
+                // {
+                //     Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
+                // }
+
+                // var textDataAttributes = a.GetCustomAttributes<TextData>();
+                // foreach (var textDataAttribute in textDataAttributes)
+                // {
+                //     Console.WriteLine($"Text Name: {textDataAttribute.Name}");
                 // }
 
 
-                try
-                {
-                    // var engine = new RazorLightEngineBuilder()
-                    //                 .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Templates")
-                    //                 .UseMemoryCachingProvider()
-                    //                 .Build();
+                // var modifierAttribute = a.GetCustomAttribute<Modifier>();
+                // if (modifierAttribute == null)
+                // {
+                //     Console.WriteLine("Null");
+                // }
+                // else
+                // {
+                //     Console.WriteLine($"Modifiers: {modifierAttribute}");
+                // }
 
-                    // var output = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
-                    // {
-                    //     DatasetName = "PASS",
-                    //     Properties = csv.Context.HeaderRecord
-                    // });
-                    // Console.WriteLine(output);
-                    // var imc = new InMemoryCompiler();
-                    // imc.AddCodeBody(output);
-                    // var asm = imc.CompileAssembly();
-                    // Console.WriteLine(output);
-                    //Console.WriteLine(await engine.CompileRenderAsync("ImportSQL.cshtml", models));
+                //     // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
 
-                    // foreach (var a in models)
-                    // {
-
-                    //string result = await engine.CompileRenderAsync("Entity.cshtml", a);
-                    //Console.WriteLine(a);
-                    // var childAttribute = a.GetCustomAttribute<ChildOf>();
-                    // if (childAttribute == null)
-                    // {
-                    //     Console.WriteLine("Null");
-                    // }
-                    // else
-                    // {
-                    //     Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
-                    // }
-                    // var parentAttribute = a.GetCustomAttribute<ParentOf>();
-                    // if (parentAttribute == null)
-                    // {
-                    //     Console.WriteLine("Null");
-                    // }
-                    // else
-                    // {
-                    //     Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
-                    // }
-
-                    // var textDataAttributes = a.GetCustomAttributes<TextData>();
-                    // foreach (var textDataAttribute in textDataAttributes)
-                    // {
-                    //     Console.WriteLine($"Text Name: {textDataAttribute.Name}");
-                    // }
-
-
-                    // var modifierAttribute = a.GetCustomAttribute<Modifier>();
-                    // if (modifierAttribute == null)
-                    // {
-                    //     Console.WriteLine("Null");
-                    // }
-                    // else
-                    // {
-                    //     Console.WriteLine($"Modifiers: {modifierAttribute}");
-                    // }
-
-                    //     // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
-
-                    // }
-                    // var x = typeof(Models.PASS.Activity);
-                }
-                catch (System.Exception e)
-                {
-                    Console.Write(e);
-                }
-
+                // }
+                // var x = typeof(Models.PASS.Activity);
+            }
+            catch (System.Exception e)
+            {
+                Console.Write(e);
             }
         }
 
