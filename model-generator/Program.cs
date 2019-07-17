@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -93,11 +94,11 @@ namespace model_generator
             var migrationsDirectory = "../infobase/Migrations/";
 
             Console.Write("Building DBContext from source...");
-            var passdb = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
-            Console.WriteLine("Created " + passdb.GetType().Name);
+            var dbContext = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
+            Console.WriteLine("Created " + dbContext.GetType().Name);
 
             Console.Write("Creating migration...");
-            var migration = CreateMigration(passdb);
+            var migration = CreateMigration(dbContext);
             Console.WriteLine($"Created migration (ID:{migration.MigrationId})");
 
             // Console.WriteLine("Writing migration files...");
@@ -116,57 +117,62 @@ namespace model_generator
             // Console.WriteLine("Done!");
 
             Console.Write("Rebuilding with migration...");
-            var passdb2 = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
+            var reloadedDbContext = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
             Console.WriteLine("Rebuilt!");
 
-            Console.Write($"Migrating ({passdb2.Database.GetPendingMigrations().Count()} pending migrations)...");
+            Console.Write($"Migrating ({reloadedDbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
             Console.Write("Cleaning...");
 
-            await passdb2.Database.EnsureDeletedAsync();
+            await reloadedDbContext.Database.EnsureDeletedAsync();
             Console.Write("Applying...");
 
-            await passdb2.Database.MigrateAsync();
+            await reloadedDbContext.Database.MigrateAsync();
             Console.WriteLine($"Done! Database has been updated to match the models.");
 
 
-            var hi = passdb.Model.GetEntityTypes().First();
-            var types = passdb.GetType().Assembly.GetTypes().Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master").ToList();
-            Type masterType = types.First();
-            var dbSet = passdb.GetType().GetMethod("Set").MakeGenericMethod(new[] { masterType }).Invoke(passdb, new object[] {  });
-            
-                Console.WriteLine("Hello");
+            var types = dbContext.GetType().Assembly.GetTypes().Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name != "Master").ToList();
+            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
+            var masterDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { masterType }).Invoke(dbContext, new object[] { }));
+
+            // Load all into Master
             using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
             {
                 Delimiter = ",",
                 Encoding = Encoding.UTF8
             }))
             {
-                Console.WriteLine("Hello");
                 csv.Read();
                 csv.ReadHeader();
 
                 var records = csv.GetRecords<dynamic>();
-                foreach (var record in records) {
+                foreach (var record in records)
+                {
 
-                    var dict = (IDictionary<string, object>) record;
+                    var dict = (IDictionary<string, object>)record;
                     var masterInstance = Activator.CreateInstance(masterType);
-                    
+
                     masterType.GetProperties()
                         .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null)
                         .ToList()
-                        .ForEach(p => {
+                        .ForEach(p =>
+                        {
                             string column = p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
                             dict.TryGetValue(column, out var value);
                             p.SetValue(masterInstance, value);
                         });
 
-                    dbSet.GetType().GetMethod("Add").Invoke(dbSet, new object[]{ masterInstance });
 
-                
+                    masterDbSet.GetType().GetMethod("Add").Invoke(masterDbSet, new object[] { masterInstance });
+
+
                 }
 
-                passdb.SaveChanges();
-                
+                dbContext.SaveChanges();
+                var indexProperty = masterType.GetProperty("Index");
+                var activityProperty = masterType.GetProperty("Activity");
+                foreach (object entity in masterDbSet.OrderBy(indexProperty.GetValue).DistinctBy(activityProperty.GetValue).Select(indexProperty.GetValue)) {
+                    Console.WriteLine(entity);
+                }
                 // foreach (string header in csv.Context.HeaderRecord)
                 // {
                 //     var row = Activator.CreateInstance(masterType);
@@ -249,9 +255,27 @@ namespace model_generator
             }
         }
 
+
         public static string ToPascalCase(string text)
         {
             return new string(text.Split(new[] { "_", " ", "-" }, StringSplitOptions.RemoveEmptyEntries).Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1, s.Length - 1)).Aggregate(string.Empty, (s1, s2) => s1 + s2).Where(c => char.IsLetterOrDigit(c)).ToArray());
+        }
+
+
+    }
+    public static class LinqExtensions
+    {
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>
+    (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            HashSet<TKey> seenKeys = new HashSet<TKey>();
+            foreach (TSource element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
         }
     }
 }
