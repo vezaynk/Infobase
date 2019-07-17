@@ -130,7 +130,9 @@ namespace model_generator
             Console.WriteLine($"Done! Database has been updated to match the models.");
 
 
-            var types = dbContext.GetType().Assembly.GetTypes().Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name != "Master").ToList();
+            var types = dbContext.GetType().Assembly.GetTypes()
+                .Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name != "Master")
+                .OrderBy(t => t.GetCustomAttribute<FilterAttribute>().Level).Take(1);
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
             var masterDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { masterType }).Invoke(dbContext, new object[] { }));
 
@@ -169,10 +171,55 @@ namespace model_generator
 
                 dbContext.SaveChanges();
                 var indexProperty = masterType.GetProperty("Index");
-                var activityProperty = masterType.GetProperty("Activity");
-                foreach (object entity in masterDbSet.OrderBy(indexProperty.GetValue).DistinctBy(activityProperty.GetValue).Select(indexProperty.GetValue)) {
-                    Console.WriteLine(entity);
+
+                foreach (Type type in types)
+                {
+                    Console.WriteLine("Processing Type: " + type);
+                    foreach (object entity in masterDbSet
+                                            .OrderBy(indexProperty.GetValue)
+                                            .DistinctBy(e =>
+                                            {
+
+                                                var distinctColumnNames = type.GetProperties()
+                                                    .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null)
+                                                    .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
+
+                                                var distinctProperties = e.GetType().GetProperties()
+                                                    .Where(p => distinctColumnNames
+                                                        .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName))
+                                                    .Select(p => p.GetValue(e));
+
+                                                var parentId = 0;
+
+                                                return string.Join("", distinctProperties.Append(parentId));
+                                            })
+                                            .Select(e =>
+                                            {
+                                                var fromCsvColumns = type.GetProperties()
+                                                    .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
+                                                var instanceIndexProperty = type.GetProperty("Index");
+
+                                                var instance = Activator.CreateInstance(type);
+                                                instanceIndexProperty.SetValue(instance, indexProperty.GetValue(e));
+                                                foreach (var p in e.GetType().GetProperties()) {
+                                                    foreach (var column in fromCsvColumns) {
+                                                        if (p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == column.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName) {
+                                                            column.SetValue(instance, p.GetValue(e));
+                                                        }
+                                                    }
+                                                }
+                                                return instance;
+                                            })
+                )
+                    {
+                        var currentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { type }).Invoke(dbContext, new object[] { }));
+                        currentDbSet.GetType().GetMethod("Add").Invoke(currentDbSet, new object[] { entity });
+
+
+                    }
                 }
+                dbContext.SaveChanges();
+
                 // foreach (string header in csv.Context.HeaderRecord)
                 // {
                 //     var row = Activator.CreateInstance(masterType);

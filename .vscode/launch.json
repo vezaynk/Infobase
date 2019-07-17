@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/infobase/bin/Debug/netcoreapp2.2/Infobase.dll",
+            "program": "${workspaceFolder}/model-generator/bin/Debug/netcoreapp2.2/model-generator.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/infobase",
+            "cwd": "${workspaceFolder}/model-generator",
             "console": "internalConsole",
             "stopAtEntry": false
         },

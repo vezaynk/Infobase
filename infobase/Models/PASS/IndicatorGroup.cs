@@ -25,6 +25,7 @@ namespace Infobase.Models.PASS
             }
             return "No culture";
         }
+        [CSVColumn("Indicator Group")]
         public string IndicatorGroupNameEn { get; set; }
         public string IndicatorGroupNameFr { get; set; }
         public int? DefaultLifeCourseId { get; set; }
