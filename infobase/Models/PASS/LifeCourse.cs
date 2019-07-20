@@ -26,6 +26,7 @@ namespace Infobase.Models.PASS
             }
             return "No culture";
         }
+        [CSVColumn("Life Course")]
         public string LifeCourseNameEn {get; set;}
         public string LifeCourseNameFr {get; set;}
 
