@@ -60,6 +60,7 @@ namespace Infobase.Models.PASS
             return "No culture";
         }
         public string StrataNotesEn { get; set; }
+        [CSVColumn("Data Breakdowns")]
         public string StrataNameEn { get; set; }
         public string StrataSourceEn { get; set; }
         public string StrataPopulationTitleFragmentEn { get; set; }

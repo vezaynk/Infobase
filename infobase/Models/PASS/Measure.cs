@@ -101,7 +101,9 @@ namespace Infobase.Models.PASS
             }
             return "No culture";
         }
+        [CSVColumn("Specific Measure")]
         public string MeasureNameIndexEn { get; set; }
+        [CSVColumn("Specific Measure 2")]
         
         public string MeasureNameDataToolEn { get; set; }
         public string MeasureDefinitionEn { get; set; }

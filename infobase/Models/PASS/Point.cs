@@ -28,6 +28,7 @@ namespace Infobase.Models.PASS
             }
             return "No culture";
         }
+        [CSVColumn("Strata")]
         public string PointLabelEn { get; set; }
         public string PointLabelFr { get; set; }
         

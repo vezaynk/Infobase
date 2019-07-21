@@ -176,7 +176,7 @@ namespace model_generator
 
             }
 
-            foreach (Type type in types.Take(3))
+            foreach (Type type in types.Take(6))
             {
                 Console.WriteLine("Processing Type: " + type);
 
@@ -202,7 +202,7 @@ namespace model_generator
                         .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
                     var distinctColumnNames = fromCsvColumns
                             .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
-                    var topLevelRows = masterDbSet
+                    var topLevelRows = masterDbSet.AsParallel()
                                 .OrderBy(masterIndexProperty.GetValue)
                                 .DistinctBy(e =>
                                 {
@@ -273,8 +273,6 @@ namespace model_generator
                         var nextParent = parent;
                         while (nextParent != null)
                         {
-                            Console.WriteLine($"Current Parent: {nextParent.GetType().Name}");
-
                             foreach (string columnName in distinctColumnNamesChild)
                             {
                                 try
@@ -293,7 +291,6 @@ namespace model_generator
                             }
                             var nextParentLevel = nextParent.GetType().GetCustomAttribute<FilterAttribute>().Level;
                             string name = types.Skip((int)nextParentLevel - 1).FirstOrDefault()?.Name;
-                            Console.WriteLine($"Next Parent: {name}");
                             nextParent = (int)nextParentLevel == 0 ? null : nextParent.GetType().GetProperty(name).GetValue(nextParent);
                         }
                         return true;
@@ -337,87 +334,6 @@ namespace model_generator
                     }
                 }
                 dbContext.SaveChanges();
-
-                //     foreach (object entity in masterDbSet
-                //                             .OrderBy(masterIndexProperty.GetValue)
-                //                             .DistinctBy(e =>
-                //                             {
-                //                                 var currentEntityIndex = masterIndexProperty.GetValue(e);
-
-                //                                 var distinctProperties = e.GetType().GetProperties()
-                //                                     .Where(p => distinctColumnNames
-                //                                         .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
-
-
-                //                                 return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
-                //                             })
-                //                             .Select(e =>
-                //                             {
-
-                //                                 var instance = Activator.CreateInstance(type);
-                //                                 var currentEntityIndex = masterIndexProperty.GetValue(e);
-                //                                 currentTypeIndexProperty.SetValue(instance, currentEntityIndex);
-                //                                 Console.WriteLine(currentEntityIndex);
-                //                                 if (parentType != null)
-                //                                 {
-                //                                     var parentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { parentType }).Invoke(dbContext, new object[] { }));
-                //                                     var parentIndexProperty = parentType.GetProperty("Index");
-
-                //                                     var parentInstance = parentDbSet.OrderBy(parentIndexProperty.GetValue)
-                //                                     .Zip(parentDbSet.OrderBy(parentIndexProperty.GetValue).Skip(1), (current, next) => (current, next))
-                //                                     .Select((currentAndnext) => currentAndnext.Item1)
-                //                                     .FirstOrDefault(pi =>
-                //                                     {
-                //                                         foreach (string columnName in distinctColumnNames)
-                //                                         {
-                //                                             Console.WriteLine(columnName);
-                //                                             try
-                //                                             {
-                //                                                 var parentProperty = parentType.GetProperties().First(pt => pt.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == columnName);
-                //                                                 var childProperty = masterType.GetProperties().First(pt => pt.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == columnName);
-                //                                                 var parentValue = parentProperty.GetValue(pi);
-                //                                                 var childValue = childProperty.GetValue(e);
-                //                                                 if (childValue.ToString() != parentValue.ToString())
-                //                                                     return false;
-                //                                             }
-                //                                             catch
-                //                                             {
-                //                                             }
-
-                //                                         }
-                //                                         return true;
-                //                                     }) ?? parentDbSet.Last();
-                //                                     var parentId = parentType.GetProperty(parentType.Name + "Id").GetValue(parentInstance);
-                //                                     type.GetProperty(parentType.Name + "Id").SetValue(instance, parentId);
-                //                                 }
-                //                                 foreach (var p in e.GetType().GetProperties())
-                //                                 {
-                //                                     foreach (var column in fromCsvColumns)
-                //                                     {
-                //                                         if (p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == column.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName)
-                //                                         {
-                //                                             Console.WriteLine(p.GetValue(e));
-                //                                             try
-                //                                             {
-                //                                                 column.SetValue(instance, p.GetValue(e));
-                //                                             }
-                //                                             catch
-                //                                             {
-
-                //                                             }
-
-                //                                         }
-                //                                     }
-                //                                 }
-                //                                 return instance;
-                //                             })
-                // )
-                //     {
-                //         var currentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { type }).Invoke(dbContext, new object[] { }));
-                //         currentDbSet.GetType().GetMethod("Add").Invoke(currentDbSet, new object[] { entity });
-
-                //     }
-                //     dbContext.SaveChanges();
             }
 
             // foreach (string header in csv.Context.HeaderRecord)
