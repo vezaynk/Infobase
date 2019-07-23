@@ -111,8 +111,10 @@ namespace Infobase.Models.PASS
             public string CIUpper95 { get; set; }
             [CSVColumn("CV_Interpretation")]
             public string CVInterpretation { get; set; }
+            [CVRangeLower]
             [CSVColumn("CV Range Lower")]
             public string CVRangeLower { get; set; }
+            [CVRangeUpper]
             [CSVColumn("CV Range Upper")]
             public string CVRangeUpper { get; set; }
             [CSVColumn("Feature Data")]

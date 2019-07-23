@@ -26,59 +26,115 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Storage;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal;
 using Microsoft.EntityFrameworkCore.Proxies;
+using StackExchange.Profiling;
 
 namespace model_generator
 {
-    public class Program
+    public class MigrationGenerator
     {
-        public static ScaffoldedMigration CreateMigration(DbContext dbContext)
+        public DbContext DbContext { get; set; }
+        public string MigrationName { get; set; }
+        public MigrationGenerator(DbContext dbContext, string migrationName = null)
         {
+            DbContext = dbContext;
+            // Use a random filename if none is specified
+            MigrationName = migrationName ?? Path.GetRandomFileName();
+        }
+        public ScaffoldedMigration CreateMigration()
+        {
+            // Extract necessary objects to perform migration
             var designTimeServiceCollection = new ServiceCollection()
                 .AddEntityFrameworkDesignTimeServices()
-                .AddDbContextDesignTimeServices(dbContext);
+                .AddDbContextDesignTimeServices(DbContext);
+
             new NpgsqlDesignTimeServices().ConfigureDesignTimeServices(designTimeServiceCollection);
 
             var designTimeServiceProvider = designTimeServiceCollection.BuildServiceProvider();
 
             var migrationsScaffolder = designTimeServiceProvider.GetService<IMigrationsScaffolder>();
 
+            // This builds the *incrementental migration* to achieve parity with schema
             var migration = migrationsScaffolder.ScaffoldMigration(
-                Path.GetRandomFileName(),
+                MigrationName,
                 "Infobase");
 
             return migration;
         }
+        public ScaffoldedMigration SaveMigration(string migrationsDirectory)
+        {
+            var migration = CreateMigration();
+            Console.WriteLine("Writing migration files...");
 
+            string migrationPath = Path.Join(migrationsDirectory, migration.MigrationId + migration.FileExtension);
+            Console.WriteLine($"Migration: {migrationPath}");
+            File.WriteAllText(migrationPath,
+                    migration.MigrationCode);
+
+            string designerPath = Path.Join(migrationsDirectory, migration.MigrationId + ".Designer" + migration.FileExtension);
+            Console.WriteLine($"Designer: {designerPath}");
+            File.WriteAllText(designerPath,
+                migration.MetadataCode);
+
+            string snapshotPath = Path.Join(migrationsDirectory, migration.SnapshotName + migration.FileExtension);
+            Console.WriteLine($"Snapshot: {snapshotPath}");
+            File.WriteAllText(snapshotPath,
+               migration.SnapshotCode);
+
+            return migration;
+        }
+    }
+    public class Program
+    {
         public static DbContext GetDBContext(Assembly dbContextASM, string dbContextFullName, Action<DbContextOptionsBuilder> configureOptionBuilder)
         {
-            var dbContextRuntime = dbContextASM.GetType(dbContextFullName);
-            Type genericOptionBuilder = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextRuntime });
-            var optionsBuilderDyn = Activator.CreateInstance(genericOptionBuilder);
-            configureOptionBuilder(((DbContextOptionsBuilder)optionsBuilderDyn));
-            var dbContextDyn = (DbContext)Activator.CreateInstance(dbContextRuntime, new object[] {
-                    optionsBuilderDyn.GetType().BaseType.GetProperty("Options").GetValue(optionsBuilderDyn)
+            // Get type of the dbContext. This is needed to use any generic methods involving a dbContexts
+            Type dbContextType = dbContextASM.GetType(dbContextFullName);
+            // Generic OptionBuilder type to work with the loaded DbContext 
+            Type optionBuilderType = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextType });
+            // Instance of optionBuilder
+            DbContextOptionsBuilder optionsBuilder = (DbContextOptionsBuilder)Activator.CreateInstance(optionBuilderType);
+
+            // Let caller configure it
+            configureOptionBuilder(optionsBuilder);
+
+            // Create dbContext using configured optionBuilder
+            var dbContext = (DbContext)Activator.CreateInstance(dbContextType, new object[] {
+                    optionsBuilder.Options
                 });
-            return dbContextDyn;
+
+            return dbContext;
         }
 
         public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder, Assembly> configureOptionBuilder, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
         {
-            // We can either load the assembly via compilation
             var dbContextIMC = new InMemoryCompiler();
-            dbContextIMC.AddFile($"{path}/{name}Context.cs");
-            foreach (var filename in Directory.GetFileSystemEntries($"{path}/{name}", "*.cs"))
+
+            // The Context file is the main file that is analyzed in order to determine what needs to be migrated.
+            // In fact, the actual migration files are not necessary to generate migrations.
+            // They are, however, necessary to apply them to the database.
+            dbContextIMC.AddFile($"{Path.Join(path, name)}Context.cs");
+
+            // The actual entities are stored in ModelsFolder/NameOfDataset
+            foreach (var filename in Directory.GetFileSystemEntries($"{Path.Join(path, name)}", "*.cs"))
             {
                 dbContextIMC.AddFile(filename);
             }
+
+            // Sometimes, its convenient to load in a migration without saving it to disk
             if (migrations != null)
             {
                 foreach (var migration in migrations)
                 {
+                    // Not sure what it does, but it comes with the others
                     dbContextIMC.AddCodeBody(migration.MetadataCode);
+                    // Necessary to apply migration
                     dbContextIMC.AddCodeBody(migration.MigrationCode);
+                    // Necessary to generate new migrations
                     dbContextIMC.AddCodeBody(migration.SnapshotCode);
                 }
             }
+
+            // If there is a known migration directory, we should load all of them
             if (migrationsDirectory != null)
                 foreach (string filename in Directory.GetFiles(migrationsDirectory, "*.cs"))
                 {
@@ -86,6 +142,8 @@ namespace model_generator
                 }
 
             var asm = dbContextIMC.CompileAssembly();
+
+            // Extract DbContext from the resulting assembly
             return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
         }
 
@@ -93,116 +151,135 @@ namespace model_generator
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
             var migrationsDirectory = "../infobase/Migrations/";
+            var modelsDirectory = "../infobase/Models";
 
             Console.Write("Building DBContext from source...");
-            var dbContext = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())).UseLazyLoadingProxies(), migrationsDirectory: migrationsDirectory);
+            var dbContext = GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
             Console.WriteLine("Created " + dbContext.GetType().Name);
 
             Console.Write("Creating migration...");
-            var migration = CreateMigration(dbContext);
+            var migrationGenerator = new MigrationGenerator(dbContext);
+            var migration = migrationGenerator.CreateMigration();
             Console.WriteLine($"Created migration (ID:{migration.MigrationId})");
 
-            // Console.WriteLine("Writing migration files...");
-            // Console.WriteLine($"Migration: {migrationsDirectory + migration.MigrationId + migration.FileExtension}");
-            // File.WriteAllText(migrationsDirectory + migration.MigrationId + migration.FileExtension,
-            //         migration.MigrationCode);
-
-            // Console.WriteLine($"Designer: {migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension}");
-            // File.WriteAllText(migrationsDirectory + migration.MigrationId + ".Designer" + migration.FileExtension,
-            //     migration.MetadataCode);
-
-            // Console.WriteLine($"Snapshot: {migrationsDirectory + migration.SnapshotName + migration.FileExtension}");
-            // File.WriteAllText(migrationsDirectory + migration.SnapshotName + migration.FileExtension,
-            //    migration.SnapshotCode);
-
-            // Console.WriteLine("Done!");
-
             Console.Write("Rebuilding with migration...");
-            var reloadedDbContext = GetDBContextFromSource("PASS", "../infobase/Models", (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
+            var reloadedDbContext = GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
             Console.WriteLine("Rebuilt!");
+
+            // Save to file after reloading, or else a conflict will happen. Alternative, stop passing the migration in manually.
+            // migrationGenerator.SaveMigration("../infobase/Migrations");
 
             Console.Write($"Migrating ({reloadedDbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
             Console.Write("Cleaning...");
-
             await reloadedDbContext.Database.EnsureDeletedAsync();
-            Console.Write("Applying...");
 
+            Console.Write("Applying...");
             await reloadedDbContext.Database.MigrateAsync();
+
+
             Console.WriteLine($"Done! Database has been updated to match the models.");
 
 
             var types = dbContext.GetType().Assembly.GetTypes()
-                .Where(t => t.Namespace == "Infobase.Models.PASS" && t.Name != "Master")
+                // Load all PASS models, excluding the non-filter ones (Only the Master is excluded).
+                .Where(t => t.Namespace == "Infobase.Models.PASS" && t.GetCustomAttribute<FilterAttribute>() != null)
                 .OrderBy(t => t.GetCustomAttribute<FilterAttribute>().Level);
+
+            // Load PASS Master specifically
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
             var masterIndexProperty = masterType.GetProperty("Index");
 
-            var masterDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { masterType }).Invoke(dbContext, new object[] { }));
-
-            // Load all into Master
-            using (var csv = new CsvReader(new StreamReader(@"./pass.csv"), new CsvHelper.Configuration.Configuration
+            // We are working with an Enumerable. I'm not sure why, but trying to narrow it down to a Queryable breaks the program
+            IEnumerable<object> GetDbSet(Type setType)
             {
-                Delimiter = ",",
-                Encoding = Encoding.UTF8
-            }))
-            {
-                csv.Read();
-                csv.ReadHeader();
-                int i = 1;
-                var records = csv.GetRecords<dynamic>();
-                foreach (var record in records)
-                {
-
-                    var dict = (IDictionary<string, object>)record;
-                    var masterInstance = Activator.CreateInstance(masterType);
-                    masterIndexProperty.SetValue(masterInstance, i++);
-                    masterType.GetProperties()
-                        .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null)
-                        .ToList()
-                        .ForEach(p =>
-                        {
-                            string column = p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
-                            dict.TryGetValue(column, out var value);
-                            p.SetValue(masterInstance, value);
-                        });
-
-
-                    masterDbSet.GetType().GetMethod("Add").Invoke(masterDbSet, new object[] { masterInstance });
-
-
-                }
-
-                dbContext.SaveChanges();
-
+                var genericDbSetMethod = dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { setType });
+                return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(dbContext, new object[] { }));
             }
 
-            foreach (Type type in types.Take(6))
+            // Get master set for insertion
+            var masterDbSet = GetDbSet(masterType);
+            var addToMasterDbSet = new Action<object>(instance => masterDbSet.GetType().GetMethod("Add").Invoke(masterDbSet, new object[] { instance }));
+
+            // Load all into Master
+            using (StreamReader sr = new StreamReader(@"./pass.csv"))
             {
-                Console.WriteLine("Processing Type: " + type);
+                Console.Write($"Loading all rows from file into Master table ({sr.BaseStream.Length} bytes)...");
+                using (var csv = new CsvReader(sr, new CsvHelper.Configuration.Configuration
+                {
+                    Delimiter = ",",
+                    Encoding = Encoding.UTF8
+                }))
+                {
+
+                    var records = csv.GetRecords<dynamic>();
+                    var masterInstances = records.AsParallel().Select((record, index) =>
+                    {
+                    // Each record is a dictionary (header name => cell value)
+                    var dict = (IDictionary<string, object>)record;
+                    // Create an instance of a master record for each row
+                    var masterInstance = Activator.CreateInstance(masterType);
+
+                        // Get all CSV properties
+                        var csvProperties = masterType.GetProperties()
+                            .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null);
+
+                        // Apply them all
+                        foreach (var property in csvProperties)
+                        {
+                            string column = property.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
+                            dict.TryGetValue(column, out var value);
+                            if (value == null)
+                                throw new Exception($"Column with name {column} not found in CSV");
+
+                            property.SetValue(masterInstance, value);
+                        }
+
+                    // Console.WriteLine(masterIndexProperty.GetValue(masterInstance));
+
+                    return masterInstance;
+                    });
+                    foreach (var masterInstance in masterInstances)
+                    {
+                        addToMasterDbSet(masterInstance);
+                    };
+
+                    dbContext.SaveChanges();
+                    Console.WriteLine($"Loaded {masterDbSet.Count()} rows into Database!");
+                }
+            }
+
+            // Skip the last type, as it does not have any children
+            foreach (Type type in types.SkipLast(1))
+            {
+                Console.WriteLine("Processing Type: " + type.Name);
 
                 int currentLevel = type.GetCustomAttribute<FilterAttribute>().Level;
-
                 var currentTypeIndexProperty = type.GetProperty("Index");
-
+                
+                // The child of the current type is the type whose Filter level is one greater
                 Type childType = types.FirstOrDefault(t => t.GetCustomAttribute<FilterAttribute>().Level == currentLevel + 1);
 
+                // The columns on which we need to distinguish are all of the CSV columns used by the child and each other parents
+                // For example the children of currentLevel = 0 will need the data from the top (+1), as well as their own (+2)  
                 var fromCsvColumnsChild = types.Take(currentLevel + 2).SelectMany(t => t.GetProperties())
                     .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
+                
+                // Get all the actual column names
                 var distinctColumnNamesChild = fromCsvColumnsChild
                         .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
 
+                // Get the dbset for the current and its child
+                var currentDbSet = GetDbSet(type);
+                var childDbSet = GetDbSet(childType);
 
-                var currentDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { type }).Invoke(dbContext, new object[] { }));
-                var childDbSet = Enumerable.Cast<object>((IEnumerable)dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { childType }).Invoke(dbContext, new object[] { }));
-
-
+                // As the key to this working is iterating through each parent and finding their children, the first filter must be loaded earlier
                 if (type == types.First())
                 {
                     var fromCsvColumns = types.Take(currentLevel + 1).SelectMany(t => t.GetProperties())
                         .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
                     var distinctColumnNames = fromCsvColumns
                             .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
-                    var topLevelRows = masterDbSet.AsParallel()
+                    var topLevelRows = masterDbSet.ToArray()
                                 .OrderBy(masterIndexProperty.GetValue)
                                 .DistinctBy(e =>
                                 {
@@ -212,15 +289,12 @@ namespace model_generator
                                         .Where(p => distinctColumnNames
                                             .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
 
-
                                     return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
                                 }).Select(e =>
                                 {
                                     var instance = Activator.CreateInstance(type);
                                     var currentEntityIndex = masterIndexProperty.GetValue(e);
                                     currentTypeIndexProperty.SetValue(instance, currentEntityIndex);
-                                    Console.WriteLine("Unique Entity: ");
-
                                     foreach (var p in e.GetType().GetProperties())
                                     {
                                         foreach (var column in fromCsvColumns)
@@ -230,8 +304,6 @@ namespace model_generator
                                                 try
                                                 {
                                                     column.SetValue(instance, p.GetValue(e));
-                                                    Console.WriteLine($"{p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName}: {p.GetValue(e)}");
-
                                                 }
                                                 catch
                                                 {
@@ -250,26 +322,29 @@ namespace model_generator
                 }
                 dbContext.SaveChanges();
 
-                var childRows = masterDbSet
-                                        .OrderBy(masterIndexProperty.GetValue)
-                                        .DistinctBy(e =>
-                                        {
-                                            var currentEntityIndex = masterIndexProperty.GetValue(e);
+                IEnumerable<object> childRows = masterDbSet.ToList().OrderBy(masterIndexProperty.GetValue);
+                if (type != types.Last())
+                    childRows = childRows.DistinctBy(e =>
+                                            {
 
-                                            var distinctProperties = e.GetType().GetProperties()
-                                                .Where(p => distinctColumnNamesChild
-                                                    .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
+                                                var distinctProperties = e.GetType().GetProperties()
+                                                    .Where(p => distinctColumnNamesChild
+                                                        .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
 
 
-                                            return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
-                                        });
-
+                                                return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
+                                            });
 
                 foreach (var parent in currentDbSet)
                 {
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
+                    var childIndexProperty = childType.GetProperties().First(prop => prop.Name == "Index");
+                    var usedIndexes = new Collection<int>();
+                    Console.WriteLine($"{childRows.Count()} {childType.Name} records remaining");
+                    childRows = childRows.Where(e => !usedIndexes.Contains((int)masterIndexProperty.GetValue(e)));
                     var children = childRows.Where(child =>
                     {
+
                         var nextParent = parent;
                         while (nextParent != null)
                         {
@@ -282,7 +357,9 @@ namespace model_generator
                                     var parentValue = parentProperty.GetValue(nextParent);
                                     var childValue = childProperty.GetValue(child);
                                     if (childValue.ToString() != parentValue.ToString())
+                                    {
                                         return false;
+                                    }
                                 }
                                 catch
                                 {
@@ -297,10 +374,9 @@ namespace model_generator
                     }).Select(e =>
                     {
                         var instance = Activator.CreateInstance(childType);
-                        var currentEntityIndex = masterIndexProperty.GetValue(e);
-                        childType.GetProperties().First(prop => prop.Name == "Index").SetValue(instance, currentEntityIndex);
-                        Console.WriteLine("Unique Child Entity: ");
-
+                        var currentEntityIndex = (int)masterIndexProperty.GetValue(e);
+                        childIndexProperty.SetValue(instance, currentEntityIndex);
+                        usedIndexes.Add(currentEntityIndex);
                         foreach (var p in e.GetType().GetProperties())
                         {
                             foreach (var column in fromCsvColumnsChild)
@@ -310,8 +386,6 @@ namespace model_generator
                                     try
                                     {
                                         column.SetValue(instance, p.GetValue(e));
-                                        Console.WriteLine($"{p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName}: {p.GetValue(e)}");
-
                                     }
                                     catch
                                     {
@@ -323,27 +397,18 @@ namespace model_generator
                         }
                         childType.GetProperties().First(property => property.Name == type.Name + "Id").SetValue(instance, parentId);
                         return instance;
-                    });
+                    }).ToList();
 
-                    Console.WriteLine(childType);
-                    Console.WriteLine(children.First().GetType());
-                    Console.WriteLine($"{currentTypeIndexProperty.GetValue(parent)} has {children.Count()} children");
                     foreach (var child in children)
                     {
                         childDbSet.GetType().GetMethod("Add").Invoke(childDbSet, new object[] { child });
                     }
+
+                    type.GetProperty($"Default{childType.Name}").SetValue(parent, children.FirstOrDefault());
                 }
+
                 dbContext.SaveChanges();
             }
-
-            // foreach (string header in csv.Context.HeaderRecord)
-            // {
-            //     var row = Activator.CreateInstance(masterType);
-            //     row.GetType().GetProperty("Activity").SetValue(row, "Hello World");
-            //     dbSet.GetType().GetMethod("Add").Invoke(dbSet, new object[]{ row });
-            //     passdb.SaveChanges();
-            // }
-
 
             // try
             // {

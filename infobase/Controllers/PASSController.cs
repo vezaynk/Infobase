@@ -53,12 +53,16 @@ namespace Infobase.Controllers
         public async Task<IActionResult> Datatool(string language, int index = 1, bool api = false)
         {
             var strata = await _context.Strata
-                .Include(s => s.Measure)
-                    .ThenInclude(m => m.Indicator)
-                        .ThenInclude(i => i.LifeCourse)
-                            .ThenInclude(lc => lc.IndicatorGroup)
-                                .ThenInclude(ig => ig.Activity)
-                                    .ThenInclude(a => a.DefaultIndicatorGroup.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata)
+                .Include(s => s.Measure
+                                    .Indicator
+                                        .LifeCourse
+                                            .IndicatorGroup
+                                                .Activity
+                                                    .DefaultIndicatorGroup
+                                                        .DefaultLifeCourse
+                                                            .DefaultIndicator
+                                                                .DefaultMeasure
+                                                                    .DefaultStrata)
                 .Include(s => s.Points)
                 .Where(s => s.Index >= index && s.Measure.Included)
                 .OrderBy(s => s.Index)
