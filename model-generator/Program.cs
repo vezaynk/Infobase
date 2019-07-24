@@ -60,28 +60,6 @@ namespace model_generator
 
             return migration;
         }
-        public ScaffoldedMigration SaveMigration(string migrationsDirectory)
-        {
-            var migration = CreateMigration();
-            Console.WriteLine("Writing migration files...");
-
-            string migrationPath = Path.Join(migrationsDirectory, migration.MigrationId + migration.FileExtension);
-            Console.WriteLine($"Migration: {migrationPath}");
-            File.WriteAllText(migrationPath,
-                    migration.MigrationCode);
-
-            string designerPath = Path.Join(migrationsDirectory, migration.MigrationId + ".Designer" + migration.FileExtension);
-            Console.WriteLine($"Designer: {designerPath}");
-            File.WriteAllText(designerPath,
-                migration.MetadataCode);
-
-            string snapshotPath = Path.Join(migrationsDirectory, migration.SnapshotName + migration.FileExtension);
-            Console.WriteLine($"Snapshot: {snapshotPath}");
-            File.WriteAllText(snapshotPath,
-               migration.SnapshotCode);
-
-            return migration;
-        }
     }
     public static class DbContextBuilder
     {
@@ -106,6 +84,14 @@ namespace model_generator
         }
 
         public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder, Assembly> configureOptionBuilder, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
+        {
+
+            var asm = BuildAssembly(name, path, migrations, migrationsDirectory);
+            // Extract DbContext from the resulting assembly
+            return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
+        }
+
+        public static Assembly BuildAssembly(string name, string path, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
         {
             var dbContextIMC = new InMemoryCompiler();
 
@@ -141,116 +127,142 @@ namespace model_generator
                     dbContextIMC.AddFile(filename);
                 }
 
-            var asm = dbContextIMC.CompileAssembly();
-
-            // Extract DbContext from the resulting assembly
-            return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
+            return dbContextIMC.CompileAssembly();
         }
 
-
     }
-    public class Program
+    public class DatabaseCreator
     {
-        public static async Task Main(string[] args)
+        public DatabaseCreator(string connectionString, string migrationsDirectory, string modelsDirectory, string datasetName) : this(connectionString, DbContextBuilder.BuildAssembly(datasetName, modelsDirectory, null, migrationsDirectory), datasetName)
         {
-            var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
-            var migrationsDirectory = "../infobase/Migrations/";
-            var modelsDirectory = "../infobase/Models";
+            this.MigrationsDirectory = migrationsDirectory;
+            this.LoadedFromSource = true;
+            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildAssembly(datasetName, modelsDirectory, PendingMigrations, migrationsDirectory), datasetName)).DbContext;
+        }
+        public DatabaseCreator(string connectionString, string pathToAssembly, string dataset) : this(connectionString, Assembly.LoadFile(pathToAssembly), dataset)
+        {
 
-            Console.Write("Building DBContext from source...");
-            var dbContext = DbContextBuilder.GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
-            Console.WriteLine("Created " + dbContext.GetType().Name);
+        }
+        private DatabaseCreator(string connectionString, Assembly assembly, string dataset)
+        {
+            this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Infobase.Models.{dataset}Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
+            PendingMigrations = new Collection<ScaffoldedMigration>();
+        }
+        public DbContext DbContext { get; set; }
+        public bool LoadedFromSource { get; set; }
+        public string MigrationsDirectory { get; set; }
+        private Func<DbContext> ReloadDbContextLambda { get; set; }
+        public Collection<ScaffoldedMigration> PendingMigrations { get; set; }
+        public DbContext ReloadDbContext()
+        {
+            DbContext = ReloadDbContextLambda();
+            return DbContext;
+        }
+        public bool CleanDatabase()
+        {
+            return DbContext.Database.EnsureDeleted();
+        }
+        public ScaffoldedMigration CreateMigration(string name = null)
+        {
+            var mg = new MigrationGenerator(DbContext, null);
+            var migration = mg.CreateMigration();
+            PendingMigrations.Add(migration);
+            return migration;
+        }
+        public void ApplyMigrations()
+        {
+            DbContext.Database.Migrate();
+        }
+        // We are working with an Enumerable. I'm not sure why, but trying to narrow it down to a Queryable breaks the program
+        public IEnumerable<object> GetDbSet(Type setType)
+        {
+            var genericDbSetMethod = DbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { setType });
+            return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(DbContext, new object[] { }));
+        }
+        public int LoadMasterCSV(StreamReader sr)
+        {
+            var dbContext = DbContext;
+            // Load PASS Master specifically
+            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
 
-            Console.Write("Creating migration...");
-            var migrationGenerator = new MigrationGenerator(dbContext);
-            var migration = migrationGenerator.CreateMigration();
-            Console.WriteLine($"Created migration (ID:{migration.MigrationId})");
 
-            Console.Write("Rebuilding with migration...");
-            var reloadedDbContext = DbContextBuilder.GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
-            Console.WriteLine("Rebuilt!");
+            // Get master set for insertion
+            var masterDbSet = GetDbSet(masterType);
+            var addToMasterDbSet = new Action<object>(instance => masterDbSet.GetType().GetMethod("Add").Invoke(masterDbSet, new object[] { instance }));
 
-            // Save to file after reloading, or else a conflict will happen. Alternative, stop passing the migration in manually.
-            // migrationGenerator.SaveMigration("../infobase/Migrations");
+            using (var csv = new CsvReader(sr, new CsvHelper.Configuration.Configuration
+            {
+                Delimiter = ",",
+                Encoding = Encoding.UTF8
+            }))
+            {
 
-            Console.Write($"Migrating ({reloadedDbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
-            Console.Write("Cleaning...");
-            await reloadedDbContext.Database.EnsureDeletedAsync();
+                var records = csv.GetRecords<dynamic>();
+                var masterInstances = records.AsParallel().Select((record, index) =>
+                {
+                    // Each record is a dictionary (header name => cell value)
+                    var dict = (IDictionary<string, object>)record;
+                    // Create an instance of a master record for each row
+                    var masterInstance = Activator.CreateInstance(masterType);
 
-            Console.Write("Applying...");
-            await reloadedDbContext.Database.MigrateAsync();
+                    // Get all CSV properties
+                    var csvProperties = masterType.GetProperties()
+                    .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null);
 
+                    // Apply them all
+                    foreach (var property in csvProperties)
+                    {
+                        string column = property.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
+                        dict.TryGetValue(column, out var value);
+                        if (value == null)
+                            throw new Exception($"Column with name {column} not found in CSV");
 
-            Console.WriteLine($"Done! Database has been updated to match the models.");
+                        property.SetValue(masterInstance, value);
+                    }
 
+                    return masterInstance;
+                });
+                foreach (var masterInstance in masterInstances)
+                {
+                    addToMasterDbSet(masterInstance);
+                };
+
+                dbContext.SaveChanges();
+                return masterDbSet.Count();
+            }
+        }
+        public void SaveMigrations()
+        {
+            foreach (var migration in PendingMigrations)
+            {
+                string migrationPath = Path.Join(MigrationsDirectory, migration.MigrationId + migration.FileExtension);
+                Console.WriteLine($"Migration: {migrationPath}");
+                File.WriteAllText(migrationPath,
+                        migration.MigrationCode);
+
+                string designerPath = Path.Join(MigrationsDirectory, migration.MigrationId + ".Designer" + migration.FileExtension);
+                File.WriteAllText(designerPath,
+                    migration.MetadataCode);
+
+                string snapshotPath = Path.Join(MigrationsDirectory, migration.SnapshotName + migration.FileExtension);
+                File.WriteAllText(snapshotPath,
+                   migration.SnapshotCode);
+            }
+
+        }
+
+        public void LoadEntitiesFromMaster()
+        {
+            var dbContext = DbContext;
+            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
+            var masterIndexProperty = masterType.GetProperty("Index");
+            var masterDbSet = GetDbSet(masterType);
 
             var types = dbContext.GetType().Assembly.GetTypes()
                 // Load all PASS models, excluding the non-filter ones (Only the Master is excluded).
                 .Where(t => t.Namespace == "Infobase.Models.PASS" && t.GetCustomAttribute<FilterAttribute>() != null)
                 .OrderBy(t => t.GetCustomAttribute<FilterAttribute>().Level);
 
-            // Load PASS Master specifically
-            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
-            var masterIndexProperty = masterType.GetProperty("Index");
-
-            // We are working with an Enumerable. I'm not sure why, but trying to narrow it down to a Queryable breaks the program
-            IEnumerable<object> GetDbSet(Type setType)
-            {
-                var genericDbSetMethod = dbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { setType });
-                return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(dbContext, new object[] { }));
-            }
-
-            // Get master set for insertion
-            var masterDbSet = GetDbSet(masterType);
-            var addToMasterDbSet = new Action<object>(instance => masterDbSet.GetType().GetMethod("Add").Invoke(masterDbSet, new object[] { instance }));
-
-            // Load all into Master
-            using (StreamReader sr = new StreamReader(@"./pass.csv"))
-            {
-                Console.Write($"Loading all rows from file into Master table ({sr.BaseStream.Length} bytes)...");
-                using (var csv = new CsvReader(sr, new CsvHelper.Configuration.Configuration
-                {
-                    Delimiter = ",",
-                    Encoding = Encoding.UTF8
-                }))
-                {
-
-                    var records = csv.GetRecords<dynamic>();
-                    var masterInstances = records.AsParallel().Select((record, index) =>
-                    {
-                        // Each record is a dictionary (header name => cell value)
-                        var dict = (IDictionary<string, object>)record;
-                        // Create an instance of a master record for each row
-                        var masterInstance = Activator.CreateInstance(masterType);
-
-                        // Get all CSV properties
-                        var csvProperties = masterType.GetProperties()
-                            .Where(p => p.GetCustomAttribute(typeof(CSVColumnAttribute)) != null);
-
-                        // Apply them all
-                        foreach (var property in csvProperties)
-                        {
-                            string column = property.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
-                            dict.TryGetValue(column, out var value);
-                            if (value == null)
-                                throw new Exception($"Column with name {column} not found in CSV");
-
-                            property.SetValue(masterInstance, value);
-                        }
-
-                        // Console.WriteLine(masterIndexProperty.GetValue(masterInstance));
-
-                        return masterInstance;
-                    });
-                    foreach (var masterInstance in masterInstances)
-                    {
-                        addToMasterDbSet(masterInstance);
-                    };
-
-                    dbContext.SaveChanges();
-                    Console.WriteLine($"Loaded {masterDbSet.Count()} rows into Database!");
-                }
-            }
 
             // Skip the last type, as it does not have any children
             foreach (Type type in types.SkipLast(1))
@@ -430,6 +442,51 @@ namespace model_generator
                 dbContext.SaveChanges();
                 Console.WriteLine($"\rLoaded {childDbSet.Count()} {childType.Name} entities!");
             }
+
+        }
+    }
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var lf = new LoggerFactory();
+            var l = lf.CreateLogger(typeof(DbContext));
+            l.LogInformation("Test");
+            var connectionString = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
+            var migrationsDirectory = "../infobase/Migrations/";
+            var modelsDirectory = "../infobase/Models";
+            bool buildFromSource = true;
+            DatabaseCreator databaseCreator;
+
+            if (buildFromSource)
+            {
+                Console.Write("Building DBContext from source...");
+                databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, "PASS");
+                Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
+                databaseCreator.CreateMigration();
+                Console.Write("Rebuilding...");
+                databaseCreator.ReloadDbContext();
+                Console.WriteLine("Rebuilt!");
+            } else {
+                databaseCreator = new DatabaseCreator(connectionString, "./././", "PASS");
+            }
+
+            DbContext dbContext = databaseCreator.DbContext;
+            Console.Write($"Migrating ({dbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
+            Console.Write("Cleaning...");
+            databaseCreator.CleanDatabase();
+            Console.Write("Applying...");
+            databaseCreator.ApplyMigrations();
+            Console.WriteLine($"Done! Database has been updated to match the models.");
+            // databaseCreator.SaveMigrations();
+
+            using (var sr = new StreamReader(@"./pass.csv"))
+            {
+                Console.Write($"Loading all rows from file into Master table ({sr.BaseStream.Length} bytes)...");
+                int rowsLoaded = databaseCreator.LoadMasterCSV(sr);
+                Console.WriteLine($"Loaded {rowsLoaded} rows into Database!");
+            }
+            databaseCreator.LoadEntitiesFromMaster();
 
             // try
             // {
