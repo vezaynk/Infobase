@@ -139,15 +139,19 @@ namespace model_generator
             this.LoadedFromSource = true;
             this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildAssembly(datasetName, modelsDirectory, PendingMigrations, migrationsDirectory), datasetName)).DbContext;
         }
-        public DatabaseCreator(string connectionString, string pathToAssembly, string dataset) : this(connectionString, Assembly.LoadFile(pathToAssembly), dataset)
+        public DatabaseCreator(string connectionString, string pathToAssembly, string datasetName) : this(connectionString, Assembly.LoadFrom(pathToAssembly), datasetName)
         {
 
         }
-        private DatabaseCreator(string connectionString, Assembly assembly, string dataset)
+        private DatabaseCreator(string connectionString, Assembly assembly, string datasetName)
         {
-            this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Infobase.Models.{dataset}Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
+            this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Infobase.Models.{datasetName}Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
             PendingMigrations = new Collection<ScaffoldedMigration>();
+            this.DatasetName = datasetName;
+            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, assembly, datasetName)).DbContext;
+
         }
+        public string DatasetName { get; set; }
         public DbContext DbContext { get; set; }
         public bool LoadedFromSource { get; set; }
         public string MigrationsDirectory { get; set; }
@@ -164,7 +168,7 @@ namespace model_generator
         }
         public ScaffoldedMigration CreateMigration(string name = null)
         {
-            var mg = new MigrationGenerator(DbContext, null);
+            var mg = new MigrationGenerator(DbContext, DatasetName);
             var migration = mg.CreateMigration();
             PendingMigrations.Add(migration);
             return migration;
@@ -184,7 +188,6 @@ namespace model_generator
             var dbContext = DbContext;
             // Load PASS Master specifically
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
-
 
             // Get master set for insertion
             var masterDbSet = GetDbSet(masterType);
@@ -355,7 +358,7 @@ namespace model_generator
                                         }).ToList();
 
                 var totalChildrenCount = childRows.Count();
-                var usedIndexes = new Collection<int>();
+                var usedIndexes = new HashSet<int>();
 
                 foreach (var parent in currentDbSet)
                 {
@@ -432,10 +435,16 @@ namespace model_generator
                         childDbSet.GetType().GetMethod("Add").Invoke(childDbSet, new object[] { child });
                     }
 
-                    if (childType != types.Last())
+                    int? firstId = null;
+                    try
                     {
-                        int firstId = (int)childType.GetProperty($"{childType.Name}Id").GetValue(firstChild);
+                        firstId = (int)childType.GetProperty($"{childType.Name}Id").GetValue(firstChild);
+
+                    }
+                    finally
+                    {
                         type.GetProperty($"Default{childType.Name}Id").SetValue(parent, firstId);
+
                     }
                 }
 
@@ -447,19 +456,16 @@ namespace model_generator
     }
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void SetupDatabase(bool buildFromSource)
         {
-            var lf = new LoggerFactory();
-            var l = lf.CreateLogger(typeof(DbContext));
-            l.LogInformation("Test");
             var connectionString = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
-            var migrationsDirectory = "../infobase/Migrations/";
-            var modelsDirectory = "../infobase/Models";
-            bool buildFromSource = true;
+
             DatabaseCreator databaseCreator;
 
             if (buildFromSource)
             {
+                var migrationsDirectory = "../infobase/Migrations/";
+                var modelsDirectory = "../infobase/Models";
                 Console.Write("Building DBContext from source...");
                 databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, "PASS");
                 Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
@@ -467,18 +473,22 @@ namespace model_generator
                 Console.Write("Rebuilding...");
                 databaseCreator.ReloadDbContext();
                 Console.WriteLine("Rebuilt!");
-            } else {
-                databaseCreator = new DatabaseCreator(connectionString, "./././", "PASS");
+                databaseCreator.SaveMigrations();
+            }
+            else
+            {
+                Assembly.LoadFrom(Path.GetFullPath("../infobase/bin/Release/netcoreapp2.2/publish/Infobase.dll"));
+                databaseCreator = new DatabaseCreator(connectionString, Path.GetFullPath("../infobase/bin/Release/netcoreapp2.2/publish/Infobase.dll"), "PASS");
             }
 
-            DbContext dbContext = databaseCreator.DbContext;
-            Console.Write($"Migrating ({dbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
+            Console.Write("Preparing Database...");
             Console.Write("Cleaning...");
             databaseCreator.CleanDatabase();
-            Console.Write("Applying...");
+            databaseCreator.ReloadDbContext();
+            
+            Console.Write($"Migrating ({databaseCreator.DbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
             databaseCreator.ApplyMigrations();
             Console.WriteLine($"Done! Database has been updated to match the models.");
-            // databaseCreator.SaveMigrations();
 
             using (var sr = new StreamReader(@"./pass.csv"))
             {
@@ -487,6 +497,13 @@ namespace model_generator
                 Console.WriteLine($"Loaded {rowsLoaded} rows into Database!");
             }
             databaseCreator.LoadEntitiesFromMaster();
+        }
+        public static void Main(string[] args)
+        {
+            var lf = new LoggerFactory();
+            var l = lf.CreateLogger(typeof(DbContext));
+            l.LogInformation("Test");
+            SetupDatabase(false);
 
             // try
             // {

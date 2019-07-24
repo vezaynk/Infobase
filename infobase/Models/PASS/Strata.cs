@@ -59,6 +59,9 @@ namespace Infobase.Models.PASS
             }
             return "No culture";
         }
+        public int? DefaultPointId { get; set; }
+        [ForeignKey("DefaultPointId")]
+        public Point DefaultPoint { get; set; }
         public string StrataNotesEn { get; set; }
         [CSVColumn("Data Breakdowns")]
         public string StrataNameEn { get; set; }

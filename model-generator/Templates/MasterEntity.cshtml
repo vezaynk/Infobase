@@ -10,6 +10,9 @@ using metadata_annotations;
 
 namespace Infobase.Models.@(Model.DatasetName) {
     public class Master {
+        /**
+        It is important to not forget to use the following annotations also:
+        **/
         public int Index { get; set; }
 @foreach (var property in @Model.Properties) {
         @:[Text("@property", "en-ca")]
