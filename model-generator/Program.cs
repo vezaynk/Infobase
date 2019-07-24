@@ -83,7 +83,7 @@ namespace model_generator
             return migration;
         }
     }
-    public class Program
+    public static class DbContextBuilder
     {
         public static DbContext GetDBContext(Assembly dbContextASM, string dbContextFullName, Action<DbContextOptionsBuilder> configureOptionBuilder)
         {
@@ -147,6 +147,10 @@ namespace model_generator
             return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
         }
 
+
+    }
+    public class Program
+    {
         public static async Task Main(string[] args)
         {
             var connectionstring = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
@@ -154,7 +158,7 @@ namespace model_generator
             var modelsDirectory = "../infobase/Models";
 
             Console.Write("Building DBContext from source...");
-            var dbContext = GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
+            var dbContext = DbContextBuilder.GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), migrationsDirectory: migrationsDirectory);
             Console.WriteLine("Created " + dbContext.GetType().Name);
 
             Console.Write("Creating migration...");
@@ -163,7 +167,7 @@ namespace model_generator
             Console.WriteLine($"Created migration (ID:{migration.MigrationId})");
 
             Console.Write("Rebuilding with migration...");
-            var reloadedDbContext = GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
+            var reloadedDbContext = DbContextBuilder.GetDBContextFromSource("PASS", modelsDirectory, (ob, asm) => ob.UseNpgsql(connectionstring, o => o.MigrationsAssembly(asm.GetName().ToString())), new[] { migration }, migrationsDirectory);
             Console.WriteLine("Rebuilt!");
 
             // Save to file after reloading, or else a conflict will happen. Alternative, stop passing the migration in manually.
@@ -214,10 +218,10 @@ namespace model_generator
                     var records = csv.GetRecords<dynamic>();
                     var masterInstances = records.AsParallel().Select((record, index) =>
                     {
-                    // Each record is a dictionary (header name => cell value)
-                    var dict = (IDictionary<string, object>)record;
-                    // Create an instance of a master record for each row
-                    var masterInstance = Activator.CreateInstance(masterType);
+                        // Each record is a dictionary (header name => cell value)
+                        var dict = (IDictionary<string, object>)record;
+                        // Create an instance of a master record for each row
+                        var masterInstance = Activator.CreateInstance(masterType);
 
                         // Get all CSV properties
                         var csvProperties = masterType.GetProperties()
@@ -234,9 +238,9 @@ namespace model_generator
                             property.SetValue(masterInstance, value);
                         }
 
-                    // Console.WriteLine(masterIndexProperty.GetValue(masterInstance));
+                        // Console.WriteLine(masterIndexProperty.GetValue(masterInstance));
 
-                    return masterInstance;
+                        return masterInstance;
                     });
                     foreach (var masterInstance in masterInstances)
                     {
@@ -255,7 +259,7 @@ namespace model_generator
 
                 int currentLevel = type.GetCustomAttribute<FilterAttribute>().Level;
                 var currentTypeIndexProperty = type.GetProperty("Index");
-                
+
                 // The child of the current type is the type whose Filter level is one greater
                 Type childType = types.FirstOrDefault(t => t.GetCustomAttribute<FilterAttribute>().Level == currentLevel + 1);
 
@@ -263,7 +267,7 @@ namespace model_generator
                 // For example the children of currentLevel = 0 will need the data from the top (+1), as well as their own (+2)  
                 var fromCsvColumnsChild = types.Take(currentLevel + 2).SelectMany(t => t.GetProperties())
                     .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
-                
+
                 // Get all the actual column names
                 var distinctColumnNamesChild = fromCsvColumnsChild
                         .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
@@ -275,11 +279,12 @@ namespace model_generator
                 // As the key to this working is iterating through each parent and finding their children, the first filter must be loaded earlier
                 if (type == types.First())
                 {
+                    Console.Write("Loading top-level entities...");
                     var fromCsvColumns = types.Take(currentLevel + 1).SelectMany(t => t.GetProperties())
                         .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
                     var distinctColumnNames = fromCsvColumns
                             .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
-                    var topLevelRows = masterDbSet.ToArray()
+                    var topLevelRows = masterDbSet
                                 .OrderBy(masterIndexProperty.GetValue)
                                 .DistinctBy(e =>
                                 {
@@ -319,32 +324,36 @@ namespace model_generator
                     {
                         currentDbSet.GetType().GetMethod("Add").Invoke(currentDbSet, new object[] { topLevelRow });
                     }
+                    dbContext.SaveChanges();
+                    Console.WriteLine($"Loaded {currentDbSet.Count()} entities!");
                 }
-                dbContext.SaveChanges();
-
-                IEnumerable<object> childRows = masterDbSet.ToList().OrderBy(masterIndexProperty.GetValue);
-                if (type != types.Last())
-                    childRows = childRows.DistinctBy(e =>
-                                            {
-
-                                                var distinctProperties = e.GetType().GetProperties()
-                                                    .Where(p => distinctColumnNamesChild
-                                                        .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
 
 
-                                                return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
-                                            });
+                Console.Write($"Looking for children...");
+                IEnumerable<object> childRows = masterDbSet.OrderBy(masterIndexProperty.GetValue)
+                                        .DistinctBy(e =>
+                                        {
+
+                                            var distinctProperties = e.GetType().GetProperties()
+                                                .Where(p => distinctColumnNamesChild
+                                                    .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
+
+
+                                            return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
+                                        }).ToList();
+
+                var totalChildrenCount = childRows.Count();
+                var usedIndexes = new Collection<int>();
 
                 foreach (var parent in currentDbSet)
                 {
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
                     var childIndexProperty = childType.GetProperties().First(prop => prop.Name == "Index");
-                    var usedIndexes = new Collection<int>();
-                    Console.WriteLine($"{childRows.Count()} {childType.Name} records remaining");
-                    childRows = childRows.Where(e => !usedIndexes.Contains((int)masterIndexProperty.GetValue(e)));
-                    var children = childRows.Where(child =>
-                    {
 
+                    childRows = childRows.Where(e => !usedIndexes.Contains((int)masterIndexProperty.GetValue(e)));
+                    var children = childRows.Where((child, i) =>
+                    {
+                        // Filtering is fast. No significant optimization is possible.
                         var nextParent = parent;
                         while (nextParent != null)
                         {
@@ -396,18 +405,30 @@ namespace model_generator
                             }
                         }
                         childType.GetProperties().First(property => property.Name == type.Name + "Id").SetValue(instance, parentId);
-                        return instance;
-                    }).ToList();
 
+                        return instance;
+                    });
+
+                    object firstChild = null;
                     foreach (var child in children)
                     {
+                        if (firstChild == null)
+                            firstChild = child;
+
+                        Console.Write($"\rFound {usedIndexes.Count()} out of {totalChildrenCount} children...");
+
                         childDbSet.GetType().GetMethod("Add").Invoke(childDbSet, new object[] { child });
                     }
 
-                    type.GetProperty($"Default{childType.Name}").SetValue(parent, children.FirstOrDefault());
+                    if (childType != types.Last())
+                    {
+                        int firstId = (int)childType.GetProperty($"{childType.Name}Id").GetValue(firstChild);
+                        type.GetProperty($"Default{childType.Name}Id").SetValue(parent, firstId);
+                    }
                 }
 
                 dbContext.SaveChanges();
+                Console.WriteLine($"\rLoaded {childDbSet.Count()} {childType.Name} entities!");
             }
 
             // try
