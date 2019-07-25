@@ -38,4 +38,5 @@ jobs:
 
       - run:
           name: "Upload to GitHub"
+          command: |
             ghr -n 'Latest build by CircleCI' --delete latest artifacts
