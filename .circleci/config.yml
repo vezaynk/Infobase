@@ -27,14 +27,14 @@ jobs:
           command: |
             mkdir artifacts
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
-            zip -qr ~/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            zip -qr $CIRCLE_WORKING_DIRECTORY/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Package Model Generator Project"
           command: |
             mkdir artifacts
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
-            zip -qr ~/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            zip -qr $CIRCLE_WORKING_DIRECTORY/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Upload to GitHub"
