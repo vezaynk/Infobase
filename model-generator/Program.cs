@@ -12,7 +12,7 @@ using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Text;
 using System.Collections.ObjectModel;
-using metadata_annotations;
+using Models.Metadata;
 using CSharpLoader;
 using CsvHelper;
 using RazorLight;
@@ -56,7 +56,7 @@ namespace model_generator
             // This builds the *incrementental migration* to achieve parity with schema
             var migration = migrationsScaffolder.ScaffoldMigration(
                 MigrationName,
-                "Infobase");
+                "Models");
 
             return migration;
         }
@@ -67,6 +67,7 @@ namespace model_generator
         {
             // Get type of the dbContext. This is needed to use any generic methods involving a dbContexts
             Type dbContextType = dbContextASM.GetType(dbContextFullName);
+            
             // Generic OptionBuilder type to work with the loaded DbContext 
             Type optionBuilderType = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextType });
             // Instance of optionBuilder
@@ -88,7 +89,7 @@ namespace model_generator
 
             var asm = BuildAssembly(name, path, migrations, migrationsDirectory);
             // Extract DbContext from the resulting assembly
-            return GetDBContext(asm, $"Infobase.Models.{name}Context", ob => configureOptionBuilder(ob, asm));
+            return GetDBContext(asm, $"Models.Contexts.{name}.Context", ob => configureOptionBuilder(ob, asm));
         }
 
         public static Assembly BuildAssembly(string name, string path, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
@@ -98,13 +99,13 @@ namespace model_generator
             // The Context file is the main file that is analyzed in order to determine what needs to be migrated.
             // In fact, the actual migration files are not necessary to generate migrations.
             // They are, however, necessary to apply them to the database.
-            dbContextIMC.AddFile($"{Path.Join(path, name)}Context.cs");
+            dbContextIMC.AddFile(Path.Join(path, name, "Context.cs"));
 
-            // The actual entities are stored in ModelsFolder/NameOfDataset
-            foreach (var filename in Directory.GetFileSystemEntries($"{Path.Join(path, name)}", "*.cs"))
-            {
-                dbContextIMC.AddFile(filename);
-            }
+            // The actual entities are stored in Models.cs
+            dbContextIMC.AddFile(Path.Join(path, name, "Models.cs"));
+
+            // The actual entities are stored in Models.cs
+            dbContextIMC.AddFile(Path.Join(path, name, "Master.cs"));
 
             // Sometimes, its convenient to load in a migration without saving it to disk
             if (migrations != null)
@@ -145,7 +146,7 @@ namespace model_generator
         }
         private DatabaseCreator(string connectionString, Assembly assembly, string datasetName)
         {
-            this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Infobase.Models.{datasetName}Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
+            this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Models.Contexts.{datasetName}.Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
             PendingMigrations = new Collection<ScaffoldedMigration>();
             this.DatasetName = datasetName;
             this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, assembly, datasetName)).DbContext;
@@ -186,8 +187,8 @@ namespace model_generator
         public int LoadMasterCSV(StreamReader sr)
         {
             var dbContext = DbContext;
-            // Load PASS Master specifically
-            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
+            // Load Master specifically
+            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == $"Models.Contexts.{this.DatasetName}" && t.Name == "Master");
 
             // Get master set for insertion
             var masterDbSet = GetDbSet(masterType);
@@ -257,13 +258,13 @@ namespace model_generator
         public void LoadEntitiesFromMaster()
         {
             var dbContext = DbContext;
-            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == "Infobase.Models.PASS" && t.Name == "Master");
+            Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == $"Models.Contexts.{this.DatasetName}" && t.Name == "Master");
             var masterIndexProperty = masterType.GetProperty("Index");
             var masterDbSet = GetDbSet(masterType);
 
             var types = dbContext.GetType().Assembly.GetTypes()
-                // Load all PASS models, excluding the non-filter ones (Only the Master is excluded).
-                .Where(t => t.Namespace == "Infobase.Models.PASS" && t.GetCustomAttribute<FilterAttribute>() != null)
+                // Load all models, excluding the non-filter ones (Only the Master is excluded).
+                .Where(t => t.Namespace == $"Models.Contexts.{this.DatasetName}" && t.GetCustomAttribute<FilterAttribute>() != null)
                 .OrderBy(t => t.GetCustomAttribute<FilterAttribute>().Level);
 
 
@@ -458,16 +459,18 @@ namespace model_generator
     {
         public static void SetupDatabase(bool buildFromSource)
         {
-            var connectionString = "Host=localhost;Port=5432;Database=phac_pass;Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
+            string datasetName = "PASS";
+            string csvFilePath = "./pass.csv";
+            var connectionString = $"Host=localhost;Port=5432;Database={datasetName};Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
             DatabaseCreator databaseCreator;
 
             if (buildFromSource)
             {
-                var migrationsDirectory = "../infobase/Migrations/";
-                var modelsDirectory = "../infobase/Models";
+                var migrationsDirectory = "../models/Migrations/";
+                var modelsDirectory = "../models/Contexts/";
                 Console.Write("Building DBContext from source...");
-                databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, "PASS");
+                databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, datasetName);
                 Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
                 databaseCreator.CreateMigration();
                 Console.Write("Rebuilding...");
@@ -477,8 +480,8 @@ namespace model_generator
             }
             else
             {
-                Assembly.LoadFrom(Path.GetFullPath("../infobase/bin/Release/netcoreapp2.2/publish/Infobase.dll"));
-                databaseCreator = new DatabaseCreator(connectionString, Path.GetFullPath("../infobase/bin/Release/netcoreapp2.2/publish/Infobase.dll"), "PASS");
+                Assembly.LoadFrom(Path.GetFullPath("../infobase/bin/Debug/netcoreapp2.2/models.dll"));
+                databaseCreator = new DatabaseCreator(connectionString, Path.GetFullPath("../infobase/bin/Debug/netcoreapp2.2/models.dll"), datasetName);
             }
 
             Console.Write("Preparing Database...");
@@ -490,7 +493,7 @@ namespace model_generator
             databaseCreator.ApplyMigrations();
             Console.WriteLine($"Done! Database has been updated to match the models.");
 
-            using (var sr = new StreamReader(@"./pass.csv"))
+            using (var sr = new StreamReader(csvFilePath))
             {
                 Console.Write($"Loading all rows from file into Master table ({sr.BaseStream.Length} bytes)...");
                 int rowsLoaded = databaseCreator.LoadMasterCSV(sr);
@@ -568,7 +571,7 @@ namespace model_generator
             //     // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
 
             // }
-            // var x = typeof(Models.PASS.Activity);
+            // var x = typeof(Models.{datasetName}.Activity);
             // }
             // catch (System.Exception e)
             // {

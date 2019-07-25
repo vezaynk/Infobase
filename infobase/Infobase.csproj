@@ -15,8 +15,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.8.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="React.AspNet" Version="5.0.0-alpha7" />
@@ -30,7 +28,7 @@
 
   <ItemGroup><!--<ProjectReference Include="model-generator\model-generator.csproj" />-->
   
-    <ProjectReference Include="..\metadata-annotations\metadata-annotations.csproj" />
+    <ProjectReference Include="../models/models.csproj" />
   </ItemGroup>
 
   <Target Name="BuildAssets" BeforeTargets="Build">

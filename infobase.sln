@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infobase", "infobase\Infoba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model-generator", "model-generator\model-generator.csproj", "{0D0053E1-5735-41C1-A65C-D76F1F8875B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "metadata-annotations", "metadata-annotations\metadata-annotations.csproj", "{F8F7E4FE-B633-4DD7-994C-5432475D115E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "models", "models\models.csproj", "{F8F7E4FE-B633-4DD7-994C-5432475D115E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

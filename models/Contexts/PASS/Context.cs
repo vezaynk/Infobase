@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Infobase.Models.PASS;
+using Models.Metadata;
 
-namespace Infobase.Models
+namespace Models.Contexts.PASS
 {
-    public class PASSContext : DbContext
+    public class Context : DbContext
     {
-        public PASSContext (DbContextOptions options)
+        public Context(DbContextOptions options)
             : base(options)
         {
         }
@@ -28,7 +29,7 @@ namespace Infobase.Models
         public DbSet<Strata> Strata { get; set; }
         public DbSet<Point> Point { get; set; }
         public DbSet<Master> Master { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +58,7 @@ namespace Infobase.Models
             modelBuilder.Entity<Point>()
                 .HasAlternateKey(entity => entity.Index);
         }
-    
+
     }
+
 }

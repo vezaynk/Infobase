@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace metadata_annotations
+namespace Models.Metadata
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple=true)]
     public class TextAttribute : Attribute

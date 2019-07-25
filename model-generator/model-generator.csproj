@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../csharploader/CSharpLoader.csproj" />
-    <ProjectReference Include="..\metadata-annotations\metadata-annotations.csproj" />
+    <ProjectReference Include="../models/models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

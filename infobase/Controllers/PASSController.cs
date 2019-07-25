@@ -6,10 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Infobase.Models;
-using Infobase.Models.PASS;
+using Models.Contexts.PASS;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Filters;
-
 
 
 namespace Infobase.Controllers
@@ -17,9 +16,9 @@ namespace Infobase.Controllers
 
     public class PASSController : Controller
     {
-        private readonly PASSContext _context;
+        private readonly Context _context;
 
-        public PASSController(PASSContext context)
+        public PASSController(Context context)
         {
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _context = context;
