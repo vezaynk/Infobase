@@ -11,40 +11,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Model_Generator
 {
+    public enum BuildStrategy { Source, Assembly, Embedded };
     public class Program
     {
-        public static void SetupDatabase(bool buildFromSource)
+        public static void SetupDatabase(string datasetName,
+                                            string csvFilePath,
+                                            string connectionString,
+                                            BuildStrategy buildStrategy = BuildStrategy.Embedded,
+                                            string migrationsDirectory = "../models/Migrations/",
+                                            string modelsDirectory = "../models/Contexts/",
+                                            string pathToAssembly = null)
         {
-            string datasetName = "PASS";
-            string csvFilePath = "./pass.csv";
-            var connectionString = $"Host=localhost;Port=5432;Database={datasetName};Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
-
             DatabaseCreator databaseCreator;
 
-            if (buildFromSource)
+            switch (buildStrategy)
             {
-                var migrationsDirectory = "../models/Migrations/";
-                var modelsDirectory = "../models/Contexts/";
-                Console.Write("Building DBContext from source...");
-                databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, datasetName);
-                Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
-                databaseCreator.CreateMigration();
-                Console.Write("Rebuilding...");
-                databaseCreator.ReloadDbContext();
-                Console.WriteLine("Rebuilt!");
-                databaseCreator.SaveMigrations();
-            }
-            else
-            {
-                Assembly.LoadFrom(Path.GetFullPath("../infobase/bin/Debug/netcoreapp2.2/models.dll"));
-                databaseCreator = new DatabaseCreator(connectionString, Path.GetFullPath("../infobase/bin/Debug/netcoreapp2.2/models.dll"), datasetName);
+                case BuildStrategy.Assembly:
+                    databaseCreator = new DatabaseCreator(connectionString, Path.GetFullPath(pathToAssembly), datasetName);
+                    break;
+
+                case BuildStrategy.Source:
+                    Console.Write("Building DBContext from source...");
+                    databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, datasetName);
+                    Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
+                    databaseCreator.CreateMigration();
+                    Console.Write("Rebuilding...");
+                    databaseCreator.ReloadDbContext();
+                    Console.WriteLine("Rebuilt!");
+                    databaseCreator.SaveMigrations();
+                    break;
+
+                default:
+                    databaseCreator = new DatabaseCreator(connectionString, typeof(Models.Metadata.DatabaseAttribute).Assembly, datasetName);
+                    break;
+
             }
 
             Console.Write("Preparing Database...");
             Console.Write("Cleaning...");
             databaseCreator.CleanDatabase();
             databaseCreator.ReloadDbContext();
-            
+
             Console.Write($"Migrating ({databaseCreator.DbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
             databaseCreator.ApplyMigrations();
             Console.WriteLine($"Done! Database has been updated to match the models.");
@@ -61,8 +68,15 @@ namespace Model_Generator
         {
             var lf = new LoggerFactory();
             var l = lf.CreateLogger(typeof(DbContext));
-            l.LogInformation("Test");
-            SetupDatabase(false);
+
+            string datasetName = "PASS";
+            string csvFilePath = "./pass.csv";
+            var connectionString = $"Host=localhost;Port=5432;Database={datasetName};Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
+
+            // Source is used for development in order to generate migration files
+            // Embedded is to use the Models.DLL which ships with the project
+            // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
+            SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Embedded);
 
             // try
             // {
@@ -141,5 +155,5 @@ namespace Model_Generator
             return new string(text.Split(new[] { "_", " ", "-" }, StringSplitOptions.RemoveEmptyEntries).Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1, s.Length - 1)).Aggregate(string.Empty, (s1, s2) => s1 + s2).Where(c => char.IsLetterOrDigit(c)).ToArray());
         }
     }
-    
+
 }

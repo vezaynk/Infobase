@@ -24,9 +24,10 @@ namespace Model_Generator
         }
         public DatabaseCreator(string connectionString, string pathToAssembly, string datasetName) : this(connectionString, Assembly.LoadFrom(pathToAssembly), datasetName)
         {
-
+            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, pathToAssembly, datasetName)).DbContext;
         }
-        private DatabaseCreator(string connectionString, Assembly assembly, string datasetName)
+        
+        public DatabaseCreator(string connectionString, Assembly assembly, string datasetName)
         {
             this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Models.Contexts.{datasetName}.Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
             PendingMigrations = new Collection<ScaffoldedMigration>();
