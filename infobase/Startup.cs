@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Routing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Models.Metadata;
 
 namespace Infobase
 {
@@ -56,14 +57,21 @@ namespace Infobase
                     .Where(method => method.Name == "AddDbContext" && method.GetGenericArguments().First().BaseType == typeof(DbContext))
                     .First(method => method.GetParameters()[1].ParameterType == typeof(Action<DbContextOptionsBuilder>));
 
-            var dbContextTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "Infobase.Models" && t.BaseType == typeof(DbContext));
+            var dbContextTypes = Assembly
+                                    .GetExecutingAssembly()
+                                    .GetReferencedAssemblies()
+                                    .Select(x => Assembly.Load(x))
+                                    .SelectMany(a => a.GetTypes())
+                                    .Where(t => t.BaseType == typeof(DbContext) && t.Namespace.StartsWith("Models.Contexts"));
 
+            Console.WriteLine($"{dbContextTypes.Count()} contexts");
             foreach (var dbContextType in dbContextTypes)
             {
+                var connectionString = Configuration.GetConnectionString(dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName);
                 AddDbContextMethod
                     .MakeGenericMethod(new Type[] { dbContextType })
                     .Invoke(services, new object[] {services, new Action<DbContextOptionsBuilder>(options =>
-                        options.UseNpgsql(Configuration.GetConnectionString(dbContextType.Name))), AddDbContextMethod.GetParameters()[2].DefaultValue, AddDbContextMethod.GetParameters()[3].DefaultValue});
+                        options.UseNpgsql(connectionString)), AddDbContextMethod.GetParameters()[2].DefaultValue, AddDbContextMethod.GetParameters()[3].DefaultValue});
             }
 
             //services.AddMiniProfiler();

@@ -8,6 +8,7 @@ using Models.Metadata;
 
 namespace Models.Contexts.PASS
 {
+    [Database("PASSContext")]
     public class Context : DbContext
     {
         public Context(DbContextOptions options)
