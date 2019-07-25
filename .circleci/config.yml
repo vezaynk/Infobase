@@ -22,18 +22,17 @@ jobs:
           command: |
             source /root/.bashrc
             dotnet publish -c Release -r win10-x64
+            mkdir artifacts
 
       - run:
           name: "Package Main Project"
           command: |
-            mkdir artifacts
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
             zip -qr ~/project/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Package Model Generator Project"
           command: |
-            mkdir artifacts
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
             zip -qr ~/project/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
