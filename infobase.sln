@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infobase", "infobase\Infobase.csproj", "{84925FF6-54E7-4EA6-A0A9-FB04A412276F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infobase", "Infobase\Infobase.csproj", "{84925FF6-54E7-4EA6-A0A9-FB04A412276F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model-generator", "model-generator\model-generator.csproj", "{0D0053E1-5735-41C1-A65C-D76F1F8875B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model-Generator", "Model-Generator\Model-Generator.csproj", "{0D0053E1-5735-41C1-A65C-D76F1F8875B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "models", "models\models.csproj", "{F8F7E4FE-B633-4DD7-994C-5432475D115E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{F8F7E4FE-B633-4DD7-994C-5432475D115E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

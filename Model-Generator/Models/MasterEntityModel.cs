@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace model_generator
+namespace Model_Generator
 {
     public class MasterEntityModel
     {

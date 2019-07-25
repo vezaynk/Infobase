@@ -28,7 +28,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal;
 using Microsoft.EntityFrameworkCore.Proxies;
 using StackExchange.Profiling;
 
-namespace model_generator
+namespace Model_Generator
 {
     public class MigrationGenerator
     {
