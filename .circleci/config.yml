@@ -16,27 +16,30 @@ jobs:
             apt -y install zip
             wget https://github.com/tcnksm/ghr/releases/download/v0.12.1/ghr_v0.12.1_linux_amd64.tar.gz
             tar -C /usr/local/bin -xf ghr_v0.12.1_linux_amd64.tar.gz --strip-components=1 ghr_v0.12.1_linux_amd64/ghr
+            mkdir artifacts
 
       - run:
           name: "Publish project at target windows"
           command: |
             source /root/.bashrc
             dotnet publish -c Release -r win10-x64
-            mkdir artifacts
 
       - run:
           name: "Package Main Project"
           command: |
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
-            zip -qr ~/project/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            zip -qr ~/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Package Model Generator Project"
           command: |
-            cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
-            zip -qr ~/project/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            cd Model-Generator/bin/Release/netcoreapp2.2/win10-x64/publish
+            zip -qr ~/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Upload to GitHub"
           command: |
-            ghr -n 'Latest build by CircleCI' -b "Build for project *$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH* completed at $(date)" --delete latest artifacts
+            ghr -n 'Latest build by CircleCI' -b "Build for project **$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH** completed at **$(date)**" --delete latest artifacts
+      
+      - store_artifacts:
+          path: ~/artifacts
