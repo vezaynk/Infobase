@@ -20,7 +20,6 @@ jobs:
       - run:
           name: "Publish project at target windows"
           command: |
-            cd ~
             source /root/.bashrc
             dotnet publish -c Release -r win10-x64
 
