@@ -8,6 +8,7 @@ jobs:
       - run:
           name: "Install node, zip and ghr"
           command: |
+            cd ~
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
             source /root/.bashrc
             nvm install node
@@ -19,6 +20,7 @@ jobs:
       - run:
           name: "Publish project at target windows"
           command: |
+            cd ~
             source /root/.bashrc
             dotnet publish -c Release -r win10-x64
 
@@ -27,16 +29,16 @@ jobs:
           command: |
             mkdir artifacts
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
-            zip -qr $CIRCLE_WORKING_DIRECTORY/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            zip -qr ~/project/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Package Model Generator Project"
           command: |
             mkdir artifacts
             cd Infobase/bin/Release/netcoreapp2.2/win10-x64/publish
-            zip -qr $CIRCLE_WORKING_DIRECTORY/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
+            zip -qr ~/project/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Upload to GitHub"
           command: |
-            ghr -n 'Latest build by CircleCI' --delete latest artifacts
+            ghr -n 'Latest build by CircleCI' -b "Build for project *$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH* completed at $(date)" --delete latest artifacts
