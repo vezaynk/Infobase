@@ -9,8 +9,6 @@ using Models.Metadata;
 namespace Models.Contexts.PASS
 {
     [Filter(0)]
-    [Text("Activity", "en-ca")]
-    [Text("Activité", "fr-ca")]
     public class Activity
     {
         public int ActivityId { get; set; }
@@ -28,7 +26,11 @@ namespace Models.Contexts.PASS
             return "No culture";
         }
         [CSVColumn("Activity")]
+        [ShowOn(TextAppearance.Filter)]
+        // [Text("Activity", "en-ca")]
         public string ActivityNameEn { get; set; }
+        [ShowOn(TextAppearance.Filter)]
+        // [Text("Activité", "fr-ca")]
         public string ActivityNameFr { get; set; }
 
         public int? DefaultIndicatorGroupId { get; set; }
@@ -37,8 +39,6 @@ namespace Models.Contexts.PASS
     }
 
     [Filter(3)]
-    [Text("Indicator", "en-ca")]
-    [Text("Indicateur", "fr-ca")]
     public class Indicator
     {
         public int IndicatorId { get; set; }
@@ -59,7 +59,9 @@ namespace Models.Contexts.PASS
             return "No culture";
         }
         [CSVColumn("Indicator")]
+        // [Text("Indicator", "en-ca")]
         public string IndicatorNameEn { get; set; }
+        // [Text("Indicateur", "fr-ca")]
         public string IndicatorNameFr { get; set; }
 
         public int? DefaultMeasureId { get; set; }
@@ -67,7 +69,7 @@ namespace Models.Contexts.PASS
         public virtual Measure DefaultMeasure { get; set; }
     }
 
-    [Text("Data Breakdowns", "en-ca")]
+    // [Text("Data Breakdowns", "en-ca")]
     [Filter(1)]
     public class IndicatorGroup
     {
@@ -94,7 +96,7 @@ namespace Models.Contexts.PASS
         [ForeignKey("DefaultLifeCourseId")]
         public virtual LifeCourse DefaultLifeCourse { get; set; }
     }
-    [Text("Life Course", "en-ca")]
+    // [Text("Life Course", "en-ca")]
     [Filter(2)]
     public class LifeCourse
     {
@@ -123,9 +125,9 @@ namespace Models.Contexts.PASS
         [ForeignKey("DefaultIndicatorId")]
         public virtual Indicator DefaultIndicator { get; set; }
     }
-    
-    [Text("Measure", "en-ca")]
-    [Text("Measure", "fr-ca")]
+
+    // [Text("Measure", "en-ca")]
+    // [Text("Measure", "fr-ca")]
     [Filter(4)]
     public class Measure
     {
@@ -317,8 +319,8 @@ namespace Models.Contexts.PASS
         public int Type { get; set; }
     }
 
-    [Text("Data Breakdown", "en-ca")]
-    [Text("", "fr-ca")]
+    // [Text("Data Breakdown", "en-ca")]
+    // [Text("", "fr-ca")]
     [Filter(5)]
     public class Strata
     {
