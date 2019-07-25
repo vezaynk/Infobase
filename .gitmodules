@@ -1,3 +1,0 @@
-[submodule "csharploader"]
-	path = CSharpLoader
-	url = git@github.com:knyzorg/csharploader.git
