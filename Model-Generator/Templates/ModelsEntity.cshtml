@@ -1,0 +1,60 @@
+@using Models
+@using Models.Metadata
+@using Model_Generator
+@using Pluralize.NET
+@using System.Reflection
+@using System.Linq
+
+@model Type
+
+@{
+    var properties = Model.GetProperties();
+
+    var filtersProperties = properties
+            .Where(prop => prop.GetCustomAttribute<FilterAttribute>() != null)
+            .OrderBy(prop => prop.GetCustomAttribute<FilterAttribute>().Level);
+
+    var measureProperty = filtersProperties.SkipLast(2).Last();
+    var breakdownProperty = filtersProperties.SkipLast(1).Last();
+    var pointProperty = filtersProperties.Last();
+}
+// This file was written by a tool
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Models.Metadata;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Models.Contexts.PASS2 {
+@foreach (var current in filtersProperties) {
+    var next = filtersProperties.FirstOrDefault(property => property.GetCustomAttribute<FilterAttribute>().Level == current.GetCustomAttribute<FilterAttribute>().Level + 1);
+    var previous = filtersProperties.FirstOrDefault(property => property.GetCustomAttribute<FilterAttribute>().Level == current.GetCustomAttribute<FilterAttribute>().Level - 1);
+    
+    @:public class @(current.Name) {
+        @:public int Index { get; set; }
+        @:public int @(current.Name)Id { get; set; }
+    if (next != null) {
+        @:[InverseProperty("@(current.Name)")]
+        @:public ICollection<@(next.Name)> @(new Pluralizer().Pluralize(next.Name)) { get; set; }
+        @:[ForeignKey("DefaultStrataId")]
+        @:public @(next.Name) Default@(next.Name) { get; set; }    
+        @:public int? Default@(next.Name)Id { get; set; }    
+    }
+        @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
+        @:[ShowOn(TextAppearance.Filter)]
+        @:[BindToMaster("@(current.Name)")]
+        @:public string @(current.Name)NameEn { get; set; }
+        @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+        @:[ShowOn(TextAppearance.Filter)]
+        @:public string @(current.Name)NameFr { get; set; }
+    if (previous != null) { 
+        @:public int @(previous.Name)Id { get; set; }
+        @:public @(previous.Name) @(previous.Name) { get; set; }
+    }
+
+    @:}
+}
+    
+}

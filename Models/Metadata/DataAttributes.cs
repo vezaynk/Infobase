@@ -10,6 +10,12 @@ namespace Models.Metadata
     public class PointAverageAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
+    public class DataLabelTable : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DataLabelChart : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Property)]
     public class PointUpperAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -31,4 +37,6 @@ namespace Models.Metadata
     public class UnitLongAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitShortAttribute : Attribute { }
+    [AttributeUsage(AttributeTargets.Property)]
+    public class Included : Attribute { }
 }

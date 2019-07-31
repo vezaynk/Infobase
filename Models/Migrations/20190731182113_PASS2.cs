@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Models.Migrations
 {
-    public partial class PASS : Migration
+    public partial class PASS2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,14 @@ namespace Models.Migrations
                     SpecificMeasure = table.Column<string>(nullable: true),
                     DataBreakdowns = table.Column<string>(nullable: true),
                     Strata = table.Column<string>(nullable: true),
+                    CV = table.Column<string>(nullable: true),
+                    Data = table.Column<string>(nullable: true),
+                    CILow95 = table.Column<string>(nullable: true),
+                    CIUpper95 = table.Column<string>(nullable: true),
+                    CVInterpretation = table.Column<string>(nullable: true),
+                    CVRangeLower = table.Column<string>(nullable: true),
+                    CVRangeUpper = table.Column<string>(nullable: true),
+                    FeatureData = table.Column<string>(nullable: true),
                     Population1 = table.Column<string>(nullable: true),
                     UnitLabelLong = table.Column<string>(nullable: true),
                     DataSource1 = table.Column<string>(nullable: true),
@@ -35,15 +43,7 @@ namespace Models.Migrations
                     EstimateCalculation = table.Column<string>(nullable: true),
                     AdditionalRemarks = table.Column<string>(nullable: true),
                     IsIncluded = table.Column<string>(nullable: true),
-                    IsAggregator = table.Column<string>(nullable: true),
-                    CV = table.Column<string>(nullable: true),
-                    Data = table.Column<string>(nullable: true),
-                    CILow95 = table.Column<string>(nullable: true),
-                    CIUpper95 = table.Column<string>(nullable: true),
-                    CVInterpretation = table.Column<string>(nullable: true),
-                    CVRangeLower = table.Column<string>(nullable: true),
-                    CVRangeUpper = table.Column<string>(nullable: true),
-                    FeatureData = table.Column<string>(nullable: true)
+                    IsAggregator = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,11 +56,12 @@ namespace Models.Migrations
                 {
                     IndicatorGroupId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ActivityId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
+                    DefaultStrataId = table.Column<int>(nullable: true),
+                    DefaultLifeCourseId = table.Column<int>(nullable: true),
                     IndicatorGroupNameEn = table.Column<string>(nullable: true),
                     IndicatorGroupNameFr = table.Column<string>(nullable: true),
-                    DefaultLifeCourseId = table.Column<int>(nullable: true)
+                    ActivityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,17 +76,18 @@ namespace Models.Migrations
                     ActivityId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Index = table.Column<int>(nullable: false),
+                    DefaultStrataId = table.Column<int>(nullable: true),
+                    DefaultIndicatorGroupId = table.Column<int>(nullable: true),
                     ActivityNameEn = table.Column<string>(nullable: true),
-                    ActivityNameFr = table.Column<string>(nullable: true),
-                    DefaultIndicatorGroupId = table.Column<int>(nullable: true)
+                    ActivityNameFr = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Activity", x => x.ActivityId);
                     table.UniqueConstraint("AK_Activity_Index", x => x.Index);
                     table.ForeignKey(
-                        name: "FK_Activity_IndicatorGroup_DefaultIndicatorGroupId",
-                        column: x => x.DefaultIndicatorGroupId,
+                        name: "FK_Activity_IndicatorGroup_DefaultStrataId",
+                        column: x => x.DefaultStrataId,
                         principalTable: "IndicatorGroup",
                         principalColumn: "IndicatorGroupId",
                         onDelete: ReferentialAction.Restrict);
@@ -97,11 +99,12 @@ namespace Models.Migrations
                 {
                     LifeCourseId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IndicatorGroupId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
+                    DefaultStrataId = table.Column<int>(nullable: true),
+                    DefaultIndicatorId = table.Column<int>(nullable: true),
                     LifeCourseNameEn = table.Column<string>(nullable: true),
                     LifeCourseNameFr = table.Column<string>(nullable: true),
-                    DefaultIndicatorId = table.Column<int>(nullable: true)
+                    IndicatorGroupId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,41 +122,18 @@ namespace Models.Migrations
                 name: "Measure",
                 columns: table => new
                 {
-                    MeasureId = table.Column<int>(nullable: false)
+                    SpecificMeasureId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IndicatorId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
-                    Included = table.Column<bool>(nullable: false),
-                    Aggregator = table.Column<bool>(nullable: false),
-                    CVWarnAt = table.Column<double>(nullable: true),
-                    CVSuppressAt = table.Column<double>(nullable: true),
-                    MeasureNameIndexEn = table.Column<string>(nullable: true),
-                    MeasureNameDataToolEn = table.Column<string>(nullable: true),
-                    MeasureDefinitionEn = table.Column<string>(nullable: true),
-                    MeasureMethodEn = table.Column<string>(nullable: true),
-                    MeasureAdditionalRemarksEn = table.Column<string>(nullable: true),
-                    MeasureDataAvailableEn = table.Column<string>(nullable: true),
-                    MeasurePopulationGroupEn = table.Column<string>(nullable: true),
-                    MeasureSourceShortEn = table.Column<string>(nullable: true),
-                    MeasureSourceLongEn = table.Column<string>(nullable: true),
-                    MeasureUnitShortEn = table.Column<string>(nullable: true),
-                    MeasureUnitLongEn = table.Column<string>(nullable: true),
-                    MeasureNameIndexFr = table.Column<string>(nullable: true),
-                    MeasureNameDataToolFr = table.Column<string>(nullable: true),
-                    MeasureDefinitionFr = table.Column<string>(nullable: true),
-                    MeasureMethodFr = table.Column<string>(nullable: true),
-                    MeasureAdditionalRemarksFr = table.Column<string>(nullable: true),
-                    MeasureDataAvailableFr = table.Column<string>(nullable: true),
-                    MeasurePopulationGroupFr = table.Column<string>(nullable: true),
-                    MeasureSourceShortFr = table.Column<string>(nullable: true),
-                    MeasureSourceLongFr = table.Column<string>(nullable: true),
-                    MeasureUnitShortFr = table.Column<string>(nullable: true),
-                    MeasureUnitLongFr = table.Column<string>(nullable: true),
-                    DefaultStrataId = table.Column<int>(nullable: true)
+                    DefaultStrataId = table.Column<int>(nullable: true),
+                    DefaultDataBreakdownsId = table.Column<int>(nullable: true),
+                    SpecificMeasureNameEn = table.Column<string>(nullable: true),
+                    SpecificMeasureNameFr = table.Column<string>(nullable: true),
+                    IndicatorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Measure", x => x.MeasureId);
+                    table.PrimaryKey("PK_Measure", x => x.SpecificMeasureId);
                     table.UniqueConstraint("AK_Measure_Index", x => x.Index);
                 });
 
@@ -163,21 +143,22 @@ namespace Models.Migrations
                 {
                     IndicatorId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LifeCourseId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
+                    DefaultStrataId = table.Column<int>(nullable: true),
+                    DefaultSpecificMeasureId = table.Column<int>(nullable: true),
                     IndicatorNameEn = table.Column<string>(nullable: true),
                     IndicatorNameFr = table.Column<string>(nullable: true),
-                    DefaultMeasureId = table.Column<int>(nullable: true)
+                    LifeCourseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Indicator", x => x.IndicatorId);
                     table.UniqueConstraint("AK_Indicator_Index", x => x.Index);
                     table.ForeignKey(
-                        name: "FK_Indicator_Measure_DefaultMeasureId",
-                        column: x => x.DefaultMeasureId,
+                        name: "FK_Indicator_Measure_DefaultStrataId",
+                        column: x => x.DefaultStrataId,
                         principalTable: "Measure",
-                        principalColumn: "MeasureId",
+                        principalColumn: "SpecificMeasureId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Indicator_LifeCourse_LifeCourseId",
@@ -188,75 +169,61 @@ namespace Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Point",
+                columns: table => new
+                {
+                    DataBreakdownsId = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Index = table.Column<int>(nullable: false),
+                    DefaultStrataId = table.Column<int>(nullable: true),
+                    DataBreakdownsNameEn = table.Column<string>(nullable: true),
+                    DataBreakdownsNameFr = table.Column<string>(nullable: true),
+                    SpecificMeasureId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Point", x => x.DataBreakdownsId);
+                    table.UniqueConstraint("AK_Point_Index", x => x.Index);
+                    table.ForeignKey(
+                        name: "FK_Point_Measure_SpecificMeasureId",
+                        column: x => x.SpecificMeasureId,
+                        principalTable: "Measure",
+                        principalColumn: "SpecificMeasureId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Strata",
                 columns: table => new
                 {
                     StrataId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MeasureId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
-                    DefaultPointId = table.Column<int>(nullable: true),
-                    StrataNotesEn = table.Column<string>(nullable: true),
                     StrataNameEn = table.Column<string>(nullable: true),
-                    StrataSourceEn = table.Column<string>(nullable: true),
-                    StrataPopulationTitleFragmentEn = table.Column<string>(nullable: true),
-                    StrataNotesFr = table.Column<string>(nullable: true),
                     StrataNameFr = table.Column<string>(nullable: true),
-                    StrataSourceFr = table.Column<string>(nullable: true),
-                    StrataPopulationTitleFragmentFr = table.Column<string>(nullable: true)
+                    DataBreakdownsId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Strata", x => x.StrataId);
                     table.UniqueConstraint("AK_Strata_Index", x => x.Index);
                     table.ForeignKey(
-                        name: "FK_Strata_Measure_MeasureId",
-                        column: x => x.MeasureId,
-                        principalTable: "Measure",
-                        principalColumn: "MeasureId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Point",
-                columns: table => new
-                {
-                    PointId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StrataId = table.Column<int>(nullable: false),
-                    Index = table.Column<int>(nullable: false),
-                    ValueAverage = table.Column<double>(nullable: true),
-                    ValueUpper = table.Column<double>(nullable: true),
-                    ValueLower = table.Column<double>(nullable: true),
-                    CVInterpretation = table.Column<int>(nullable: false),
-                    CVValue = table.Column<int>(nullable: true),
-                    PointLabelEn = table.Column<string>(nullable: true),
-                    PointLabelFr = table.Column<string>(nullable: true),
-                    PointTextEn = table.Column<string>(nullable: true),
-                    PointTextFr = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Point", x => x.PointId);
-                    table.UniqueConstraint("AK_Point_Index", x => x.Index);
-                    table.ForeignKey(
-                        name: "FK_Point_Strata_StrataId",
-                        column: x => x.StrataId,
-                        principalTable: "Strata",
-                        principalColumn: "StrataId",
+                        name: "FK_Strata_Point_DataBreakdownsId",
+                        column: x => x.DataBreakdownsId,
+                        principalTable: "Point",
+                        principalColumn: "DataBreakdownsId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activity_DefaultIndicatorGroupId",
+                name: "IX_Activity_DefaultStrataId",
                 table: "Activity",
-                column: "DefaultIndicatorGroupId");
+                column: "DefaultStrataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Indicator_DefaultMeasureId",
+                name: "IX_Indicator_DefaultStrataId",
                 table: "Indicator",
-                column: "DefaultMeasureId");
+                column: "DefaultStrataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Indicator_LifeCourseId",
@@ -269,14 +236,14 @@ namespace Models.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IndicatorGroup_DefaultLifeCourseId",
+                name: "IX_IndicatorGroup_DefaultStrataId",
                 table: "IndicatorGroup",
-                column: "DefaultLifeCourseId");
+                column: "DefaultStrataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LifeCourse_DefaultIndicatorId",
+                name: "IX_LifeCourse_DefaultStrataId",
                 table: "LifeCourse",
-                column: "DefaultIndicatorId");
+                column: "DefaultStrataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LifeCourse_IndicatorGroupId",
@@ -294,24 +261,24 @@ namespace Models.Migrations
                 column: "IndicatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Point_StrataId",
+                name: "IX_Point_DefaultStrataId",
                 table: "Point",
-                column: "StrataId");
+                column: "DefaultStrataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Strata_DefaultPointId",
-                table: "Strata",
-                column: "DefaultPointId");
+                name: "IX_Point_SpecificMeasureId",
+                table: "Point",
+                column: "SpecificMeasureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Strata_MeasureId",
+                name: "IX_Strata_DataBreakdownsId",
                 table: "Strata",
-                column: "MeasureId");
+                column: "DataBreakdownsId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_IndicatorGroup_LifeCourse_DefaultLifeCourseId",
+                name: "FK_IndicatorGroup_LifeCourse_DefaultStrataId",
                 table: "IndicatorGroup",
-                column: "DefaultLifeCourseId",
+                column: "DefaultStrataId",
                 principalTable: "LifeCourse",
                 principalColumn: "LifeCourseId",
                 onDelete: ReferentialAction.Restrict);
@@ -325,9 +292,9 @@ namespace Models.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_LifeCourse_Indicator_DefaultIndicatorId",
+                name: "FK_LifeCourse_Indicator_DefaultStrataId",
                 table: "LifeCourse",
-                column: "DefaultIndicatorId",
+                column: "DefaultStrataId",
                 principalTable: "Indicator",
                 principalColumn: "IndicatorId",
                 onDelete: ReferentialAction.Restrict);
@@ -341,26 +308,26 @@ namespace Models.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Measure_Strata_DefaultStrataId",
+                name: "FK_Measure_Point_DefaultStrataId",
                 table: "Measure",
                 column: "DefaultStrataId",
-                principalTable: "Strata",
-                principalColumn: "StrataId",
+                principalTable: "Point",
+                principalColumn: "DataBreakdownsId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Strata_Point_DefaultPointId",
-                table: "Strata",
-                column: "DefaultPointId",
-                principalTable: "Point",
-                principalColumn: "PointId",
+                name: "FK_Point_Strata_DefaultStrataId",
+                table: "Point",
+                column: "DefaultStrataId",
+                principalTable: "Strata",
+                principalColumn: "StrataId",
                 onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Activity_IndicatorGroup_DefaultIndicatorGroupId",
+                name: "FK_Activity_IndicatorGroup_DefaultStrataId",
                 table: "Activity");
 
             migrationBuilder.DropForeignKey(
@@ -368,20 +335,20 @@ namespace Models.Migrations
                 table: "LifeCourse");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Indicator_Measure_DefaultMeasureId",
+                name: "FK_Indicator_Measure_DefaultStrataId",
                 table: "Indicator");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Strata_Measure_MeasureId",
-                table: "Strata");
+                name: "FK_Point_Measure_SpecificMeasureId",
+                table: "Point");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Indicator_LifeCourse_LifeCourseId",
                 table: "Indicator");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Point_Strata_StrataId",
-                table: "Point");
+                name: "FK_Strata_Point_DataBreakdownsId",
+                table: "Strata");
 
             migrationBuilder.DropTable(
                 name: "Master");
@@ -402,10 +369,10 @@ namespace Models.Migrations
                 name: "Indicator");
 
             migrationBuilder.DropTable(
-                name: "Strata");
+                name: "Point");
 
             migrationBuilder.DropTable(
-                name: "Point");
+                name: "Strata");
         }
     }
 }

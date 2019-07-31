@@ -15,4 +15,13 @@ namespace Models.Metadata
             CSVColumnName = csvColumnName;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class BindToMasterAttribute: Attribute {
+        public string MasterProperty { get; set; }
+        public BindToMasterAttribute(string masterProperty)
+        {
+            MasterProperty = masterProperty;
+        }
+    }
 }

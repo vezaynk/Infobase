@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Text;
+using System.Text.Encodings;
+using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +11,10 @@ using Microsoft.CodeAnalysis;
 using RazorLight;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using CsvHelper.Configuration;
+using CsvHelper;
+using CSharpLoader;
+using Models.Metadata;
 
 namespace Model_Generator
 {
@@ -18,8 +25,8 @@ namespace Model_Generator
                                             string csvFilePath,
                                             string connectionString,
                                             BuildStrategy buildStrategy = BuildStrategy.Embedded,
-                                            string migrationsDirectory = "../models/Migrations/",
-                                            string modelsDirectory = "../models/Contexts/",
+                                            string migrationsDirectory = "../Models/Migrations/",
+                                            string modelsDirectory = "../Models/Contexts/",
                                             string pathToAssembly = null)
         {
             DatabaseCreator databaseCreator;
@@ -64,12 +71,12 @@ namespace Model_Generator
             }
             databaseCreator.LoadEntitiesFromMaster();
         }
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var lf = new LoggerFactory();
             var l = lf.CreateLogger(typeof(DbContext));
 
-            string datasetName = "PASS";
+            string datasetName = "PASS2";
             string csvFilePath = "./pass.csv";
             var connectionString = $"Host=localhost;Port=5432;Database={datasetName};Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
@@ -78,75 +85,46 @@ namespace Model_Generator
             // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
             SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Embedded);
 
-            // try
+            // using (var sr = new StreamReader(csvFilePath))
+            // using (var csv = new CsvReader(sr, new Configuration
             // {
-            // var engine = new RazorLightEngineBuilder()
-            //                 .UseFilesystemProject($"{Directory.GetCurrentDirectory()}/Templates")
-            //                 .UseMemoryCachingProvider()
-            //                 .Build();
+            //     Delimiter = ",",
+            //     Encoding = Encoding.UTF8
+            // }))
+            // {
+            //     csv.Read();
+            //     csv.ReadHeader();
 
-            // var output = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
-            // {
-            //     DatasetName = "PASS",
-            //     Properties = csv.Context.HeaderRecord
-            // });
-            // Console.WriteLine(output);
-            // var imc = new InMemoryCompiler();
-            // imc.AddCodeBody(output);
-            // var asm = imc.CompileAssembly();
-            // Console.WriteLine(output);
-            //Console.WriteLine(await engine.CompileRenderAsync("ImportSQL.cshtml", models));
+            //     try
+            //     {
+            //         var engine = new RazorLightEngineBuilder()
+            //                         .UseFilesystemProject(Path.GetFullPath("./Templates"))
+            //                         .UseMemoryCachingProvider()
+            //                         .Build();
+                                                 
+            //         // var outputMaster = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
+            //         // {
+            //         //     DatasetName = "PASS2",
+            //         //     Properties = csv.Context.HeaderRecord
+            //         // });
+            //         // Console.WriteLine(output)q;
 
-            // foreach (var a in models)
-            // {
-
-            //string result = await engine.CompileRenderAsync("Entity.cshtml", a);
-            //Console.WriteLine(a);
-            // var childAttribute = a.GetCustomAttribute<ChildOf>();
-            // if (childAttribute == null)
-            // {
-            //     Console.WriteLine("Null");
-            // }
-            // else
-            // {
-            //     Console.WriteLine($"Parent Name: {childAttribute.Parent.Name}");
-            // }
-            // var parentAttribute = a.GetCustomAttribute<ParentOf>();
-            // if (parentAttribute == null)
-            // {
-            //     Console.WriteLine("Null");
-            // }
-            // else
-            // {
-            //     Console.WriteLine($"Child Name: {parentAttribute.Child.Name}");
+                    
+            //         var outputModels = await engine.CompileRenderAsync("ModelsEntity.cshtml", typeof(Models.Contexts.PASS2.Master));
+                    
+            //         Console.WriteLine(outputModels);
+            //         var imc = new InMemoryCompiler();
+            //         imc.AddCodeBody(outputModels);
+            //         var asm = imc.CompileAssembly();
+            //         var masterType = asm.GetType($"Models.Contexts.PASS2.Master");
+            //     }
+            //     catch (System.Exception e)
+            //     {
+            //         Console.Write(e);
+            //     }
             // }
 
-            // var textDataAttributes = a.GetCustomAttributes<TextData>();
-            // foreach (var textDataAttribute in textDataAttributes)
-            // {
-            //     Console.WriteLine($"Text Name: {textDataAttribute.Name}");
-            // }
-
-
-            // var modifierAttribute = a.GetCustomAttribute<Modifier>();
-            // if (modifierAttribute == null)
-            // {
-            //     Console.WriteLine("Null");
-            // }
-            // else
-            // {
-            //     Console.WriteLine($"Modifiers: {modifierAttribute}");
-            // }
-
-            //     // modifierAttribute.Modifiers.HasFlag(ModelModifier.Aggregator)
-
-            // }
-            // var x = typeof(Models.{datasetName}.Activity);
-            // }
-            // catch (System.Exception e)
-            // {
-            //     Console.Write(e);
-            // }
+            
         }
 
 

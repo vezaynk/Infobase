@@ -1,24 +1,60 @@
-@using model_generator;
+@using Models;
+@using Models.Metadata;
+@using Model_Generator;
 @model MasterEntityModel
 // This file was written by a tool
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using model_generator;
-using models.metadata;
+using Models.Metadata;
+using System.ComponentModel.DataAnnotations;
 
-namespace Infobase.Models.@(Model.DatasetName) {
+namespace Models.Contexts.@(Model.DatasetName) {
     public class Master {
         /**
-        It is important to not forget to use the following annotations also:
+            It is important to not forget to use the following annotations also (Cut and paste as necessary).`
+            If the needed data column is derivable, include it in the generate data models later.
+
+            ** Data Properties **
+                [CVRangeUpper]
+                [CVRangeLower]
+                [CV]
+                [CVInterpretation] (May be derivable based on where the CV falls relative to CV Ranges)
+                
+                [PointAverage]
+                [PointUpper]
+                [PointLower]
+                
+                [UnitShort]
+                [UnitLong] (Can be figured out by looking at UnitShort)
+
+                [DataLabelTable]
+                [DataLabelChart]
+
+            ** Filters **
+                [Filter(0)] <- Top level
+                [Filter(1)]
+                [Filter(...)]
+                [Filter(5)] <- Third to last level: Contains information common to all breakdowns within it (i.e. source, population, etc)
+                [Filter(6)] <- Second to last level: Data breakdown (by sex, by age, etc)
+                [Filter(7)] <- Last level: Point (actual data)
+
+            ** Display properties **
+                [Text("Visible Text", "en-ca/fr-ca")] <- This text will be show alongside wherever the contents appear. (Directed by [ShowOn(...)])
+                [ShowOn(TextAppearance.Filter)] <- Implicitly applied when using [Filter(...)], do not use
+                [ShowOn(TextAppearance.MeasureDescription)] <- Appears in measure description tables
+                [ShowOn(TextAppearance.Notes)] <- Appears in the notes section in the data tool
         **/
+        [Key]
         public int Index { get; set; }
-@foreach (var property in @Model.Properties) {
-        @:[Text("@property", "en-ca")]
-        @:[Text("@property", "fr-ca")]
-        @:[CSV("@property")]
-        @:public string @(Program.ToPascalCase(property)) { get; set; }
+
+@foreach (var column in @Model.Properties) {
+        @:[Text("@column", "en-ca")]
+        @:[Text("@column", "fr-ca")]
+        @:[CSVColumn("@column")]
+        @:public string @(Program.ToPascalCase(column)) { get; set; }
+        @:
         @:
 }
     }

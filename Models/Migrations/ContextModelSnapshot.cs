@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Models.Contexts.PASS;
+using Models.Contexts.PASS2;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Models.Migrations
@@ -19,7 +19,7 @@ namespace Models.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Models.Contexts.PASS.Activity", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.Activity", b =>
                 {
                     b.Property<int>("ActivityId")
                         .ValueGeneratedOnAdd();
@@ -30,23 +30,53 @@ namespace Models.Migrations
 
                     b.Property<int?>("DefaultIndicatorGroupId");
 
+                    b.Property<int?>("DefaultStrataId");
+
                     b.Property<int>("Index");
 
                     b.HasKey("ActivityId");
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultIndicatorGroupId");
+                    b.HasIndex("DefaultStrataId");
 
                     b.ToTable("Activity");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Indicator", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.DataBreakdowns", b =>
+                {
+                    b.Property<int>("DataBreakdownsId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DataBreakdownsNameEn");
+
+                    b.Property<string>("DataBreakdownsNameFr");
+
+                    b.Property<int?>("DefaultStrataId");
+
+                    b.Property<int>("Index");
+
+                    b.Property<int>("SpecificMeasureId");
+
+                    b.HasKey("DataBreakdownsId");
+
+                    b.HasAlternateKey("Index");
+
+                    b.HasIndex("DefaultStrataId");
+
+                    b.HasIndex("SpecificMeasureId");
+
+                    b.ToTable("Point");
+                });
+
+            modelBuilder.Entity("Models.Contexts.PASS2.Indicator", b =>
                 {
                     b.Property<int>("IndicatorId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DefaultMeasureId");
+                    b.Property<int?>("DefaultSpecificMeasureId");
+
+                    b.Property<int?>("DefaultStrataId");
 
                     b.Property<int>("Index");
 
@@ -60,14 +90,14 @@ namespace Models.Migrations
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultMeasureId");
+                    b.HasIndex("DefaultStrataId");
 
                     b.HasIndex("LifeCourseId");
 
                     b.ToTable("Indicator");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.IndicatorGroup", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.IndicatorGroup", b =>
                 {
                     b.Property<int>("IndicatorGroupId")
                         .ValueGeneratedOnAdd();
@@ -75,6 +105,8 @@ namespace Models.Migrations
                     b.Property<int>("ActivityId");
 
                     b.Property<int?>("DefaultLifeCourseId");
+
+                    b.Property<int?>("DefaultStrataId");
 
                     b.Property<int>("Index");
 
@@ -88,17 +120,19 @@ namespace Models.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("DefaultLifeCourseId");
+                    b.HasIndex("DefaultStrataId");
 
                     b.ToTable("IndicatorGroup");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.LifeCourse", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.LifeCourse", b =>
                 {
                     b.Property<int>("LifeCourseId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("DefaultIndicatorId");
+
+                    b.Property<int?>("DefaultStrataId");
 
                     b.Property<int>("Index");
 
@@ -112,14 +146,14 @@ namespace Models.Migrations
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultIndicatorId");
+                    b.HasIndex("DefaultStrataId");
 
                     b.HasIndex("IndicatorGroupId");
 
                     b.ToTable("LifeCourse");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Master", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.Master", b =>
                 {
                     b.Property<int>("Index")
                         .ValueGeneratedOnAdd();
@@ -191,70 +225,24 @@ namespace Models.Migrations
                     b.ToTable("Master");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Measure", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.SpecificMeasure", b =>
                 {
-                    b.Property<int>("MeasureId")
+                    b.Property<int>("SpecificMeasureId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Aggregator");
-
-                    b.Property<double?>("CVSuppressAt");
-
-                    b.Property<double?>("CVWarnAt");
+                    b.Property<int?>("DefaultDataBreakdownsId");
 
                     b.Property<int?>("DefaultStrataId");
-
-                    b.Property<bool>("Included");
 
                     b.Property<int>("Index");
 
                     b.Property<int>("IndicatorId");
 
-                    b.Property<string>("MeasureAdditionalRemarksEn");
+                    b.Property<string>("SpecificMeasureNameEn");
 
-                    b.Property<string>("MeasureAdditionalRemarksFr");
+                    b.Property<string>("SpecificMeasureNameFr");
 
-                    b.Property<string>("MeasureDataAvailableEn");
-
-                    b.Property<string>("MeasureDataAvailableFr");
-
-                    b.Property<string>("MeasureDefinitionEn");
-
-                    b.Property<string>("MeasureDefinitionFr");
-
-                    b.Property<string>("MeasureMethodEn");
-
-                    b.Property<string>("MeasureMethodFr");
-
-                    b.Property<string>("MeasureNameDataToolEn");
-
-                    b.Property<string>("MeasureNameDataToolFr");
-
-                    b.Property<string>("MeasureNameIndexEn");
-
-                    b.Property<string>("MeasureNameIndexFr");
-
-                    b.Property<string>("MeasurePopulationGroupEn");
-
-                    b.Property<string>("MeasurePopulationGroupFr");
-
-                    b.Property<string>("MeasureSourceLongEn");
-
-                    b.Property<string>("MeasureSourceLongFr");
-
-                    b.Property<string>("MeasureSourceShortEn");
-
-                    b.Property<string>("MeasureSourceShortFr");
-
-                    b.Property<string>("MeasureUnitLongEn");
-
-                    b.Property<string>("MeasureUnitLongFr");
-
-                    b.Property<string>("MeasureUnitShortEn");
-
-                    b.Property<string>("MeasureUnitShortFr");
-
-                    b.HasKey("MeasureId");
+                    b.HasKey("SpecificMeasureId");
 
                     b.HasAlternateKey("Index");
 
@@ -265,154 +253,100 @@ namespace Models.Migrations
                     b.ToTable("Measure");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Point", b =>
-                {
-                    b.Property<int>("PointId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CVInterpretation");
-
-                    b.Property<int?>("CVValue");
-
-                    b.Property<int>("Index");
-
-                    b.Property<string>("PointLabelEn");
-
-                    b.Property<string>("PointLabelFr");
-
-                    b.Property<string>("PointTextEn");
-
-                    b.Property<string>("PointTextFr");
-
-                    b.Property<int>("StrataId");
-
-                    b.Property<int>("Type");
-
-                    b.Property<double?>("ValueAverage");
-
-                    b.Property<double?>("ValueLower");
-
-                    b.Property<double?>("ValueUpper");
-
-                    b.HasKey("PointId");
-
-                    b.HasAlternateKey("Index");
-
-                    b.HasIndex("StrataId");
-
-                    b.ToTable("Point");
-                });
-
-            modelBuilder.Entity("Models.Contexts.PASS.Strata", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.Strata", b =>
                 {
                     b.Property<int>("StrataId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DefaultPointId");
+                    b.Property<int>("DataBreakdownsId");
 
                     b.Property<int>("Index");
-
-                    b.Property<int>("MeasureId");
 
                     b.Property<string>("StrataNameEn");
 
                     b.Property<string>("StrataNameFr");
 
-                    b.Property<string>("StrataNotesEn");
-
-                    b.Property<string>("StrataNotesFr");
-
-                    b.Property<string>("StrataPopulationTitleFragmentEn");
-
-                    b.Property<string>("StrataPopulationTitleFragmentFr");
-
-                    b.Property<string>("StrataSourceEn");
-
-                    b.Property<string>("StrataSourceFr");
-
                     b.HasKey("StrataId");
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultPointId");
-
-                    b.HasIndex("MeasureId");
+                    b.HasIndex("DataBreakdownsId");
 
                     b.ToTable("Strata");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Activity", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.Activity", b =>
                 {
-                    b.HasOne("Models.Contexts.PASS.IndicatorGroup", "DefaultIndicatorGroup")
+                    b.HasOne("Models.Contexts.PASS2.IndicatorGroup", "DefaultIndicatorGroup")
                         .WithMany()
-                        .HasForeignKey("DefaultIndicatorGroupId");
+                        .HasForeignKey("DefaultStrataId");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Indicator", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.DataBreakdowns", b =>
                 {
-                    b.HasOne("Models.Contexts.PASS.Measure", "DefaultMeasure")
+                    b.HasOne("Models.Contexts.PASS2.Strata", "DefaultStrata")
                         .WithMany()
-                        .HasForeignKey("DefaultMeasureId");
+                        .HasForeignKey("DefaultStrataId");
 
-                    b.HasOne("Models.Contexts.PASS.LifeCourse", "LifeCourse")
+                    b.HasOne("Models.Contexts.PASS2.SpecificMeasure", "SpecificMeasure")
+                        .WithMany("DataBreakdowns")
+                        .HasForeignKey("SpecificMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.Contexts.PASS2.Indicator", b =>
+                {
+                    b.HasOne("Models.Contexts.PASS2.SpecificMeasure", "DefaultSpecificMeasure")
+                        .WithMany()
+                        .HasForeignKey("DefaultStrataId");
+
+                    b.HasOne("Models.Contexts.PASS2.LifeCourse", "LifeCourse")
                         .WithMany("Indicators")
                         .HasForeignKey("LifeCourseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.IndicatorGroup", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.IndicatorGroup", b =>
                 {
-                    b.HasOne("Models.Contexts.PASS.Activity", "Activity")
+                    b.HasOne("Models.Contexts.PASS2.Activity", "Activity")
                         .WithMany("IndicatorGroups")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Models.Contexts.PASS.LifeCourse", "DefaultLifeCourse")
+                    b.HasOne("Models.Contexts.PASS2.LifeCourse", "DefaultLifeCourse")
                         .WithMany()
-                        .HasForeignKey("DefaultLifeCourseId");
+                        .HasForeignKey("DefaultStrataId");
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.LifeCourse", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.LifeCourse", b =>
                 {
-                    b.HasOne("Models.Contexts.PASS.Indicator", "DefaultIndicator")
+                    b.HasOne("Models.Contexts.PASS2.Indicator", "DefaultIndicator")
                         .WithMany()
-                        .HasForeignKey("DefaultIndicatorId");
+                        .HasForeignKey("DefaultStrataId");
 
-                    b.HasOne("Models.Contexts.PASS.IndicatorGroup", "IndicatorGroup")
+                    b.HasOne("Models.Contexts.PASS2.IndicatorGroup", "IndicatorGroup")
                         .WithMany("LifeCourses")
                         .HasForeignKey("IndicatorGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Measure", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.SpecificMeasure", b =>
                 {
-                    b.HasOne("Models.Contexts.PASS.Strata", "DefaultStrata")
+                    b.HasOne("Models.Contexts.PASS2.DataBreakdowns", "DefaultDataBreakdowns")
                         .WithMany()
                         .HasForeignKey("DefaultStrataId");
 
-                    b.HasOne("Models.Contexts.PASS.Indicator", "Indicator")
-                        .WithMany("Measures")
+                    b.HasOne("Models.Contexts.PASS2.Indicator", "Indicator")
+                        .WithMany("SpecificMeasures")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Models.Contexts.PASS.Point", b =>
+            modelBuilder.Entity("Models.Contexts.PASS2.Strata", b =>
                 {
-                    b.HasOne("Models.Contexts.PASS.Strata", "Strata")
-                        .WithMany("Points")
-                        .HasForeignKey("StrataId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.Contexts.PASS.Strata", b =>
-                {
-                    b.HasOne("Models.Contexts.PASS.Point", "DefaultPoint")
-                        .WithMany()
-                        .HasForeignKey("DefaultPointId");
-
-                    b.HasOne("Models.Contexts.PASS.Measure", "Measure")
-                        .WithMany("Stratas")
-                        .HasForeignKey("MeasureId")
+                    b.HasOne("Models.Contexts.PASS2.DataBreakdowns", "DataBreakdowns")
+                        .WithMany("Strata")
+                        .HasForeignKey("DataBreakdownsId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
