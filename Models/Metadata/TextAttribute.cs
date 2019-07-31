@@ -21,9 +21,9 @@ namespace Models.Metadata
     [Flags]
     public enum TextAppearance
     {
+        None,
         Notes,
         MeasureDescription,
-        QuickStats,
         Filter
     }
     [AttributeUsage(AttributeTargets.Property)]

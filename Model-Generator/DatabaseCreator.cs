@@ -242,6 +242,7 @@ namespace Model_Generator
                 var totalChildrenCount = childRows.Count();
                 var usedIndexes = new HashSet<int>();
 
+                Console.WriteLine($"Looking for {totalChildrenCount} children...");
                 foreach (var parent in currentDbSet)
                 {
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
@@ -254,21 +255,24 @@ namespace Model_Generator
                         var nextParent = parent;
                         while (nextParent != null)
                         {
-                            foreach (var boundMasterProperty in boundMasterPropertiesChild)
+                            foreach (var parentProperty in boundMasterPropertiesChild)
                             {
-                                var columnName = boundMasterProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName;
+                                var columnName = parentProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName;
+                                var childProperty = masterType.GetProperty(columnName);
+                                Console.WriteLine("Child Prop:" + childProperty);
+                                Console.WriteLine("Child Prop:" + columnName);
+                                Console.WriteLine("Child:" + child);
+                                var childValue = childProperty.GetValue(child);
+
                                 try
                                 {
-                                    var parentProperty = boundMasterProperty;
-                                    var childProperty = masterType.GetProperty(columnName);
                                     var parentValue = parentProperty.GetValue(nextParent);
-                                    var childValue = childProperty.GetValue(child);
                                     if (childValue.ToString() != parentValue.ToString())
                                     {
                                         return false;
                                     }
                                 }
-                                catch
+                                catch (TargetException)
                                 {
                                 }
 
@@ -289,9 +293,12 @@ namespace Model_Generator
                             var source = masterType.GetProperty(boundProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
                             try
                             {
+                                if (boundProperty.PropertyType == typeof(bool)) {
+                                    //Todo handle non-string types
+                                }
                                 boundProperty.SetValue(instance, source.GetValue(e));
                             }
-                            catch
+                            catch(TargetException)
                             {
 
                             }
@@ -308,28 +315,22 @@ namespace Model_Generator
                         if (firstChild == null)
                             firstChild = child;
 
-                        Console.Write($"\rFound {usedIndexes.Count()} out of {totalChildrenCount} children...");
+                        Console.WriteLine($"\rFound {usedIndexes.Count()} out of {totalChildrenCount} children...");
 
                         childDbSet.GetType().GetMethod("Add").Invoke(childDbSet, new object[] { child });
                     }
 
                     int? firstId = null;
-                    try
-                    {
+                    if (firstChild != null)
                         firstId = (int)childType.GetProperty($"{childType.Name}Id").GetValue(firstChild);
-
-                    }
-                    finally
-                    {
-                        type.GetProperty($"Default{childType.Name}Id").SetValue(parent, firstId);
-
-                    }
+                    type.GetProperty($"Default{childType.Name}Id").SetValue(parent, firstId);
                 }
-
                 dbContext.SaveChanges();
                 Console.WriteLine($"\rLoaded {childDbSet.Count()} {childType.Name} entities!");
             }
 
+
         }
+
     }
 }

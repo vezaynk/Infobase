@@ -85,44 +85,44 @@ namespace Model_Generator
             // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
             SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Source);
 
-            // using (var sr = new StreamReader(csvFilePath))
-            // using (var csv = new CsvReader(sr, new Configuration
-            // {
-            //     Delimiter = ",",
-            //     Encoding = Encoding.UTF8
-            // }))
-            // {
-            //     csv.Read();
-            //     csv.ReadHeader();
+            using (var sr = new StreamReader(csvFilePath))
+            using (var csv = new CsvReader(sr, new Configuration
+            {
+                Delimiter = ",",
+                Encoding = Encoding.UTF8
+            }))
+            {
+                csv.Read();
+                csv.ReadHeader();
 
-            //     try
-            //     {
-            //         var engine = new RazorLightEngineBuilder()
-            //                         .UseFilesystemProject(Path.GetFullPath("./Templates"))
-            //                         .UseMemoryCachingProvider()
-            //                         .Build();
+                try
+                {
+                    var engine = new RazorLightEngineBuilder()
+                                    .UseFilesystemProject(Path.GetFullPath("./Templates"))
+                                    .UseMemoryCachingProvider()
+                                    .Build();
                                                  
-            //         // var outputMaster = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
-            //         // {
-            //         //     DatasetName = "PASS2",
-            //         //     Properties = csv.Context.HeaderRecord
-            //         // });
-            //         // Console.WriteLine(output)q;
+                    // var outputMaster = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
+                    // {
+                    //     DatasetName = "PASS2",
+                    //     Properties = csv.Context.HeaderRecord
+                    // });
+                    // Console.WriteLine(output)q;
 
                     
-            //         var outputModels = await engine.CompileRenderAsync("ModelsEntity.cshtml", typeof(Models.Contexts.PASS2.Master));
+                    var outputModels = await engine.CompileRenderAsync("ModelsEntity.cshtml", typeof(Models.Contexts.PASS2.Master));
                     
-            //         Console.WriteLine(outputModels);
-            //         var imc = new InMemoryCompiler();
-            //         imc.AddCodeBody(outputModels);
-            //         var asm = imc.CompileAssembly();
-            //         var masterType = asm.GetType($"Models.Contexts.PASS2.Master");
-            //     }
-            //     catch (System.Exception e)
-            //     {
-            //         Console.Write(e);
-            //     }
-            // }
+                    Console.WriteLine(outputModels);
+                    var imc = new InMemoryCompiler();
+                    imc.AddCodeBody(outputModels);
+                    var asm = imc.CompileAssembly();
+                    var masterType = asm.GetType($"Models.Contexts.PASS2.Master");
+                }
+                catch (System.Exception e)
+                {
+                    Console.Write(e);
+                }
+            }
 
             
         }

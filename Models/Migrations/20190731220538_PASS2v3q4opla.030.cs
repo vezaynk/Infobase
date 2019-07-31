@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Models.Migrations
 {
-    public partial class PASS2omhsch0vgtf : Migration
+    public partial class PASS2v3q4opla030 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -125,7 +125,8 @@ namespace Models.Migrations
                     DefaultDataBreakdownsId = table.Column<int>(nullable: true),
                     SpecificMeasureNameEn = table.Column<string>(nullable: true),
                     SpecificMeasureNameFr = table.Column<string>(nullable: true),
-                    IndicatorId = table.Column<int>(nullable: false)
+                    IndicatorId = table.Column<int>(nullable: false),
+                    Included = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,7 +174,11 @@ namespace Models.Migrations
                     DefaultStrataId = table.Column<int>(nullable: true),
                     DataBreakdownsNameEn = table.Column<string>(nullable: true),
                     DataBreakdownsNameFr = table.Column<string>(nullable: true),
-                    SpecificMeasureId = table.Column<int>(nullable: false)
+                    SpecificMeasureId = table.Column<int>(nullable: false),
+                    CVRangeLower = table.Column<double>(nullable: false),
+                    CVRangeUpper = table.Column<double>(nullable: false),
+                    UnitLong = table.Column<string>(nullable: true),
+                    UnitShort = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,7 +201,12 @@ namespace Models.Migrations
                     Index = table.Column<int>(nullable: false),
                     StrataNameEn = table.Column<string>(nullable: true),
                     StrataNameFr = table.Column<string>(nullable: true),
-                    DataBreakdownsId = table.Column<int>(nullable: false)
+                    DataBreakdownsId = table.Column<int>(nullable: false),
+                    ValueAverage = table.Column<double>(nullable: true),
+                    ValueUpper = table.Column<double>(nullable: true),
+                    ValueLower = table.Column<double>(nullable: true),
+                    CVInterpretation = table.Column<int>(nullable: false),
+                    CVValue = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

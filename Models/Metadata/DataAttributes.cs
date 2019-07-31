@@ -31,12 +31,14 @@ namespace Models.Metadata
     public class CVRangeLowerAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVAttribute : Attribute { }
+    public class CVValueAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitLongAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitShortAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
-    public class Included : Attribute { }
+    public class IncludedAttribute : Attribute { }
+    [AttributeUsage(AttributeTargets.Property)]
+    public class IsAggregatorAttribute : Attribute { }
 }

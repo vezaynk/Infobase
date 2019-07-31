@@ -46,6 +46,10 @@ namespace Models.Migrations
                     b.Property<int>("DataBreakdownsId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("CVRangeLower");
+
+                    b.Property<double>("CVRangeUpper");
+
                     b.Property<string>("DataBreakdownsNameEn");
 
                     b.Property<string>("DataBreakdownsNameFr");
@@ -55,6 +59,10 @@ namespace Models.Migrations
                     b.Property<int>("Index");
 
                     b.Property<int>("SpecificMeasureId");
+
+                    b.Property<string>("UnitLong");
+
+                    b.Property<string>("UnitShort");
 
                     b.HasKey("DataBreakdownsId");
 
@@ -224,6 +232,8 @@ namespace Models.Migrations
 
                     b.Property<int?>("DefaultDataBreakdownsId");
 
+                    b.Property<bool>("Included");
+
                     b.Property<int>("Index");
 
                     b.Property<int>("IndicatorId");
@@ -248,6 +258,10 @@ namespace Models.Migrations
                     b.Property<int>("StrataId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CVInterpretation");
+
+                    b.Property<int?>("CVValue");
+
                     b.Property<int>("DataBreakdownsId");
 
                     b.Property<int>("Index");
@@ -255,6 +269,12 @@ namespace Models.Migrations
                     b.Property<string>("StrataNameEn");
 
                     b.Property<string>("StrataNameFr");
+
+                    b.Property<double?>("ValueAverage");
+
+                    b.Property<double?>("ValueLower");
+
+                    b.Property<double?>("ValueUpper");
 
                     b.HasKey("StrataId");
 

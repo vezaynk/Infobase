@@ -17,6 +17,7 @@
     var measureProperty = filtersProperties.SkipLast(2).Last();
     var breakdownProperty = filtersProperties.SkipLast(1).Last();
     var pointProperty = filtersProperties.Last();
+    int counter = 0;
 }
 // This file was written by a tool
 using System;
@@ -32,6 +33,7 @@ namespace Models.Contexts.PASS2 {
     var next = filtersProperties.FirstOrDefault(property => property.GetCustomAttribute<FilterAttribute>().Level == current.GetCustomAttribute<FilterAttribute>().Level + 1);
     var previous = filtersProperties.FirstOrDefault(property => property.GetCustomAttribute<FilterAttribute>().Level == current.GetCustomAttribute<FilterAttribute>().Level - 1);
     
+    @:[Filter(@(counter++))]
     @:public class @(current.Name) {
         @:public int Index { get; set; }
         @:public int @(current.Name)Id { get; set; }
@@ -39,8 +41,8 @@ namespace Models.Contexts.PASS2 {
         @:[InverseProperty("@(current.Name)")]
         @:public ICollection<@(next.Name)> @(new Pluralizer().Pluralize(next.Name)) { get; set; }
         @:[ForeignKey("Default@(next.Name)Id")]
-        @:public @(next.Name) Default@(next.Name) { get; set; }    
-        @:public int? Default@(next.Name)Id { get; set; }    
+        @:public @(next.Name) Default@(next.Name) { get; set; }
+        @:public int? Default@(next.Name)Id { get; set; }
     }
         @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
         @:[ShowOn(TextAppearance.Filter)]
@@ -49,9 +51,84 @@ namespace Models.Contexts.PASS2 {
         @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:[ShowOn(TextAppearance.Filter)]
         @:public string @(current.Name)NameFr { get; set; }
-    if (previous != null) { 
+    if (previous != null) {
         @:public int @(previous.Name)Id { get; set; }
         @:public @(previous.Name) @(previous.Name) { get; set; }
+    }
+
+    if (current == measureProperty) {
+        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOn>()?.TextAppearance == TextAppearance.MeasureDescription);
+        foreach (var measureProp in measureProperties) {
+            @:[BindToMaster("@(measureProp.Name)")]
+            @:[ShowOn(TextAppearance.MeasureDescription)]
+            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+            
+            @:public string @(measureProp.Name)En { get; set; }
+            @:[ShowOn(TextAppearance.MeasureDescription)]
+            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+            @:public string @(measureProp.Name)Fr { get; set; }
+        }
+        @:[Included]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IncludedAttribute>() != null)?.Name ?? "binding required")")]
+        @:public bool Included { get; set; }
+
+        @:[IsAggregator]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IsAggregatorAttribute>() != null)?.Name ?? "binding required")")]
+        @:public bool IsAggregator { get; set; }
+    }
+
+    if (current == breakdownProperty) {
+        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOn>()?.TextAppearance == TextAppearance.Notes);
+        foreach (var breakdownProp in breakdownProperties) {
+            @:[BindToMaster("@(breakdownProp.Name)")]
+            @:[ShowOn(TextAppearance.Notes)]
+            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+            
+            @:public string @(breakdownProp.Name)En { get; set; }
+            @:[ShowOn(TextAppearance.Notes)]
+            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+            @:public string @(breakdownProp.Name)Fr { get; set; }
+        }
+        @:[CVRangeLower]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null)?.Name ?? "binding required")")]
+        @:public double CVRangeLower { get; set; }
+        @:[CVRangeUpper]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeUpperAttribute>() != null)?.Name ?? "binding required")")]
+        @:public double CVRangeUpper { get; set; }
+        @:[UnitLong]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<UnitLongAttribute>() != null)?.Name ?? "binding required")")]
+        @:public string UnitLong { get; set; }
+        @:[UnitShort]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<UnitShortAttribute>() != null)?.Name ?? "binding required")")]
+        @:public string UnitShort { get; set; }
+    }
+
+    if (current == pointProperty) {
+        @:[PointAverage]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<PointAverageAttribute>() != null)?.Name ?? "binding required")")]
+        @:public double? ValueAverage { get; set; }
+        @:[PointUpper]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<PointUpperAttribute>() != null)?.Name ?? "binding required")")]
+        @:public double? ValueUpper { get; set; }
+        @:[PointLower]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<PointLowerAttribute>() != null)?.Name ?? "binding required")")]
+        @:public double? ValueLower { get; set; }
+        @:[CVInterpretation]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVInterpretationAttribute>() != null)?.Name ?? "binding required")")]
+        @:public int CVInterpretation { get; set; }
+        @:[CVValue]
+        
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVValueAttribute>() != null)?.Name ?? "binding required")")]
+        @:public int? CVValue { get; set; }
     }
 
     @:}

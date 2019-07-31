@@ -84,7 +84,7 @@ namespace Models.Contexts.PASS
 
         public string Strata { get; set; }
 
-        [CV]
+        [CVValue]
         public string CV { get; set; }
 
         [PointAverage]
@@ -189,6 +189,7 @@ namespace Models.Contexts.PASS
         [Text("Is Aggregator", "en-ca")]
         [Text("Is Aggregator", "fr-ca")]
         [CSVColumn("Is Aggregator")]
+        [Included]
         public string IsAggregator { get; set; }
 
     }

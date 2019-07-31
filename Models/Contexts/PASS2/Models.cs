@@ -1,5 +1,3 @@
-
-
 // This file was written by a tool
 using System;
 using System.Collections.Generic;
@@ -17,8 +15,8 @@ namespace Models.Contexts.PASS2 {
         [InverseProperty("Activity")]
         public ICollection<IndicatorGroup> IndicatorGroups { get; set; }
         [ForeignKey("DefaultIndicatorGroupId")]
-        public IndicatorGroup DefaultIndicatorGroup { get; set; }    
-        public int? DefaultIndicatorGroupId { get; set; }    
+        public IndicatorGroup DefaultIndicatorGroup { get; set; }
+        public int? DefaultIndicatorGroupId { get; set; }
         [Text("Activity", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("Activity")]
@@ -34,8 +32,8 @@ namespace Models.Contexts.PASS2 {
         [InverseProperty("IndicatorGroup")]
         public ICollection<LifeCourse> LifeCourses { get; set; }
         [ForeignKey("DefaultLifeCourseId")]
-        public LifeCourse DefaultLifeCourse { get; set; }    
-        public int? DefaultLifeCourseId { get; set; }    
+        public LifeCourse DefaultLifeCourse { get; set; }
+        public int? DefaultLifeCourseId { get; set; }
         [Text("Indicator Group", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("IndicatorGroup")]
@@ -53,8 +51,8 @@ namespace Models.Contexts.PASS2 {
         [InverseProperty("LifeCourse")]
         public ICollection<Indicator> Indicators { get; set; }
         [ForeignKey("DefaultIndicatorId")]
-        public Indicator DefaultIndicator { get; set; }    
-        public int? DefaultIndicatorId { get; set; }    
+        public Indicator DefaultIndicator { get; set; }
+        public int? DefaultIndicatorId { get; set; }
         [Text("Life Course", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("LifeCourse")]
@@ -72,8 +70,8 @@ namespace Models.Contexts.PASS2 {
         [InverseProperty("Indicator")]
         public ICollection<SpecificMeasure> SpecificMeasures { get; set; }
         [ForeignKey("DefaultSpecificMeasureId")]
-        public SpecificMeasure DefaultSpecificMeasure { get; set; }    
-        public int? DefaultSpecificMeasureId { get; set; }    
+        public SpecificMeasure DefaultSpecificMeasure { get; set; }
+        public int? DefaultSpecificMeasureId { get; set; }
         [Text("Indicator", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("Indicator")]
@@ -91,8 +89,8 @@ namespace Models.Contexts.PASS2 {
         [InverseProperty("SpecificMeasure")]
         public ICollection<DataBreakdowns> DataBreakdowns { get; set; }
         [ForeignKey("DefaultDataBreakdownsId")]
-        public DataBreakdowns DefaultDataBreakdowns { get; set; }    
-        public int? DefaultDataBreakdownsId { get; set; }    
+        public DataBreakdowns DefaultDataBreakdowns { get; set; }
+        public int? DefaultDataBreakdownsId { get; set; }
         [Text("Specific Measure", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("SpecificMeasure")]
@@ -102,6 +100,9 @@ namespace Models.Contexts.PASS2 {
         public string SpecificMeasureNameFr { get; set; }
         public int IndicatorId { get; set; }
         public Indicator Indicator { get; set; }
+        [Included]
+        [BindToMaster("IsIncluded")]
+        public bool Included { get; set; }
     }
     [Filter(5)]
     public class DataBreakdowns {
@@ -110,8 +111,8 @@ namespace Models.Contexts.PASS2 {
         [InverseProperty("DataBreakdowns")]
         public ICollection<Strata> Strata { get; set; }
         [ForeignKey("DefaultStrataId")]
-        public Strata DefaultStrata { get; set; }    
-        public int? DefaultStrataId { get; set; }    
+        public Strata DefaultStrata { get; set; }
+        public int? DefaultStrataId { get; set; }
         [Text("Data Breakdowns", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("DataBreakdowns")]
@@ -121,6 +122,18 @@ namespace Models.Contexts.PASS2 {
         public string DataBreakdownsNameFr { get; set; }
         public int SpecificMeasureId { get; set; }
         public SpecificMeasure SpecificMeasure { get; set; }
+        [CVRangeLower]
+        [BindToMaster("CVRangeLower")]
+        public double CVRangeLower { get; set; }
+        [CVRangeUpper]
+        [BindToMaster("CVRangeUpper")]
+        public double CVRangeUpper { get; set; }
+        [UnitLong]
+        [BindToMaster("UnitLabelLong")]
+        public string UnitLong { get; set; }
+        [UnitShort]
+        [BindToMaster("DataSource1")]
+        public string UnitShort { get; set; }
     }
     [Filter(6)]
     public class Strata {
@@ -135,6 +148,21 @@ namespace Models.Contexts.PASS2 {
         public string StrataNameFr { get; set; }
         public int DataBreakdownsId { get; set; }
         public DataBreakdowns DataBreakdowns { get; set; }
+        [PointAverage]
+        [BindToMaster("Data")]
+        public double? ValueAverage { get; set; }
+        [PointUpper]
+        [BindToMaster("CIUpper95")]
+        public double? ValueUpper { get; set; }
+        [PointLower]
+        [BindToMaster("CILow95")]
+        public double? ValueLower { get; set; }
+        [CVInterpretation]
+        [BindToMaster("CVInterpretation")]
+        public int CVInterpretation { get; set; }
+        [CVValue]
+        [BindToMaster("CV")]
+        public int? CVValue { get; set; }
     }
     
 }

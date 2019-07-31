@@ -95,7 +95,7 @@ namespace Models.Contexts.PASS2
         [Text("CV", "en-ca")]
         [Text("CV", "fr-ca")]
         [CSVColumn("CV")]
-        [CV]
+        [CVValue]
         public string CV { get; set; }
 
 
