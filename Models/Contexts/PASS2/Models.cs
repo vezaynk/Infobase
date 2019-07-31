@@ -16,12 +16,12 @@ namespace Models.Contexts.PASS2 {
         public int ActivityId { get; set; }
         [InverseProperty("Activity")]
         public ICollection<IndicatorGroup> IndicatorGroups { get; set; }
-        [ForeignKey("DefaultStrataId")]
+        [ForeignKey("DefaultIndicatorGroupId")]
         public IndicatorGroup DefaultIndicatorGroup { get; set; }    
         public int? DefaultIndicatorGroupId { get; set; }    
         [Text("Activity", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Activity")]
+        [BindToMaster("Activity")]
         public string ActivityNameEn { get; set; }
         [Text("Activity", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
@@ -33,12 +33,12 @@ namespace Models.Contexts.PASS2 {
         public int IndicatorGroupId { get; set; }
         [InverseProperty("IndicatorGroup")]
         public ICollection<LifeCourse> LifeCourses { get; set; }
-        [ForeignKey("DefaultStrataId")]
+        [ForeignKey("DefaultLifeCourseId")]
         public LifeCourse DefaultLifeCourse { get; set; }    
         public int? DefaultLifeCourseId { get; set; }    
         [Text("Indicator Group", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Indicator Group")]
+        [BindToMaster("IndicatorGroup")]
         public string IndicatorGroupNameEn { get; set; }
         [Text("Indicator Group", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
@@ -52,12 +52,12 @@ namespace Models.Contexts.PASS2 {
         public int LifeCourseId { get; set; }
         [InverseProperty("LifeCourse")]
         public ICollection<Indicator> Indicators { get; set; }
-        [ForeignKey("DefaultStrataId")]
+        [ForeignKey("DefaultIndicatorId")]
         public Indicator DefaultIndicator { get; set; }    
         public int? DefaultIndicatorId { get; set; }    
         [Text("Life Course", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Life Course")]
+        [BindToMaster("LifeCourse")]
         public string LifeCourseNameEn { get; set; }
         [Text("Life Course", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
@@ -71,12 +71,12 @@ namespace Models.Contexts.PASS2 {
         public int IndicatorId { get; set; }
         [InverseProperty("Indicator")]
         public ICollection<SpecificMeasure> SpecificMeasures { get; set; }
-        [ForeignKey("DefaultStrataId")]
+        [ForeignKey("DefaultSpecificMeasureId")]
         public SpecificMeasure DefaultSpecificMeasure { get; set; }    
         public int? DefaultSpecificMeasureId { get; set; }    
         [Text("Indicator", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Indicator")]
+        [BindToMaster("Indicator")]
         public string IndicatorNameEn { get; set; }
         [Text("Indicator", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
@@ -90,12 +90,12 @@ namespace Models.Contexts.PASS2 {
         public int SpecificMeasureId { get; set; }
         [InverseProperty("SpecificMeasure")]
         public ICollection<DataBreakdowns> DataBreakdowns { get; set; }
-        [ForeignKey("DefaultStrataId")]
+        [ForeignKey("DefaultDataBreakdownsId")]
         public DataBreakdowns DefaultDataBreakdowns { get; set; }    
         public int? DefaultDataBreakdownsId { get; set; }    
         [Text("Specific Measure", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Specific Measure")]
+        [BindToMaster("SpecificMeasure")]
         public string SpecificMeasureNameEn { get; set; }
         [Text("Specific Measure", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
@@ -114,7 +114,7 @@ namespace Models.Contexts.PASS2 {
         public int? DefaultStrataId { get; set; }    
         [Text("Data Breakdowns", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Data Breakdowns")]
+        [BindToMaster("DataBreakdowns")]
         public string DataBreakdownsNameEn { get; set; }
         [Text("Data Breakdowns", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
@@ -128,7 +128,7 @@ namespace Models.Contexts.PASS2 {
         public int StrataId { get; set; }
         [Text("Strata", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [CSVColumn("Strata")]
+        [BindToMaster("Strata")]
         public string StrataNameEn { get; set; }
         [Text("Strata", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]

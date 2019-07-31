@@ -26,7 +26,7 @@ namespace Model_Generator
         {
             this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, pathToAssembly, datasetName)).DbContext;
         }
-        
+
         public DatabaseCreator(string connectionString, Assembly assembly, string datasetName)
         {
             this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Models.Contexts.{datasetName}.Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
@@ -52,7 +52,7 @@ namespace Model_Generator
         }
         public ScaffoldedMigration CreateMigration(string name = null)
         {
-            var mg = new MigrationGenerator(DbContext, DatasetName);
+            var mg = new MigrationGenerator(DbContext, name ?? DatasetName);
             var migration = mg.CreateMigration();
             PendingMigrations.Add(migration);
             return migration;
@@ -164,12 +164,12 @@ namespace Model_Generator
 
                 // The columns on which we need to distinguish are all of the CSV columns used by the child and each other parents
                 // For example the children of currentLevel = 0 will need the data from the top (+1), as well as their own (+2)  
-                var fromCsvColumnsChild = types.Take(currentLevel + 2).SelectMany(t => t.GetProperties())
-                    .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
+                var boundMasterPropertiesChild = types.Take(currentLevel + 2).SelectMany(t => t.GetProperties())
+                    .Where(p => p.GetCustomAttribute<BindToMasterAttribute>() != null);
 
                 // Get all the actual column names
-                var distinctColumnNamesChild = fromCsvColumnsChild
-                        .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
+                var distinctMasterPropertyNamesChild = boundMasterPropertiesChild
+                        .Select(p => p.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
 
                 // Get the dbset for the current and its child
                 var currentDbSet = GetDbSet(type);
@@ -179,10 +179,12 @@ namespace Model_Generator
                 if (type == types.First())
                 {
                     Console.Write("Loading top-level entities...");
-                    var fromCsvColumns = types.Take(currentLevel + 1).SelectMany(t => t.GetProperties())
-                        .Where(p => p.GetCustomAttribute<CSVColumnAttribute>() != null);
-                    var distinctColumnNames = fromCsvColumns
-                            .Select(p => p.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName);
+                    var boundMasterProperties = types.Take(currentLevel + 1).SelectMany(t => t.GetProperties())
+                        .Where(p => p.GetCustomAttribute<BindToMasterAttribute>() != null);
+
+                    var distinctMasterPropertyNames = boundMasterProperties
+                            .Select(p => p.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
+
                     var topLevelRows = masterDbSet
                                 .OrderBy(masterIndexProperty.GetValue)
                                 .DistinctBy(e =>
@@ -190,8 +192,8 @@ namespace Model_Generator
                                     var currentEntityIndex = masterIndexProperty.GetValue(e);
 
                                     var distinctProperties = e.GetType().GetProperties()
-                                        .Where(p => distinctColumnNames
-                                            .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
+                                        .Where(p => distinctMasterPropertyNames
+                                            .Contains(p.Name));
 
                                     return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
                                 }).Select(e =>
@@ -199,24 +201,20 @@ namespace Model_Generator
                                     var instance = Activator.CreateInstance(type);
                                     var currentEntityIndex = masterIndexProperty.GetValue(e);
                                     currentTypeIndexProperty.SetValue(instance, currentEntityIndex);
-                                    foreach (var p in e.GetType().GetProperties())
+                                    foreach (var boundProperty in boundMasterProperties)
                                     {
-                                        foreach (var column in fromCsvColumns)
+                                        var source = masterType.GetProperty(boundProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
+                                        try
                                         {
-                                            if (p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == column.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName)
-                                            {
-                                                try
-                                                {
-                                                    column.SetValue(instance, p.GetValue(e));
-                                                }
-                                                catch
-                                                {
-
-                                                }
-
-                                            }
+                                            boundProperty.SetValue(instance, source.GetValue(e));
                                         }
+                                        catch
+                                        {
+
+                                        }
+
                                     }
+
                                     return instance;
                                 });
                     foreach (var topLevelRow in topLevelRows)
@@ -234,8 +232,8 @@ namespace Model_Generator
                                         {
 
                                             var distinctProperties = e.GetType().GetProperties()
-                                                .Where(p => distinctColumnNamesChild
-                                                    .Contains(p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName));
+                                                .Where(p => distinctMasterPropertyNamesChild
+                                                    .Contains(p.Name));
 
 
                                             return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
@@ -256,12 +254,13 @@ namespace Model_Generator
                         var nextParent = parent;
                         while (nextParent != null)
                         {
-                            foreach (string columnName in distinctColumnNamesChild)
+                            foreach (var boundMasterProperty in boundMasterPropertiesChild)
                             {
+                                var columnName = boundMasterProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName;
                                 try
                                 {
-                                    var parentProperty = nextParent.GetType().GetProperties().First(pt => pt.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == columnName);
-                                    var childProperty = masterType.GetProperties().First(pt => pt.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == columnName);
+                                    var parentProperty = boundMasterProperty;
+                                    var childProperty = masterType.GetProperty(columnName);
                                     var parentValue = parentProperty.GetValue(nextParent);
                                     var childValue = childProperty.GetValue(child);
                                     if (childValue.ToString() != parentValue.ToString())
@@ -279,32 +278,27 @@ namespace Model_Generator
                             nextParent = (int)nextParentLevel == 0 ? null : nextParent.GetType().GetProperty(name).GetValue(nextParent);
                         }
                         return true;
-                    }).Select(e =>
+                    }).Select((e, i) =>
                     {
                         var instance = Activator.CreateInstance(childType);
                         var currentEntityIndex = (int)masterIndexProperty.GetValue(e);
                         childIndexProperty.SetValue(instance, currentEntityIndex);
                         usedIndexes.Add(currentEntityIndex);
-                        foreach (var p in e.GetType().GetProperties())
+                        foreach (var boundProperty in boundMasterPropertiesChild)
                         {
-                            foreach (var column in fromCsvColumnsChild)
+                            var source = masterType.GetProperty(boundProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
+                            try
                             {
-                                if (p.GetCustomAttribute<CSVColumnAttribute>()?.CSVColumnName == column.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName)
-                                {
-                                    try
-                                    {
-                                        column.SetValue(instance, p.GetValue(e));
-                                    }
-                                    catch
-                                    {
-
-                                    }
-
-                                }
+                                boundProperty.SetValue(instance, source.GetValue(e));
                             }
-                        }
-                        childType.GetProperties().First(property => property.Name == type.Name + "Id").SetValue(instance, parentId);
+                            catch
+                            {
 
+                            }
+
+                        }
+                        childType.GetProperty(type.Name + "Id").SetValue(instance, parentId);
+                        childType.GetProperty($"{childType.Name}Id").SetValue(instance, usedIndexes.Count());
                         return instance;
                     });
 

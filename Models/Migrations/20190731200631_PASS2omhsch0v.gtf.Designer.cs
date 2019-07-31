@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Models.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20190731182113_PASS2")]
-    partial class PASS2
+    [Migration("20190731200631_PASS2omhsch0v.gtf")]
+    partial class PASS2omhsch0vgtf
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,15 +32,13 @@ namespace Models.Migrations
 
                     b.Property<int?>("DefaultIndicatorGroupId");
 
-                    b.Property<int?>("DefaultStrataId");
-
                     b.Property<int>("Index");
 
                     b.HasKey("ActivityId");
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultStrataId");
+                    b.HasIndex("DefaultIndicatorGroupId");
 
                     b.ToTable("Activity");
                 });
@@ -78,8 +76,6 @@ namespace Models.Migrations
 
                     b.Property<int?>("DefaultSpecificMeasureId");
 
-                    b.Property<int?>("DefaultStrataId");
-
                     b.Property<int>("Index");
 
                     b.Property<string>("IndicatorNameEn");
@@ -92,7 +88,7 @@ namespace Models.Migrations
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultStrataId");
+                    b.HasIndex("DefaultSpecificMeasureId");
 
                     b.HasIndex("LifeCourseId");
 
@@ -108,8 +104,6 @@ namespace Models.Migrations
 
                     b.Property<int?>("DefaultLifeCourseId");
 
-                    b.Property<int?>("DefaultStrataId");
-
                     b.Property<int>("Index");
 
                     b.Property<string>("IndicatorGroupNameEn");
@@ -122,7 +116,7 @@ namespace Models.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("DefaultStrataId");
+                    b.HasIndex("DefaultLifeCourseId");
 
                     b.ToTable("IndicatorGroup");
                 });
@@ -133,8 +127,6 @@ namespace Models.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("DefaultIndicatorId");
-
-                    b.Property<int?>("DefaultStrataId");
 
                     b.Property<int>("Index");
 
@@ -148,7 +140,7 @@ namespace Models.Migrations
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultStrataId");
+                    b.HasIndex("DefaultIndicatorId");
 
                     b.HasIndex("IndicatorGroupId");
 
@@ -234,8 +226,6 @@ namespace Models.Migrations
 
                     b.Property<int?>("DefaultDataBreakdownsId");
 
-                    b.Property<int?>("DefaultStrataId");
-
                     b.Property<int>("Index");
 
                     b.Property<int>("IndicatorId");
@@ -248,7 +238,7 @@ namespace Models.Migrations
 
                     b.HasAlternateKey("Index");
 
-                    b.HasIndex("DefaultStrataId");
+                    b.HasIndex("DefaultDataBreakdownsId");
 
                     b.HasIndex("IndicatorId");
 
@@ -281,7 +271,7 @@ namespace Models.Migrations
                 {
                     b.HasOne("Models.Contexts.PASS2.IndicatorGroup", "DefaultIndicatorGroup")
                         .WithMany()
-                        .HasForeignKey("DefaultStrataId");
+                        .HasForeignKey("DefaultIndicatorGroupId");
                 });
 
             modelBuilder.Entity("Models.Contexts.PASS2.DataBreakdowns", b =>
@@ -300,7 +290,7 @@ namespace Models.Migrations
                 {
                     b.HasOne("Models.Contexts.PASS2.SpecificMeasure", "DefaultSpecificMeasure")
                         .WithMany()
-                        .HasForeignKey("DefaultStrataId");
+                        .HasForeignKey("DefaultSpecificMeasureId");
 
                     b.HasOne("Models.Contexts.PASS2.LifeCourse", "LifeCourse")
                         .WithMany("Indicators")
@@ -317,14 +307,14 @@ namespace Models.Migrations
 
                     b.HasOne("Models.Contexts.PASS2.LifeCourse", "DefaultLifeCourse")
                         .WithMany()
-                        .HasForeignKey("DefaultStrataId");
+                        .HasForeignKey("DefaultLifeCourseId");
                 });
 
             modelBuilder.Entity("Models.Contexts.PASS2.LifeCourse", b =>
                 {
                     b.HasOne("Models.Contexts.PASS2.Indicator", "DefaultIndicator")
                         .WithMany()
-                        .HasForeignKey("DefaultStrataId");
+                        .HasForeignKey("DefaultIndicatorId");
 
                     b.HasOne("Models.Contexts.PASS2.IndicatorGroup", "IndicatorGroup")
                         .WithMany("LifeCourses")
@@ -336,7 +326,7 @@ namespace Models.Migrations
                 {
                     b.HasOne("Models.Contexts.PASS2.DataBreakdowns", "DefaultDataBreakdowns")
                         .WithMany()
-                        .HasForeignKey("DefaultStrataId");
+                        .HasForeignKey("DefaultDataBreakdownsId");
 
                     b.HasOne("Models.Contexts.PASS2.Indicator", "Indicator")
                         .WithMany("SpecificMeasures")

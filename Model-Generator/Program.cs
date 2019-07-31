@@ -41,7 +41,7 @@ namespace Model_Generator
                     Console.Write("Building DBContext from source...");
                     databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, datasetName);
                     Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
-                    databaseCreator.CreateMigration();
+                    databaseCreator.CreateMigration(datasetName + Path.GetRandomFileName());
                     Console.Write("Rebuilding...");
                     databaseCreator.ReloadDbContext();
                     Console.WriteLine("Rebuilt!");
@@ -83,7 +83,7 @@ namespace Model_Generator
             // Source is used for development in order to generate migration files
             // Embedded is to use the Models.DLL which ships with the project
             // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
-            SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Embedded);
+            SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Source);
 
             // using (var sr = new StreamReader(csvFilePath))
             // using (var csv = new CsvReader(sr, new Configuration

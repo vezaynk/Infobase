@@ -38,7 +38,7 @@ namespace Models.Contexts.PASS2 {
     if (next != null) {
         @:[InverseProperty("@(current.Name)")]
         @:public ICollection<@(next.Name)> @(new Pluralizer().Pluralize(next.Name)) { get; set; }
-        @:[ForeignKey("DefaultStrataId")]
+        @:[ForeignKey("Default@(next.Name)Id")]
         @:public @(next.Name) Default@(next.Name) { get; set; }    
         @:public int? Default@(next.Name)Id { get; set; }    
     }

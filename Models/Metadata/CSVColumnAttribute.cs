@@ -18,10 +18,10 @@ namespace Models.Metadata
 
     [AttributeUsage(AttributeTargets.Property)]
     public class BindToMasterAttribute: Attribute {
-        public string MasterProperty { get; set; }
+        public string MasterPropertyName { get; set; }
         public BindToMasterAttribute(string masterProperty)
         {
-            MasterProperty = masterProperty;
+            MasterPropertyName = masterProperty;
         }
     }
 }
