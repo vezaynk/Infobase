@@ -20,15 +20,15 @@ namespace Models.Contexts.PASS2
             //optionsBuilder.UseLazyLoadingProxies();
         }
 
-        public DbSet<Activity> Activity { get; set; }
+        public DbSet<ColActivity> Activity { get; set; }
 
 
-        public DbSet<SpecificMeasure> Measure { get; set; }
-        public DbSet<IndicatorGroup> IndicatorGroup { get; set; }
-        public DbSet<LifeCourse> LifeCourse { get; set; }
-        public DbSet<Indicator> Indicator { get; set; }
-        public DbSet<Strata> Strata { get; set; }
-        public DbSet<DataBreakdowns> Point { get; set; }
+        public DbSet<ColSpecificMeasure> Measure { get; set; }
+        public DbSet<ColIndicatorGroup> IndicatorGroup { get; set; }
+        public DbSet<ColLifeCourse> LifeCourse { get; set; }
+        public DbSet<ColIndicator> Indicator { get; set; }
+        public DbSet<ColStrata> Strata { get; set; }
+        public DbSet<ColDataBreakdowns> Point { get; set; }
         public DbSet<Master> Master { get; set; }
 
 
@@ -38,25 +38,25 @@ namespace Models.Contexts.PASS2
             modelBuilder.ForNpgsqlUseIdentityColumns();
 
             /* Make the Indexes unique. Conflcits must FAIL. */
-            modelBuilder.Entity<Activity>()
+            modelBuilder.Entity<ColActivity>()
                 .HasAlternateKey(entity => entity.Index);
 
-            modelBuilder.Entity<IndicatorGroup>()
+            modelBuilder.Entity<ColIndicatorGroup>()
                 .HasAlternateKey(entity => entity.Index);
 
-            modelBuilder.Entity<Indicator>()
+            modelBuilder.Entity<ColIndicator>()
                 .HasAlternateKey(entity => entity.Index);
 
-            modelBuilder.Entity<LifeCourse>()
+            modelBuilder.Entity<ColLifeCourse>()
                 .HasAlternateKey(entity => entity.Index);
 
-            modelBuilder.Entity<SpecificMeasure>()
+            modelBuilder.Entity<ColSpecificMeasure>()
                 .HasAlternateKey(entity => entity.Index);
 
-            modelBuilder.Entity<Strata>()
+            modelBuilder.Entity<ColStrata>()
                 .HasAlternateKey(entity => entity.Index);
 
-            modelBuilder.Entity<DataBreakdowns>()
+            modelBuilder.Entity<ColDataBreakdowns>()
                 .HasAlternateKey(entity => entity.Index);
         }
 

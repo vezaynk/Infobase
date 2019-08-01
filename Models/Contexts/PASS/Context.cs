@@ -29,7 +29,7 @@ namespace Models.Contexts.PASS
         public DbSet<Indicator> Indicator { get; set; }
         public DbSet<Strata> Strata { get; set; }
         public DbSet<Point> Point { get; set; }
-        public DbSet<Master> Master { get; set; }
+        //public DbSet<Master> Master { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

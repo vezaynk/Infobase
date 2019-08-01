@@ -21,6 +21,54 @@ namespace Model_Generator
     public enum BuildStrategy { Source, Assembly, Embedded };
     public class Program
     {
+        public static bool IsCodeValid(string code)
+        {
+            try
+            {
+                var imc = new InMemoryCompiler();
+                imc.AddCodeBody(code);
+                // Validate code
+                imc.CompileAssembly();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        public static string GenerateMasterSource(IEnumerable<string> headers)
+        {
+            var engine = new RazorLightEngineBuilder()
+                            .UseFilesystemProject(Path.GetFullPath("./Templates"))
+                            .UseMemoryCachingProvider()
+                            .Build();
+
+            var outputMaster = engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
+            {
+                DatasetName = "PASS2",
+                Properties = headers
+            }).GetAwaiter().GetResult();
+            
+            Console.WriteLine($"Code validity: {IsCodeValid(outputMaster)}");
+
+            return outputMaster;
+
+
+        }
+        public static string GenerateModelsForMaster(Type masterType)
+        {
+            var engine = new RazorLightEngineBuilder()
+                            .UseFilesystemProject(Path.GetFullPath("./Templates"))
+                            .UseMemoryCachingProvider()
+                            .Build();
+            var outputModels = engine.CompileRenderAsync("ModelsEntity.cshtml", masterType).GetAwaiter().GetResult();
+
+            Console.WriteLine($"Code validity: {IsCodeValid(outputModels)}");
+
+            return outputModels;
+
+        }
         public static void SetupDatabase(string datasetName,
                                             string csvFilePath,
                                             string connectionString,
@@ -85,46 +133,23 @@ namespace Model_Generator
             // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
             SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Source);
 
-            using (var sr = new StreamReader(csvFilePath))
-            using (var csv = new CsvReader(sr, new Configuration
-            {
-                Delimiter = ",",
-                Encoding = Encoding.UTF8
-            }))
-            {
-                csv.Read();
-                csv.ReadHeader();
+            // using (var sr = new StreamReader(csvFilePath))
+            // using (var csv = new CsvReader(sr, new Configuration
+            // {
+            //     Delimiter = ",",
+            //     Encoding = Encoding.UTF8
+            // }))
+            // {
+            //     csv.Read();
+            //     csv.ReadHeader();
 
-                try
-                {
-                    var engine = new RazorLightEngineBuilder()
-                                    .UseFilesystemProject(Path.GetFullPath("./Templates"))
-                                    .UseMemoryCachingProvider()
-                                    .Build();
-                                                 
-                    // var outputMaster = await engine.CompileRenderAsync("MasterEntity.cshtml", new MasterEntityModel
-                    // {
-                    //     DatasetName = "PASS2",
-                    //     Properties = csv.Context.HeaderRecord
-                    // });
-                    // Console.WriteLine(output)q;
+            //     //var outputMaster = GenerateMasterSource(csv.Context.HeaderRecord);
+            //     //Console.WriteLine(outputMaster);
+            //     var outputModels = GenerateModelsForMaster(typeof(Models.Contexts.PASS2.Master));
+            //     Console.WriteLine(outputModels);
+            // }
 
-                    
-                    var outputModels = await engine.CompileRenderAsync("ModelsEntity.cshtml", typeof(Models.Contexts.PASS2.Master));
-                    
-                    Console.WriteLine(outputModels);
-                    var imc = new InMemoryCompiler();
-                    imc.AddCodeBody(outputModels);
-                    var asm = imc.CompileAssembly();
-                    var masterType = asm.GetType($"Models.Contexts.PASS2.Master");
-                }
-                catch (System.Exception e)
-                {
-                    Console.Write(e);
-                }
-            }
 
-            
         }
 
 

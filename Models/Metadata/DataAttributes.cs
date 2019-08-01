@@ -38,7 +38,7 @@ namespace Models.Metadata
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitShortAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
-    public class IncludedAttribute : Attribute { }
+    public class IncludeAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
-    public class IsAggregatorAttribute : Attribute { }
+    public class AggregatorAttribute : Attribute { }
 }

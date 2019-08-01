@@ -7,162 +7,173 @@ using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Contexts.PASS2 {
+namespace Models.Contexts.PASS2
+{
     [Filter(0)]
-    public class Activity {
+    public class ColActivity
+    {
         public int Index { get; set; }
-        public int ActivityId { get; set; }
-        [InverseProperty("Activity")]
-        public ICollection<IndicatorGroup> IndicatorGroups { get; set; }
-        [ForeignKey("DefaultIndicatorGroupId")]
-        public IndicatorGroup DefaultIndicatorGroup { get; set; }
-        public int? DefaultIndicatorGroupId { get; set; }
+        public int ColActivityId { get; set; }
+        [InverseProperty("ColActivity")]
+        public ICollection<ColIndicatorGroup> ColIndicatorGroups { get; set; }
+        [ForeignKey("DefaultColIndicatorGroupId")]
+        public ColIndicatorGroup DefaultColIndicatorGroup { get; set; }
+        public int? DefaultColIndicatorGroupId { get; set; }
         [Text("Activity", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("Activity")]
-        public string ActivityNameEn { get; set; }
+        [BindToMaster("ColActivity")]
+        public string ColActivityNameEn { get; set; }
         [Text("Activity", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string ActivityNameFr { get; set; }
+        public string ColActivityNameFr { get; set; }
     }
     [Filter(1)]
-    public class IndicatorGroup {
+    public class ColIndicatorGroup
+    {
         public int Index { get; set; }
-        public int IndicatorGroupId { get; set; }
-        [InverseProperty("IndicatorGroup")]
-        public ICollection<LifeCourse> LifeCourses { get; set; }
-        [ForeignKey("DefaultLifeCourseId")]
-        public LifeCourse DefaultLifeCourse { get; set; }
-        public int? DefaultLifeCourseId { get; set; }
+        public int ColIndicatorGroupId { get; set; }
+        [InverseProperty("ColIndicatorGroup")]
+        public ICollection<ColLifeCourse> ColLifeCourses { get; set; }
+        [ForeignKey("DefaultColLifeCourseId")]
+        public ColLifeCourse DefaultColLifeCourse { get; set; }
+        public int? DefaultColLifeCourseId { get; set; }
         [Text("Indicator Group", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("IndicatorGroup")]
-        public string IndicatorGroupNameEn { get; set; }
+        [BindToMaster("ColIndicatorGroup")]
+        public string ColIndicatorGroupNameEn { get; set; }
         [Text("Indicator Group", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string IndicatorGroupNameFr { get; set; }
-        public int ActivityId { get; set; }
-        public Activity Activity { get; set; }
+        public string ColIndicatorGroupNameFr { get; set; }
+        public int ColActivityId { get; set; }
+        public ColActivity ColActivity { get; set; }
     }
     [Filter(2)]
-    public class LifeCourse {
+    public class ColLifeCourse
+    {
         public int Index { get; set; }
-        public int LifeCourseId { get; set; }
-        [InverseProperty("LifeCourse")]
-        public ICollection<Indicator> Indicators { get; set; }
-        [ForeignKey("DefaultIndicatorId")]
-        public Indicator DefaultIndicator { get; set; }
-        public int? DefaultIndicatorId { get; set; }
+        public int ColLifeCourseId { get; set; }
+        [InverseProperty("ColLifeCourse")]
+        public ICollection<ColIndicator> ColIndicators { get; set; }
+        [ForeignKey("DefaultColIndicatorId")]
+        public ColIndicator DefaultColIndicator { get; set; }
+        public int? DefaultColIndicatorId { get; set; }
         [Text("Life Course", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("LifeCourse")]
-        public string LifeCourseNameEn { get; set; }
+        [BindToMaster("ColLifeCourse")]
+        public string ColLifeCourseNameEn { get; set; }
         [Text("Life Course", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string LifeCourseNameFr { get; set; }
-        public int IndicatorGroupId { get; set; }
-        public IndicatorGroup IndicatorGroup { get; set; }
+        public string ColLifeCourseNameFr { get; set; }
+        public int ColIndicatorGroupId { get; set; }
+        public ColIndicatorGroup ColIndicatorGroup { get; set; }
     }
     [Filter(3)]
-    public class Indicator {
+    public class ColIndicator
+    {
         public int Index { get; set; }
-        public int IndicatorId { get; set; }
-        [InverseProperty("Indicator")]
-        public ICollection<SpecificMeasure> SpecificMeasures { get; set; }
-        [ForeignKey("DefaultSpecificMeasureId")]
-        public SpecificMeasure DefaultSpecificMeasure { get; set; }
-        public int? DefaultSpecificMeasureId { get; set; }
+        public int ColIndicatorId { get; set; }
+        [InverseProperty("ColIndicator")]
+        public ICollection<ColSpecificMeasure> ColSpecificMeasures { get; set; }
+        [ForeignKey("DefaultColSpecificMeasureId")]
+        public ColSpecificMeasure DefaultColSpecificMeasure { get; set; }
+        public int? DefaultColSpecificMeasureId { get; set; }
         [Text("Indicator", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("Indicator")]
-        public string IndicatorNameEn { get; set; }
+        [BindToMaster("ColIndicator")]
+        public string ColIndicatorNameEn { get; set; }
         [Text("Indicator", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string IndicatorNameFr { get; set; }
-        public int LifeCourseId { get; set; }
-        public LifeCourse LifeCourse { get; set; }
+        public string ColIndicatorNameFr { get; set; }
+        public int ColLifeCourseId { get; set; }
+        public ColLifeCourse ColLifeCourse { get; set; }
     }
     [Filter(4)]
-    public class SpecificMeasure {
+    public class ColSpecificMeasure
+    {
         public int Index { get; set; }
-        public int SpecificMeasureId { get; set; }
-        [InverseProperty("SpecificMeasure")]
-        public ICollection<DataBreakdowns> DataBreakdowns { get; set; }
-        [ForeignKey("DefaultDataBreakdownsId")]
-        public DataBreakdowns DefaultDataBreakdowns { get; set; }
-        public int? DefaultDataBreakdownsId { get; set; }
+        public int ColSpecificMeasureId { get; set; }
+        [InverseProperty("ColSpecificMeasure")]
+        public ICollection<ColDataBreakdowns> ColDataBreakdowns { get; set; }
+        [ForeignKey("DefaultColDataBreakdownsId")]
+        public ColDataBreakdowns DefaultColDataBreakdowns { get; set; }
+        public int? DefaultColDataBreakdownsId { get; set; }
         [Text("Specific Measure", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("SpecificMeasure")]
-        public string SpecificMeasureNameEn { get; set; }
+        [BindToMaster("ColSpecificMeasure")]
+        public string ColSpecificMeasureNameEn { get; set; }
         [Text("Specific Measure", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string SpecificMeasureNameFr { get; set; }
-        public int IndicatorId { get; set; }
-        public Indicator Indicator { get; set; }
-        [Included]
-        [BindToMaster("IsIncluded")]
-        public bool Included { get; set; }
+        public string ColSpecificMeasureNameFr { get; set; }
+        public int ColIndicatorId { get; set; }
+        public ColIndicator ColIndicator { get; set; }
+        [Include]
+        [BindToMaster("Include")]
+        public bool Include { get; set; }
+        [Aggregator]
+        [BindToMaster("Aggregator")]
+        public bool IsAggregator { get; set; }
     }
     [Filter(5)]
-    public class DataBreakdowns {
+    public class ColDataBreakdowns
+    {
         public int Index { get; set; }
-        public int DataBreakdownsId { get; set; }
-        [InverseProperty("DataBreakdowns")]
-        public ICollection<Strata> Strata { get; set; }
-        [ForeignKey("DefaultStrataId")]
-        public Strata DefaultStrata { get; set; }
-        public int? DefaultStrataId { get; set; }
+        public int ColDataBreakdownsId { get; set; }
+        [InverseProperty("ColDataBreakdowns")]
+        public ICollection<ColStrata> ColStrata { get; set; }
+        [ForeignKey("DefaultColStrataId")]
+        public ColStrata DefaultColStrata { get; set; }
+        public int? DefaultColStrataId { get; set; }
         [Text("Data Breakdowns", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("DataBreakdowns")]
-        public string DataBreakdownsNameEn { get; set; }
+        [BindToMaster("ColDataBreakdowns")]
+        public string ColDataBreakdownsNameEn { get; set; }
         [Text("Data Breakdowns", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string DataBreakdownsNameFr { get; set; }
-        public int SpecificMeasureId { get; set; }
-        public SpecificMeasure SpecificMeasure { get; set; }
+        public string ColDataBreakdownsNameFr { get; set; }
+        public int ColSpecificMeasureId { get; set; }
+        public ColSpecificMeasure ColSpecificMeasure { get; set; }
         [CVRangeLower]
         [BindToMaster("CVRangeLower")]
-        public double CVRangeLower { get; set; }
+        public double? CVRangeLower { get; set; }
         [CVRangeUpper]
         [BindToMaster("CVRangeUpper")]
-        public double CVRangeUpper { get; set; }
+        public double? CVRangeUpper { get; set; }
         [UnitLong]
-        [BindToMaster("UnitLabelLong")]
+        [BindToMaster("UnitLong")]
         public string UnitLong { get; set; }
         [UnitShort]
-        [BindToMaster("DataSource1")]
+        [BindToMaster("UnitShort")]
         public string UnitShort { get; set; }
     }
     [Filter(6)]
-    public class Strata {
+    public class ColStrata
+    {
         public int Index { get; set; }
-        public int StrataId { get; set; }
+        public int ColStrataId { get; set; }
         [Text("Strata", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
-        [BindToMaster("Strata")]
-        public string StrataNameEn { get; set; }
+        [BindToMaster("ColStrata")]
+        public string ColStrataNameEn { get; set; }
         [Text("Strata", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
-        public string StrataNameFr { get; set; }
-        public int DataBreakdownsId { get; set; }
-        public DataBreakdowns DataBreakdowns { get; set; }
+        public string ColStrataNameFr { get; set; }
+        public int ColDataBreakdownsId { get; set; }
+        public ColDataBreakdowns ColDataBreakdowns { get; set; }
         [PointAverage]
-        [BindToMaster("Data")]
+        [BindToMaster("PointAverage")]
         public double? ValueAverage { get; set; }
         [PointUpper]
-        [BindToMaster("CIUpper95")]
+        [BindToMaster("PointUpper")]
         public double? ValueUpper { get; set; }
         [PointLower]
-        [BindToMaster("CILow95")]
+        [BindToMaster("PointLower")]
         public double? ValueLower { get; set; }
         [CVInterpretation]
         [BindToMaster("CVInterpretation")]
         public int CVInterpretation { get; set; }
         [CVValue]
-        [BindToMaster("CV")]
-        public int? CVValue { get; set; }
+        [BindToMaster("CVValue")]
+        public double? CVValue { get; set; }
     }
-    
+
 }

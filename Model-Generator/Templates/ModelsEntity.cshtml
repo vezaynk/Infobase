@@ -68,14 +68,14 @@ namespace Models.Contexts.PASS2 {
             @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
             @:public string @(measureProp.Name)Fr { get; set; }
         }
-        @:[Included]
+        @:[Include]
         
-        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IncludedAttribute>() != null)?.Name ?? "binding required")")]
-        @:public bool Included { get; set; }
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null)?.Name ?? "binding required")")]
+        @:public bool Include { get; set; }
 
-        @:[IsAggregator]
+        @:[Aggregator]
         
-        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IsAggregatorAttribute>() != null)?.Name ?? "binding required")")]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorAttribute>() != null)?.Name ?? "binding required")")]
         @:public bool IsAggregator { get; set; }
     }
 
@@ -93,11 +93,11 @@ namespace Models.Contexts.PASS2 {
         }
         @:[CVRangeLower]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null)?.Name ?? "binding required")")]
-        @:public double CVRangeLower { get; set; }
+        @:public double? CVRangeLower { get; set; }
         @:[CVRangeUpper]
         
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeUpperAttribute>() != null)?.Name ?? "binding required")")]
-        @:public double CVRangeUpper { get; set; }
+        @:public double? CVRangeUpper { get; set; }
         @:[UnitLong]
         
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<UnitLongAttribute>() != null)?.Name ?? "binding required")")]

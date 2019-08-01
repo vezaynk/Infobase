@@ -242,7 +242,7 @@ namespace Model_Generator
                 var totalChildrenCount = childRows.Count();
                 var usedIndexes = new HashSet<int>();
 
-                Console.WriteLine($"Looking for {totalChildrenCount} children...");
+                Console.WriteLine($"\rLooking for {totalChildrenCount} children...");
                 foreach (var parent in currentDbSet)
                 {
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
@@ -259,15 +259,13 @@ namespace Model_Generator
                             {
                                 var columnName = parentProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName;
                                 var childProperty = masterType.GetProperty(columnName);
-                                Console.WriteLine("Child Prop:" + childProperty);
-                                Console.WriteLine("Child Prop:" + columnName);
-                                Console.WriteLine("Child:" + child);
+
                                 var childValue = childProperty.GetValue(child);
 
                                 try
                                 {
                                     var parentValue = parentProperty.GetValue(nextParent);
-                                    if (childValue.ToString() != parentValue.ToString())
+                                    if (Convert.ToString(childValue) != Convert.ToString(parentValue))
                                     {
                                         return false;
                                     }
@@ -293,12 +291,14 @@ namespace Model_Generator
                             var source = masterType.GetProperty(boundProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
                             try
                             {
-                                if (boundProperty.PropertyType == typeof(bool)) {
+                                if (source.PropertyType != boundProperty.PropertyType)
+                                {
                                     //Todo handle non-string types
+                                    throw new ArrayTypeMismatchException($"Type mismatch between master property {source.Name} and {boundProperty.Name}");
                                 }
                                 boundProperty.SetValue(instance, source.GetValue(e));
                             }
-                            catch(TargetException)
+                            catch (TargetException)
                             {
 
                             }
@@ -315,7 +315,7 @@ namespace Model_Generator
                         if (firstChild == null)
                             firstChild = child;
 
-                        Console.WriteLine($"\rFound {usedIndexes.Count()} out of {totalChildrenCount} children...");
+                        Console.Write($"\rFound {usedIndexes.Count()} out of {totalChildrenCount} children...");
 
                         childDbSet.GetType().GetMethod("Add").Invoke(childDbSet, new object[] { child });
                     }

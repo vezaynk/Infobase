@@ -19,7 +19,7 @@ namespace Models.Contexts.@(Model.DatasetName) {
             ** Data Properties **
                 [CVRangeUpper]
                 [CVRangeLower]
-                [CV]
+                [CVValue]
                 [CVInterpretation] (May be derivable based on where the CV falls relative to CV Ranges)
                 
                 [PointAverage]
@@ -49,11 +49,41 @@ namespace Models.Contexts.@(Model.DatasetName) {
         [Key]
         public int Index { get; set; }
 
+        /** Modify below to resolve to valid data. These can also be adjusted from the generated models if you want them to be derived later **/
+        [CVInterpretation]
+        public int CVInterpretation => 0;
+        [CVValue]
+        public double? CVValue => null;
+        [CVRangeUpper]
+        public double? CVRangeUpper => null;
+        [CVRangeLower]
+        public double? CVRangeLower => null;
+        [PointAverage]
+        public double? PointAverage => null;
+        [PointUpper]
+        public double? PointUpper => null;
+        [PointLower]
+        public double? PointLower => null;
+        [UnitShort]
+        public string UnitShort => null;
+        [UnitLong]
+        public string UnitLong => null;
+        [DataLabelTable]
+        public string DataLabelTable => null;
+        [DataLabelChart]
+        public string DataLabelChart => null;
+        [Aggregator]
+        public bool Aggregator => false;
+        [Include]
+        public bool Include => true;
+
+
+        /** Modify below to mark filters with their levels and text to display**/
 @foreach (var column in @Model.Properties) {
         @:[Text("@column", "en-ca")]
         @:[Text("@column", "fr-ca")]
         @:[CSVColumn("@column")]
-        @:public string @(Program.ToPascalCase(column)) { get; set; }
+        @:public string Col@(Program.ToPascalCase(column)) { get; set; }
         @:
         @:
 }
