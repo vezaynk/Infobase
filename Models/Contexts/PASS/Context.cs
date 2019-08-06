@@ -17,7 +17,7 @@ namespace Models.Contexts.PASS
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseLazyLoadingProxies();
+            // optionsBuilder.UseLazyLoadingProxies();
         }
 
         public DbSet<Activity> Activity { get; set; }

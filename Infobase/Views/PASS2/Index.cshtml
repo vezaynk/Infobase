@@ -1,13 +1,13 @@
-﻿@model IEnumerable<Models.Contexts.PASS.Activity>
+﻿@model IEnumerable<Models.Contexts.PASS2.ColActivity>
 @{
     Layout = "_Layout.cshtml";
     
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
     string language = ViewContext.RouteData.Values["language"].ToString();
     var lifeCourseNames = Model.OrderBy(x => x.Index)
-                                .SelectMany(a => a.IndicatorGroups
+                                .SelectMany(a => a.ColIndicatorGroups
                                                     .OrderBy(x => x.Index)
-                                                    .SelectMany(ig => ig.LifeCourses.OrderBy(x => x.Index).Select(lc => lc.LifeCourseName(language)))
+                                                    .SelectMany(ig => ig.ColLifeCourses.OrderBy(x => x.Index).Select(lc => lc.ColLifeCourseNameEn))
                                         ).Distinct();
 
 }
@@ -73,7 +73,7 @@
             foreach (var activity in Model.OrderBy(x => x.Index))
             {
                 <details>
-                    <summary>@activity.ActivityName(language)</summary>
+                    <summary>@activity.ColActivityNameEn</summary>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
@@ -99,49 +99,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var indicatorGroup in activity.IndicatorGroups.OrderBy(x => x.Index))
+                                @foreach (var indicatorGroup in activity.ColIndicatorGroups.OrderBy(x => x.Index))
                                 {
 
                                     var igFirst = true;
                                     // Must only select indicators which are a subset of the desired lifecourse
-                                    var indicators = indicatorGroup.LifeCourses.Where(lc => lc.LifeCourseName(language) == lifeCourseName).SelectMany(lc => lc.Indicators);
+                                    var indicators = indicatorGroup.ColLifeCourses.Where(lc => lc.ColLifeCourseNameEn == lifeCourseName).SelectMany(lc => lc.ColIndicators);
                                     foreach (var indicator in indicators.OrderBy(x => x.Index))
                                     {
                                         var indicatorFirst = true;
-                                        foreach (var measure in indicator.Measures.OrderBy(x => x.Index))
+                                        foreach (var measure in indicator.ColSpecificMeasures.OrderBy(x => x.Index))
                                         {
                                             <tr>
                                                 @if (igFirst)
                                                 {
                                                     igFirst = false;
-                                                    <td rowspan="@indicators.SelectMany(i => i.Measures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.IndicatorGroupName(language) </MiniTex></td>
+                                                    <td rowspan="@indicators.SelectMany(i => i.ColSpecificMeasures).Count()" data-index="@indicatorGroup.Index"><MiniTex>@indicatorGroup.ColIndicatorGroupNameEn </MiniTex></td>
                                                 }
                                                 @if (indicatorFirst)
                                                 {
                                                     indicatorFirst = false;
-                                                    <td rowspan="@indicator.Measures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.IndicatorName(language)</MiniTex></td>
+                                                    <td rowspan="@indicator.ColSpecificMeasures.Count()" data-index="@indicator.Index"><MiniTex>@indicator.ColIndicatorNameEn</MiniTex></td>
                                                 }
-                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureNameIndex(language)</MiniTex></td>
-                                                @if (measure.DefaultStrataId == null)
-                                                {
-                                                    <td><MiniTex>-</MiniTex></td>
-                                                }
-                                                else
-                                                {
-                                                    var measurePoint = measure.DefaultStrata.Points.OrderByDescending(p => p.Type == 1 ? 1 : 0).ThenBy(p => p.Index).FirstOrDefault();
-                                                    if (measurePoint == null || measurePoint.ValueAverage == null)
-                                                    {
-                                                        <td>-</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td data-index="@measurePoint.Index"><MiniTex>@Formatter.Standard(measurePoint.ValueAverage ?? 0, measure.MeasureUnitShort(language), language)</MiniTex></td>
-                                                    }
-                                                }
+                                                <td data-index="@measure.Index">Meausre Name</td>
+                                                <td>-</td>
 
-                                                <td data-index="@measure.Index"><MiniTex>@measure.MeasureSourceShort(language)</MiniTex></td>
+                                                <td data-index="@measure.Index">Source goes here</td>
                                                 <td>
-                                                    @if (measure.Included)
+                                                    @if (true) //measure.Included)
                                                     {
                                                         @*
 														@if (language == "en-ca") {

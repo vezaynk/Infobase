@@ -24,20 +24,8 @@ namespace Infobase.Models
         public string YAxis { get; set; }
         public string Unit { get; set; }
         public IEnumerable<Point> Points { get; set; }
-        public string Source { get; set; }
-        public string Organization { get; set; }
-        public string Population { get; set; }
-        public string Notes { get; set; }
-
-        public string Definition { get; set; }
-        public string DataAvailable { get; set; }
-        public string Method { get; set; }
-        public string Remarks { get; set; }
-
         public double? WarningCV {get;set;}
         public double? SuppressCV {get;set;}
-
-        public string MeasureName {get;set;}
         public string Title { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using JavaScriptEngineSwitcher.ChakraCore;
@@ -46,17 +47,6 @@ namespace Infobase
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-
-            // Higher-order abstraction for DbContext Dependency Injection
-            // services.AddDbContext<PASSContext>(options =>
-            //           options.UseNpgsql(Configuration.GetConnectionString("PASSDB")));
-
-            // Generic overloads make it both non-trivial and fragile. Playing with the methods via the debugger is necessary find a way to identify our desired override.
-            MethodInfo AddDbContextMethod = typeof(EntityFrameworkServiceCollectionExtensions)
-                    .GetMethods()
-                    .Where(method => method.Name == "AddDbContext" && method.GetGenericArguments().First().BaseType == typeof(DbContext))
-                    .First(method => method.GetParameters()[1].ParameterType == typeof(Action<DbContextOptionsBuilder>));
-
             var dbContextTypes = Assembly
                                     .GetExecutingAssembly()
                                     .GetReferencedAssemblies()
@@ -65,14 +55,44 @@ namespace Infobase
                                     .Where(t => t.BaseType == typeof(DbContext) && t.Namespace.StartsWith("Models.Contexts"));
 
             Console.WriteLine($"{dbContextTypes.Count()} contexts");
+            
+            var dbSetLookup = new Dictionary<string, SortedDictionary<Type, IEnumerable>>();
             foreach (var dbContextType in dbContextTypes)
             {
-                var connectionString = Configuration.GetConnectionString(dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName);
-                AddDbContextMethod
-                    .MakeGenericMethod(new Type[] { dbContextType })
-                    .Invoke(services, new object[] {services, new Action<DbContextOptionsBuilder>(options =>
-                        options.UseNpgsql(connectionString)), AddDbContextMethod.GetParameters()[2].DefaultValue, AddDbContextMethod.GetParameters()[3].DefaultValue});
+                var databaseName = dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName;
+                var connectionString = Configuration.GetConnectionString(databaseName);
+
+                // Generic OptionBuilder type to work with the loaded DbContext 
+                Type optionBuilderType = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextType });
+                // Instance of optionBuilder
+                DbContextOptionsBuilder optionsBuilder = (DbContextOptionsBuilder)Activator.CreateInstance(optionBuilderType);
+
+                optionsBuilder.UseNpgsql(connectionString);
+
+                // Create dbContext using configured optionBuilder
+                var dbContext = (DbContext)Activator.CreateInstance(dbContextType, new object[] {
+                    optionsBuilder.Options
+                });
+
+
+                IEnumerable<object> GetDbSet(Type setType)
+                {
+                    var genericDbSetMethod = dbContextType.GetMethod("Set").MakeGenericMethod(new[] { setType });
+                    return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(dbContext, new object[] { }));
+                }
+
+                var dbSets = dbContextType.Assembly.GetTypes()
+                // Load all models, excluding the non-filter ones (Only the Master is excluded).
+                .Where(t => t.Namespace == dbContextType.Namespace && t.GetCustomAttribute<FilterAttribute>() != null)
+                .ToList();
+
+                var dataCache = new SortedDictionary<Type, IEnumerable>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
+                foreach (Type dsType in dbSets) {
+                    dataCache.Add(dsType, GetDbSet(dsType).OrderBy(row => dsType.GetProperty("Index").GetValue(row)).ToList());
+                }
+                dbSetLookup.Add(databaseName, dataCache);
             }
+            services.AddSingleton(dbSetLookup);
 
             //services.AddMiniProfiler();
 

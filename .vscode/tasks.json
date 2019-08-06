@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/model-generator/model-generator.csproj"
+                "${workspaceFolder}/Infobase/Infobase.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/model-generator/model-generator.csproj"
+                "${workspaceFolder}/Infobase/Infobase.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +28,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/model-generator/model-generator.csproj"
+                "${workspaceFolder}/Infobase/Infobase.csproj"
             ],
             "problemMatcher": "$tsc"
         }

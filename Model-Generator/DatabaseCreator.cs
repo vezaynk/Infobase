@@ -65,6 +65,7 @@ namespace Model_Generator
         public IEnumerable<object> GetDbSet(Type setType)
         {
             var genericDbSetMethod = DbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { setType });
+            
             return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(DbContext, new object[] { }));
         }
         public int LoadMasterCSV(StreamReader sr)
@@ -85,7 +86,7 @@ namespace Model_Generator
             {
 
                 var records = csv.GetRecords<dynamic>();
-                var masterInstances = records.AsParallel().Select((record, index) =>
+                var masterInstances = records.Select((record, index) =>
                 {
                     // Each record is a dictionary (header name => cell value)
                     var dict = (IDictionary<string, object>)record;
@@ -106,6 +107,9 @@ namespace Model_Generator
 
                         property.SetValue(masterInstance, value);
                     }
+
+                    // Set index to maintain consistent order with CSV
+                    masterType.GetProperty("Index").SetValue(masterInstance, index+1);
 
                     return masterInstance;
                 });

@@ -1,0 +1,165 @@
+﻿@model Infobase.Models.ChartPageModel
+@{
+    Layout = "_Layout.cshtml";
+    string language = ViewContext.RouteData.Values["language"].ToString();
+}
+@Html.React("InitializeChartDataStore", new {
+            state = Model
+        }, clientOnly: false)
+
+<div class="row brdr-bttm" style="padding-bottom:50px;">
+    @switch (language) {
+        case "en-ca":
+            @Html.React("Filters", new
+		{
+            prompt = "Select an item from each list below"
+        }, clientOnly: false)
+            break;
+        case "fr-ca":
+            @Html.React("Filters", new
+		{
+            prompt = "Sélectionner les paramètres d'intérêt"
+        }, clientOnly: false)
+            break;
+    }
+        
+	
+    <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
+        @Html.React("Charting", new { Animate=true }, clientOnly: false)
+
+        @switch (language) {
+        case "en-ca":
+            @Html.React("SaveChartBtn", new { 
+                label = "Save Image",
+                cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
+                cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%.",
+                cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
+                cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable.",
+                confidenceInterval = "Confidence Interval",
+                confidenceIntervalAbbr = "CI"
+            },
+            clientOnly: true);
+            break;
+        case "fr-ca":
+            @Html.React("SaveChartBtn", new {
+                label = "Enregistrer l'image",
+                cvWarning = "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
+                cvSuppressed = "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
+                cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
+                cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
+                confidenceInterval = "Interval de Confiance",
+                confidenceIntervalAbbr = "IC"
+            },
+            clientOnly: true);
+            break;
+    }
+        
+    </div>
+</div>
+
+    <div class="row">
+<div class="col-sm-12">
+    @switch (language) {
+        case "en-ca":
+            @Html.React("SummaryTable", new { 
+                cvWarning = "Cells highlighted in yellow should be interpreted with caution as they contain estimates with a coefficient of variation between {warn}% to {suppress}%.", 
+                cvSuppressed = "Cells highlighted in red indicate where estimates are unstable or unreleasable due to small numbers and/or coefficients of variation greater than {suppress}%.",
+                cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
+                cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable.",
+                confidenceInterval = "Confidence Interval",
+                confidenceIntervalAbbr = "CI"
+            },
+            clientOnly: false);
+            break;
+        case "fr-ca":
+            @Html.React("SummaryTable", new {
+                cvWarning = "Les données dont le coefficient de variation (CV) se situe entre {warn}% et {suppress}% sont identifiées comme suit : Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
+                cvSuppressed = "Les données présentant un coefficient de variation (CV) supérieur à {suppress}% ont été supprimées en raison de l'extrême variabilité d'échantillonnage et sont identifiées comme suit : les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
+                cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
+                cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
+                confidenceInterval = "Interval de Confiance",
+                confidenceIntervalAbbr = "IC"
+            },
+            clientOnly: false);
+            break;
+    }
+</div>
+</div>
+<div class="row brdr-bttm">
+    <div class="col-md-12">
+
+        <h4 id="desc" class="row">
+            @switch (language) {
+                    case "en-ca":
+                        @:<span class="col-sm-12">Measure Description</span>
+                        break;
+                    case "fr-ca":
+                        @:<span class="col-sm-12">Descriptions des mesures</span>
+                        break;
+                }
+        </h4>
+
+        <div class="row">
+            <div class="col-sm-12">
+                @switch (language) {
+                    case "en-ca":
+                        @Html.React("DescriptionTable", new { 
+                            definitionText = "Definition",
+                            dataAvailableText = "Data Available",
+                            methodsText = "Estimate Calculation",
+                            remarksText = "Additional Remarks"
+                        }, clientOnly: false);
+                        break;
+                    case "fr-ca":
+                        @Html.React("DescriptionTable", new { 
+                            definitionText = "Définition",
+                            dataAvailableText = "Ventilation des données",
+                            methodsText = "Calcul des estimés",
+                            remarksText = "Remarques additionnelle"
+                        }, clientOnly: false);
+                        break;
+                }
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+<br/>
+<section class="panel panel-info">
+    <header class="panel-heading">
+        
+            @switch (language) {
+                    case "en-ca":
+                        @:<h3 class="panel-title">Suggested Citation</h3>
+                        break;
+                    case "fr-ca":
+                        @:<h3 class="panel-title">Citation suggérée</h3>
+                        break;
+                }
+    </header>
+    <div class="panel-body">
+        @switch (language) {
+                    case "en-ca":
+                        @:<p>Center for Surveillance and Applied Research, Public Health Agency of Canada. Physical Activity, Sedentary Behaviour and Sleep (PASS) Indicators Data Tool, 2018 Edition. Public Health Infobase. Ottawa (ON): Public Health Agency of Canada, 2018.</p>
+                        break;
+                    case "fr-ca":
+                        @:<p>Centre de surveillance et de recherche appliquée, Agence de la santé publique du Canada. Outil des données de L'indicateurs de l’activité physique, du comportement sédentaire et du sommeil (APCSS), édition 2018. Infobase de la santé publique. Ottawa (Ontario): Agence de la santé publique du Canada, 2018.</p>
+                        break;
+                }
+    </div>
+</section>
+<script>
+    // all <a> tags containing a certain rel=""
+$("a[rel~='keep-params']").click(function(e) {
+    e.preventDefault();
+
+    var params = window.location.search,
+        dest = $(this).attr('href') + params;
+
+    // in my experience, a short timeout has helped overcome browser bugs
+    window.setTimeout(function() {
+        window.location.href = dest;
+    }, 100);
+});
+</script>
