@@ -27,9 +27,9 @@ namespace Models.Metadata
         Filter
     }
     [AttributeUsage(AttributeTargets.Property)]
-    public class ShowOn: Attribute {
+    public class ShowOnAttribute: Attribute {
         public TextAppearance TextAppearance { get; set; }
-        public ShowOn(TextAppearance ta) {
+        public ShowOnAttribute(TextAppearance ta) {
             this.TextAppearance = ta;
         }
     }

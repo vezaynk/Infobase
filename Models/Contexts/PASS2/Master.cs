@@ -71,7 +71,7 @@ namespace Models.Contexts.PASS2 {
         [Aggregator]
         public bool Aggregator => false;
         [Include]
-        public bool Include => true;
+        public bool Include => ColIsIncluded == "Y";
 
 
         /** Modify below to mark filters with their levels and text to display**/

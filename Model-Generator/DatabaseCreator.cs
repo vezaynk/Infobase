@@ -252,9 +252,18 @@ namespace Model_Generator
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
                     var childIndexProperty = childType.GetProperties().First(prop => prop.Name == "Index");
 
+                    bool included = true;
+                    var includeProperty = parent.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null);
+                    if (includeProperty != null) {
+                        included = (bool)includeProperty.GetValue(parent);
+                    }
+
                     childRows = childRows.Where(e => !usedIndexes.Contains((int)masterIndexProperty.GetValue(e)));
                     var children = childRows.Where((child, i) =>
                     {
+                        if (!included) {
+                            return false;
+                        }
                         // Filtering is fast. No significant optimization is possible.
                         var nextParent = parent;
                         while (nextParent != null)
@@ -330,7 +339,7 @@ namespace Model_Generator
                     type.GetProperty($"Default{childType.Name}Id").SetValue(parent, firstId);
                 }
                 dbContext.SaveChanges();
-                Console.WriteLine($"\rLoaded {childDbSet.Count()} {childType.Name} entities!");
+                Console.WriteLine($"Finished");
             }
 
 

@@ -25,10 +25,10 @@ namespace Models.Contexts.PASS
             return "No culture";
         }
         [CSVColumn("Activity")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         // [Text("Activity", "en-ca")]
         public string ActivityNameEn { get; set; }
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         // [Text("Activité", "fr-ca")]
         public string ActivityNameFr { get; set; }
 

@@ -20,11 +20,11 @@ namespace Models.Contexts.PASS2
         public ColIndicatorGroup DefaultColIndicatorGroup { get; set; }
         public int? DefaultColIndicatorGroupId { get; set; }
         [Text("Activity", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColActivity")]
         public string ColActivityNameEn { get; set; }
         [Text("Activity", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColActivityNameFr { get; set; }
     }
     [Filter(1)]
@@ -38,11 +38,11 @@ namespace Models.Contexts.PASS2
         public ColLifeCourse DefaultColLifeCourse { get; set; }
         public int? DefaultColLifeCourseId { get; set; }
         [Text("Indicator Group", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColIndicatorGroup")]
         public string ColIndicatorGroupNameEn { get; set; }
         [Text("Indicator Group", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColIndicatorGroupNameFr { get; set; }
         public int ColActivityId { get; set; }
         public ColActivity ColActivity { get; set; }
@@ -58,11 +58,11 @@ namespace Models.Contexts.PASS2
         public ColIndicator DefaultColIndicator { get; set; }
         public int? DefaultColIndicatorId { get; set; }
         [Text("Life Course", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColLifeCourse")]
         public string ColLifeCourseNameEn { get; set; }
         [Text("Life Course", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColLifeCourseNameFr { get; set; }
         public int ColIndicatorGroupId { get; set; }
         public ColIndicatorGroup ColIndicatorGroup { get; set; }
@@ -78,11 +78,11 @@ namespace Models.Contexts.PASS2
         public ColSpecificMeasure DefaultColSpecificMeasure { get; set; }
         public int? DefaultColSpecificMeasureId { get; set; }
         [Text("Indicator", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColIndicator")]
         public string ColIndicatorNameEn { get; set; }
         [Text("Indicator", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColIndicatorNameFr { get; set; }
         public int ColLifeCourseId { get; set; }
         public ColLifeCourse ColLifeCourse { get; set; }
@@ -98,11 +98,11 @@ namespace Models.Contexts.PASS2
         public ColDataBreakdowns DefaultColDataBreakdowns { get; set; }
         public int? DefaultColDataBreakdownsId { get; set; }
         [Text("Specific Measure", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColSpecificMeasure")]
         public string ColSpecificMeasureNameEn { get; set; }
         [Text("Specific Measure", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColSpecificMeasureNameFr { get; set; }
         public int ColIndicatorId { get; set; }
         public ColIndicator ColIndicator { get; set; }
@@ -124,11 +124,11 @@ namespace Models.Contexts.PASS2
         public ColStrata DefaultColStrata { get; set; }
         public int? DefaultColStrataId { get; set; }
         [Text("Data Breakdowns", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColDataBreakdowns")]
         public string ColDataBreakdownsNameEn { get; set; }
         [Text("Data Breakdowns", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColDataBreakdownsNameFr { get; set; }
         public int ColSpecificMeasureId { get; set; }
         public ColSpecificMeasure ColSpecificMeasure { get; set; }
@@ -151,11 +151,11 @@ namespace Models.Contexts.PASS2
         public int Index { get; set; }
         public int ColStrataId { get; set; }
         [Text("Strata", "en-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         [BindToMaster("ColStrata")]
         public string ColStrataNameEn { get; set; }
         [Text("Strata", "fr-ca")]
-        [ShowOn(TextAppearance.Filter)]
+        [ShowOnAttribute(TextAppearance.Filter)]
         public string ColStrataNameFr { get; set; }
         public int ColDataBreakdownsId { get; set; }
         public ColDataBreakdowns ColDataBreakdowns { get; set; }
