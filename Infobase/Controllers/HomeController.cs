@@ -66,31 +66,46 @@ namespace Infobase.Controllers
             var dropdowns = _context.SkipLast(1).Select(pair =>
             {
                 Type type = pair.Key;
-                var textProperty = type.GetProperties().First(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.Filter);
+                var textProperty = TextAttribute.GetTextProperty(type, "en-ca", TextAppearance.Filter);
 
                 IEnumerable<object> entities = Enumerable.Cast<object>(pair.Value);
 
+                // Walk up the tree until the type is the same
+                var parentOfCurrentType = selectedBreakdown;
+                while (parentOfCurrentType.GetType() != type)
+                {
+                    parentOfCurrentType = ParentAttribute.GetParentOf(parentOfCurrentType);
+                }
+
                 var dropdownItems = entities
-                    //.Where(entity => type.GetProperties().First(p => p.Name.StartsWith("Default")).GetValue(entity) != null)
+                    .Where(entity => DefaultChildAttribute.GetDefaultChildOf(entity) != null)
+                    .Where(entity =>
+                    {
+                        var parentOfEntity = ParentAttribute.GetParentOf(entity);
+                        // Top-level selectors should always be displayed
+                        if (parentOfEntity == null) return true;
+
+                        // Check for common ancestor
+                        return ParentAttribute.GetParentOf(parentOfCurrentType) == parentOfEntity;
+                    })
                     .Select(entity =>
                     {
                         var currentLevel = entity;
 
-                        // TODO: Replace try with proper filtering out of non-defaultable selections
+                        var entityText = (string)textProperty.GetValue(entity);
 
                         while (currentLevel.GetType() != dataBreakdownLevelType)
                         {
-                            currentLevel = currentLevel.GetType().GetProperties().First(p => p.Name.StartsWith("Default")).GetValue(currentLevel);
-                            if (currentLevel == null) return null;
+                            currentLevel = DefaultChildAttribute.GetDefaultChildOf(currentLevel);
+                            if (currentLevel == null) throw new Exception("Default tree structure is broken");
                         }
-                        var entityText = (string)textProperty.GetValue(entity);
                         var entityIndex = (int)indexProp.GetValue(currentLevel);
 
-                        return new DropdownItem { Text = entityText, Value = entityIndex };
+                        return new { Text = entityText, Value = entityIndex, Entity = entity };
 
-                    }).Where(e => e != null);
+                    });
 
-                return new DropdownMenuModel("Label", dropdownItems, (int)indexProp.GetValue(selectedBreakdown));
+                return new DropdownMenuModel(textProperty.GetCustomAttribute<TextAttribute>().Name, dropdownItems.Select(di => new DropdownItem { Text = di.Text, Value = di.Value}), dropdownItems.First(di => di.Entity == parentOfCurrentType).Value);
             });
             foreach (var dropdown in dropdowns)
             {

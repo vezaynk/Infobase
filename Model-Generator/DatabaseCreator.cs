@@ -65,7 +65,7 @@ namespace Model_Generator
         public IEnumerable<object> GetDbSet(Type setType)
         {
             var genericDbSetMethod = DbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { setType });
-            
+
             return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(DbContext, new object[] { }));
         }
         public int LoadMasterCSV(StreamReader sr)
@@ -109,7 +109,7 @@ namespace Model_Generator
                     }
 
                     // Set index to maintain consistent order with CSV
-                    masterType.GetProperty("Index").SetValue(masterInstance, index+1);
+                    masterType.GetProperty("Index").SetValue(masterInstance, index + 1);
 
                     return masterInstance;
                 });
@@ -246,22 +246,19 @@ namespace Model_Generator
                 var totalChildrenCount = childRows.Count();
                 var usedIndexes = new HashSet<int>();
 
-                Console.WriteLine($"\rLooking for {totalChildrenCount} children...");
+                Console.Write($"\rLooking for {totalChildrenCount} children...");
                 foreach (var parent in currentDbSet)
                 {
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
                     var childIndexProperty = childType.GetProperties().First(prop => prop.Name == "Index");
 
-                    bool included = true;
-                    var includeProperty = parent.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null);
-                    if (includeProperty != null) {
-                        included = (bool)includeProperty.GetValue(parent);
-                    }
+                    bool included = IncludeAttribute.GetIncludedState(parent);
 
                     childRows = childRows.Where(e => !usedIndexes.Contains((int)masterIndexProperty.GetValue(e)));
                     var children = childRows.Where((child, i) =>
                     {
-                        if (!included) {
+                        if (!included)
+                        {
                             return false;
                         }
                         // Filtering is fast. No significant optimization is possible.
@@ -290,7 +287,7 @@ namespace Model_Generator
                             }
                             var nextParentLevel = nextParent.GetType().GetCustomAttribute<FilterAttribute>().Level;
                             string name = types.Skip((int)nextParentLevel - 1).FirstOrDefault()?.Name;
-                            nextParent = (int)nextParentLevel == 0 ? null : nextParent.GetType().GetProperty(name).GetValue(nextParent);
+                            nextParent = ParentAttribute.GetParentOf(nextParent);
                         }
                         return true;
                     }).Select((e, i) =>
@@ -322,27 +319,33 @@ namespace Model_Generator
                         return instance;
                     });
 
-                    object firstChild = null;
                     foreach (var child in children)
                     {
-                        if (firstChild == null)
-                            firstChild = child;
-
                         Console.Write($"\rFound {usedIndexes.Count()} out of {totalChildrenCount} children...");
 
                         childDbSet.GetType().GetMethod("Add").Invoke(childDbSet, new object[] { child });
                     }
-
-                    int? firstId = null;
-                    if (firstChild != null)
-                        firstId = (int)childType.GetProperty($"{childType.Name}Id").GetValue(firstChild);
-                    type.GetProperty($"Default{childType.Name}Id").SetValue(parent, firstId);
                 }
                 dbContext.SaveChanges();
-                Console.WriteLine($"Finished");
+                Console.WriteLine();
             }
 
 
+            foreach (Type type in types.SkipLast(1).Reverse())
+            {
+                var dbset = GetDbSet(type);
+                var defaultChildProperty = DefaultChildAttribute.GetDefaultChildOfProperty(type);
+                foreach (var entity in dbset)
+                {
+                    var children = ChildrenAttribute.GetChildrenOf(entity);
+                    var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || DefaultChildAttribute.GetDefaultChildOf(c) != null));
+                    if (defaultChild != null)
+                        defaultChildProperty.SetValue(entity, defaultChild);
+                }
+
+                dbContext.SaveChanges();
+            }
+            Console.WriteLine($"Finished");
         }
 
     }

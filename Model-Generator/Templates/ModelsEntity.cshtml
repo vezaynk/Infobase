@@ -38,9 +38,11 @@ namespace Models.Contexts.PASS2 {
         @:public int Index { get; set; }
         @:public int @(current.Name)Id { get; set; }
     if (next != null) {
+        @:[Children]
         @:[InverseProperty("@(current.Name)")]
         @:public ICollection<@(next.Name)> @(new Pluralizer().Pluralize(next.Name)) { get; set; }
         @:[ForeignKey("Default@(next.Name)Id")]
+        @:[DefaultChild]
         @:public @(next.Name) Default@(next.Name) { get; set; }
         @:public int? Default@(next.Name)Id { get; set; }
     }
@@ -53,11 +55,12 @@ namespace Models.Contexts.PASS2 {
         @:public string @(current.Name)NameFr { get; set; }
     if (previous != null) {
         @:public int @(previous.Name)Id { get; set; }
+        @:[Parent]
         @:public @(previous.Name) @(previous.Name) { get; set; }
     }
 
     if (current == measureProperty) {
-        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOn>()?.TextAppearance == TextAppearance.MeasureDescription);
+        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.MeasureDescription);
         foreach (var measureProp in measureProperties) {
             @:[BindToMaster("@(measureProp.Name)")]
             @:[ShowOn(TextAppearance.MeasureDescription)]
@@ -80,7 +83,7 @@ namespace Models.Contexts.PASS2 {
     }
 
     if (current == breakdownProperty) {
-        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOn>()?.TextAppearance == TextAppearance.Notes);
+        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.Notes);
         foreach (var breakdownProp in breakdownProperties) {
             @:[BindToMaster("@(breakdownProp.Name)")]
             @:[ShowOn(TextAppearance.Notes)]
@@ -128,7 +131,7 @@ namespace Models.Contexts.PASS2 {
         @:[CVValue]
         
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVValueAttribute>() != null)?.Name ?? "binding required")")]
-        @:public int? CVValue { get; set; }
+        @:public double? CVValue { get; set; }
     }
 
     @:}

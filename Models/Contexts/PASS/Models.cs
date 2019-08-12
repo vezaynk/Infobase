@@ -283,7 +283,7 @@ namespace Models.Contexts.PASS
         public double? ValueUpper { get; set; }
         public double? ValueLower { get; set; }
         public int CVInterpretation { get; set; }
-        public int? CVValue { get; set; }
+        public double? CVValue { get; set; }
         public virtual Strata Strata { get; set; }
 
         /* Text getters */

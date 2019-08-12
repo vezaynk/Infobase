@@ -16,6 +16,17 @@ namespace Models.Metadata
             Name = name;
             Culture = culture;
         }
+        public static PropertyInfo GetTextProperty(object row, string culture, TextAppearance ta) {
+            return GetTextProperty(row.GetType(), culture, ta);
+        }
+        public static PropertyInfo GetTextProperty(Type rowType, string culture, TextAppearance ta) {
+            var property = rowType.GetProperties().First(p => {
+                var showOn = p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance;
+                var textCulture = p.GetCustomAttribute<TextAttribute>()?.Culture;
+                return showOn == ta && textCulture == culture;
+            });
+            return property;
+        }
     }
 
     [Flags]
