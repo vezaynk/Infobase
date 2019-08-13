@@ -28,11 +28,12 @@ export type ChartData = {
     source: string,
     organization: string,
     population: string,
-    notes: string,
-    definition: string,
-    dataAvailable: string,
-    method: string,
-    remarks: string,
+    notes: {
+        [name: string]: string
+    },
+    descriptionTable: {
+        [name: string]: string
+    }
     warningCV: number | void,
     suppressCV: number | void,
     unit: string,

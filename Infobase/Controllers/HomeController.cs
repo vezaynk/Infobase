@@ -48,15 +48,16 @@ namespace Infobase.Controllers
                 XAxis = "",
                 YAxis = "",
                 Unit = "",
-                Points = new[]{new ChartData.Point {
-                    Label = "Label",
-                    Text = "Text",
-                    CVInterpretation = 1,
-                    CVValue = 2,
-                    Value = 10,
-                    ValueLower = 1,
-                    ValueUpper = 3
-                }},
+                Points = ChildrenAttribute.GetChildrenOf(selectedBreakdown).Select((child) => new Point {
+                    Label = DataLabelChartAttribute.GetDataLabelChart(child, "en-ca"),
+                    Text = DataLabelTableAttribute.GetDataLabelTable(child, "en-ca"),
+                    CVInterpretation = CVInterpretationAttribute.GetCVInterpretation(child),
+                    CVValue = CVValueAttribute.GetCVValue(child),
+                    Value = PointAverageAttribute.GetPointAverage(child),
+                    ValueLower = PointLowerAttribute.GetPointLower(child),
+                    ValueUpper = PointUpperAttribute.GetPointUpper(child),
+                    Type = 0
+                }),
                 WarningCV = 0,
                 SuppressCV = 0
             };
@@ -105,79 +106,17 @@ namespace Infobase.Controllers
 
                     });
 
-                return new DropdownMenuModel(textProperty.GetCustomAttribute<TextAttribute>().Name, dropdownItems.Select(di => new DropdownItem { Text = di.Text, Value = di.Value}), dropdownItems.First(di => di.Entity == parentOfCurrentType).Value);
+                return new DropdownMenuModel(
+                        textProperty.GetCustomAttribute<TextAttribute>().Name,
+                        dropdownItems.Select(di => new DropdownItem { Text = di.Text, Value = di.Value }),
+                        dropdownItems.First(di => di.Entity == parentOfCurrentType).Value
+                    );
             });
+
             foreach (var dropdown in dropdowns)
             {
                 cpm.filters.Add(dropdown);
             };
-            // top level requires a new query
-            var activities = Enumerable.Cast<ColActivity>(_context[typeof(ColActivity)])
-                                     .Where(ac => ac.DefaultColIndicatorGroupId != null)
-                                     .OrderBy(x => x.Index)
-                                     .Select(ac => new DropdownItem
-                                     {
-                                         Value = ac.DefaultColIndicatorGroup.DefaultColLifeCourse.DefaultColIndicator.DefaultColSpecificMeasure.DefaultColDataBreakdowns.Index,
-                                         Text = ac.ColActivityNameEn
-                                     });
-
-            //cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Activité" : "Activity", activities, (int)indexProp.GetValue(selectedBreakdown)));
-
-            //     var indicatorGroups = _context.IndicatorGroup
-            //                              .Where(ig => ig.DefaultLifeCourseId != null && ig.ActivityId == strata.Measure.Indicator.LifeCourse.IndicatorGroup.ActivityId)
-            //                              .OrderBy(x => x.Index)
-            //                              .Select(ig => new DropdownItem
-            //                              {
-            //                                  Value = ig.DefaultLifeCourse.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
-            //                                  Text = ig.IndicatorGroupName(language)
-            //                              });
-
-            //     cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Groupe d'indicateur" : "Indicator Group", indicatorGroups, strata.Index));
-
-            //     var lifeCourses = _context.LifeCourse
-            //                              .Where(lc => lc.DefaultIndicator != null && lc.IndicatorGroupId == strata.Measure.Indicator.LifeCourse.IndicatorGroupId)
-            //                              .OrderBy(x => x.Index)
-            //                              .Select(lc => new DropdownItem
-            //                              {
-            //                                  Value = lc.DefaultIndicator.DefaultMeasure.DefaultStrata.Index,
-            //                                  Text = lc.LifeCourseName(language)
-            //                              });
-
-            //     cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Cours de la vie" : "Life Course", lifeCourses, strata.Index));
-
-            //     var indicators = _context.Indicator
-            //                              .Where(i => i.DefaultMeasureId != null && i.LifeCourseId == strata.Measure.Indicator.LifeCourseId)
-            //                              .OrderBy(x => x.Index)
-            //                              .Select(i => new DropdownItem
-            //                              {
-            //                                  Value = i.DefaultMeasure.DefaultStrata.Index,
-            //                                  Text = i.IndicatorName(language)
-            //                              });
-
-            //     cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Indicateurs" : "Indicators", indicators, strata.Index));
-
-            //     var measures = _context.Measure
-            //                              .Where(i => i.DefaultStrataId != null && i.IndicatorId == strata.Measure.IndicatorId)
-            //                              .OrderBy(x => x.DefaultStrata.Index)
-            //                              .Select(m => new DropdownItem
-            //                              {
-            //                                  Value = m.Index,
-            //                                  Text = m.MeasureNameIndex(language)
-            //                              });
-
-            //     cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Mesures" : "Measures", measures, strata.Index));
-
-            //     var stratas = _context.Strata
-            //                              .Where(i => i.MeasureId == strata.MeasureId)
-            //                              .OrderBy(x => x.Index)
-            //                              .Select(s => new DropdownItem
-            //                              {
-            //                                  Value = s.Index,
-            //                                  Text = s.StrataName(language)
-            //                              });
-
-            //     cpm.filters.Add(new DropdownMenuModel(language == "fr-ca" ? "Répartition des données" : "Data Breakdowns", stratas, strata.Index));
-
 
             if (Request.Method == "GET" && !api)
                 return View(cpm);

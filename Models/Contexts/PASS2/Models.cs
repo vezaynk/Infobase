@@ -161,6 +161,8 @@ namespace Models.Contexts.PASS2 {
         public int ColStrataId { get; set; }
         [Text("Strata", "en-ca")]
         [ShowOn(TextAppearance.Filter)]
+        [DataLabelChart]
+        [DataLabelTable]
         [BindToMaster("ColStrata")]
         public string ColStrataNameEn { get; set; }
         [Text("Strata", "fr-ca")]

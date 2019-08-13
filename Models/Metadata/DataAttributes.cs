@@ -8,36 +8,80 @@ using System.Reflection;
 namespace Models.Metadata
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class PointAverageAttribute : Attribute { }
+    public class PointAverageAttribute : Attribute {
+        public static double? GetPointAverage(object row) {
+            return (double?)row.GetType().GetProperties().First(p => p.GetCustomAttribute<PointAverageAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class DataLabelTable : Attribute { }
+    public class DataLabelTableAttribute : Attribute {
+        public static string GetDataLabelTable(object row, string culture) {
+            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<DataLabelTableAttribute>() != null)?.GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class DataLabelChart : Attribute { }
+    public class DataLabelChartAttribute : Attribute {
+        public static string GetDataLabelChart(object row, string culture) {
+            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<DataLabelChartAttribute>() != null)?.GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class PointUpperAttribute : Attribute { }
+    public class PointUpperAttribute : Attribute {
+        public static double? GetPointUpper(object row) {
+            return (double?)row.GetType().GetProperties().First(p => p.GetCustomAttribute<PointUpperAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class PointLowerAttribute : Attribute { }
+    public class PointLowerAttribute : Attribute {
+        public static double? GetPointLower(object row) {
+            return (double?)row.GetType().GetProperties().First(p => p.GetCustomAttribute<PointLowerAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVInterpretationAttribute : Attribute { }
+    public class CVInterpretationAttribute : Attribute {
+        public static int GetCVInterpretation(object row) {
+            return (int)row.GetType().GetProperties().First(p => p.GetCustomAttribute<CVInterpretationAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVRangeUpperAttribute : Attribute { }
+    public class CVRangeUpperAttribute : Attribute {
+        public static double? GetCVRangeUpper(object row) {
+            return (double?)row.GetType().GetProperties().First(p => p.GetCustomAttribute<CVRangeUpperAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVRangeLowerAttribute : Attribute { }
+    public class CVRangeLowerAttribute : Attribute {
+        public static double? GetCVRangeLower(object row) {
+            return (double?)row.GetType().GetProperties().First(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class CVValueAttribute : Attribute { }
+    public class CVValueAttribute : Attribute {
+        public static double? GetCVValue(object row) {
+            return (double?)row.GetType().GetProperties().First(p => p.GetCustomAttribute<CVValueAttribute>() != null).GetValue(row);
+        } 
+    }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class UnitLongAttribute : Attribute { }
+    public class UnitLongAttribute : Attribute {
+        public static string GetUnitLong(object row, string culture) {
+            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<UnitLongAttribute>() != null)?.GetValue(row);
+        } 
+    }
     [AttributeUsage(AttributeTargets.Property)]
-    public class UnitShortAttribute : Attribute { }
+    public class UnitShortAttribute : Attribute {
+        public static string GetUnitShort(object row, string culture) {
+            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<UnitShortAttribute>() != null)?.GetValue(row);
+        } 
+    }
     [AttributeUsage(AttributeTargets.Property)]
     public class IncludeAttribute : Attribute
     {

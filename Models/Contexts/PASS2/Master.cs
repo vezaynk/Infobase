@@ -49,25 +49,25 @@ namespace Models.Contexts.PASS2 {
         [CVInterpretation]
         public int CVInterpretation => 0;
         [CVValue]
-        public double? CVValue => null;
+        public double? CVValue => double.TryParse(ColCV, out var result) ? result : (double?)null;
         [CVRangeUpper]
-        public double? CVRangeUpper => null;
+        public double? CVRangeUpper => double.TryParse(ColCVRangeUpper, out var result) ? result : (double?)null;
         [CVRangeLower]
-        public double? CVRangeLower => null;
+        public double? CVRangeLower => double.TryParse(ColCVRangeLower, out var result) ? result : (double?)null;
         [PointAverage]
-        public double? PointAverage => null;
+        public double? PointAverage => double.TryParse(ColData, out var result) ? result : (double?)null;
         [PointUpper]
-        public double? PointUpper => null;
+        public double? PointUpper => double.TryParse(ColCIUpper95, out var result) ? result : (double?)null;
         [PointLower]
-        public double? PointLower => null;
+        public double? PointLower => double.TryParse(ColCILow95, out var result) ? result : (double?)null;
         [UnitShort]
-        public string UnitShort => null;
+        public string UnitShort => ColUnitLabel2;
         [UnitLong]
-        public string UnitLong => null;
+        public string UnitLong => ColUnitLabelLong;
         [DataLabelTable]
-        public string DataLabelTable => null;
+        public string DataLabelTable => ColPTTableLabel;
         [DataLabelChart]
-        public string DataLabelChart => null;
+        public string DataLabelChart => ColStrata;
         [Aggregator]
         public bool Aggregator => false;
         [Include]
