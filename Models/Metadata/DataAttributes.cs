@@ -147,18 +147,18 @@ namespace Models.Metadata
     [AttributeUsage(AttributeTargets.Property)]
     public class ChildrenAttribute : Attribute
     {
-        public static IEnumerable<object> GetChildrenOf(object parent)
+        public static IEnumerable<dynamic> GetChildrenOf(object parent)
         {
             var property = GetChildrenOfProperty(parent.GetType());
             try
             {
 
-                return Enumerable.Cast<object>((IEnumerable)property.GetValue(parent));
+                return Enumerable.Cast<dynamic>((IEnumerable)property.GetValue(parent));
             }
             catch (System.Exception)
             {
 
-                return Enumerable.Empty<object>();
+                return Enumerable.Empty<dynamic>();
             }
         }
         public static PropertyInfo GetChildrenOfProperty(Type parentType)

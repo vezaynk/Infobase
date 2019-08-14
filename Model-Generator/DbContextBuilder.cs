@@ -71,11 +71,11 @@ namespace Model_Generator
             }
 
             // If there is a known migration directory, we should load all of them
-            if (migrationsDirectory != null)
-                foreach (string filename in Directory.GetFiles(migrationsDirectory, "*.cs"))
-                {
-                    dbContextIMC.AddFile(filename);
-                }
+            // if (migrationsDirectory != null)
+            //     foreach (string filename in Directory.GetFiles(migrationsDirectory, "*.cs"))
+            //     {
+            //         dbContextIMC.AddFile(filename);
+            //     }
 
             return dbContextIMC.CompileAssembly();
         }

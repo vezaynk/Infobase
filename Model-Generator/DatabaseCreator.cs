@@ -62,11 +62,11 @@ namespace Model_Generator
             DbContext.Database.Migrate();
         }
         // We are working with an Enumerable. I'm not sure why, but trying to narrow it down to a Queryable breaks the program
-        public IEnumerable<object> GetDbSet(Type setType)
+        public IEnumerable<dynamic> GetDbSet(Type setType)
         {
             var genericDbSetMethod = DbContext.GetType().GetMethod("Set").MakeGenericMethod(new[] { setType });
 
-            return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(DbContext, new object[] { }));
+            return Enumerable.Cast<dynamic>((IEnumerable)genericDbSetMethod.Invoke(DbContext, new object[] { }));
         }
         public int LoadMasterCSV(StreamReader sr)
         {
@@ -91,7 +91,7 @@ namespace Model_Generator
                     // Each record is a dictionary (header name => cell value)
                     var dict = (IDictionary<string, object>)record;
                     // Create an instance of a master record for each row
-                    var masterInstance = Activator.CreateInstance(masterType);
+                    dynamic masterInstance = Activator.CreateInstance(masterType);
 
                     // Get all CSV properties
                     var csvProperties = masterType.GetProperties()
@@ -109,7 +109,7 @@ namespace Model_Generator
                     }
 
                     // Set index to maintain consistent order with CSV
-                    masterType.GetProperty("Index").SetValue(masterInstance, index + 1);
+                    masterInstance.Index = index + 1;
 
                     return masterInstance;
                 });
@@ -146,7 +146,7 @@ namespace Model_Generator
         {
             var dbContext = DbContext;
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == $"Models.Contexts.{this.DatasetName}" && t.Name == "Master");
-            var masterIndexProperty = masterType.GetProperty("Index");
+            
             var masterDbSet = GetDbSet(masterType);
 
             var types = dbContext.GetType().Assembly.GetTypes()
@@ -161,7 +161,6 @@ namespace Model_Generator
                 Console.WriteLine("Processing Type: " + type.Name);
 
                 int currentLevel = type.GetCustomAttribute<FilterAttribute>().Level;
-                var currentTypeIndexProperty = type.GetProperty("Index");
 
                 // The child of the current type is the type whose Filter level is one greater
                 Type childType = types.FirstOrDefault(t => t.GetCustomAttribute<FilterAttribute>().Level == currentLevel + 1);
@@ -190,21 +189,22 @@ namespace Model_Generator
                             .Select(p => p.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
 
                     var topLevelRows = masterDbSet
-                                .OrderBy(masterIndexProperty.GetValue)
+                                .OrderBy(entity => entity.Index)
                                 .DistinctBy(e =>
                                 {
-                                    var currentEntityIndex = masterIndexProperty.GetValue(e);
+                                    var currentEntityIndex = e.Index;
 
-                                    var distinctProperties = e.GetType().GetProperties()
+                                    var distinctProperties = ((object)e).GetType().GetProperties()
                                         .Where(p => distinctMasterPropertyNames
                                             .Contains(p.Name));
 
                                     return string.Join("", distinctProperties.Select(p => p.GetValue(e)));
                                 }).Select(e =>
                                 {
-                                    var instance = Activator.CreateInstance(type);
-                                    var currentEntityIndex = masterIndexProperty.GetValue(e);
-                                    currentTypeIndexProperty.SetValue(instance, currentEntityIndex);
+                                    dynamic instance = Activator.CreateInstance(type);
+                                    var currentEntityIndex = e.Index;
+                                    instance.Index = currentEntityIndex;
+
                                     foreach (var boundProperty in boundMasterProperties)
                                     {
                                         var source = masterType.GetProperty(boundProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName);
@@ -231,11 +231,11 @@ namespace Model_Generator
 
 
                 Console.Write($"Looking for children...");
-                IEnumerable<object> childRows = masterDbSet.OrderBy(masterIndexProperty.GetValue)
+                IEnumerable<dynamic> childRows = masterDbSet.OrderBy(e => e.Index)
                                         .DistinctBy(e =>
                                         {
 
-                                            var distinctProperties = e.GetType().GetProperties()
+                                            var distinctProperties = ((object)e).GetType().GetProperties()
                                                 .Where(p => distinctMasterPropertyNamesChild
                                                     .Contains(p.Name));
 
@@ -254,7 +254,7 @@ namespace Model_Generator
 
                     bool included = IncludeAttribute.GetIncludedState(parent);
 
-                    childRows = childRows.Where(e => !usedIndexes.Contains((int)masterIndexProperty.GetValue(e)));
+                    childRows = childRows.Where(e => !usedIndexes.Contains(e.Index));
                     var children = childRows.Where((child, i) =>
                     {
                         if (!included)
@@ -293,7 +293,7 @@ namespace Model_Generator
                     }).Select((e, i) =>
                     {
                         var instance = Activator.CreateInstance(childType);
-                        var currentEntityIndex = (int)masterIndexProperty.GetValue(e);
+                        var currentEntityIndex = (int)e.Index;
                         childIndexProperty.SetValue(instance, currentEntityIndex);
                         usedIndexes.Add(currentEntityIndex);
                         foreach (var boundProperty in boundMasterPropertiesChild)
@@ -337,7 +337,7 @@ namespace Model_Generator
                 var defaultChildProperty = DefaultChildAttribute.GetDefaultChildOfProperty(type);
                 foreach (var entity in dbset)
                 {
-                    var children = ChildrenAttribute.GetChildrenOf(entity);
+                    var children = ChildrenAttribute.GetChildrenOf((object)entity);
                     var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || DefaultChildAttribute.GetDefaultChildOf(c) != null));
                     if (defaultChild != null)
                         defaultChildProperty.SetValue(entity, defaultChild);
@@ -345,7 +345,7 @@ namespace Model_Generator
 
                 dbContext.SaveChanges();
             }
-            Console.WriteLine($"Finished");
+            Console.WriteLine($"Finished!");
         }
 
     }

@@ -18,9 +18,9 @@ namespace Infobase.Controllers
 
     public class PASS2Controller : Controller
     {
-        private readonly SortedDictionary<Type, IEnumerable> _context;
+        private readonly SortedDictionary<Type, IEnumerable<dynamic>> _context;
 
-        public PASS2Controller(Dictionary<string, SortedDictionary<Type, IEnumerable>> contextLookup)
+        public PASS2Controller(Dictionary<string, SortedDictionary<Type, IEnumerable<dynamic>>> contextLookup)
         {
             _context = contextLookup["CMSIFContext"];
         }
@@ -37,9 +37,9 @@ namespace Infobase.Controllers
         public async Task<IActionResult> Datatool(string language, int index = 1, bool api = false)
         {
             var dataBreakdownLevelType = _context.Keys.SkipLast(1).Last();
-            var indexProp = dataBreakdownLevelType.GetProperty("Index");
-            var selectedBreakdown = Enumerable.Cast<object>(_context[dataBreakdownLevelType])
-                .Where(s => (int)indexProp.GetValue(s) >= index)
+            
+            var selectedBreakdown = _context[dataBreakdownLevelType]
+                .Where(s => (int)s.Index >= index)
                 .First();
 
             ChartData chart = chart = new ChartData
@@ -47,7 +47,7 @@ namespace Infobase.Controllers
                 XAxis = "",
                 YAxis = "",
                 Unit = "",
-                Points = ChildrenAttribute.GetChildrenOf(selectedBreakdown).Select((child) => new Point {
+                Points = ChildrenAttribute.GetChildrenOf((object)selectedBreakdown).Select((child) => new Point {
                     Label = DataLabelChartAttribute.GetDataLabelChart(child, "en-ca"),
                     Text = DataLabelTableAttribute.GetDataLabelTable(child, "en-ca"),
                     CVInterpretation = CVInterpretationAttribute.GetCVInterpretation(child),
@@ -74,7 +74,7 @@ namespace Infobase.Controllers
                 Type type = pair.Key;
                 var textProperty = TextAttribute.GetTextProperty(type, "en-ca", TextAppearance.Filter);
 
-                IEnumerable<object> entities = Enumerable.Cast<object>(pair.Value);
+                IEnumerable<dynamic> entities = pair.Value;
 
                 // Walk up the tree until the type is the same
                 var parentOfCurrentType = selectedBreakdown;
@@ -105,7 +105,7 @@ namespace Infobase.Controllers
                             currentLevel = DefaultChildAttribute.GetDefaultChildOf(currentLevel);
                             if (currentLevel == null) throw new Exception("Default tree structure is broken");
                         }
-                        var entityIndex = (int)indexProp.GetValue(currentLevel);
+                        var entityIndex = currentLevel.Index;
 
                         return new { Text = entityText, Value = entityIndex, Entity = entity };
 

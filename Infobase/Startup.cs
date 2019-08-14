@@ -56,7 +56,7 @@ namespace Infobase
 
             Console.WriteLine($"{dbContextTypes.Count()} contexts");
             
-            var dbSetLookup = new Dictionary<string, SortedDictionary<Type, IEnumerable>>();
+            var dbSetLookup = new Dictionary<string, SortedDictionary<Type, IEnumerable<dynamic>>>();
             foreach (var dbContextType in dbContextTypes)
             {
                 var databaseName = dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName;
@@ -75,10 +75,10 @@ namespace Infobase
                 });
 
 
-                IEnumerable<object> GetDbSet(Type setType)
+                IEnumerable<dynamic> GetDbSet(Type setType)
                 {
                     var genericDbSetMethod = dbContextType.GetMethod("Set").MakeGenericMethod(new[] { setType });
-                    return Enumerable.Cast<object>((IEnumerable)genericDbSetMethod.Invoke(dbContext, new object[] { }));
+                    return Enumerable.Cast<dynamic>((IEnumerable)genericDbSetMethod.Invoke(dbContext, new object[] { }));
                 }
 
                 var dbSets = dbContextType.Assembly.GetTypes()
@@ -86,11 +86,10 @@ namespace Infobase
                 .Where(t => t.Namespace == dbContextType.Namespace && t.GetCustomAttribute<FilterAttribute>() != null)
                 .ToList();
 
-                var dataCache = new SortedDictionary<Type, IEnumerable>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
+                var dataCache = new SortedDictionary<Type, IEnumerable<dynamic>>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
                 foreach (Type dsType in dbSets) {
-                    var indexProperty = dsType.GetProperty("Index");
-                    var list = GetDbSet(dsType).OrderBy(row => dsType.GetProperty("Index").GetValue(row)).ToList();
-                    list.Sort((a, b) => (int)indexProperty.GetValue(a) - (int)indexProperty.GetValue(b));
+                    var list = GetDbSet(dsType).OrderBy(row => row.Index).ToList();
+                    list.Sort((a, b) => a.Index - b.Index);
                     dataCache.Add(dsType, list);
                 }
                 dbSetLookup.Add(databaseName, dataCache);

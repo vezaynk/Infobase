@@ -93,7 +93,7 @@ namespace Model_Generator
                     Console.Write("Rebuilding...");
                     databaseCreator.ReloadDbContext();
                     Console.WriteLine("Rebuilt!");
-                    databaseCreator.SaveMigrations();
+                    // databaseCreator.SaveMigrations();
                     break;
 
                 default:

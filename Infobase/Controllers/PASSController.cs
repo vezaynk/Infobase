@@ -17,9 +17,9 @@ namespace Infobase.Controllers
 
     public class PASSController : Controller
     {
-        private readonly SortedDictionary<Type, IEnumerable> _context;
+        private readonly SortedDictionary<Type, IEnumerable<dynamic>> _context;
 
-        public PASSController(Dictionary<string, SortedDictionary<Type, IEnumerable>> contextLookup)
+        public PASSController(Dictionary<string, SortedDictionary<Type, IEnumerable<dynamic>>> contextLookup)
         {
             _context = contextLookup["PASSContext"];
         }
