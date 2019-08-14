@@ -88,7 +88,10 @@ namespace Infobase
 
                 var dataCache = new SortedDictionary<Type, IEnumerable>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
                 foreach (Type dsType in dbSets) {
-                    dataCache.Add(dsType, GetDbSet(dsType).OrderBy(row => dsType.GetProperty("Index").GetValue(row)).ToList());
+                    var indexProperty = dsType.GetProperty("Index");
+                    var list = GetDbSet(dsType).OrderBy(row => dsType.GetProperty("Index").GetValue(row)).ToList();
+                    list.Sort((a, b) => (int)indexProperty.GetValue(a) - (int)indexProperty.GetValue(b));
+                    dataCache.Add(dsType, list);
                 }
                 dbSetLookup.Add(databaseName, dataCache);
             }

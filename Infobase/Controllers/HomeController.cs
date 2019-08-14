@@ -22,7 +22,7 @@ namespace Infobase.Controllers
 
         public PASS2Controller(Dictionary<string, SortedDictionary<Type, IEnumerable>> contextLookup)
         {
-            _context = contextLookup["PASS2Context"];
+            _context = contextLookup["CMSIFContext"];
         }
         public async Task<IActionResult> Index(string language)
         {
@@ -40,7 +40,6 @@ namespace Infobase.Controllers
             var indexProp = dataBreakdownLevelType.GetProperty("Index");
             var selectedBreakdown = Enumerable.Cast<object>(_context[dataBreakdownLevelType])
                 .Where(s => (int)indexProp.GetValue(s) >= index)
-                .OrderBy(s => (int)indexProp.GetValue(s))
                 .First();
 
             ChartData chart = chart = new ChartData

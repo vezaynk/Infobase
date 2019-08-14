@@ -124,8 +124,8 @@ namespace Model_Generator
             var lf = new LoggerFactory();
             var l = lf.CreateLogger(typeof(DbContext));
 
-            string datasetName = "PASS2";
-            string csvFilePath = "./pass.csv";
+            string datasetName = "CMSIF";
+            string csvFilePath = "./CMSIF.csv";
             var connectionString = $"Host=localhost;Port=5432;Database={datasetName};Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
             // Source is used for development in order to generate migration files
@@ -133,21 +133,21 @@ namespace Model_Generator
             // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
             SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Source);
 
-            // using (var sr = new StreamReader(csvFilePath))
-            // using (var csv = new CsvReader(sr, new Configuration
-            // {
-            //     Delimiter = ",",
-            //     Encoding = Encoding.UTF8
-            // }))
-            // {
-            //     csv.Read();
-            //     csv.ReadHeader();
+        //     using (var sr = new StreamReader(csvFilePath))
+        //     using (var csv = new CsvReader(sr, new Configuration
+        //     {
+        //         Delimiter = ",",
+        //         Encoding = Encoding.UTF8
+        //     }))
+        //     {
+        //         csv.Read();
+        //         csv.ReadHeader();
 
-            //     //var outputMaster = GenerateMasterSource(csv.Context.HeaderRecord);
-            //     //Console.WriteLine(outputMaster);
-            //     var outputModels = GenerateModelsForMaster(typeof(Models.Contexts.PASS2.Master));
-            //     Console.WriteLine(outputModels);
-            // }
+        //         // var outputMaster = GenerateMasterSource(csv.Context.HeaderRecord);
+        //         // Console.WriteLine(outputMaster);
+        //         var outputModels = GenerateModelsForMaster(typeof(Models.Contexts.CMSIF.Master));
+        //         Console.WriteLine(outputModels);
+        //     }
 
 
         }

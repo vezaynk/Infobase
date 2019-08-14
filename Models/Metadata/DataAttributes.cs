@@ -104,6 +104,7 @@ namespace Models.Metadata
         public static bool GetIncludedStateImmediate(object row)
         {
             var property = row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null);
+            return true;
             return (bool)(property.GetValue(row) ?? true);
         }
     }

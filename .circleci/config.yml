@@ -39,7 +39,7 @@ jobs:
       - run:
           name: "Upload to GitHub"
           command: |
-            ghr -n 'Latest build by CircleCI' -b "Build $CIRCLE_BUILD_NUM for project **$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH** completed at **$(date)**\n [View here]($CIRCLE_BUILD_URL)" --delete latest ~/artifacts
+            ghr -n 'Latest build by CircleCI' -b "Build $CIRCLE_BUILD_NUM for project **$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH** completed at **$(date)**. [View here]($CIRCLE_BUILD_URL)" --delete latest ~/artifacts
       
       - store_artifacts:
           path: ~/artifacts
