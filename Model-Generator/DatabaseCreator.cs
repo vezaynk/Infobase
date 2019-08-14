@@ -285,7 +285,7 @@ namespace Model_Generator
                                 }
 
                             }
-                            var nextParentLevel = nextParent.GetType().GetCustomAttribute<FilterAttribute>().Level;
+                            var nextParentLevel = ((object)nextParent).GetType().GetCustomAttribute<FilterAttribute>().Level;
                             string name = types.Skip((int)nextParentLevel - 1).FirstOrDefault()?.Name;
                             nextParent = ParentAttribute.GetParentOf(nextParent);
                         }
