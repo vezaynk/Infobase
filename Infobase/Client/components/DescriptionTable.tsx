@@ -10,8 +10,8 @@ export const DescriptionTable: React.FC<DescriptionTableProps> = (props) => {
     return (
         <table className="table table-striped table-hover table-condensed table-bordered">
             <tbody>
-                {Object.entries(props.descriptionTable).map(([header, body]) => (
-                    <tr>
+                {Object.entries(props.descriptionTable).map(([header, body], i) => (
+                    <tr key={i}>
                         <th>{header}</th>
                         <td>{body || notApplicable}</td>
                     </tr>

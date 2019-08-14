@@ -88,8 +88,8 @@ export function SummaryTable(props: SummaryTableProps) {
                         </table>
                     </div>
                     <div className="col-md-12 mrgn-tp-0 small notes bg-warning">
-                        {Object.entries(props.chartData.notes).map(([header, body]) => (
-                            <p><strong>{header}:</strong> {body}</p>
+                        {Object.entries(props.chartData.notes).map(([header, body], i) => (
+                            <p key={i}><strong>{header}:</strong> {body}</p>
                         ))}
                         
                         {cVWarningText}

@@ -59,7 +59,13 @@ namespace Infobase.Controllers
                     Type = 0
                 }),
                 WarningCV = 0,
-                SuppressCV = 0
+                SuppressCV = 0,
+                DescriptionTable = new Dictionary<string, string> {
+                    {"Test 1 Header", "Test 1 Body"}
+                },
+                Notes = new Dictionary<string, string> {
+                    {"Test 1 Header", "Test 1 Body"}
+                }
             };
 
             var cpm = new ChartPageModel(language, chart);

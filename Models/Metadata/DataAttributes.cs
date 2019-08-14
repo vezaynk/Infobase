@@ -17,14 +17,14 @@ namespace Models.Metadata
     [AttributeUsage(AttributeTargets.Property)]
     public class DataLabelTableAttribute : Attribute {
         public static string GetDataLabelTable(object row, string culture) {
-            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<DataLabelTableAttribute>() != null)?.GetValue(row);
+            return (string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>()?.Culture == culture && p.GetCustomAttribute<DataLabelTableAttribute>() != null).GetValue(row);
         } 
     }
 
     [AttributeUsage(AttributeTargets.Property)]
     public class DataLabelChartAttribute : Attribute {
         public static string GetDataLabelChart(object row, string culture) {
-            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<DataLabelChartAttribute>() != null)?.GetValue(row);
+            return (string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>()?.Culture == culture && p.GetCustomAttribute<DataLabelChartAttribute>() != null).GetValue(row);
         } 
     }
 
@@ -73,13 +73,13 @@ namespace Models.Metadata
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitLongAttribute : Attribute {
         public static string GetUnitLong(object row, string culture) {
-            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<UnitLongAttribute>() != null)?.GetValue(row);
+            return (string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>()?.Culture == culture && p.GetCustomAttribute<UnitLongAttribute>() != null).GetValue(row);
         } 
     }
     [AttributeUsage(AttributeTargets.Property)]
     public class UnitShortAttribute : Attribute {
         public static string GetUnitShort(object row, string culture) {
-            return null;//(string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>().Culture == culture && p.GetCustomAttribute<UnitShortAttribute>() != null)?.GetValue(row);
+            return (string)row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<TextAttribute>()?.Culture == culture && p.GetCustomAttribute<UnitShortAttribute>() != null).GetValue(row);
         } 
     }
     [AttributeUsage(AttributeTargets.Property)]
@@ -104,7 +104,7 @@ namespace Models.Metadata
         public static bool GetIncludedStateImmediate(object row)
         {
             var property = row.GetType().GetProperties().FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null);
-            return (bool)(property?.GetValue(row) ?? true);
+            return (bool)(property.GetValue(row) ?? true);
         }
     }
     [AttributeUsage(AttributeTargets.Property)]
@@ -115,7 +115,10 @@ namespace Models.Metadata
         public static object GetParentOf(object child)
         {
             var property = GetParentOfProperty(child.GetType());
-            return property?.GetValue(child);
+            if (property != null)
+                return property.GetValue(child);
+            
+            return null;
         }
         public static PropertyInfo GetParentOfProperty(Type childType)
         {
@@ -128,7 +131,10 @@ namespace Models.Metadata
         public static object GetDefaultChildOf(object parent)
         {
             var property = GetDefaultChildOfProperty(parent.GetType());
-            return property?.GetValue(parent);
+            if (property != null)
+                return property.GetValue(parent);
+            
+            return null;
         }
         public static PropertyInfo GetDefaultChildOfProperty(Type parentType)
         {
@@ -144,7 +150,7 @@ namespace Models.Metadata
             try
             {
 
-                return Enumerable.Cast<object>((IEnumerable)property?.GetValue(parent));
+                return Enumerable.Cast<object>((IEnumerable)property.GetValue(parent));
             }
             catch (System.Exception)
             {
