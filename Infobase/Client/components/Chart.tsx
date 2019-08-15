@@ -2,17 +2,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { renderChart } from '../renderChart';
-import { ChartData } from '../types';
+import { ChartData, LanguageCode } from '../types';
 
-type ChartProps = { chartData: ChartData, animate: boolean };
+type ChartProps = { chartData: ChartData, animate: boolean, languageCode: LanguageCode };
 
 export const Chart: React.FC<ChartProps> = props => {
     const graphEl: React.MutableRefObject<SVGElement> = React.useRef(null);
-    const [isMounted, setIsMounted] = React.useState(false);
+    const [firstLoad, setFirstLoad] = React.useState(true);
     const [highlightIndex, setHighlightIndex] = React.useState(-1);
-    React.useEffect(() => {
-        setIsMounted(true);
-    }, [])
     React.useEffect(() => {
         let valueUpper = -1;
         let valueLower = -2;
@@ -25,12 +22,16 @@ export const Chart: React.FC<ChartProps> = props => {
                 valueLower = highlighted.valueLower;
         }
 
-        if (isMounted && graphEl.current)
-            renderChart(graphEl.current, props.chartData, props.animate, highlightIndex, valueUpper, valueLower, isTrend, newHighlightIndex => setHighlightIndex(newHighlightIndex));
-    
-            return () => {
-                setHighlightIndex(-1);
-            }
+        const doRender = animated => renderChart(graphEl.current, props.chartData, props.languageCode, animated, highlightIndex, valueUpper, valueLower, isTrend, newHighlightIndex => setHighlightIndex(newHighlightIndex));
+
+        doRender(!firstLoad && props.animate);
+        const deferredRender = setTimeout(() => doRender(true), 525)
+        setFirstLoad(false);
+
+        return () => {
+            clearTimeout(deferredRender);
+            setHighlightIndex(-1);
+        }
     })
 
     return (

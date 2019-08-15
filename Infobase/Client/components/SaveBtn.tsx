@@ -2,8 +2,9 @@
 import * as React from 'react';
 import { YesScript } from '../HOC/YesScript';
 import { dataExplorerStore } from '../store/dataExplorer';
+import { LanguageCode } from '../types';
 
-function addFooterToCanvas(canvas: HTMLCanvasElement) {
+function addFooterToCanvas(canvas: HTMLCanvasElement, languageCode: LanguageCode) {
     let footerImage = new Image();
     footerImage.addEventListener("load", () => {
         let graphHeight = canvas.height * (820 / canvas.width);
@@ -25,26 +26,26 @@ function addFooterToCanvas(canvas: HTMLCanvasElement) {
         link.href = image;
         document.body.appendChild(link);
         link.click();
-    })
-    const lc = dataExplorerStore.getState().languageCode;
-    footerImage.src = `/src/img/exportServer-${lc}.png`;
+    });
+    
+    footerImage.src = `/src/img/exportServer-${languageCode}.png`;
 
 
 }
 
-export type SaveBtnProps = { label: string, children: React.ReactElement | React.ReactElement[], enabled: boolean };
+export type SaveBtnProps = { label: string, children: React.ReactElement | React.ReactElement[], loading: boolean, languageCode: LanguageCode };
 export const SaveBtn: React.FC<SaveBtnProps> = props => {
     const saveArea = React.useRef(null);
     const save = () => {
         import("html2canvas").then(async html2canvas => {
             // @ts-ignore: Calling default is necessary, but TS doesn't know that
-            addFooterToCanvas(await html2canvas.default(saveArea.current))
+            addFooterToCanvas(await html2canvas.default(saveArea.current), props.languageCode)
         })
     };
     return (
         <div>
             <YesScript ieAsNoScript={true}>
-                <button disabled={!props.enabled} className="btn btn-success btn-sm" onClick={() => save()}>{props.label}</button>
+                <button disabled={props.loading} className="btn btn-success btn-sm" onClick={() => save()}>{props.label}</button>
             </YesScript>
             <div style={{width: 0, height: 0, overflow: "hidden"}}>
                 <div style={{width: "820px"}} className="chartContainer" ref={saveArea}>

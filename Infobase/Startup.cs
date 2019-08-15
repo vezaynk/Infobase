@@ -120,7 +120,7 @@ namespace Infobase
                     .SetLoadReact(false)
                     .SetAllowJavaScriptPrecompilation(true)
                     .AddScriptWithoutTransform("~/js/server.js")
-                    .SetReuseJavaScriptEngines(false);
+                    .SetReuseJavaScriptEngines(true);
             });
 
             app.UseStaticFiles();

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { numberFormat, textFormat } from '../translator';
-import { ChartData } from '../types';
+import { ChartData, LanguageCode } from '../types';
 
 type SummaryTableProps = {
     chartData: ChartData,
@@ -10,11 +10,12 @@ type SummaryTableProps = {
     cvWarningAlt: string,
     cvSuppressedAlt: string,
     confidenceInterval: string,
-    confidenceIntervalAbbr: string
+    confidenceIntervalAbbr: string,
+    languageCode: LanguageCode
 }
 
 
-export function SummaryTable(props: SummaryTableProps) {
+export const SummaryTable: React.FC<SummaryTableProps> = (props) => {
         let cVWarningText = null;
         let cvSupressedText = null;
         let {warningCV: cvWarnAt, suppressCV: cvSuppressAt} = props.chartData;
@@ -22,14 +23,14 @@ export function SummaryTable(props: SummaryTableProps) {
 
         if (props.chartData.points.some(p => p.cvInterpretation == 2))
             if (knownBoundries) {
-                cVWarningText = <p><sup>E</sup>{textFormat(props.cvWarning, { warn: numberFormat(cvWarnAt || 0), suppress: numberFormat(cvSuppressAt || 0) })}</p>
+                cVWarningText = <p><sup>E</sup>{textFormat(props.cvWarning, { warn: numberFormat(cvWarnAt || 0, props.languageCode), suppress: numberFormat(cvSuppressAt || 0, props.languageCode) })}</p>
             } else {
                 cVWarningText = <p><sup>E</sup>{props.cvWarningAlt}</p>
             }
 
         if (props.chartData.points.some(p => p.cvInterpretation == 1))
             if (knownBoundries) {
-                cvSupressedText = <p><sup>F</sup>{textFormat(props.cvSuppressed, { warn: numberFormat(cvWarnAt || 0), suppress: numberFormat(cvSuppressAt || 0) })}</p>
+                cvSupressedText = <p><sup>F</sup>{textFormat(props.cvSuppressed, { warn: numberFormat(cvWarnAt || 0, props.languageCode), suppress: numberFormat(cvSuppressAt || 0, props.languageCode) })}</p>
             } else {
                 cvSupressedText = <p><sup>F</sup>{props.cvSuppressedAlt}</p>
 
@@ -62,23 +63,23 @@ export function SummaryTable(props: SummaryTableProps) {
                                             return (<tr key={index} style={({ backgroundColor: "red" })}>
                                                 <td className="text-left">{point.text}</td>
                                                 <td><sup>F</sup></td>
-                                                <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
+                                                <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower, props.languageCode)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper, props.languageCode)} </td>
                                             </tr>)
 
                                         // Data is in the red (33%+)
                                         case 2:
                                             return (<tr key={index} style={({ backgroundColor: "yellow" })}>
                                                 <td className="text-left">{point.text}</td>
-                                                <td>{typeof point.value != "number" ? "-" : numberFormat(point.value)}<sup>E</sup></td>
-                                                <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
+                                                <td>{typeof point.value != "number" ? "-" : numberFormat(point.value, props.languageCode)}<sup>E</sup></td>
+                                                <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower, props.languageCode)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper, props.languageCode)} </td>
                                             </tr>)
 
                                         // Data is a Okay!
                                         default:
                                             return (<tr key={index}>
                                                 <td className="text-left">{point.text}</td>
-                                                <td>{typeof point.value != "number" ? "-" : numberFormat(point.value)}</td>
-                                                <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper)} </td>
+                                                <td>{typeof point.value != "number" ? "-" : numberFormat(point.value, props.languageCode)}</td>
+                                                <td>{typeof point.valueLower != "number" ? "-" : numberFormat(point.valueLower, props.languageCode)} - {typeof point.valueUpper != "number" ? "-" : numberFormat(point.valueUpper, props.languageCode)} </td>
                                             </tr>)
 
                                     }

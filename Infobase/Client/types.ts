@@ -1,16 +1,16 @@
-type FilterItem = {
+export interface FilterItem {
     value: number,
     text: string
 }
 
-export type FilterData = {
+export interface FilterData {
     id: string,
     name: string,
     items: FilterItem[],
     selected: number
 }
 
-export type TPoint = {
+export interface TPoint {
     value: number | void,
     valueUpper: number | void,
     valueLower: number | void,
@@ -21,7 +21,7 @@ export type TPoint = {
     type: 0 | 1 | 2
 };
 
-export type ChartData = {
+export interface ChartData {
     xAxis: string,
     yAxis: string,
     points: Array<TPoint>,
@@ -39,34 +39,34 @@ export type ChartData = {
     unit: string,
     measureName: string,
     title: string
-}
+};
 
 export type LanguageCode =  "en-ca" | "fr-ca";
 export type TranslationType = "Index" | "Datatool" | "alt";
 
-export type DataExplorerState = {
+export interface DataExplorerState {
     filters: FilterData[],
     chartData: ChartData,
     loading: boolean,
     languageCode: LanguageCode
 }
 
-export type UpdateLoadState = {
+export interface UpdateLoadState {
     type: "LOAD",
     payload: boolean
 }
 
-export type UpdateFilters = {
+export interface UpdateFilters {
     type: "UPDATE_FILTERS",
     payload: FilterData[]
 }
 
-export type UpdateChartData = {
+export interface UpdateChartData {
     type: "UPDATE_DATA",
     payload: ChartData
 }
 
-export type InitState = {type: "INIT_STATE", payload: DataExplorerState}
+export interface InitState {type: "INIT_STATE", payload: DataExplorerState}
 
 export type Action = UpdateLoadState | UpdateFilters | UpdateChartData | InitState;
 

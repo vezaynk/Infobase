@@ -8,8 +8,8 @@ export function textFormat(text: string, substitutions: {[key: string]: string})
     return text.toString();
 }
 
-export function numberFormat(number: number, units: string | void): string {
-    let languageCode = dataExplorerStore.getState().languageCode;
+export function numberFormat(number: number, culture: LanguageCode, units: string | void): string {
+    let languageCode = culture;
     let formattedNumber = new Intl.NumberFormat(languageCode, {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(number);
 
     if (!units)

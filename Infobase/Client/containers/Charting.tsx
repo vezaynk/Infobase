@@ -5,19 +5,16 @@ import { connect, Provider, MapStateToProps } from 'react-redux';
 import { Chart } from "../components/Chart";
 import { dataExplorerStore } from '../store/dataExplorer';
 import { updateChartData } from '../reducers/dataExplorerReducer';
-import { ChartData, DataExplorerState } from "../types";
+import { ChartData, DataExplorerState, LanguageCode } from "../types";
 
-const mapStateToChartProps: MapStateToProps<{chartData: ChartData}, ChartingProps, DataExplorerState> = (state, props) => ({
-    chartData: state.chartData,
-    animate: props.animate
-})
+const mapStateToChartProps: MapStateToProps<{ chartData: ChartData }, ChartingProps, DataExplorerState> = (state, props) => state ? { ...state, ...props } : { ...props.state, ...props }
 
 export const ChartingConnect = connect(mapStateToChartProps)(Chart);
 
-type ChartingProps = {animate: boolean};
+type ChartingProps = { animate: boolean, state: DataExplorerState, languageCode: LanguageCode };
 
-export function Charting(props: ChartingProps) {
+export const Charting: React.FC<ChartingProps> = (props) => {
     return <Provider store={dataExplorerStore}>
-                <ChartingConnect animate={props.animate} />
-            </Provider>
+        <ChartingConnect {...props} />
+    </Provider>
 }

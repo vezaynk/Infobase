@@ -4,13 +4,27 @@ import { Charting } from './Charting';
 import { JSDOM } from 'jsdom';
 import { renderChart } from '../renderChart';
 import { dataExplorerStore } from '../store/dataExplorer';
+import { connect, MapStateToProps, Provider } from 'react-redux';
+import { ChartData, DataExplorerState, LanguageCode } from '../types';
 
-type ChartingProps = {animate: boolean};
+type ChartingProps = { chartData: ChartData, languageCode: LanguageCode, state: DataExplorerState };
 
-export function SSCharting(props: ChartingProps) {
-    let html = ReactDOMServer.renderToString(React.createElement(Charting, { animate: false }));
+const mapStateToChartProps: MapStateToProps<ChartingProps, {state: DataExplorerState}, DataExplorerState | void> = (state, props) => state ? { ...state, ...props } : {...props.state, ...props};
+
+const SSChartingConnect = connect(mapStateToChartProps)(SSChartingComponent);
+
+function SSChartingComponent(props: ChartingProps) {
+    let html = ReactDOMServer.renderToString(React.createElement(Charting, { ...props, animate: false } ));
     let fakeDOM = new JSDOM(html);
     let graph = fakeDOM.window.document.querySelector("#graph");
-    renderChart(graph, dataExplorerStore.getState().chartData, false, -1, -1, -1, false, console.log)
-    return (<figure dangerouslySetInnerHTML={{__html: fakeDOM.window.document.querySelector('figure').innerHTML}}></figure>);
+    renderChart(graph, props.chartData, props.languageCode ,false, -1, -1, -1, false, console.log)
+    return (<figure dangerouslySetInnerHTML={{ __html: fakeDOM.window.document.querySelector('figure').innerHTML }}></figure>);
+}
+
+export function SSCharting(props: {state: DataExplorerState}) {
+    return (
+        <Provider store={dataExplorerStore}>
+            <SSChartingConnect {...props} />
+        </Provider>
+    );
 }

@@ -5,27 +5,32 @@
 }
 @Html.React("InitializeChartDataStore", new {
             state = Model
-        }, clientOnly: false)
+        }, clientOnly: true)
 
 <div class="row brdr-bttm" style="padding-bottom:50px;">
     @switch (language) {
         case "en-ca":
             @Html.React("Filters", new
 		{
-            prompt = "Select an item from each list below"
+            prompt = "Select an item from each list below",
+            state = Model
         }, clientOnly: false)
             break;
         case "fr-ca":
             @Html.React("Filters", new
 		{
-            prompt = "Sélectionner les paramètres d'intérêt"
+            prompt = "Sélectionner les paramètres d'intérêt",
+            state = Model
         }, clientOnly: false)
             break;
     }
         
 	
     <div class="col-md-9 mrgn-tp-md brdr-lft text-center ">
-        @Html.React("Charting", new { Animate=true }, clientOnly: false)
+        @Html.React("Charting", new { 
+            Animate=true,
+            state = Model 
+        }, clientOnly: false)
 
         @switch (language) {
         case "en-ca":
@@ -36,7 +41,8 @@
                 cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
                 cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable.",
                 confidenceInterval = "Confidence Interval",
-                confidenceIntervalAbbr = "CI"
+                confidenceIntervalAbbr = "CI",
+                state = Model
             },
             clientOnly: true);
             break;
@@ -48,7 +54,8 @@
                 cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
                 cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
                 confidenceInterval = "Interval de Confiance",
-                confidenceIntervalAbbr = "IC"
+                confidenceIntervalAbbr = "IC",
+                state = Model
             },
             clientOnly: true);
             break;
@@ -67,7 +74,8 @@
                 cvWarningAlt = "Cells highlighted in yellow should be interpreted with caution.", 
                 cvSuppressedAlt = "Cells highlighted in red indicate where estimates are unstable or unreleasable.",
                 confidenceInterval = "Confidence Interval",
-                confidenceIntervalAbbr = "CI"
+                confidenceIntervalAbbr = "CI",
+                state = Model
             },
             clientOnly: false);
             break;
@@ -78,7 +86,8 @@
                 cvWarningAlt = "Les cellules jaune et indiqué (E) à utiliser avec prudence.", 
                 cvSuppressedAlt = "Les cellules rouge et indiqué (F) trop peu fiables pour être publiées.",
                 confidenceInterval = "Interval de Confiance",
-                confidenceIntervalAbbr = "IC"
+                confidenceIntervalAbbr = "IC",
+                state = Model
             },
             clientOnly: false);
             break;
@@ -107,7 +116,8 @@
                             definitionText = "Definition",
                             dataAvailableText = "Data Available",
                             methodsText = "Estimate Calculation",
-                            remarksText = "Additional Remarks"
+                            remarksText = "Additional Remarks",
+                            state = Model
                         }, clientOnly: false);
                         break;
                     case "fr-ca":
@@ -115,7 +125,8 @@
                             definitionText = "Définition",
                             dataAvailableText = "Ventilation des données",
                             methodsText = "Calcul des estimés",
-                            remarksText = "Remarques additionnelle"
+                            remarksText = "Remarques additionnelle",
+                            state = Model
                         }, clientOnly: false);
                         break;
                 }

@@ -8,9 +8,7 @@ import { UpdateLoadState, DataExplorerState, FilterData, ChartData, UpdateChartD
 
 type StateProps = { loading: boolean, filters: FilterData[] }
 
-const mapStateToFilterProps: MapStateToProps<StateProps, FiltersProps, DataExplorerState> =
-    (state, props) =>
-        ({ loading: state.loading, filters: state.filters, prompt: props.prompt });
+const mapStateToFilterProps: MapStateToProps<StateProps, FiltersProps & { state: DataExplorerState }, DataExplorerState> =(state, props) => state ? { ...state, ...props } : { ...props.state, ...props }
 
 type DispatchProps = {
     updateLoadState: (loadState: boolean) => UpdateLoadState,
@@ -32,12 +30,13 @@ export const FilterBoxConnect = connect(
 )(F)
 
 type FiltersProps = {
-    prompt: string
+    prompt: string,
+    state: DataExplorerState
 }
 export const Filters: React.FC<FiltersProps> = (props) => {
     return (
         <Provider store={dataExplorerStore}>
-            <FilterBoxConnect prompt={props.prompt} />
+            <FilterBoxConnect {...props} />
         </Provider>
     )
 }

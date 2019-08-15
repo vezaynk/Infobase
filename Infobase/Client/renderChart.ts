@@ -1,6 +1,6 @@
 ﻿import * as d3 from "d3";
 import { numberFormat } from "./translator";
-import { ChartData, TPoint } from './types';
+import { ChartData, TPoint, LanguageCode } from './types';
 const marginY = 10;
 const marginX = 60;
 const width = 700;
@@ -204,7 +204,7 @@ function wrap(text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>, width: numbe
     });
 }
 
-export function renderChart(ref: Element, dataset: ChartData, animate: boolean, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean, updateHighlight: (newIndex: number) => void): void {
+export function renderChart(ref: Element, dataset: ChartData, culture: LanguageCode, animate: boolean, highlightIndex: number, highlightUpper: number, highlightLower: number, isTrend: boolean, updateHighlight: (newIndex: number) => void): void {
     let chart = d3.select(ref);
     let select = chart.select(".main")
 
@@ -286,7 +286,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 0.2 : 1)
 
     enteredRect.append("title")
-        .text(d => d.label + ": " + numberFormat(d.value || 0, dataset.unit));
+        .text(d => d.label + ": " + numberFormat(d.value || 0, culture, dataset.unit));
 
     pointBinding
         .select("rect")
@@ -301,7 +301,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .attr("fill", "steelblue")
         .attr("opacity", (d, i) => isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex ? 1 : 1) //Point A to 0.2 to bring back functionality
         .select("title")
-        .text(d => d.label + ": " + numberFormat(d.value || 0, dataset.unit));
+        .text(d => d.label + ": " + numberFormat(d.value || 0, culture, dataset.unit));
 
 
     pointBinding.on("mouseover", (_, i) => updateHighlight(i))
@@ -453,7 +453,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         // @ts-ignore
         .optionalTransition()
         .attr("y", d => y(d.value || 0) - 5)
-        .text(d => d.label + ": " + numberFormat(d.value || 0, dataset.unit))
+        .text(d => d.label + ": " + numberFormat(d.value || 0, culture, dataset.unit))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
@@ -470,7 +470,7 @@ export function renderChart(ref: Element, dataset: ChartData, animate: boolean, 
         .optionalTransition()
         .attr("x", () => width)
         .attr("y", d => y(d.value || 0) - 5)
-        .text(d => d.label + ": " + numberFormat(d.value || 0, dataset.unit))
+        .text(d => d.label + ": " + numberFormat(d.value || 0, culture, dataset.unit))
         .attr("text-anchor", "end")
         .style("font-weight", "bold")
 
