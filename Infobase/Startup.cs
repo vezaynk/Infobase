@@ -55,7 +55,7 @@ namespace Infobase
                                     .Where(t => t.BaseType == typeof(DbContext) && t.Namespace.StartsWith("Models.Contexts"));
 
             Console.WriteLine($"{dbContextTypes.Count()} contexts");
-            
+
             var dbSetLookup = new Dictionary<string, SortedDictionary<Type, IEnumerable<dynamic>>>();
             foreach (var dbContextType in dbContextTypes)
             {
@@ -84,12 +84,32 @@ namespace Infobase
                 var dbSets = dbContextType.Assembly.GetTypes()
                 // Load all models, excluding the non-filter ones (Only the Master is excluded).
                 .Where(t => t.Namespace == dbContextType.Namespace && t.GetCustomAttribute<FilterAttribute>() != null)
+                .OrderByDescending(t => t.GetCustomAttribute<FilterAttribute>().Level)
                 .ToList();
 
                 var dataCache = new SortedDictionary<Type, IEnumerable<dynamic>>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
-                foreach (Type dsType in dbSets) {
+
+                foreach (Type dsType in dbSets)
+                {
                     var list = GetDbSet(dsType).OrderBy(row => row.Index).ToList();
                     list.Sort((a, b) => a.Index - b.Index);
+                    foreach (var property in dsType.GetProperties().Where(p => p.GetCustomAttribute<ChildrenAttribute>() != null))
+                    {
+                        Console.WriteLine($"Sorting {property.Name}");
+                        foreach (var item in list)
+                        {
+                            var children = property.GetValue(item);
+                            var childType = property.PropertyType.GetGenericArguments()[0];
+
+                            if (children != null)
+                            {
+                                var sortedChildren = Enumerable.Cast<dynamic>((IEnumerable)children).OrderBy(row => row.Index).ToList();
+
+                                var retypedChildren = (typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(new[] { childType }).Invoke(typeof(Enumerable), new[] { sortedChildren }));
+                                property.SetValue(item, typeof(Enumerable).GetMethod("ToList").MakeGenericMethod(new[] { childType }).Invoke(retypedChildren, new object[] { retypedChildren }));
+                            }
+                        }
+                    }
                     dataCache.Add(dsType, list);
                 }
                 dbSetLookup.Add(databaseName, dataCache);
