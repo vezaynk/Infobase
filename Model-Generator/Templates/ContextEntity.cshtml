@@ -1,0 +1,46 @@
+@using Models
+@using Models.Metadata
+@using Model_Generator
+@using Pluralize.NET
+@using System.Reflection
+@using System.Linq
+@model MasterEntityModel
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Models.Metadata;
+
+namespace Models.Contexts.@Model.DatasetName
+{
+    [Database("@Model.DatasetName")]
+    public class Context : DbContext
+    {
+        public Context(DbContextOptions options)
+            : base(options)
+        {
+        }
+
+        @foreach (var className in Model.Properties) {
+            @:public DbSet<@className> @className { get; set; }
+        }
+        
+        public DbSet<Master> Master { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // AutoIncrement the indexes
+            modelBuilder.ForNpgsqlUseIdentityColumns();
+
+            @foreach (var className in Model.Properties) {
+                @:modelBuilder.Entity<@className>().HasAlternateKey(entity => entity.Index);
+            }
+        }
+
+    }
+
+}

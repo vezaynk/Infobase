@@ -28,7 +28,7 @@ using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Contexts.PASS2 {
+namespace @Model.Namespace {
 @foreach (var current in filtersProperties) {
     var next = filtersProperties.FirstOrDefault(property => property.GetCustomAttribute<FilterAttribute>().Level == current.GetCustomAttribute<FilterAttribute>().Level + 1);
     var previous = filtersProperties.FirstOrDefault(property => property.GetCustomAttribute<FilterAttribute>().Level == current.GetCustomAttribute<FilterAttribute>().Level - 1);
@@ -64,11 +64,11 @@ namespace Models.Contexts.PASS2 {
         foreach (var measureProp in measureProperties) {
             @:[BindToMaster("@(measureProp.Name)")]
             @:[ShowOn(TextAppearance.MeasureDescription)]
-            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
-            
+            @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
             @:public string @(measureProp.Name)En { get; set; }
+
             @:[ShowOn(TextAppearance.MeasureDescription)]
-            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+            @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
             @:public string @(measureProp.Name)Fr { get; set; }
         }
         @:[Include]
@@ -87,51 +87,82 @@ namespace Models.Contexts.PASS2 {
         foreach (var breakdownProp in breakdownProperties) {
             @:[BindToMaster("@(breakdownProp.Name)")]
             @:[ShowOn(TextAppearance.Notes)]
-            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
-            
+            @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
             @:public string @(breakdownProp.Name)En { get; set; }
+
             @:[ShowOn(TextAppearance.Notes)]
-            @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+            @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
             @:public string @(breakdownProp.Name)Fr { get; set; }
         }
         @:[CVRangeLower]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? CVRangeLower { get; set; }
+
         @:[CVRangeUpper]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeUpperAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? CVRangeUpper { get; set; }
+
         @:[UnitLong]
-        
+        @:[Text("en-ca")]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<UnitLongAttribute>() != null)?.Name ?? "binding required")")]
-        @:public string UnitLong { get; set; }
-        @:[UnitShort]
-        
+        @:public string UnitLongEn { get; set; }
+
+        @:[UnitLong]
+        @:[Text("en-fr")]
+        @:public string UnitLongFr { get; set; }
+
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<UnitShortAttribute>() != null)?.Name ?? "binding required")")]
-        @:public string UnitShort { get; set; }
+        @:[UnitShort]
+        @:[Text("en-ca")]
+        @:public string UnitShortEn { get; set; }
+
+        @:[UnitShort]
+        @:[Text("fr-ca")]
+        @:public string UnitShortFr { get; set; }
+
     }
 
     if (current == pointProperty) {
         @:[PointAverage]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<PointAverageAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? ValueAverage { get; set; }
+
         @:[PointUpper]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<PointUpperAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? ValueUpper { get; set; }
+
         @:[PointLower]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<PointLowerAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? ValueLower { get; set; }
+
         @:[CVInterpretation]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVInterpretationAttribute>() != null)?.Name ?? "binding required")")]
         @:public int CVInterpretation { get; set; }
+
         @:[CVValue]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVValueAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? CVValue { get; set; }
+
+
+
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<DataLabelChartAttribute>() != null)?.Name ?? "binding required")")]
+        @:[DataLabelChart]
+        @:[Text("en-ca")]
+        @:public string DataLabelChartEn { get; set; }
+
+        @:[DataLabelChart]
+        @:[Text("fr-ca")]
+        @:public string DataLabelChartFr { get; set; }
+
+
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<DataLabelTableAttribute>() != null)?.Name ?? "binding required")")]
+        @:[DataLabelTable]
+        @:[Text("en-ca")]
+        @:public string DataLabelTableEn { get; set; }
+
+        @:[DataLabelTable]
+        @:[Text("fr-ca")]
+        @:public string DataLabelTableFr { get; set; }
     }
 
     @:}

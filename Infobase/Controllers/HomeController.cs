@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Infobase.Models;
-using Models.Contexts.PASS2;
 using Models.Metadata;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -22,7 +21,7 @@ namespace Infobase.Controllers
 
         public PASS2Controller(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup)
         {
-            _context = contextLookup["CMSIFContext"];
+            _context = contextLookup["CMSIF2Context"];
         }
         public async Task<IActionResult> Index(string language)
         {
@@ -41,12 +40,14 @@ namespace Infobase.Controllers
             var selectedBreakdown = _context[dataBreakdownLevelType]
                 .Where(s => (int)s.Index >= index)
                 .First();
+                
 
             ChartData chart = chart = new ChartData
             {
-                XAxis = "",
-                YAxis = "",
-                Unit = "",
+                XAxis = "XAxis",
+                YAxis = "YAxis",
+                Unit = "Unit",
+                Title = "Title",
                 Points = ChildrenAttribute.GetChildrenOf((object)selectedBreakdown).Select((child) => new Point {
                     Label = DataLabelChartAttribute.GetDataLabelChart(child, "en-ca"),
                     Text = DataLabelTableAttribute.GetDataLabelTable(child, "en-ca"),
@@ -59,12 +60,8 @@ namespace Infobase.Controllers
                 }),
                 WarningCV = 0,
                 SuppressCV = 0,
-                DescriptionTable = new Dictionary<string, string> {
-                    {"Test 1 Header", "Test 1 Body"}
-                },
-                Notes = new Dictionary<string, string> {
-                    {"Test 1 Header", "Test 1 Body"}
-                }
+                DescriptionTable = TextAttribute.GetShowable(selectedBreakdown, "en-ca", TextAppearance.MeasureDescription),
+                Notes = TextAttribute.GetShowable(selectedBreakdown, "en-ca", TextAppearance.Notes),
             };
 
             var cpm = new ChartPageModel(language, chart);
