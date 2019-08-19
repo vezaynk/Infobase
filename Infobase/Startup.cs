@@ -4,20 +4,15 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using JavaScriptEngineSwitcher.ChakraCore;
-
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Reflection;
 using Models.Metadata;
 
@@ -52,18 +47,23 @@ namespace Infobase
                                     .GetReferencedAssemblies()
                                     .Select(x => Assembly.Load(x))
                                     .SelectMany(a => a.GetTypes())
-                                    .Where(t => t.BaseType == typeof(DbContext) && t.Namespace.StartsWith("Models.Contexts"));
+                                    .Where(t => t.BaseType == typeof(DbContext) && t.GetCustomAttribute<DatabaseAttribute>() != null);
 
-            Console.WriteLine($"Found {dbContextTypes.Count()} contexts");
+            
 
             var dbSetLookup = new Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>>();
             
-            Console.Write("Loading datasets...");
+            Console.WriteLine($"Found {dbContextTypes.Count()} contexts");
             foreach (var dbContextType in dbContextTypes)
             {
+                var name = dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName;
+                Console.WriteLine($"Loading {name}");
                 var databaseName = dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName;
                 var connectionString = Configuration.GetConnectionString(databaseName);
-
+                if (connectionString == null) {   
+                    Console.WriteLine($"Missing connection string for {name}", Console.Error);
+                    continue;
+                }
                 // Generic OptionBuilder type to work with the loaded DbContext 
                 Type optionBuilderType = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextType });
                 // Instance of optionBuilder
