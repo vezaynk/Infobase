@@ -18,9 +18,9 @@ namespace Infobase.Controllers
 
     public class PASS2Controller : Controller
     {
-        private readonly SortedDictionary<Type, IEnumerable<dynamic>> _context;
+        private readonly SortedDictionary<Type, ICollection<dynamic>> _context;
 
-        public PASS2Controller(Dictionary<string, SortedDictionary<Type, IEnumerable<dynamic>>> contextLookup)
+        public PASS2Controller(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup)
         {
             _context = contextLookup["CMSIFContext"];
         }
@@ -74,7 +74,7 @@ namespace Infobase.Controllers
                 Type type = pair.Key;
                 var textProperty = TextAttribute.GetTextProperty(type, "en-ca", TextAppearance.Filter);
 
-                IEnumerable<dynamic> entities = pair.Value;
+                ICollection<dynamic> entities = pair.Value;
 
                 // Walk up the tree until the type is the same
                 var parentOfCurrentType = selectedBreakdown;

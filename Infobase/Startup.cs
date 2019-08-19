@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using JavaScriptEngineSwitcher.ChakraCore;
+
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,17 +36,16 @@ namespace Infobase
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+            services
+                .AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
                 .AddChakraCore();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
 
             var dbContextTypes = Assembly
                                     .GetExecutingAssembly()
@@ -54,9 +54,11 @@ namespace Infobase
                                     .SelectMany(a => a.GetTypes())
                                     .Where(t => t.BaseType == typeof(DbContext) && t.Namespace.StartsWith("Models.Contexts"));
 
-            Console.WriteLine($"{dbContextTypes.Count()} contexts");
+            Console.WriteLine($"Found {dbContextTypes.Count()} contexts");
 
-            var dbSetLookup = new Dictionary<string, SortedDictionary<Type, IEnumerable<dynamic>>>();
+            var dbSetLookup = new Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>>();
+            
+            Console.Write("Loading datasets...");
             foreach (var dbContextType in dbContextTypes)
             {
                 var databaseName = dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName;
@@ -84,10 +86,9 @@ namespace Infobase
                 var dbSets = dbContextType.Assembly.GetTypes()
                 // Load all models, excluding the non-filter ones (Only the Master is excluded).
                 .Where(t => t.Namespace == dbContextType.Namespace && t.GetCustomAttribute<FilterAttribute>() != null)
-                .OrderByDescending(t => t.GetCustomAttribute<FilterAttribute>().Level)
-                .ToList();
+                .OrderByDescending(t => t.GetCustomAttribute<FilterAttribute>().Level);
 
-                var dataCache = new SortedDictionary<Type, IEnumerable<dynamic>>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
+                var dataCache = new SortedDictionary<Type, ICollection<dynamic>>(Comparer<Type>.Create((a, b) => a.GetCustomAttribute<FilterAttribute>().Level - b.GetCustomAttribute<FilterAttribute>().Level));
 
                 foreach (Type dsType in dbSets)
                 {
@@ -95,7 +96,6 @@ namespace Infobase
                     list.Sort((a, b) => a.Index - b.Index);
                     foreach (var property in dsType.GetProperties().Where(p => p.GetCustomAttribute<ChildrenAttribute>() != null))
                     {
-                        Console.WriteLine($"Sorting {property.Name}");
                         foreach (var item in list)
                         {
                             var children = property.GetValue(item);
@@ -114,6 +114,8 @@ namespace Infobase
                 }
                 dbSetLookup.Add(databaseName, dataCache);
             }
+            Console.WriteLine("Done");
+
             services.AddSingleton(dbSetLookup);
 
             //services.AddMiniProfiler();
@@ -140,7 +142,10 @@ namespace Infobase
                     .SetLoadReact(false)
                     .SetAllowJavaScriptPrecompilation(true)
                     .AddScriptWithoutTransform("~/js/server.js")
-                    .SetReuseJavaScriptEngines(true);
+                    .SetReuseJavaScriptEngines(true)
+                    .SetStartEngines(10)
+                    .SetMaxUsagesPerEngine(0)
+                    .SetMaxEngines(25);
             });
 
             app.UseStaticFiles();
@@ -152,6 +157,7 @@ namespace Infobase
                     new Translations(new (string, string)[]
                     {
                         ("pass", "pass"),
+                        ("pass2", "pass2"),
                         ("data-tool", "data-tool"),
                         ("index", "index"),
                         ("indicator-details", "indicator-details")
@@ -162,47 +168,28 @@ namespace Infobase
                     new Translations(new (string, string)[]
                     {
                         ("pass", "apcss"),
+                        ("pass2", "apcss2"),
                         ("data-tool", "outil-de-donnees"),
                         ("index", "index"),
                         ("indicator-details", "description-de-mesure")
                     })
                 },
             };
-            // breaks due to context.Response.ContentLength mismatch
+            
             // app.UseMiniProfiler();
-            app.Use(async (context, next) =>
-                    {
-                        var newContent = string.Empty;
-                        var existingBody = context.Response.Body;
-                        using (var newBody = new MemoryStream())
-                        {
-                            // We set the response body to our stream so we can read after the chain of middlewares have been called.
-                            context.Response.Body = newBody;
-
-                            await next();
-
-                            // Reset the body so nothing from the latter middlewares goes to the output.
-                            context.Response.Body = existingBody;
-
-                            newBody.Seek(0, SeekOrigin.Begin);
-
-                            newContent = new StreamReader(newBody).ReadToEnd();
-
-                            newContent = Regex.Replace(newContent, @"/(.*)/en-ca/(.*)", "https://health-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                            newContent = Regex.Replace(newContent, @"/(.*)/fr-ca/(.*)", "https://sante-infobase.canada.ca/" + @"$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-                            // Send our modified content to the response body.
-                            await context.Response.WriteAsync(newContent);
-                        }
-                    });
 
             app.UseMvc(routes =>
              {
                  routes.Routes.Add(new TranslationRoute(
                     translations,
+                    new Dictionary<string, string> {
+                        { "english.localhost:5000", "en-ca"},
+                        { "french.localhost:5000", "fr-ca"}
+                    },
+                    "en-ca",
                     routes.DefaultHandler,
                     routeName: null,
-                    routeTemplate: "{language=en-ca}/{controller=pass}/{action=Index}/{id?}",
+                    routeTemplate: "/{controller=pass}/{action=Index}/{id?}",
                     defaults: new RouteValueDictionary(new { test = 1 }),
                     constraints: null,
                     dataTokens: null,

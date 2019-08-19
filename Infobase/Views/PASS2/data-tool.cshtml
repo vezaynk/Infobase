@@ -14,14 +14,14 @@
 		{
             prompt = "Select an item from each list below",
             state = Model
-        }, clientOnly: false)
+        }, clientOnly: true)
             break;
         case "fr-ca":
             @Html.React("Filters", new
 		{
             prompt = "Sélectionner les paramètres d'intérêt",
             state = Model
-        }, clientOnly: false)
+        }, clientOnly: true)
             break;
     }
         
@@ -30,7 +30,7 @@
         @Html.React("Charting", new { 
             Animate=true,
             state = Model 
-        }, clientOnly: false)
+        }, clientOnly: true)
 
         @switch (language) {
         case "en-ca":
@@ -77,7 +77,7 @@
                 confidenceIntervalAbbr = "CI",
                 state = Model
             },
-            clientOnly: false);
+            clientOnly: true);
             break;
         case "fr-ca":
             @Html.React("SummaryTable", new {
@@ -89,7 +89,7 @@
                 confidenceIntervalAbbr = "IC",
                 state = Model
             },
-            clientOnly: false);
+            clientOnly: true);
             break;
     }
 </div>
@@ -118,7 +118,7 @@
                             methodsText = "Estimate Calculation",
                             remarksText = "Additional Remarks",
                             state = Model
-                        }, clientOnly: false);
+                        }, clientOnly: true);
                         break;
                     case "fr-ca":
                         @Html.React("DescriptionTable", new { 
@@ -127,7 +127,7 @@
                             methodsText = "Calcul des estimés",
                             remarksText = "Remarques additionnelle",
                             state = Model
-                        }, clientOnly: false);
+                        }, clientOnly: true);
                         break;
                 }
                 
@@ -160,17 +160,3 @@
                 }
     </div>
 </section>
-<script>
-    // all <a> tags containing a certain rel=""
-$("a[rel~='keep-params']").click(function(e) {
-    e.preventDefault();
-
-    var params = window.location.search,
-        dest = $(this).attr('href') + params;
-
-    // in my experience, a short timeout has helped overcome browser bugs
-    window.setTimeout(function() {
-        window.location.href = dest;
-    }, 100);
-});
-</script>
