@@ -29,24 +29,24 @@ namespace Models.Metadata
         public static PropertyInfo FindPropertyOnType<T>(Type type) where T : Attribute => 
             FindPropertiesOnType<T>(type).FirstOrDefault();
 
-        public static IEnumerable<MetadataProperty> FindTextPropertiesOnNode<T>(object node, string languageCode = null, TextAppearance? textAppearance = null) where T : Attribute =>
+        public static IEnumerable<MetadataProperty> FindTextPropertiesOnNode<T>(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) where T : Attribute =>
             FindPropertiesOnType<T>(node.GetType())
                 .Where(p => languageCode == null || p.GetCustomAttribute<TextAttribute>()?.Culture == languageCode)
-                .Where(p => textAppearance == null || p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == textAppearance)
+                .Where(p => textAppearance == TextAppearance.None ^ p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance.HasFlag(textAppearance) == true)
                 .Select(p => new MetadataProperty
                 {
                     Name = p.GetCustomAttribute<TextAttribute>()?.Name,
                     Value = p.GetValue(node)
                 });
 
-        public static IEnumerable<MetadataProperty> FindTextPropertiesOnNode(object node, string languageCode = null, TextAppearance? textAppearance = null) =>
+        public static IEnumerable<MetadataProperty> FindTextPropertiesOnNode(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) =>
             FindTextPropertiesOnNode<TextAttribute>(node, languageCode, textAppearance);
 
-        public static IEnumerable<MetadataProperty> FindTextPropertiesOnTree<T>(object node, string languageCode = null, TextAppearance? textAppearance = null) where T : Attribute =>
+        public static IEnumerable<MetadataProperty> FindTextPropertiesOnTree<T>(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) where T : Attribute =>
             GetAllParentNodes(node)
                 .SelectMany(n => FindTextPropertiesOnNode<T>(n, languageCode, textAppearance));
 
-        public static IEnumerable<MetadataProperty> FindTextPropertiesOnTree(object node, string languageCode = null, TextAppearance? textAppearance = null) =>
+        public static IEnumerable<MetadataProperty> FindTextPropertiesOnTree(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) =>
             FindTextPropertiesOnTree<TextAttribute>(node, languageCode, textAppearance);
 
         public static object GetParentOf(object child)
@@ -78,15 +78,15 @@ namespace Models.Metadata
     [Flags]
     public enum TextAppearance
     {
-        None,
-        Notes,
-        MeasureDescription,
-        Filter
+        None = 0,
+        Notes = 1,
+        MeasureDescription = 2,
+        Filter = 4
     }
     [AttributeUsage(AttributeTargets.Property)]
     public class ShowOnAttribute : Attribute
     {
-        public TextAppearance? TextAppearance { get; set; }
+        public TextAppearance TextAppearance { get; set; } = TextAppearance.None;
         public ShowOnAttribute(TextAppearance ta)
         {
             this.TextAppearance = ta;

@@ -60,7 +60,7 @@ namespace @Model.Namespace {
     }
 
     if (current == measureProperty) {
-        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.MeasureDescription);
+        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance?.HasFlag(TextAppearance.MeasureDescription) == true);
         foreach (var measureProp in measureProperties) {
         @:[BindToMaster("@(measureProp.Name)")]
         @:[ShowOn(TextAppearance.MeasureDescription)]
@@ -83,7 +83,7 @@ namespace @Model.Namespace {
     }
 
     if (current == breakdownProperty) {
-        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.Notes);
+        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance?.HasFlag(TextAppearance.Notes));
         foreach (var breakdownProp in breakdownProperties) {
         @:[BindToMaster("@(breakdownProp.Name)")]
         @:[ShowOn(TextAppearance.Notes)]
