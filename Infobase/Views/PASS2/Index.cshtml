@@ -1,5 +1,6 @@
 ﻿@using Models.Metadata
-@model IEnumerable<Models.Contexts.CMSIF2.ColDomain>
+@using System.Linq
+@model IEnumerable<dynamic>
 @{
     Layout = "_Layout.cshtml";
     
@@ -68,8 +69,8 @@
                                 {
                                     @foreach (var measure in indicatorGroup.ColMeasures) {
                                         <tr>
-                                        @if (measure == indicatorGroup.ColMeasures.First()) {
-                                            <td rowspan="@indicatorGroup.ColMeasures.Count()">@indicatorGroup.ColIndicatorNameEn</td>
+                                        @if (measure == Enumerable.First(indicatorGroup.ColMeasures)) {
+                                            <td rowspan="@Enumerable.Count(indicatorGroup.ColMeasures)">@indicatorGroup.ColIndicatorNameEn</td>
                                         }
                                         <td>@measure.ColMeasuresNameEn</td>
                                         <td>@measure.DefaultColDataBreakdowns.DefaultColDisaggregation.ValueAverage %</td>

@@ -11,8 +11,8 @@
     var properties = Model.GetProperties();
 
     var filtersProperties = properties
-            .Where(prop => prop.GetCustomAttribute<FilterAttribute>() != null)
-            .OrderBy(prop => prop.GetCustomAttribute<FilterAttribute>().Level);
+        .Where(prop => prop.GetCustomAttribute<FilterAttribute>() != null)
+        .OrderBy(prop => prop.GetCustomAttribute<FilterAttribute>().Level);
 
     var measureProperty = filtersProperties.SkipLast(2).Last();
     var breakdownProperty = filtersProperties.SkipLast(1).Last();
@@ -62,14 +62,14 @@ namespace @Model.Namespace {
     if (current == measureProperty) {
         var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.MeasureDescription);
         foreach (var measureProp in measureProperties) {
-            @:[BindToMaster("@(measureProp.Name)")]
-            @:[ShowOn(TextAppearance.MeasureDescription)]
-            @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
-            @:public string @(measureProp.Name)En { get; set; }
+        @:[BindToMaster("@(measureProp.Name)")]
+        @:[ShowOn(TextAppearance.MeasureDescription)]
+        @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
+        @:public string @(measureProp.Name)En { get; set; }
 
-            @:[ShowOn(TextAppearance.MeasureDescription)]
-            @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
-            @:public string @(measureProp.Name)Fr { get; set; }
+        @:[ShowOn(TextAppearance.MeasureDescription)]
+        @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+        @:public string @(measureProp.Name)Fr { get; set; }
         }
         @:[Include]
         
@@ -85,14 +85,14 @@ namespace @Model.Namespace {
     if (current == breakdownProperty) {
         var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance == TextAppearance.Notes);
         foreach (var breakdownProp in breakdownProperties) {
-            @:[BindToMaster("@(breakdownProp.Name)")]
-            @:[ShowOn(TextAppearance.Notes)]
-            @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
-            @:public string @(breakdownProp.Name)En { get; set; }
+        @:[BindToMaster("@(breakdownProp.Name)")]
+        @:[ShowOn(TextAppearance.Notes)]
+        @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "en-ca").Name)", "en-ca")]
+        @:public string @(breakdownProp.Name)En { get; set; }
 
-            @:[ShowOn(TextAppearance.Notes)]
-            @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
-            @:public string @(breakdownProp.Name)Fr { get; set; }
+        @:[ShowOn(TextAppearance.Notes)]
+        @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
+        @:public string @(breakdownProp.Name)Fr { get; set; }
         }
         @:[CVRangeLower]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null)?.Name ?? "binding required")")]

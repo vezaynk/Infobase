@@ -4,7 +4,6 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.CodeAnalysis;
 using System.Text;
 using System.Collections.ObjectModel;
 using Models.Metadata;
@@ -252,7 +251,7 @@ namespace Model_Generator
                     var parentId = type.GetProperties().First(property => property.Name == type.Name + "Id").GetValue(parent);
                     var childIndexProperty = childType.GetProperties().First(prop => prop.Name == "Index");
 
-                    bool included = IncludeAttribute.GetIncludedState(parent);
+                    bool included = Metadata.GetIncludedState(parent);
 
                     childRows = childRows.Where(e => !usedIndexes.Contains(e.Index));
                     var children = childRows.Where((child, i) =>
@@ -287,7 +286,7 @@ namespace Model_Generator
                             }
                             var nextParentLevel = ((object)nextParent).GetType().GetCustomAttribute<FilterAttribute>().Level;
                             string name = types.Skip((int)nextParentLevel - 1).FirstOrDefault()?.Name;
-                            nextParent = ParentAttribute.GetParentOf(nextParent);
+                            nextParent = Metadata.GetParentOf(nextParent);
                         }
                         return true;
                     }).Select((e, i) =>
@@ -334,11 +333,14 @@ namespace Model_Generator
             foreach (Type type in types.SkipLast(1).Reverse())
             {
                 var dbset = GetDbSet(type);
-                var defaultChildProperty = DefaultChildAttribute.GetDefaultChildOfProperty(type);
+                var defaultChildProperty = Metadata.FindPropertyOnType<DefaultChildAttribute>(type);
+                var childType = defaultChildProperty.PropertyType;
+                var childDefaultChildProperty = Metadata.FindPropertyOnType<DefaultChildAttribute>(childType);
+
                 foreach (var entity in dbset)
                 {
-                    var children = ChildrenAttribute.GetChildrenOf((object)entity);
-                    var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || DefaultChildAttribute.GetDefaultChildOf(c) != null));
+                    var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata.FindPropertyOnType<ChildrenAttribute>(type).GetValue((object)entity));
+                    var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || childDefaultChildProperty.GetValue(c) != null));
                     if (defaultChild != null)
                         defaultChildProperty.SetValue(entity, defaultChild);
                 }

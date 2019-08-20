@@ -205,6 +205,9 @@ namespace Model_Generator
                 {
                     throw new Exception("Failed to generate valid models file");
                 }
+                var contextFile = new FileInfo($"../context/Contexts/{datasetName}/Context.cs");
+                contextFile.Directory.Create();
+                File.WriteAllText(contextFile.FullName, outputContext);
             }
 
             Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");

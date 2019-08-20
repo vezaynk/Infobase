@@ -26,42 +26,61 @@ namespace Infobase.Controllers
         public async Task<IActionResult> Index(string language)
         {
             var topLevelType = _context.Keys.First();
-            var topLevelEntities = typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(new[] { topLevelType }).Invoke(typeof(Enumerable), new[] { _context[topLevelType] });
-
+            // var topLevelEntities = typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(new[] { topLevelType }).Invoke(typeof(Enumerable), new[] {  });
             // Load top-level
-            return View(topLevelEntities);
+            return View(_context[topLevelType]);
         }
 
         [ActionName("data-tool")]
         public async Task<IActionResult> Datatool(string language, int index = 1, bool api = false)
         {
             var dataBreakdownLevelType = _context.Keys.SkipLast(1).Last();
-            
+            var disaggregatorLevelType = _context.Keys.Last();
             var selectedBreakdown = _context[dataBreakdownLevelType]
                 .Where(s => (int)s.Index >= index)
                 .First();
                 
+            var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata
+                                .FindPropertyOnType<ChildrenAttribute>(dataBreakdownLevelType)
+                                .GetValue((object)selectedBreakdown));
 
+            var measureDescription = Metadata
+                            .FindTextPropertiesOnTree((object)selectedBreakdown, "en-ca", TextAppearance.MeasureDescription)
+                            .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty(mp.Value.ToString()));
+
+            var notes = Metadata
+                            .FindTextPropertiesOnTree((object)selectedBreakdown, "en-ca", TextAppearance.Notes)
+                            .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty(mp.Value.ToString()));
+
+            PropertyInfo GetProperty<T>() where T: Attribute {
+                return Metadata.FindPropertyOnType<T>(disaggregatorLevelType);
+            }
+            var averageValueProperty = GetProperty<PointAverageAttribute>();
+            var lowerValueProperty = GetProperty<PointLowerAttribute>();
+            var upperValueProperty = GetProperty<PointUpperAttribute>();
+            var cVValueProperty = GetProperty<CVValueAttribute>();
+            var cVInterpretationProperty = GetProperty<CVInterpretationAttribute>();
+            
             ChartData chart = chart = new ChartData
             {
                 XAxis = "XAxis",
                 YAxis = "YAxis",
                 Unit = "Unit",
                 Title = "Title",
-                Points = ChildrenAttribute.GetChildrenOf((object)selectedBreakdown).Select((child) => new Point {
-                    Label = DataLabelChartAttribute.GetDataLabelChart(child, "en-ca"),
-                    Text = DataLabelTableAttribute.GetDataLabelTable(child, "en-ca"),
-                    CVInterpretation = CVInterpretationAttribute.GetCVInterpretation(child),
-                    CVValue = CVValueAttribute.GetCVValue(child),
-                    Value = PointAverageAttribute.GetPointAverage(child),
-                    ValueLower = PointLowerAttribute.GetPointLower(child),
-                    ValueUpper = PointUpperAttribute.GetPointUpper(child),
+                Points = children.Select((child) => new Point {
+                    Label = (string)Metadata.FindTextPropertiesOnTree<DataLabelChartAttribute>((object)child, "en-ca").First().Value,
+                    Text = (string)Metadata.FindTextPropertiesOnTree<DataLabelTableAttribute>((object)child, "en-ca").First().Value,
+                    CVInterpretation = cVInterpretationProperty.GetValue(child),
+                    CVValue = cVValueProperty.GetValue(child),
+                    Value = averageValueProperty.GetValue(child),
+                    ValueLower = lowerValueProperty.GetValue(child),
+                    ValueUpper = upperValueProperty.GetValue(child),
                     Type = 0
                 }),
-                WarningCV = 0,
-                SuppressCV = 0,
-                DescriptionTable = TextAttribute.GetShowable(selectedBreakdown, "en-ca", TextAppearance.MeasureDescription),
-                Notes = TextAttribute.GetShowable(selectedBreakdown, "en-ca", TextAppearance.Notes),
+                WarningCV = null,
+                SuppressCV = null,
+                DescriptionTable = measureDescription.ToDictionary(mp => mp.Name, mp => (string)mp.Value),
+                Notes = notes.ToDictionary(mp => mp.Name, mp => (string)mp.Value)
             };
 
             var cpm = new ChartPageModel(language, chart);
@@ -69,47 +88,42 @@ namespace Infobase.Controllers
             var dropdowns = _context.SkipLast(1).Select(pair =>
             {
                 Type type = pair.Key;
-                var textProperty = TextAttribute.GetTextProperty(type, "en-ca", TextAppearance.Filter);
 
                 ICollection<dynamic> entities = pair.Value;
 
-                // Walk up the tree until the type is the same
-                var parentOfCurrentType = selectedBreakdown;
-                while (parentOfCurrentType.GetType() != type)
-                {
-                    parentOfCurrentType = ParentAttribute.GetParentOf(parentOfCurrentType);
-                }
+                var parentOfCurrentType = Metadata.GetAllParentNodes((object)selectedBreakdown).First(p => p.GetType() == type);
 
                 var dropdownItems = entities
-                    .Where(entity => DefaultChildAttribute.GetDefaultChildOf(entity) != null)
+                    .Where(entity => Metadata.FindPropertyOnType<DefaultChildAttribute>(type).GetValue(entity) != null)
                     .Where(entity =>
                     {
-                        var parentOfEntity = ParentAttribute.GetParentOf(entity);
+                        var parentOfEntity = Metadata.GetParentOf(entity);
                         // Top-level selectors should always be displayed
                         if (parentOfEntity == null) return true;
 
                         // Check for common ancestor
-                        return ParentAttribute.GetParentOf(parentOfCurrentType) == parentOfEntity;
+                        return Metadata.GetParentOf(parentOfCurrentType) == parentOfEntity;
                     })
                     .Select(entity =>
                     {
                         var currentLevel = entity;
-
-                        var entityText = (string)textProperty.GetValue(entity);
+                        
+                        var entityText = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)entity, "en-ca", TextAppearance.Filter).First().Value;
 
                         while (currentLevel.GetType() != dataBreakdownLevelType)
                         {
-                            currentLevel = DefaultChildAttribute.GetDefaultChildOf(currentLevel);
+                            currentLevel = Metadata.FindPropertyOnType<DefaultChildAttribute>(((object)currentLevel).GetType()).GetValue(currentLevel);
                             if (currentLevel == null) throw new Exception("Default tree structure is broken");
                         }
                         var entityIndex = currentLevel.Index;
 
                         return new { Text = entityText, Value = entityIndex, Entity = entity };
 
-                    });
-
+                    }).ToList();
+                
+                var filterName = Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)dropdownItems.First().Entity, "en-ca", TextAppearance.Filter).First().Name;
                 return new DropdownMenuModel(
-                        textProperty.GetCustomAttribute<TextAttribute>().Name,
+                        filterName,
                         dropdownItems.Select(di => new DropdownItem { Text = di.Text, Value = di.Value }),
                         dropdownItems.First(di => di.Entity == parentOfCurrentType).Value
                     );
@@ -127,17 +141,17 @@ namespace Infobase.Controllers
 
         }
 
-        // [ActionName("indicator-details")]
-        // public async Task<IActionResult> Details(string language, int id)
-        // {
-        //     var measure = Enumerable.Cast<Measure>(_context[typeof(Measure)]).FirstOrDefault(m => m.Index == id);
-        //     if (measure == null)
-        //     {
-        //         return NotFound();
-        //     }
+        [ActionName("indicator-details")]
+        public async Task<IActionResult> Details(string language, int id)
+        {
+            var measure = _context[_context.Keys.SkipLast(2).Last()].FirstOrDefault(m => m.Index == id);
+            if (measure == null)
+            {
+                return NotFound();
+            }
 
-        //     return View(measure);
-        // }
+            return View(measure);
+        }
 
         [ActionName("publications")]
         public IActionResult Publications(string language, int id)
