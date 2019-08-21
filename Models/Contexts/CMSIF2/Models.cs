@@ -188,6 +188,9 @@ namespace Models.Contexts.CMSIF2
         [UnitShort]
         [Text("fr-ca")]
         public string UnitShortFr { get; set; }
+        [Title]
+        [Text("en-ca")]
+        public string Title => $"{ColMeasures.ColMeasureEn}, by {this.ColDataBreakdownsNameEn.ToLower()}";
     }
     [Filter(4)]
     public class ColDisaggregation
@@ -233,6 +236,8 @@ namespace Models.Contexts.CMSIF2
         [DataLabelTable]
         [Text("fr-ca")]
         public string DataLabelTableFr { get; set; }
+        [Type]
+        public int BarType => 0;
     }
 
 }

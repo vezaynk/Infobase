@@ -48,4 +48,7 @@ namespace Models.Metadata
     public class DefaultChildAttribute : Attribute {}
     [AttributeUsage(AttributeTargets.Property)]
     public class ChildrenAttribute : Attribute {}
+    [AttributeUsage(AttributeTargets.Property)]
+    public class TypeAttribute : Attribute {}
+    public class TitleAttribute : Attribute {}
 }

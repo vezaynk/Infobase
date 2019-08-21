@@ -32,6 +32,8 @@ namespace Models.Contexts.@(Model.DatasetName) {
                 [DataLabelTable]
                 [DataLabelChart]
 
+                [Title]                
+
             ** Filters **
                 [Filter(0)] <- Top level
                 [Filter(1)]
@@ -50,6 +52,8 @@ namespace Models.Contexts.@(Model.DatasetName) {
         public int Index { get; set; }
 
         /** Modify below to resolve to valid data. These can also be adjusted from the generated models if you want them to be derived later **/
+        [Title]
+        public string Title => null;
         [CVInterpretation]
         public int CVInterpretation => 0;
         [CVValue]

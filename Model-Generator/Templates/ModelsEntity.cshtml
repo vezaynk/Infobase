@@ -71,13 +71,12 @@ namespace @Model.Namespace {
         @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:public string @(measureProp.Name)Fr { get; set; }
         }
-        @:[Include]
         
+        @:[Include]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null)?.Name ?? "binding required")")]
         @:public bool Include { get; set; }
 
         @:[Aggregator]
-        
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorAttribute>() != null)?.Name ?? "binding required")")]
         @:public bool IsAggregator { get; set; }
     }
@@ -94,6 +93,17 @@ namespace @Model.Namespace {
         @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:public string @(breakdownProp.Name)Fr { get; set; }
         }
+
+        @:[Title]
+        @:[Text("en-ca")]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<TitleAttribute>() != null)?.Name ?? "binding required")")]
+        @:public string TitleEn { get; set; }
+
+
+        @:[Title]
+        @:[Text("en-ca")]
+        @:public string TitleEn { get; set; }
+
         @:[CVRangeLower]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null)?.Name ?? "binding required")")]
         @:public double? CVRangeLower { get; set; }
