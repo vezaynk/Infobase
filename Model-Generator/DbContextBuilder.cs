@@ -14,7 +14,7 @@ namespace Model_Generator
     {
         public static DbContext GetDBContext(Assembly dbContextASM, string dbContextFullName, Action<DbContextOptionsBuilder> configureOptionBuilder)
         {
-            // Get type of the dbContext. This is needed to use any generic methods involving a dbContexts
+            // Recompiling the context is not necessary. We can use the existing as long as we use the the recompiled migrations assembly later on
             Type dbContextType = dbContextASM.GetType(dbContextFullName);
             
             // Generic OptionBuilder type to work with the loaded DbContext 
@@ -33,28 +33,9 @@ namespace Model_Generator
             return dbContext;
         }
 
-        public static DbContext GetDBContextFromSource(string name, string path, Action<DbContextOptionsBuilder, Assembly> configureOptionBuilder, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
-        {
-
-            var asm = BuildAssembly(name, path, migrations, migrationsDirectory);
-            // Extract DbContext from the resulting assembly
-            return GetDBContext(asm, $"Models.Contexts.{name}.Context", ob => configureOptionBuilder(ob, asm));
-        }
-
-        public static Assembly BuildAssembly(string name, string path, IEnumerable<ScaffoldedMigration> migrations = null, string migrationsDirectory = null)
+        public static Assembly BuildMigrationsAssembly(IEnumerable<ScaffoldedMigration> migrations = null)
         {
             var dbContextIMC = new InMemoryCompiler();
-
-            // The Context file is the main file that is analyzed in order to determine what needs to be migrated.
-            // In fact, the actual migration files are not necessary to generate migrations.
-            // They are, however, necessary to apply them to the database.
-            dbContextIMC.AddFile(Path.Join(path, name, "Context.cs"));
-
-            // The actual entities are stored in Models.cs
-            dbContextIMC.AddFile(Path.Join(path, name, "Models.cs"));
-
-            // The actual entities are stored in Models.cs
-            dbContextIMC.AddFile(Path.Join(path, name, "Master.cs"));
 
             // Sometimes, its convenient to load in a migration without saving it to disk
             if (migrations != null)
@@ -69,13 +50,6 @@ namespace Model_Generator
                     dbContextIMC.AddCodeBody(migration.SnapshotCode);
                 }
             }
-
-            // If there is a known migration directory, we should load all of them
-            // if (migrationsDirectory != null)
-            //     foreach (string filename in Directory.GetFiles(migrationsDirectory, "*.cs"))
-            //     {
-            //         dbContextIMC.AddFile(filename);
-            //     }
 
             return dbContextIMC.CompileAssembly();
         }

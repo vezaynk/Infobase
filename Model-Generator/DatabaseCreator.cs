@@ -15,23 +15,17 @@ namespace Model_Generator
 {
     public class DatabaseCreator
     {
-        public DatabaseCreator(string connectionString, string migrationsDirectory, string modelsDirectory, string datasetName) : this(connectionString, DbContextBuilder.BuildAssembly(datasetName, modelsDirectory, null, migrationsDirectory), datasetName)
+        public DatabaseCreator(string connectionString, string datasetName) : this(connectionString, DbContextBuilder.BuildMigrationsAssembly(null), datasetName)
         {
-            this.MigrationsDirectory = migrationsDirectory;
-            this.LoadedFromSource = true;
-            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildAssembly(datasetName, modelsDirectory, PendingMigrations, migrationsDirectory), datasetName)).DbContext;
-        }
-        public DatabaseCreator(string connectionString, string pathToAssembly, string datasetName) : this(connectionString, Assembly.LoadFrom(pathToAssembly), datasetName)
-        {
-            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, pathToAssembly, datasetName)).DbContext;
+            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildMigrationsAssembly(PendingMigrations), datasetName)).DbContext;
         }
 
-        public DatabaseCreator(string connectionString, Assembly assembly, string datasetName)
+        public DatabaseCreator(string connectionString, Assembly migrationsAssembly, string datasetName)
         {
-            this.DbContext = DbContextBuilder.GetDBContext(assembly, $"Models.Contexts.{datasetName}.Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(assembly.GetName().ToString())));
+            this.DbContext = DbContextBuilder.GetDBContext(typeof(Models.Metadata.Metadata).Assembly, $"Models.Contexts.{datasetName}.Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly.GetName().ToString())));
             PendingMigrations = new Collection<ScaffoldedMigration>();
             this.DatasetName = datasetName;
-            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, assembly, datasetName)).DbContext;
+            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildMigrationsAssembly(PendingMigrations), datasetName)).DbContext;
 
         }
         public string DatasetName { get; set; }

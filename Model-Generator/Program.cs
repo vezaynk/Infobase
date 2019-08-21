@@ -80,36 +80,18 @@ namespace Model_Generator
         }
         public static void SetupDatabase(string datasetName,
                                             string csvFilePath,
-                                            string connectionString,
-                                            BuildStrategy buildStrategy = BuildStrategy.Embedded,
-                                            string migrationsDirectory = "../Models/Migrations/",
-                                            string modelsDirectory = "../Models/Contexts/",
-                                            string pathToAssembly = null)
+                                            string connectionString)
         {
             DatabaseCreator databaseCreator;
 
-            switch (buildStrategy)
-            {
-                case BuildStrategy.Assembly:
-                    databaseCreator = new DatabaseCreator(connectionString, Path.GetFullPath(pathToAssembly), datasetName);
-                    break;
-
-                case BuildStrategy.Source:
-                    Console.Write("Building DBContext from source...");
-                    databaseCreator = new DatabaseCreator(connectionString, migrationsDirectory, modelsDirectory, datasetName);
-                    Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
-                    databaseCreator.CreateMigration(datasetName + Path.GetRandomFileName());
-                    Console.Write("Rebuilding...");
-                    databaseCreator.ReloadDbContext();
-                    Console.WriteLine("Rebuilt!");
-                    // databaseCreator.SaveMigrations();
-                    break;
-
-                default:
-                    databaseCreator = new DatabaseCreator(connectionString, typeof(Models.Metadata.DatabaseAttribute).Assembly, datasetName);
-                    break;
-
-            }
+            Console.Write("Building DBContext from source...");
+            databaseCreator = new DatabaseCreator(connectionString, datasetName);
+            
+            Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
+            databaseCreator.CreateMigration(datasetName + Path.GetRandomFileName());
+            Console.Write("Rebuilding...");
+            databaseCreator.ReloadDbContext();
+            Console.WriteLine("Rebuilt!");
 
             Console.Write("Preparing Database...");
             Console.Write("Cleaning...");
@@ -134,92 +116,87 @@ namespace Model_Generator
             var l = lf.CreateLogger(typeof(DbContext));
 
             Console.WriteLine("This process will guide you through the creation of the data tool. Press enter to continue or ^C to exit.");
-            Console.Read();
+            //Console.Read();
             Console.Write("Enter dataset name: ");
-            string datasetName = Console.ReadLine().ToUpper();
+            string datasetName = "CMSIF2";//Console.ReadLine().ToUpper();
             Console.Write("Enter dataset file path: ");
-            string csvFilePath = Console.ReadLine();
+            string csvFilePath = "../../CMSIF.csv";//Console.ReadLine();
             var connectionString = $"Host=localhost;Port=5432;Database={datasetName};Username=postgres;SslMode=Prefer;Trust Server Certificate=true;";
 
-            using (var sr = new StreamReader(csvFilePath))
-            using (var csv = new CsvReader(sr, new Configuration
-            {
-                Delimiter = ",",
-                Encoding = Encoding.UTF8
-            }))
-            {
-                csv.Read();
-                csv.ReadHeader();
-
-                Console.Write("Generating master entity");
-                var outputMaster = GenerateMasterSource(datasetName, csv.Context.HeaderRecord);
-                bool isValidMaster = IsCodeValid(outputMaster);
-                if (!isValidMaster)
+            if (false)
+                using (var sr = new StreamReader(csvFilePath))
+                using (var csv = new CsvReader(sr, new Configuration
                 {
-                    throw new Exception("Failed to generate valid master file");
-                }
-
-                var masterFile = new FileInfo($"../Models/Contexts/{datasetName}/Master.cs");
-                masterFile.Directory.Create();
-                File.WriteAllText(masterFile.FullName, outputMaster);
-                var editedMasterValidated = false;
-                while (!editedMasterValidated)
+                    Delimiter = ",",
+                    Encoding = Encoding.UTF8
+                }))
                 {
-                    Console.WriteLine($"Created {masterFile.FullName}. Press Enter when done editing.");
-                    Console.ReadLine();
-                    outputMaster = File.ReadAllText(masterFile.FullName);
-                    editedMasterValidated = IsCodeValid(outputMaster);
+                    csv.Read();
+                    csv.ReadHeader();
+
+                    Console.Write("Generating master entity");
+                    var outputMaster = GenerateMasterSource(datasetName, csv.Context.HeaderRecord);
+                    bool isValidMaster = IsCodeValid(outputMaster);
+                    if (!isValidMaster)
+                    {
+                        throw new Exception("Failed to generate valid master file");
+                    }
+
+                    var masterFile = new FileInfo($"../Models/Contexts/{datasetName}/Master.cs");
+                    masterFile.Directory.Create();
+                    File.WriteAllText(masterFile.FullName, outputMaster);
+                    var editedMasterValidated = false;
+                    while (!editedMasterValidated)
+                    {
+                        Console.WriteLine($"Created {masterFile.FullName}. Press Enter when done editing.");
+                        Console.ReadLine();
+                        outputMaster = File.ReadAllText(masterFile.FullName);
+                        editedMasterValidated = IsCodeValid(outputMaster);
+                    }
+
+                    var imc = new InMemoryCompiler();
+                    imc.AddCodeBody(outputMaster);
+                    var masterType = imc.CompileAssembly().GetType($"Models.Contexts.{datasetName}.Master");
+
+
+                    Console.Write("Generating model entities");
+                    var outputModels = GenerateModelsForMaster(masterType);
+                    bool isValidModels = IsCodeValid(outputModels);
+                    if (!isValidModels)
+                    {
+                        throw new Exception("Failed to generate valid models file");
+                    }
+
+                    var modelsFile = new FileInfo($"../Models/Contexts/{datasetName}/Models.cs");
+                    modelsFile.Directory.Create();
+                    File.WriteAllText(modelsFile.FullName, outputModels);
+                    var editedModelsValidated = false;
+                    while (!editedModelsValidated)
+                    {
+                        Console.WriteLine($"Created {modelsFile.FullName}. Press Enter when done editing.");
+                        Console.ReadLine();
+                        outputModels = File.ReadAllText(modelsFile.FullName);
+                        editedModelsValidated = IsCodeValid(outputModels);
+                    }
+
+                    imc = new InMemoryCompiler();
+                    imc.AddCodeBody(outputModels);
+                    var names = imc.CompileAssembly().GetTypes().Where(t => t.Namespace == $"Models.Contexts.{datasetName}").Select(t => t.Name);
+                    var outputContext = GenerateContextSource(datasetName, names);
+                    bool isValidContext = IsCodeValid(outputContext);
+                    if (!isValidContext)
+                    {
+                        throw new Exception("Failed to generate valid models file");
+                    }
+                    var contextFile = new FileInfo($"../context/Contexts/{datasetName}/Context.cs");
+                    contextFile.Directory.Create();
+                    File.WriteAllText(contextFile.FullName, outputContext);
                 }
-
-                var imc = new InMemoryCompiler();
-                imc.AddCodeBody(outputMaster);
-                var masterType = imc.CompileAssembly().GetType($"Models.Contexts.{datasetName}.Master");
-
-
-                Console.Write("Generating model entities");
-                var outputModels = GenerateModelsForMaster(masterType);
-                bool isValidModels = IsCodeValid(outputModels);
-                if (!isValidModels)
-                {
-                    throw new Exception("Failed to generate valid models file");
-                }
-
-                var modelsFile = new FileInfo($"../Models/Contexts/{datasetName}/Models.cs");
-                modelsFile.Directory.Create();
-                File.WriteAllText(modelsFile.FullName, outputModels);
-                var editedModelsValidated = false;
-                while (!editedModelsValidated)
-                {
-                    Console.WriteLine($"Created {modelsFile.FullName}. Press Enter when done editing.");
-                    Console.ReadLine();
-                    outputModels = File.ReadAllText(modelsFile.FullName);
-                    editedModelsValidated = IsCodeValid(outputModels);
-                }
-
-                imc = new InMemoryCompiler();
-                imc.AddCodeBody(outputModels);
-                var names = imc.CompileAssembly().GetTypes().Where(t => t.Namespace == $"Models.Contexts.{datasetName}").Select(t => t.Name);
-                var outputContext = GenerateContextSource(datasetName, names);
-                bool isValidContext = IsCodeValid(outputContext);
-                if (!isValidContext)
-                {
-                    throw new Exception("Failed to generate valid models file");
-                }
-                var contextFile = new FileInfo($"../context/Contexts/{datasetName}/Context.cs");
-                contextFile.Directory.Create();
-                File.WriteAllText(contextFile.FullName, outputContext);
-            }
 
             Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");
-            Console.ReadLine();
+            // Console.ReadLine();
 
-            // Source is used for development in order to generate migration files
-            // Embedded is to use the Models.DLL which ships with the project
-            // Assembly is used to update a Database using an external Models.DLL file, this may potententially cause version mismatches
-            SetupDatabase(datasetName, csvFilePath, connectionString, BuildStrategy.Source);
-
-
-
+            SetupDatabase(datasetName, csvFilePath, connectionString);
         }
 
 
