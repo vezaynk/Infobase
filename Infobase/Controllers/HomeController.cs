@@ -14,29 +14,33 @@ using System.Reflection;
 
 namespace Infobase.Controllers
 {
-
-    public class PASS2Controller : Controller
+    public class OpenController : Controller
     {
-        private readonly SortedDictionary<Type, ICollection<dynamic>> _context;
+        private readonly Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contexts;
 
-        public PASS2Controller(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup)
+        public OpenController(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup)
         {
-            _context = contextLookup["CMSIF2Context"];
+            contexts = contextLookup;
         }
-        public async Task<IActionResult> Index(string language)
+        public SortedDictionary<Type, ICollection<dynamic>> GetContext(string datatool) {
+            return contexts[datatool + "Context"];
+        }
+        public async Task<IActionResult> Index(string datatool, string language)
         {
-            var topLevelType = _context.Keys.First();
+            var context = GetContext(datatool);
+            var topLevelType = context.Keys.First();
             // var topLevelEntities = typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(new[] { topLevelType }).Invoke(typeof(Enumerable), new[] {  });
             // Load top-level
-            return View(_context[topLevelType]);
+                return View($"{datatool}/index", context[topLevelType]);
         }
 
         [ActionName("data-tool")]
-        public async Task<IActionResult> Datatool(string language, int index = 1, bool api = false)
+        public async Task<IActionResult> Datatool(string datatool, string language, int index = 1, bool api = false)
         {
-            var dataBreakdownLevelType = _context.Keys.SkipLast(1).Last();
-            var disaggregatorLevelType = _context.Keys.Last();
-            var selectedBreakdown = _context[dataBreakdownLevelType]
+            var context = GetContext(datatool);
+            var dataBreakdownLevelType = context.Keys.SkipLast(1).Last();
+            var disaggregatorLevelType = context.Keys.Last();
+            var selectedBreakdown = context[dataBreakdownLevelType]
                 .Where(s => (int)s.Index >= index)
                 .First();
                 
@@ -60,13 +64,14 @@ namespace Infobase.Controllers
             var upperValueProperty = GetProperty<PointUpperAttribute>();
             var cVValueProperty = GetProperty<CVValueAttribute>();
             var cVInterpretationProperty = GetProperty<CVInterpretationAttribute>();
+            var typeProperty = GetProperty<TypeAttribute>();
             
             ChartData chart = chart = new ChartData
             {
-                XAxis = "XAxis",
-                YAxis = "YAxis",
-                Unit = "Unit",
-                Title = "Title",
+                XAxis = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)selectedBreakdown, "en-ca", TextAppearance.Filter).First().Value,
+                YAxis = (string)Metadata.FindTextPropertiesOnTree<UnitLongAttribute>((object)selectedBreakdown, "en-ca").First().Value,
+                Unit = (string)Metadata.FindTextPropertiesOnTree<UnitShortAttribute>((object)selectedBreakdown, "en-ca").First().Value,
+                Title = (string)Metadata.FindTextPropertiesOnTree<TitleAttribute>((object)selectedBreakdown, "en-ca").First().Value,
                 Points = children.Select((child) => new Point {
                     Label = (string)Metadata.FindTextPropertiesOnTree<DataLabelChartAttribute>((object)child, "en-ca").First().Value,
                     Text = (string)Metadata.FindTextPropertiesOnTree<DataLabelTableAttribute>((object)child, "en-ca").First().Value,
@@ -75,17 +80,17 @@ namespace Infobase.Controllers
                     Value = averageValueProperty.GetValue(child),
                     ValueLower = lowerValueProperty.GetValue(child),
                     ValueUpper = upperValueProperty.GetValue(child),
-                    Type = 0
-                }),
+                    Type = typeProperty.GetValue(child)
+                }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,
                 DescriptionTable = measureDescription.ToDictionary(mp => mp.Name, mp => (string)mp.Value),
                 Notes = notes.ToDictionary(mp => mp.Name, mp => (string)mp.Value)
             };
 
-            var cpm = new ChartPageModel(language, chart);
+            var cpm = new ChartPageModel(datatool, language, chart);
 
-            var dropdowns = _context.SkipLast(1).Select(pair =>
+            var dropdowns = context.SkipLast(1).Select(pair =>
             {
                 Type type = pair.Key;
 
@@ -131,7 +136,7 @@ namespace Infobase.Controllers
 
             foreach (var dropdown in dropdowns)
             {
-                cpm.filters.Add(dropdown);
+                cpm.Filters.Add(dropdown);
             };
 
             if (Request.Method == "GET" && !api)
@@ -142,21 +147,22 @@ namespace Infobase.Controllers
         }
 
         [ActionName("indicator-details")]
-        public async Task<IActionResult> Details(string language, int id)
+        public async Task<IActionResult> Details(string datatool, string language, int id)
         {
-            var measure = _context[_context.Keys.SkipLast(2).Last()].FirstOrDefault(m => m.Index == id);
+            var context = GetContext(datatool);
+            var measure = context[context.Keys.SkipLast(2).Last()].FirstOrDefault(m => m.Index == id);
             if (measure == null)
             {
                 return NotFound();
             }
 
-            return View(measure);
+            return View($"{datatool}/indicator-details", measure);
         }
 
         [ActionName("publications")]
-        public IActionResult Publications(string language, int id)
+        public IActionResult Publications(string datatool, string language, int id)
         {
-            return View();
+            return View($"{datatool}/publications");
         }
     }
 }
