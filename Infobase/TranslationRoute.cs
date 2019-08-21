@@ -45,6 +45,7 @@ namespace Infobase
             _translations.TryGetValue(language, out var translations);
 
             context.Values["action"] = translations.Translate(context.Values["action"] as string ?? context.AmbientValues["action"] as string);
+            context.Values["datatool"] = translations.Translate(context.Values["datatool"] as string ?? context.AmbientValues["datatool"] as string);
             context.Values["controller"] = translations.Translate(context.Values["controller"] as string ?? context.AmbientValues["controller"] as string);
             context.Values["id"] = context.Values["id"] as int? ?? context.AmbientValues["id"] as int?;
 
@@ -65,6 +66,7 @@ namespace Infobase
 
             _translations.TryGetValue(language, out var translations);
             context.RouteData.Values["language"] = language;
+            context.RouteData.Values["datatool"] = translations.LookupInvariant(context.RouteData.Values["datatool"] as string).ToUpper();
             context.RouteData.Values["action"] = translations.LookupInvariant(context.RouteData.Values["action"] as string);
             context.RouteData.Values["controller"] = translations.LookupInvariant(context.RouteData.Values["controller"] as string);
 

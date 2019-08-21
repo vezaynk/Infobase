@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
 using System.Reflection;
 using Models.Metadata;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Infobase
 {
@@ -189,7 +190,7 @@ namespace Infobase
                     "en-ca",
                     routes.DefaultHandler,
                     routeName: null,
-                    routeTemplate: "/{controller=pass}/{action=Index}/{id?}",
+                    routeTemplate: "/{controller=open}/{datatool=CMSIF2}/{action=Index}/{id?}",
                     defaults: new RouteValueDictionary(new { test = 1 }),
                     constraints: null,
                     dataTokens: null,
