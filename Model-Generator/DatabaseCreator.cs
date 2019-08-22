@@ -36,7 +36,16 @@ namespace Model_Generator
         }
         public bool CleanDatabase()
         {
-            return DbContext.Database.EnsureDeleted();
+            try
+            {
+                return DbContext.Database.EnsureDeleted();
+            }
+            catch (Npgsql.PostgresException)
+            {
+                Console.Write("Failed to clean database (check permissions or so manually)...");
+                return false;
+            }
+            
         }
         public ScaffoldedMigration CreateMigration(string name = null)
         {

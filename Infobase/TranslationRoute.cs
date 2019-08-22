@@ -47,9 +47,10 @@ namespace Infobase
             context.Values["action"] = translations.Translate(context.Values["action"] as string ?? context.AmbientValues["action"] as string);
             context.Values["datatool"] = translations.Translate(context.Values["datatool"] as string ?? context.AmbientValues["datatool"] as string);
             context.Values["controller"] = translations.Translate(context.Values["controller"] as string ?? context.AmbientValues["controller"] as string);
-            context.Values["id"] = context.Values["id"] as int? ?? context.AmbientValues["id"] as int?;
+            
 
             if (languageChanged) {
+                context.Values["id"] = context.Values["id"] as string ?? context.AmbientValues["id"] as string;
                 var qs = context.HttpContext.Request.Query;
                 foreach (var q in qs) {
                     context.Values[q.Key] = q.Value;

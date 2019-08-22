@@ -156,7 +156,7 @@ namespace Infobase.Controllers
                 return NotFound();
             }
 
-            return View($"{datatool}/indicator-details", measure);
+            return View(new DescriptionPageModel(datatool, language, measure));
         }
 
         [ActionName("publications")]

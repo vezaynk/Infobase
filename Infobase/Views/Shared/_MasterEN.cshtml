@@ -1,7 +1,4 @@
-﻿	@{
-    string language = ViewContext.RouteData.Values["language"].ToString();
-	}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if lt IE 9]><html class="no-js lt-ie9" lang="en" dir="ltr"><![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en" dir="ltr">
@@ -75,11 +72,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <div class="col-md-12">
                         <ul class="list-inline margin-bottom-none">
                             <li>
-                                @if (ViewContext.RouteData.Values["id"] == null) {
-                                    <a rel="keep-params" asp-route-language="fr-ca" asp-host="french.localhost:5000">Francais</a>
-                                } else {
-                                    <a rel="keep-params" asp-route-language="fr-ca" asp-host="french.localhost:5000" asp-route-id='@ViewContext.RouteData.Values["id"]'>Francais</a>
-                                }
+                                <a rel="keep-params" asp-route-language="fr-ca" asp-host="french.localhost:5000">Francais</a>
+
                             </li>
                         </ul>
                     </div>

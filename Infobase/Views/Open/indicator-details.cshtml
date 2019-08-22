@@ -1,0 +1,29 @@
+@model DescriptionPageModel
+@{
+    Layout = $"{@Model.DatasetName}/_Layout.cshtml";
+    string language = ViewContext.RouteData.Values["language"].ToString();
+}
+
+
+<h2>@Model.Title</h2>
+<table class="table table-striped table-hover table-condensed table-bordered">
+<tbody>
+        @foreach (var attribute in Model.Attributes) {
+            <tr>
+                <th>@attribute.Key</th>
+                <td>@attribute.Value</td>
+            </tr>
+        }
+</tbody></table>
+@if (Model.Included) {
+    <a class="btn btn-success" asp-action="data-tool" asp-route-index="@Model.Index">
+        @switch (language) {
+            case "en-ca":
+                @:<span>Open in Data Tool</span>
+                break;
+            case "fr-ca":
+                @:<span>Ouvrir dans l'outil de donnees</span>
+                break;
+        }
+    </a>
+}
