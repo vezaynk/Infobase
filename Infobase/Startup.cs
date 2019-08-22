@@ -189,8 +189,8 @@ namespace Infobase
                     "en-ca",
                     routes.DefaultHandler,
                     routeName: null,
-                    routeTemplate: "/{controller=open}/{datatool=CMSIF2}/{action=Index}/{id?}",
-                    defaults: new RouteValueDictionary(new { test = 1 }),
+                    routeTemplate: "/{datatool=CMSIF2}/{action=Index}/{id?}",
+                    defaults: new RouteValueDictionary(new { controller = "open" }),
                     constraints: null,
                     dataTokens: null,
                     inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));

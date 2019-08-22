@@ -16,9 +16,9 @@ namespace Model_Generator
 {
     public class Options
     {
-        [Option('l', "load", Required = false, HelpText = "Set if you want data to be loaded into the database", Default=true)]
+        [Option('l', "load", Required = false, HelpText = "Set if you want data to be loaded into the database", Default = true)]
         public bool LoadData { get; set; }
-        [Option('g', "generate", Required = false, HelpText = "Set if you want new models to be generated for this dataset", Default=false)]
+        [Option('g', "generate", Required = false, HelpText = "Set if you want new models to be generated for this dataset", Default = false)]
         public bool GenerateModels { get; set; }
 
         [Option('d', "dataset", Required = true, HelpText = "Set the name of the dataset to operate on")]
@@ -120,9 +120,7 @@ namespace Model_Generator
                        bool generateModels = o.GenerateModels;
                        bool loadData = o.LoadData;
 
-                       Console.Write("Enter dataset name: ");
                        string datasetName = o.Dataset.ToUpper();
-                       Console.Write("Enter dataset file path: ");
                        string csvFilePath = o.File;
 
                        var connectionString = o.ConnectionString;
@@ -211,9 +209,10 @@ namespace Model_Generator
                        }
 
                        Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");
-                       // Console.ReadLine();
+                       Console.ReadLine();
 
-                       SetupDatabase(datasetName, csvFilePath, connectionString, true);
+                       if (loadData)
+                           SetupDatabase(datasetName, csvFilePath, connectionString, generateModels);
                    });
 
         }
