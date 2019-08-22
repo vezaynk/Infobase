@@ -89,24 +89,18 @@ namespace Model_Generator
             return outputModels;
 
         }
-        public static void SetupDatabase(string datasetName, string csvFilePath, string connectionString, bool migrate)
+        public static void SetupDatabase(string datasetName, string csvFilePath, string connectionString, bool createFromSource)
         {
-            var databaseCreator = new DatabaseCreator(connectionString, datasetName, migrate ? null : typeof(Models.Metadata.Metadata).Assembly);
+            var databaseCreator = new DatabaseCreator(connectionString, datasetName, createFromSource ? null : typeof(Models.Metadata.Metadata).Assembly);
 
             Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
-
-            if (migrate)
-            {
-                databaseCreator.CreateMigration(datasetName);
-                databaseCreator.SaveMigrations();
-            }
 
             Console.Write("Preparing Database...");
             Console.Write("Cleaning...");
             databaseCreator.CleanDatabase();
 
-            Console.Write($"Migrating ({databaseCreator.DbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
-            databaseCreator.ApplyMigrations();
+            Console.Write($"Creating...");
+            databaseCreator.CreateDatabase();
             Console.WriteLine($"Done! Database has been updated to match the models.");
 
             using (var sr = new StreamReader(csvFilePath))
@@ -219,7 +213,7 @@ namespace Model_Generator
                        Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");
                        // Console.ReadLine();
 
-                       SetupDatabase(datasetName, csvFilePath, connectionString, generateModels);
+                       SetupDatabase(datasetName, csvFilePath, connectionString, true);
                    });
 
         }

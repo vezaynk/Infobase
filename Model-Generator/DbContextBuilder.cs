@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using CSharpLoader;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Design;
 
 namespace Model_Generator
 {
@@ -14,7 +13,6 @@ namespace Model_Generator
     {
         public static DbContext GetDBContext(Assembly dbContextASM, string dbContextFullName, Action<DbContextOptionsBuilder> configureOptionBuilder)
         {
-            // Recompiling the context is not necessary. We can use the existing as long as we use the the recompiled migrations assembly later on
             Type dbContextType = dbContextASM.GetType(dbContextFullName);
 
             // Generic OptionBuilder type to work with the loaded DbContext 
@@ -33,22 +31,13 @@ namespace Model_Generator
             return dbContext;
         }
 
-        public static Assembly BuildMigrationsAssembly(string datasetName, IEnumerable<ScaffoldedMigration> migrations)
+        public static Assembly BuildDbContextAssembly(string datasetName)
         {
             var dbContextIMC = new InMemoryCompiler();
             
             dbContextIMC.AddFile($"../Models/Contexts/{datasetName}/Context.cs");
             dbContextIMC.AddFile($"../Models/Contexts/{datasetName}/Master.cs");
             dbContextIMC.AddFile($"../Models/Contexts/{datasetName}/Models.cs");
-            foreach (var migration in migrations)
-            {
-                // Not sure what it does, but it comes with the others
-                dbContextIMC.AddCodeBody(migration.MetadataCode);
-                // Necessary to apply migration
-                dbContextIMC.AddCodeBody(migration.MigrationCode);
-                // Necessary to generate new migrations
-                dbContextIMC.AddCodeBody(migration.SnapshotCode);
-            }
 
             return dbContextIMC.CompileAssembly();
         }

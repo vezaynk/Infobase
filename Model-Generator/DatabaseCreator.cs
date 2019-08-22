@@ -19,18 +19,15 @@ namespace Model_Generator
         {
             this.ConnectionString = connectionString;
             this.DatasetName = datasetName;
-            PendingMigrations = new Collection<ScaffoldedMigration>();
-            var migrationsAssembly = asm ?? DbContextBuilder.BuildMigrationsAssembly(DatasetName, PendingMigrations);
-            this.DbContext = DbContextBuilder.GetDBContext(migrationsAssembly, $"Models.Contexts.{DatasetName}.Context", ob => ob.UseNpgsql(ConnectionString, o => o.MigrationsAssembly(migrationsAssembly.GetName().ToString())));
+            var dbContextAssembly = asm ?? DbContextBuilder.BuildDbContextAssembly(DatasetName);
+            this.DbContext = DbContextBuilder.GetDBContext(dbContextAssembly, $"Models.Contexts.{DatasetName}.Context", ob => ob.UseNpgsql(ConnectionString));
         }
         public string DatasetName { get; set; }
         public DbContext DbContext { get; set; }
-        public string MigrationsDirectory => $"../Models/Migrations/{DatasetName}";
-        public Collection<ScaffoldedMigration> PendingMigrations { get; set; }
         public string ConnectionString { get; set; }
         public DbContext ReloadDbContext()
         {
-            var migrationsAssembly = DbContextBuilder.BuildMigrationsAssembly(DatasetName, PendingMigrations);
+            var migrationsAssembly = DbContextBuilder.BuildDbContextAssembly(DatasetName);
             this.DbContext = DbContextBuilder.GetDBContext(migrationsAssembly, $"Models.Contexts.{DatasetName}.Context", ob => ob.UseNpgsql(ConnectionString, o => o.MigrationsAssembly(migrationsAssembly.GetName().ToString())));
             return DbContext;
         }
@@ -47,17 +44,9 @@ namespace Model_Generator
             }
             
         }
-        public ScaffoldedMigration CreateMigration(string name = null)
+        public void CreateDatabase()
         {
-            var mg = new MigrationGenerator(DbContext, name ?? DatasetName);
-            var migration = mg.CreateMigration();
-            PendingMigrations.Add(migration);
-            ReloadDbContext();
-            return migration;
-        }
-        public void ApplyMigrations()
-        {
-            DbContext.Database.Migrate();
+            DbContext.Database.EnsureCreated();
         }
         // We are working with an Enumerable. I'm not sure why, but trying to narrow it down to a Queryable breaks the program
         public IEnumerable<dynamic> GetDbSet(Type setType)
@@ -119,26 +108,6 @@ namespace Model_Generator
                 dbContext.SaveChanges();
                 return masterDbSet.Count();
             }
-        }
-        public void SaveMigrations()
-        {
-            Directory.CreateDirectory(MigrationsDirectory);
-            foreach (var migration in PendingMigrations)
-            {
-                string migrationPath = Path.Join(MigrationsDirectory, migration.MigrationId + migration.FileExtension);
-                Console.WriteLine($"Migration: {migrationPath}");
-                File.WriteAllText(migrationPath,
-                        migration.MigrationCode);
-
-                string designerPath = Path.Join(MigrationsDirectory, migration.MigrationId + ".Designer" + migration.FileExtension);
-                File.WriteAllText(designerPath,
-                    migration.MetadataCode);
-
-                string snapshotPath = Path.Join(MigrationsDirectory, migration.SnapshotName + migration.FileExtension);
-                File.WriteAllText(snapshotPath,
-                   migration.SnapshotCode);
-            }
-
         }
 
         public void LoadEntitiesFromMaster()
