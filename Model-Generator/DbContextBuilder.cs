@@ -33,10 +33,13 @@ namespace Model_Generator
             return dbContext;
         }
 
-        public static Assembly BuildMigrationsAssembly(IEnumerable<ScaffoldedMigration> migrations)
+        public static Assembly BuildMigrationsAssembly(string datasetName, IEnumerable<ScaffoldedMigration> migrations)
         {
             var dbContextIMC = new InMemoryCompiler();
-
+            
+            dbContextIMC.AddFile($"../Models/Contexts/{datasetName}/Context.cs");
+            dbContextIMC.AddFile($"../Models/Contexts/{datasetName}/Master.cs");
+            dbContextIMC.AddFile($"../Models/Contexts/{datasetName}/Models.cs");
             foreach (var migration in migrations)
             {
                 // Not sure what it does, but it comes with the others
