@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Routing;
 using System.Reflection;
 using Models.Metadata;
 using Microsoft.AspNetCore.Mvc.Razor;
+using CommandLine;
 
 namespace Infobase
 {
@@ -49,8 +50,6 @@ namespace Infobase
                                     .Select(x => Assembly.Load(x))
                                     .SelectMany(a => a.GetTypes())
                                     .Where(t => t.BaseType == typeof(DbContext) && t.GetCustomAttribute<DatabaseAttribute>() != null);
-
-            
 
             var dbSetLookup = new Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>>();
             

@@ -7,12 +7,16 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using CommandLine;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Models.Metadata;
 
 namespace Infobase
 {
     public class Program
     {
-        private static int Port {get;set;} = 8080;
+        private static int Port { get; set; } = 8080;
         public static void Main(string[] args)
         {
             string portEnv = System.Environment.GetEnvironmentVariable("PORT");
