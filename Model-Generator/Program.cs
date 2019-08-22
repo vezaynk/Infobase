@@ -82,21 +82,20 @@ namespace Model_Generator
                                             string csvFilePath,
                                             string connectionString)
         {
-            DatabaseCreator databaseCreator;
-
+            var imc = new InMemoryCompiler();
+            imc.AddFile("../Models/Contexts/CMSIF2/Context.cs");
+            imc.AddFile("../Models/Contexts/CMSIF2/Master.cs");
+            imc.AddFile("../Models/Contexts/CMSIF2/Models.cs");
             Console.Write("Building DBContext from source...");
-            databaseCreator = new DatabaseCreator(connectionString, datasetName);
+            var asm = imc.CompileAssembly();
+            var databaseCreator = new DatabaseCreator(connectionString, datasetName, asm);
             
             Console.WriteLine("Created " + databaseCreator.DbContext.GetType().Name);
             databaseCreator.CreateMigration(datasetName + Path.GetRandomFileName());
-            Console.Write("Rebuilding...");
-            databaseCreator.ReloadDbContext();
-            Console.WriteLine("Rebuilt!");
 
             Console.Write("Preparing Database...");
             Console.Write("Cleaning...");
             databaseCreator.CleanDatabase();
-            databaseCreator.ReloadDbContext();
 
             Console.Write($"Migrating ({databaseCreator.DbContext.Database.GetPendingMigrations().Count()} pending migrations)...");
             databaseCreator.ApplyMigrations();

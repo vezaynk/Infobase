@@ -15,28 +15,26 @@ namespace Model_Generator
 {
     public class DatabaseCreator
     {
-        public DatabaseCreator(string connectionString, string datasetName) : this(connectionString, DbContextBuilder.BuildMigrationsAssembly(null), datasetName)
+        public DatabaseCreator(string connectionString, string datasetName, Assembly modelsAssembly)
         {
-            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildMigrationsAssembly(PendingMigrations), datasetName)).DbContext;
-        }
-
-        public DatabaseCreator(string connectionString, Assembly migrationsAssembly, string datasetName)
-        {
-            this.DbContext = DbContextBuilder.GetDBContext(typeof(Models.Metadata.Metadata).Assembly, $"Models.Contexts.{datasetName}.Context", ob => ob.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly.GetName().ToString())));
-            PendingMigrations = new Collection<ScaffoldedMigration>();
+            this.ModelsAssembly = modelsAssembly;
+            this.ConnectionString = connectionString;
             this.DatasetName = datasetName;
-            this.ReloadDbContextLambda = () => (new DatabaseCreator(connectionString, DbContextBuilder.BuildMigrationsAssembly(PendingMigrations), datasetName)).DbContext;
-
+            PendingMigrations = new Collection<ScaffoldedMigration>();
+            var migrationsAssembly = DbContextBuilder.BuildMigrationsAssembly(PendingMigrations);
+            this.DbContext = DbContextBuilder.GetDBContext(ModelsAssembly, $"Models.Contexts.{DatasetName}.Context", ob => ob.UseNpgsql(ConnectionString, o => o.MigrationsAssembly(migrationsAssembly.GetName().ToString())));
         }
+        public Assembly ModelsAssembly { get; set; }
         public string DatasetName { get; set; }
         public DbContext DbContext { get; set; }
         public bool LoadedFromSource { get; set; }
         public string MigrationsDirectory { get; set; }
-        private Func<DbContext> ReloadDbContextLambda { get; set; }
         public Collection<ScaffoldedMigration> PendingMigrations { get; set; }
+        public string ConnectionString { get; set; }
         public DbContext ReloadDbContext()
         {
-            DbContext = ReloadDbContextLambda();
+            var migrationsAssembly = DbContextBuilder.BuildMigrationsAssembly(PendingMigrations);
+            this.DbContext = DbContextBuilder.GetDBContext(ModelsAssembly, $"Models.Contexts.{DatasetName}.Context", ob => ob.UseNpgsql(ConnectionString, o => o.MigrationsAssembly(migrationsAssembly.GetName().ToString())));
             return DbContext;
         }
         public bool CleanDatabase()
@@ -48,6 +46,7 @@ namespace Model_Generator
             var mg = new MigrationGenerator(DbContext, name ?? DatasetName);
             var migration = mg.CreateMigration();
             PendingMigrations.Add(migration);
+            ReloadDbContext();
             return migration;
         }
         public void ApplyMigrations()
@@ -139,7 +138,7 @@ namespace Model_Generator
         {
             var dbContext = DbContext;
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == $"Models.Contexts.{this.DatasetName}" && t.Name == "Master");
-            
+
             var masterDbSet = GetDbSet(masterType);
 
             var types = dbContext.GetType().Assembly.GetTypes()

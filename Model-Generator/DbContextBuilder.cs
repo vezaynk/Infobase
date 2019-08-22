@@ -16,7 +16,7 @@ namespace Model_Generator
         {
             // Recompiling the context is not necessary. We can use the existing as long as we use the the recompiled migrations assembly later on
             Type dbContextType = dbContextASM.GetType(dbContextFullName);
-            
+
             // Generic OptionBuilder type to work with the loaded DbContext 
             Type optionBuilderType = typeof(DbContextOptionsBuilder<>).MakeGenericType(new Type[] { dbContextType });
             // Instance of optionBuilder
@@ -33,22 +33,18 @@ namespace Model_Generator
             return dbContext;
         }
 
-        public static Assembly BuildMigrationsAssembly(IEnumerable<ScaffoldedMigration> migrations = null)
+        public static Assembly BuildMigrationsAssembly(IEnumerable<ScaffoldedMigration> migrations)
         {
             var dbContextIMC = new InMemoryCompiler();
 
-            // Sometimes, its convenient to load in a migration without saving it to disk
-            if (migrations != null)
+            foreach (var migration in migrations)
             {
-                foreach (var migration in migrations)
-                {
-                    // Not sure what it does, but it comes with the others
-                    dbContextIMC.AddCodeBody(migration.MetadataCode);
-                    // Necessary to apply migration
-                    dbContextIMC.AddCodeBody(migration.MigrationCode);
-                    // Necessary to generate new migrations
-                    dbContextIMC.AddCodeBody(migration.SnapshotCode);
-                }
+                // Not sure what it does, but it comes with the others
+                dbContextIMC.AddCodeBody(migration.MetadataCode);
+                // Necessary to apply migration
+                dbContextIMC.AddCodeBody(migration.MigrationCode);
+                // Necessary to generate new migrations
+                dbContextIMC.AddCodeBody(migration.SnapshotCode);
             }
 
             return dbContextIMC.CompileAssembly();
