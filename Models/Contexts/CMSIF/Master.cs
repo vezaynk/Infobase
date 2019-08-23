@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Contexts.CMSIF2
+namespace Models.Contexts.CMSIF
 {
     public class Master
     {
@@ -30,6 +30,8 @@ namespace Models.Contexts.CMSIF2
                 [DataLabelTable]
                 [DataLabelChart]
 
+                [Title]                
+
             ** Filters **
                 [Filter(0)] <- Top level
                 [Filter(1)]
@@ -48,6 +50,8 @@ namespace Models.Contexts.CMSIF2
         public int Index { get; set; }
 
         /** Modify below to resolve to valid data. These can also be adjusted from the generated models if you want them to be derived later **/
+        [Title]
+        public string Title => null;
         [CVInterpretation]
         public int CVInterpretation => int.Parse(ColCVInterpretation);
         [CVValue]
@@ -94,7 +98,6 @@ namespace Models.Contexts.CMSIF2
         [Text("Indicator", "fr-ca")]
         [CSVColumn("Indicator")]
         [Filter(1)]
-
         public string ColIndicator { get; set; }
 
 
@@ -102,7 +105,6 @@ namespace Models.Contexts.CMSIF2
         [Text("Measures", "fr-ca")]
         [CSVColumn("Measures")]
         [Filter(2)]
-
         public string ColMeasures { get; set; }
 
 
@@ -110,7 +112,6 @@ namespace Models.Contexts.CMSIF2
         [Text("Data Breakdowns", "fr-ca")]
         [CSVColumn("Data Breakdowns")]
         [Filter(3)]
-
         public string ColDataBreakdowns { get; set; }
 
 
@@ -118,7 +119,6 @@ namespace Models.Contexts.CMSIF2
         [Text("Disaggregation", "fr-ca")]
         [CSVColumn("Disaggregation")]
         [Filter(4)]
-
         public string ColDisaggregation { get; set; }
 
 
@@ -167,7 +167,7 @@ namespace Models.Contexts.CMSIF2
         [Text("Source", "en-ca")]
         [Text("Source", "fr-ca")]
         [CSVColumn("Source")]
-        [ShowOn(TextAppearance.Notes)]
+        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColSource { get; set; }
 
 
@@ -178,11 +178,10 @@ namespace Models.Contexts.CMSIF2
         public string ColNotes { get; set; }
 
 
-        [Text("Population", "en-ca")]
-        [Text("Population", "fr-ca")]
-        [CSVColumn("Population")]
-        [ShowOn(TextAppearance.MeasureDescription)]
-        public string ColPopulation { get; set; }
+        [Text("Population 2", "en-ca")]
+        [Text("Population 2", "fr-ca")]
+        [CSVColumn("Population 2")]
+        public string ColPopulation2 { get; set; }
 
 
         [Text("NW", "en-ca")]
@@ -194,41 +193,42 @@ namespace Models.Contexts.CMSIF2
         [Text("Measure", "en-ca")]
         [Text("Measure", "fr-ca")]
         [CSVColumn("Measure")]
-        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColMeasure { get; set; }
 
 
         [Text("Definition", "en-ca")]
         [Text("Definition", "fr-ca")]
         [CSVColumn("Definition")]
-        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColDefinition { get; set; }
 
 
         [Text("Data Source", "en-ca")]
         [Text("Data Source", "fr-ca")]
         [CSVColumn("Data Source")]
-        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColDataSource { get; set; }
 
 
         [Text("Data Available", "en-ca")]
         [Text("Data Available", "fr-ca")]
         [CSVColumn("Data Available")]
-        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColDataAvailable { get; set; }
+
+
+        [Text("Population", "en-ca")]
+        [Text("Population", "fr-ca")]
+        [CSVColumn("Population")]
+        public string ColPopulation { get; set; }
+
 
         [Text("Estimate Calculation", "en-ca")]
         [Text("Estimate Calculation", "fr-ca")]
         [CSVColumn("Estimate Calculation")]
-        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColEstimateCalculation { get; set; }
 
 
         [Text("Additional Remarks", "en-ca")]
         [Text("Additional Remarks", "fr-ca")]
         [CSVColumn("Additional Remarks")]
-        [ShowOn(TextAppearance.Notes)]
         public string ColAdditionalRemarks { get; set; }
 
 

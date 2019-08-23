@@ -9,9 +9,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Model-Generator/bin/Debug/netcoreapp2.2/Model-Generator.dll",
-            "args": "-- --load -f ../../CMSIF.csv -d CMSIF2 -c \"Host=ec2-54-243-238-46.compute-1.amazonaws.com;Port=5432;Database=d1pr9okg1e6b01;Username=pmwqbglpelihrd;Password=e04ff3d19fb189e1f8709332ab321718f49b2c5b354f526b8c2d5a7ec937447b;SslMode=Prefer;Trust Server Certificate=true\"",
-            "cwd": "${workspaceFolder}/Model-Generator",
+            "program": "${workspaceFolder}/Infobase/bin/Debug/netcoreapp2.2/Infobase.dll",
+            "cwd": "${workspaceFolder}/Infobase",
             "console": "internalConsole",
             "stopAtEntry": false
         },

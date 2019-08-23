@@ -1,0 +1,155 @@
+Outcomes,1
+Individual-Level Risk & Protective Factors (parent/caregiver),2
+Family-Level Risk & Protective Factors,3
+Community-Level Risk & Protective Factors,4
+Childhood maltreatment,5
+Police-reported child maltreatment,6
+"Injuries due to child maltreatment, emergency department",7
+Homicides of children,8
+Past family violence,9
+Mental illness,10
+Stress,11
+Substance abuse,12
+Social support,13
+Family relationships,14
+Family stability,15
+Parenting style,16
+Caregiver burden,17
+Early childbearing,18
+Household Income,19
+Social environment,20
+"Percentage (%) of the population aged 15+ who, before age 15, experienced physical or sexual abuse and/or exposure to violence by an adult (18+)",21
+General Social Survey 2014,22
+"Percentage (%) of the population aged 15+ who, before age 15, was physically abused (slapped/hit/pushed/grabbed/shoved/thrown at/physically attacked) 1+ times by an adult (18+)",23
+Incidence of police-reported family violence against children aged 0-17 years,24
+Uniform Crime Reporting Survey 2016,25
+"Percentage (%) of the population aged 15+ who, before age 15, was sexually abused (forced/attempted forced sexual activity/touching) 1+ times by an adult (18+)",26
+"Percentage (%) of the population aged 15+ who, before age 15, saw/heard parents/guardians hit each other or another adult (18+)",27
+"Proportion of emergency department (ED) presentations for injuries due to child maltreatment, of total eCHIRPP cases, population aged 0-17 years",28
+"electronic Canadian Hospitals Injury Reporting and Prevention Program - January 4, 2011 to June 6, 2018",29
+Number of police-reported homicides of children aged 0-17 years by a family member per year,30
+Homicide Survey 2007-2016,31
+"Percentage (%) of adults with children under the age of 18 at home who report experiencing, before age 16, any of these three types of childhood abuse: physical abuse, sexual abuse, and/or exposure to violence by parents/guardians in the home",32
+Canadian Community Health Survey - Mental Health 2012,33
+"Percentage (%) of adults with children under the age of 18 at home who report contact with a child protection organization, before age 16, about difficulties at home",34
+Percentage (%) of adults with children under the age of 18 at home with symptoms consistent with a mood and/or anxiety disorder in the past 12 months,35
+"Percentage (%) of adults with children under the age of 18 at home who report that most days are ""quite a bit"" or ""extremely"" stressful",36
+Canadian Community Health Survey 2017,37
+Percentage (%) of adults with children under the age of 18 at home who report consuming 5+ alcoholic drinks (4+ for females) on one occasion 12+ times in the past 12 months,38
+Percentage (%) of adults with children under the age of 18 at home with symptoms of drug abuse/dependence in the past 12 months,39
+Percentage (%) of adults with children under the age of 18 at home who report a high level of social support,40
+Percentage (%) of parents/guardians of children aged 1-9 years who report characteristics associated with high family functioning,41
+Survey of Young Canadians - Person Most Knowledgeable 2010-2011,42
+"Percentage (%) of Grade 6-10 students who ""agree"" or ""strongly agree"" to getting the emotional help and support they need from their family",43
+Health Behaviour in School-Aged Children 2013-2014,44
+"Percentage (%) of Grade 6-10 students who ""agree"" or ""strongly agree"" having a lot of arguments with their parents",45
+"Percentage (%) of children aged 0-9 years who ""sometimes"" or ""often"" are exposed to adults or teenagers phyisically fighting, hitting, or trying to hurt others in their home, as reported by the parent or guardian",46
+Survey of Young Canadians - Child 2010-2011,47
+"Percentage (%) of children aged 0-9 years who ""sometimes"", ""often"", or ""always"" experience physical punishment as a form of discipline, as reported by the parent or guardian",48
+Percentage (%) of adults with children under the age of 18 at home who report that caring for family is the main contributor or their day-to-day stress,49
+Canadian Community Health Survey 2016,50
+Percentage (%) of first-born live births to mothers under the age of 20,51
+Canadian Vital Statistics - Birth Database 2015,52
+"Percentage (%) of population under the age of 18 years in economic families living below low-income cut-offs, after tax",53
+Canadian Income Survey 2016,54
+Percentage (%) of parents/guardians of children aged 0-9 years who are involved in volunteer organizations,55
+Sex,56
+,
+Percentage (%),58
+Age group,59
+Province,60
+Population centre/rural area,61
+Highest level of education,62
+Household income quartile,63
+Ethnicity,64
+Indigenous status,65
+Immigrant status,66
+An immigrant refers to someone not born in Canada or has/had landed immigrant status,67
+Total population,68
+Excludes Quebec,69
+Household income quintile,70
+Sex — parent,71
+Sex — child,72
+Age group — parent,73
+Age group — child,74
+Household income,75
+Grade,76
+"Rate per 100,000 children",77
+Census Metropolitan Area (CMA),78
+Province/Territory,79
+Non-Indigenous,80
+Indigenous,81
+Not a visible minority,82
+Visible minority,83
+Immigrant,84
+Q1 (Lowest income),85
+Q3,86
+Q4 (Highest income),87
+Less than secondary,88
+Completed secondary,89
+Some post-secondary,90
+Bachelor degree,91
+Q2,92
+Non-immigrant,93
+ON,94
+QC,95
+NB,96
+NS,97
+PE,98
+NL,99
+18-24,100
+25-34,101
+35-44,102
+45-54,103
+55-64,104
+65-74,105
+75+,106
+Females,107
+Males,108
+Post-graduate degree,109
+MB,110
+Currently studying,111
+Population centre,112
+Q4,113
+Q5 (Highest income),114
+Less than 20,115
+Rural area,116
+Canada,117
+BC,118
+AB,119
+SK,120
+15-24,121
+20-24,122
+25-29,123
+30-34,124
+35-39,125
+40-44,126
+45-49,127
+6-9,128
+50-54,129
+Less than $80 000,130
+1-5,131
+$80 000+,132
+Grade 8,133
+Grade 9,134
+Grade 10,135
+Grade 7,136
+Grade 6,137
+0-4,138
+10-14,139
+15-17,140
+55-59,141
+60+,142
+CMA,143
+Non-CMA,144
+6-10,145
+11-15,146
+16-17,147
+Female,148
+Male,149
+0-11,150
+12-17,151
+Less than 1,152
+YT,153
+NT,154
+NU,155

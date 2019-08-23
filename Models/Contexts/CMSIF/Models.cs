@@ -9,7 +9,7 @@ using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Contexts.CMSIF2
+namespace Models.Contexts.CMSIF
 {
     [Filter(0)]
     public class ColDomain
@@ -27,9 +27,8 @@ namespace Models.Contexts.CMSIF2
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("ColDomain")]
         public string ColDomainNameEn { get; set; }
-        [Text("Domain", "fr-ca")]
-
         [TranslateProperty("ColDomainNameEn")]
+        [Text("Domain", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
         public string ColDomainNameFr { get; set; }
     }
@@ -49,9 +48,8 @@ namespace Models.Contexts.CMSIF2
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("ColIndicator")]
         public string ColIndicatorNameEn { get; set; }
-        [Text("Indicator", "fr-ca")]
-
         [TranslateProperty("ColIndicatorNameEn")]
+        [Text("Indicator", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
         public string ColIndicatorNameFr { get; set; }
         public int ColDomainId { get; set; }
@@ -74,74 +72,31 @@ namespace Models.Contexts.CMSIF2
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("ColMeasures")]
         public string ColMeasuresNameEn { get; set; }
-        [Text("Measures", "fr-ca")]
-
         [TranslateProperty("ColMeasuresNameEn")]
+        [Text("Measures", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
         public string ColMeasuresNameFr { get; set; }
         public int ColIndicatorId { get; set; }
         [Parent]
         public ColIndicator ColIndicator { get; set; }
-        [BindToMaster("ColPopulation")]
+        [BindToMaster("ColSource")]
         [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Population", "en-ca")]
-        public string ColPopulationEn { get; set; }
+        [Text("Source", "en-ca")]
+        public string ColSourceEn { get; set; }
         [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Population", "fr-ca")]
-
-        [TranslateProperty("ColPopulationEn")]
-        public string ColPopulationFr { get; set; }
-        [BindToMaster("ColMeasure")]
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Measure", "en-ca")]
-        public string ColMeasureEn { get; set; }
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Measure", "fr-ca")]
-
-        [TranslateProperty("ColMeasureEn")]
-        public string ColMeasureFr { get; set; }
-        [BindToMaster("ColDefinition")]
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Definition", "en-ca")]
-        public string ColDefinitionEn { get; set; }
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Definition", "fr-ca")]
-
-        [TranslateProperty("ColDefinitionEn")]
-        public string ColDefinitionFr { get; set; }
-        [BindToMaster("ColDataSource")]
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Data Source", "en-ca")]
-        public string ColDataSourceEn { get; set; }
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Data Source", "fr-ca")]
-
-        [TranslateProperty("ColDataSourceEn")]
-        public string ColDataSourceFr { get; set; }
-        [BindToMaster("ColDataAvailable")]
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Data Available", "en-ca")]
-        public string ColDataAvailableEn { get; set; }
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Data Available", "fr-ca")]
-
-        [TranslateProperty("ColDataAvailableEn")]
-        public string ColDataAvailableFr { get; set; }
-        [BindToMaster("ColEstimateCalculation")]
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Estimate Calculation", "en-ca")]
-        public string ColEstimateCalculationEn { get; set; }
-        [ShowOn(TextAppearance.MeasureDescription)]
-        [Text("Estimate Calculation", "fr-ca")]
-
-        [TranslateProperty("ColEstimateCalculationEn")]
-        public string ColEstimateCalculationFr { get; set; }
+        [TranslateProperty("ColSourceEn")]
+        [Text("Source", "fr-ca")]
+        public string ColSourceFr { get; set; }
         [Include]
         [BindToMaster("Include")]
         public bool Include { get; set; }
         [Aggregator]
         [BindToMaster("Aggregator")]
         public bool IsAggregator { get; set; }
+
+        [BindToMaster("ColDataSource")]
+        [Text("en-ca")]
+        public string ColDataSourceEn { get; set; }
     }
     [Filter(3)]
     public class ColDataBreakdowns
@@ -159,41 +114,27 @@ namespace Models.Contexts.CMSIF2
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("ColDataBreakdowns")]
         public string ColDataBreakdownsNameEn { get; set; }
-        [Text("Data Breakdowns", "fr-ca")]
-
         [TranslateProperty("ColDataBreakdownsNameEn")]
+        [Text("Data Breakdowns", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
         public string ColDataBreakdownsNameFr { get; set; }
         public int ColMeasuresId { get; set; }
         [Parent]
         public ColMeasures ColMeasures { get; set; }
-        [BindToMaster("ColSource")]
-        [ShowOn(TextAppearance.Notes)]
-        [Text("Source", "en-ca")]
-        public string ColSourceEn { get; set; }
-        [ShowOn(TextAppearance.Notes)]
-        [Text("Source", "fr-ca")]
-
-        [TranslateProperty("ColSourceEn")]
-        public string ColSourceFr { get; set; }
         [BindToMaster("ColNotes")]
         [ShowOn(TextAppearance.Notes)]
         [Text("Notes", "en-ca")]
         public string ColNotesEn { get; set; }
         [ShowOn(TextAppearance.Notes)]
-        [Text("Notes", "fr-ca")]
-
         [TranslateProperty("ColNotesEn")]
+        [Text("Notes", "fr-ca")]
         public string ColNotesFr { get; set; }
-        [BindToMaster("ColAdditionalRemarks")]
-        [ShowOn(TextAppearance.Notes)]
-        [Text("Additional Remarks", "en-ca")]
-        public string ColAdditionalRemarksEn { get; set; }
-        [ShowOn(TextAppearance.Notes)]
-        [Text("Additional Remarks", "fr-ca")]
-
-        [TranslateProperty("ColAdditionalRemarksEn")]
-        public string ColAdditionalRemarksFr { get; set; }
+        [Title]
+        [Text("en-ca")]
+        public string TitleEn => $"{ColDataBreakdownsNameEn}, by {UnitLongEn}";
+        [Title]
+        [Text("fr-ca")]
+        public string TitleFr => $"{ColDataBreakdownsNameFr}, by {UnitLongFr}";
         [CVRangeLower]
         [BindToMaster("CVRangeLower")]
         public double? CVRangeLower { get; set; }
@@ -205,7 +146,8 @@ namespace Models.Contexts.CMSIF2
         [BindToMaster("UnitLong")]
         public string UnitLongEn { get; set; }
         [UnitLong]
-        [Text("en-fr")]
+        [Text("fr-ca")]
+        [TranslateProperty("UnitLongEn")]
         public string UnitLongFr { get; set; }
         [BindToMaster("UnitShort")]
         [UnitShort]
@@ -215,9 +157,6 @@ namespace Models.Contexts.CMSIF2
         [Text("fr-ca")]
         [TranslateProperty("UnitShortEn")]
         public string UnitShortFr { get; set; }
-        [Title]
-        [Text("fr-ca")]
-        public string Title => $"{ColMeasures.ColMeasureEn}, by {this.ColDataBreakdownsNameEn.ToLower()}";
     }
     [Filter(4)]
     public class ColDisaggregation
@@ -228,9 +167,8 @@ namespace Models.Contexts.CMSIF2
         [ShowOn(TextAppearance.Filter)]
         [BindToMaster("ColDisaggregation")]
         public string ColDisaggregationNameEn { get; set; }
-        [Text("Disaggregation", "fr-ca")]
-
         [TranslateProperty("ColDisaggregationNameEn")]
+        [Text("Disaggregation", "fr-ca")]
         [ShowOn(TextAppearance.Filter)]
         public string ColDisaggregationNameFr { get; set; }
         public int ColDataBreakdownsId { get; set; }
@@ -267,8 +205,6 @@ namespace Models.Contexts.CMSIF2
         [Text("fr-ca")]
         [TranslateProperty("DataLabelTableEn")]
         public string DataLabelTableFr { get; set; }
-        [Type]
-        public int BarType => 0;
     }
 
 }

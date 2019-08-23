@@ -22,7 +22,8 @@ namespace Infobase.Controllers
         {
             contexts = contextLookup;
         }
-        public SortedDictionary<Type, ICollection<dynamic>> GetContext(string datatool) {
+        public SortedDictionary<Type, ICollection<dynamic>> GetContext(string datatool)
+        {
             return contexts[datatool + "Context"];
         }
         public async Task<IActionResult> Index(string datatool, string language)
@@ -31,7 +32,7 @@ namespace Infobase.Controllers
             var topLevelType = context.Keys.First();
             // var topLevelEntities = typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(new[] { topLevelType }).Invoke(typeof(Enumerable), new[] {  });
             // Load top-level
-                return View($"{datatool}/index", context[topLevelType]);
+            return View($"{datatool}/index", context[topLevelType]);
         }
 
         [ActionName("data-tool")]
@@ -43,20 +44,23 @@ namespace Infobase.Controllers
             var selectedBreakdown = context[dataBreakdownLevelType]
                 .Where(s => (int)s.Index >= index)
                 .First();
-                
+
             var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata
                                 .FindPropertyOnType<ChildrenAttribute>(dataBreakdownLevelType)
-                                .GetValue((object)selectedBreakdown));
+                                .GetValue((object)selectedBreakdown)).ToList();
 
             var measureDescription = Metadata
-                            .FindTextPropertiesOnTree((object)selectedBreakdown, "en-ca", TextAppearance.MeasureDescription)
-                            .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty(mp.Value.ToString()));
+                            .FindTextPropertiesOnTree((object)selectedBreakdown, language, TextAppearance.MeasureDescription)
+                            .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty((string)mp.Value))
+                            .ToList();
 
             var notes = Metadata
-                            .FindTextPropertiesOnTree((object)selectedBreakdown, "en-ca", TextAppearance.Notes)
-                            .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty(mp.Value.ToString()));
+                            .FindTextPropertiesOnTree((object)selectedBreakdown, language, TextAppearance.Notes)
+                            .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty((string)mp.Value))
+                            .ToList();
 
-            PropertyInfo GetProperty<T>() where T: Attribute {
+            PropertyInfo GetProperty<T>() where T : Attribute
+            {
                 return Metadata.FindPropertyOnType<T>(disaggregatorLevelType);
             }
             var averageValueProperty = GetProperty<PointAverageAttribute>();
@@ -65,22 +69,27 @@ namespace Infobase.Controllers
             var cVValueProperty = GetProperty<CVValueAttribute>();
             var cVInterpretationProperty = GetProperty<CVInterpretationAttribute>();
             var typeProperty = GetProperty<TypeAttribute>();
-            
+            var xAxis = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)selectedBreakdown, language, TextAppearance.Filter).FirstOrDefault()?.Value;
+            var yAxis = (string)Metadata.FindTextPropertiesOnTree<UnitLongAttribute>((object)selectedBreakdown, language).FirstOrDefault()?.Value;
+            var unit = (string)Metadata.FindTextPropertiesOnTree<UnitShortAttribute>((object)selectedBreakdown, language).FirstOrDefault()?.Value;
+            var title = (string)Metadata.FindTextPropertiesOnTree<TitleAttribute>((object)selectedBreakdown, language).FirstOrDefault()?.Value;
+
             ChartData chart = chart = new ChartData
             {
-                XAxis = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)selectedBreakdown, "en-ca", TextAppearance.Filter).First().Value,
-                YAxis = (string)Metadata.FindTextPropertiesOnTree<UnitLongAttribute>((object)selectedBreakdown, "en-ca").First().Value,
-                Unit = (string)Metadata.FindTextPropertiesOnTree<UnitShortAttribute>((object)selectedBreakdown, "en-ca").First().Value,
-                Title = (string)Metadata.FindTextPropertiesOnTree<TitleAttribute>((object)selectedBreakdown, "en-ca").First().Value,
-                Points = children.Select((child) => new Point {
-                    Label = (string)Metadata.FindTextPropertiesOnTree<DataLabelChartAttribute>((object)child, "en-ca").First().Value,
-                    Text = (string)Metadata.FindTextPropertiesOnTree<DataLabelTableAttribute>((object)child, "en-ca").First().Value,
-                    CVInterpretation = cVInterpretationProperty.GetValue(child),
-                    CVValue = cVValueProperty.GetValue(child),
-                    Value = averageValueProperty.GetValue(child),
-                    ValueLower = lowerValueProperty.GetValue(child),
-                    ValueUpper = upperValueProperty.GetValue(child),
-                    Type = typeProperty.GetValue(child)
+                XAxis = xAxis,
+                YAxis = yAxis,
+                Unit = unit,
+                Title = title,
+                Points = children.Select((child) => new Point
+                {
+                    Label = (string)Metadata.FindTextPropertiesOnTree<DataLabelChartAttribute>((object)child, language).FirstOrDefault()?.Value,
+                    Text = (string)Metadata.FindTextPropertiesOnTree<DataLabelTableAttribute>((object)child, language).FirstOrDefault()?.Value,
+                    CVInterpretation = (int)cVInterpretationProperty.GetValue(child),
+                    CVValue = (double?)cVValueProperty.GetValue(child),
+                    Value = (double?)averageValueProperty.GetValue(child),
+                    ValueLower = (double?)lowerValueProperty.GetValue(child),
+                    ValueUpper = (double?)upperValueProperty.GetValue(child),
+                    Type = 0//(int)typeProperty.GetValue(child)
                 }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,
@@ -112,8 +121,8 @@ namespace Infobase.Controllers
                     .Select(entity =>
                     {
                         var currentLevel = entity;
-                        
-                        var entityText = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)entity, "en-ca", TextAppearance.Filter).First().Value;
+
+                        var entityText = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)entity, language, TextAppearance.Filter).First().Value;
 
                         while (currentLevel.GetType() != dataBreakdownLevelType)
                         {
@@ -125,8 +134,8 @@ namespace Infobase.Controllers
                         return new { Text = entityText, Value = entityIndex, Entity = entity };
 
                     }).ToList();
-                
-                var filterName = Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)dropdownItems.First().Entity, "en-ca", TextAppearance.Filter).First().Name;
+
+                var filterName = Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)dropdownItems.First().Entity, language, TextAppearance.Filter).First().Name;
                 return new DropdownMenuModel(
                         filterName,
                         dropdownItems.Select(di => new DropdownItem { Text = di.Text, Value = di.Value }),

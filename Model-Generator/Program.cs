@@ -29,6 +29,9 @@ namespace Model_Generator
 
         [Option('c', "connection", Required = true, HelpText = "Set connection string to use for the database")]
         public string ConnectionString { get; set; }
+
+        [Option('t', "translatefrench", Required = false, HelpText = "Set french file to use for translations")]
+        public string French { get; set; }
     }
     public class Program
     {
@@ -89,7 +92,7 @@ namespace Model_Generator
             return outputModels;
 
         }
-        public static void SetupDatabase(string datasetName, string csvFilePath, string connectionString, bool createFromSource)
+        public static void SetupDatabase(string datasetName, string csvFilePath, string connectionString, bool createFromSource, string frenchFile)
         {
             var databaseCreator = new DatabaseCreator(connectionString, datasetName, createFromSource ? null : typeof(Models.Metadata.Metadata).Assembly);
 
@@ -109,7 +112,43 @@ namespace Model_Generator
                 int rowsLoaded = databaseCreator.LoadMasterCSV(sr);
                 Console.WriteLine($"Loaded {rowsLoaded} rows into Database!");
             }
-            databaseCreator.LoadEntitiesFromMaster();
+
+
+            if (frenchFile != null)
+            {
+                var translations = new Dictionary<string, string>();
+                using (var reader = new StreamReader(frenchFile))
+                using (var csv = new CsvReader(reader))
+                {
+                    csv.Configuration.HasHeaderRecord = false;
+                    while (csv.Read())
+                    {
+
+                        csv.TryGetField(0, out string english);
+                        csv.TryGetField(1, out string french);
+                        translations.Add(english, french);
+                    }
+                    var missingTranslations = databaseCreator.LoadEntitiesFromMaster(translations);
+                    foreach (var missingTranslation in missingTranslations) {
+                        translations.Add(missingTranslation, null);
+                    }
+                }
+
+                using (var writer = new StreamWriter(frenchFile, false))
+                using (var csv = new CsvWriter(writer)) {
+                    csv.Configuration.HasHeaderRecord = false;
+                    foreach (var translation in translations) {
+                        csv.WriteRecord(translation);
+                        csv.NextRecord();
+                    }
+                }
+            }
+            else
+            {
+                databaseCreator.LoadEntitiesFromMaster();
+            }
+
+
         }
 
         public static async Task Main(string[] args)
@@ -119,6 +158,8 @@ namespace Model_Generator
                    {
                        bool generateModels = o.GenerateModels;
                        bool loadData = o.LoadData;
+                       string frenchFile = o.French;
+                       bool loadFrench = !string.IsNullOrEmpty(frenchFile);
 
                        string datasetName = o.Dataset.ToUpper();
                        string csvFilePath = o.File;
@@ -146,6 +187,8 @@ namespace Model_Generator
                                {
                                    Console.WriteLine($"{directory.FullName} directory already exists. Manually delete it or use another name for the dataset");
                                    Environment.Exit(0);
+                               } else {
+                                   directory.Create();
                                }
 
                                Console.Write("Generating master entity");
@@ -197,11 +240,6 @@ namespace Model_Generator
                                imc.AddCodeBody(outputModels);
                                var names = imc.CompileAssembly().GetTypes().Where(t => t.Namespace == $"Models.Contexts.{datasetName}").Select(t => t.Name);
                                var outputContext = GenerateContextSource(datasetName, names);
-                               bool isValidContext = IsCodeValid(outputContext);
-                               if (!isValidContext)
-                               {
-                                   throw new Exception("Failed to generate valid models file");
-                               }
 
                                string contextPath = Path.Join(directory.FullName, "Context.cs");
                                File.WriteAllText(contextPath, outputContext);
@@ -212,7 +250,7 @@ namespace Model_Generator
                        Console.ReadLine();
 
                        if (loadData)
-                           SetupDatabase(datasetName, csvFilePath, connectionString, generateModels);
+                           SetupDatabase(datasetName, csvFilePath, connectionString, generateModels, frenchFile);
                    });
 
         }

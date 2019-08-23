@@ -92,4 +92,13 @@ namespace Models.Metadata
             this.TextAppearance = ta;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class TranslatePropertyAttribute: Attribute {
+        public string Property { get; set; }
+        public TranslatePropertyAttribute(string property)
+        {
+            this.Property = property;
+        }
+    }
 }

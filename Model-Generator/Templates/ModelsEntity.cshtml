@@ -50,6 +50,8 @@ namespace @Model.Namespace {
         @:[ShowOn(TextAppearance.Filter)]
         @:[BindToMaster("@(current.Name)")]
         @:public string @(current.Name)NameEn { get; set; }
+
+        @:[TranslateProperty("@(current.Name)NameEn")]
         @:[Text("@(current.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:[ShowOn(TextAppearance.Filter)]
         @:public string @(current.Name)NameFr { get; set; }
@@ -60,7 +62,7 @@ namespace @Model.Namespace {
     }
 
     if (current == measureProperty) {
-        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance?.HasFlag(TextAppearance.MeasureDescription) == true);
+        var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance.HasFlag(TextAppearance.MeasureDescription) == true);
         foreach (var measureProp in measureProperties) {
         @:[BindToMaster("@(measureProp.Name)")]
         @:[ShowOn(TextAppearance.MeasureDescription)]
@@ -68,6 +70,7 @@ namespace @Model.Namespace {
         @:public string @(measureProp.Name)En { get; set; }
 
         @:[ShowOn(TextAppearance.MeasureDescription)]
+        @:[TranslateProperty("@(measureProp.Name)En")]
         @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:public string @(measureProp.Name)Fr { get; set; }
         }
@@ -82,7 +85,7 @@ namespace @Model.Namespace {
     }
 
     if (current == breakdownProperty) {
-        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance?.HasFlag(TextAppearance.Notes));
+        var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance.HasFlag(TextAppearance.Notes) == true);
         foreach (var breakdownProp in breakdownProperties) {
         @:[BindToMaster("@(breakdownProp.Name)")]
         @:[ShowOn(TextAppearance.Notes)]
@@ -90,6 +93,7 @@ namespace @Model.Namespace {
         @:public string @(breakdownProp.Name)En { get; set; }
 
         @:[ShowOn(TextAppearance.Notes)]
+        @:[TranslateProperty("@(breakdownProp.Name)En")]
         @:[Text("@(breakdownProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:public string @(breakdownProp.Name)Fr { get; set; }
         }
@@ -101,8 +105,9 @@ namespace @Model.Namespace {
 
 
         @:[Title]
-        @:[Text("en-ca")]
-        @:public string TitleEn { get; set; }
+        @:[TranslateProperty("TitleEn")]
+        @:[Text("fr-ca")]
+        @:public string TitleFr { get; set; }
 
         @:[CVRangeLower]
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<CVRangeLowerAttribute>() != null)?.Name ?? "binding required")")]
@@ -118,7 +123,8 @@ namespace @Model.Namespace {
         @:public string UnitLongEn { get; set; }
 
         @:[UnitLong]
-        @:[Text("en-fr")]
+        @:[Text("fr-ca")]
+        @:[TranslateProperty("UnitLongEn")]
         @:public string UnitLongFr { get; set; }
 
         @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<UnitShortAttribute>() != null)?.Name ?? "binding required")")]
@@ -128,6 +134,7 @@ namespace @Model.Namespace {
 
         @:[UnitShort]
         @:[Text("fr-ca")]
+        @:[TranslateProperty("UnitShortEn")]
         @:public string UnitShortFr { get; set; }
 
     }
@@ -162,6 +169,7 @@ namespace @Model.Namespace {
 
         @:[DataLabelChart]
         @:[Text("fr-ca")]
+        @:[TranslateProperty("DataLabelChartEn")]
         @:public string DataLabelChartFr { get; set; }
 
 
@@ -172,6 +180,7 @@ namespace @Model.Namespace {
 
         @:[DataLabelTable]
         @:[Text("fr-ca")]
+        @:[TranslateProperty("DataLabelTableEn")]
         @:public string DataLabelTableFr { get; set; }
     }
 

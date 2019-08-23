@@ -16,7 +16,7 @@ using Models.Metadata;
 
 namespace Models.Contexts.@Model.DatasetName
 {
-    [Database("@Model.DatasetName")]
+    [Database("@(Model.DatasetName)Context")]
     public class Context : DbContext
     {
         public Context(DbContextOptions options)

@@ -42,7 +42,7 @@ namespace Model_Generator
                 Console.Write("Failed to clean database (check permissions or so manually)...");
                 return false;
             }
-            
+
         }
         public void CreateDatabase()
         {
@@ -110,8 +110,10 @@ namespace Model_Generator
             }
         }
 
-        public void LoadEntitiesFromMaster()
+        public ICollection<string> LoadEntitiesFromMaster(IDictionary<string, string> translations = null)
         {
+            var missingTranslations = new HashSet<string>();
+
             var dbContext = DbContext;
             Type masterType = dbContext.GetType().Assembly.GetTypes().First(t => t.Namespace == $"Models.Contexts.{this.DatasetName}" && t.Name == "Master");
 
@@ -298,7 +300,6 @@ namespace Model_Generator
                 Console.WriteLine();
             }
 
-
             foreach (Type type in types.SkipLast(1).Reverse())
             {
                 var dbset = GetDbSet(type);
@@ -316,8 +317,48 @@ namespace Model_Generator
 
                 dbContext.SaveChanges();
             }
-            Console.WriteLine($"Finished!");
+
+
+            Console.WriteLine($"Finished importing dataset");
+
+            if (translations != null)
+            {
+                Console.Write("Loading translations...");
+                foreach (Type type in types)
+                {
+                    var dbset = GetDbSet(type);
+                    var properties = type.GetProperties().Where(p => p.GetCustomAttribute<TextAttribute>()?.Culture == "fr-ca" && p.GetCustomAttribute<TranslatePropertyAttribute>()?.Property != null);
+
+                    foreach (var entity in dbset)
+                    {
+                        foreach (var translatedProperty in properties)
+                        {
+                            var sourcePropertyName = translatedProperty.GetCustomAttribute<TranslatePropertyAttribute>().Property;
+                            var sourceProperty = type.GetProperty(sourcePropertyName);
+                            var sourceValue = (string)sourceProperty.GetValue((object)entity);
+                            translations.TryGetValue(sourceValue, out var translatedValue);
+
+                            if (translatedValue == null)
+                            {
+                                missingTranslations.Add(sourceValue);
+                            }
+                            else
+                            {
+                                translatedProperty.SetValue((object)entity, translatedValue);
+                            }
+
+                        }
+                    }
+
+                }
+                dbContext.SaveChanges();
+                Console.WriteLine("Done");
+            }
+
+
+            return missingTranslations;
         }
+
 
     }
 }
