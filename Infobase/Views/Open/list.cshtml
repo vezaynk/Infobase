@@ -1,0 +1,8 @@
+@model IEnumerable<string>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li><a asp-controller="Open" asp-action="Index" asp-route-datatool="@item">@item</a></li>
+    }
+</ul>
