@@ -35,6 +35,15 @@ namespace Infobase.Controllers
             return View($"{datatool}/index", context[topLevelType]);
         }
 
+        public async Task<IActionResult> List() {
+            foreach (var item in contexts.Keys.Select(key => key.Substring(0, key.Length - "Context".Length)))
+            {
+                Console.WriteLine(item);
+            }
+            
+            return View(contexts.Keys.Select(key => key.Substring(0, key.Length - "Context".Length)));
+        }
+
         [ActionName("data-tool")]
         public async Task<IActionResult> Datatool(string datatool, string language, int index = 1, bool api = false)
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
+using System.Linq;
 
 namespace Infobase
 {
@@ -66,8 +67,9 @@ namespace Infobase
             string language = _domainLanguageMapping.GetValueOrDefault(host, _defaultLanguage);
 
             _translations.TryGetValue(language, out var translations);
+
             context.RouteData.Values["language"] = language;
-            context.RouteData.Values["datatool"] = translations.LookupInvariant(context.RouteData.Values["datatool"] as string).ToUpper();
+            context.RouteData.Values["datatool"] = translations.LookupInvariant(context.RouteData.Values["datatool"] as string)?.ToUpper();
             context.RouteData.Values["action"] = translations.LookupInvariant(context.RouteData.Values["action"] as string);
             context.RouteData.Values["controller"] = translations.LookupInvariant(context.RouteData.Values["controller"] as string);
 

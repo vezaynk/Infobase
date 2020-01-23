@@ -189,12 +189,26 @@ namespace Infobase
                     "en-ca",
                     routes.DefaultHandler,
                     routeName: null,
-                    routeTemplate: "/{datatool=CMSIF2}/{action=Index}/{id?}",
+                    routeTemplate: "/{datatool}/{action}/{id?}",
                     defaults: new RouteValueDictionary(new { controller = "open" }),
                     constraints: null,
                     dataTokens: null,
                     inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));
 
+                 routes.Routes.Add(new TranslationRoute(
+                    translations,
+                    new Dictionary<string, string> {
+                        { "english.localhost:5000", "en-ca"},
+                        { "french.localhost:5000", "fr-ca"}
+                    },
+                    "en-ca",
+                    routes.DefaultHandler,
+                    routeName: null,
+                    routeTemplate: "/",
+                    defaults: new RouteValueDictionary(new { controller = "open", action = "list", language = "en-ca"}),
+                    constraints: null,
+                    dataTokens: null,
+                    inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));
              });
         }
     }
