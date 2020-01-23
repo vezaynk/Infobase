@@ -130,7 +130,7 @@ namespace Model_Generator
                     }
                     var missingTranslations = databaseCreator.LoadEntitiesFromMaster(translations);
                     foreach (var missingTranslation in missingTranslations) {
-                        translations.Add(missingTranslation, null);
+                        translations.Add(missingTranslation ?? "", null);
                     }
                 }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Contexts.CMSIF {
+namespace Models.Contexts.PASS {
     public class Master {
         /**
             It is important to not forget to use the following annotations also (Cut and paste as necessary).`
@@ -50,24 +50,26 @@ namespace Models.Contexts.CMSIF {
         /** Modify below to resolve to valid data. These can also be adjusted from the generated models if you want them to be derived later **/
         [Title]
         public string Title => null;
+        /* [CVInterpretation]
+		public int CVInterpretation => int.Parse(ColCVInterpretation); */
         [CVInterpretation]
-		public int CVInterpretation => int.Parse(ColCVInterpretation);
+		public int CVInterpretation => int.TryParse(ColCVInterpretation, out var result) ? result : (int)0;
         [CVValue]
-        public double? CVValue => double.TryParse(ColCV, out var result) ? result : (double?)null;
+        public double? CVValue => double.TryParse(ColCV1, out var result) ? result : (double?)null;
         [CVRangeUpper]
-        public double? CVRangeUpper => null;
+        public double? CVRangeUpper => double.TryParse(ColCVRange2, out var result) ? result : (double?)null;
         [CVRangeLower]
-        public double? CVRangeLower => null;
+        public double? CVRangeLower => double.TryParse(ColCVRange1, out var result) ? result : (double?)null;
         [PointAverage]
-        public double? PointAverage => double.TryParse(ColPercent, out var result) ? result : (double?)null;
+        public double? PointAverage => double.TryParse(ColStError, out var result) ? result : (double?)null;
         [PointUpper]
         public double? PointUpper => double.TryParse(ColCIUpper95, out var result) ? result : (double?)null;
         [PointLower]
         public double? PointLower => double.TryParse(ColCILow95, out var result) ? result : (double?)null;
         [UnitShort]
-        public string UnitShort => ColLabel;
+        public string UnitShort => ColUnitLabel2;
         [UnitLong]
-        public string UnitLong => ColLabel;
+        public string UnitLong => ColUnitLabel1;
         [DataLabelTable]
         public string DataLabelTable => ColDisaggregation;
         [DataLabelChart]
@@ -79,44 +81,52 @@ namespace Models.Contexts.CMSIF {
 
 
         /** Modify below to mark filters with their levels and text to display**/
-        [Text("Obs", "en-ca")]
-        [Text("Obs", "fr-ca")]
-        [CSVColumn("Obs")]
-        public string ColObs { get; set; }
-        
-        
-        [Text("Domain", "en-ca")]
-        [Text("Domain", "fr-ca")]
-        [CSVColumn("Domain")]
+        [Text("Activity", "en-ca")]
+        [Text("Activité", "fr-ca")]
+        [CSVColumn("Activity")]
 		[Filter(0)]
-        public string ColDomain { get; set; }
+        public string ColActivity { get; set; }
         
         
-        [Text("Indicator", "en-ca")]
-        [Text("Indicator", "fr-ca")]
-        [CSVColumn("Indicator")]
+        [Text("Indicator Group", "en-ca")]
+        [Text("Groupe d'indicateur", "fr-ca")]
+        [CSVColumn("Indicator Group")]
 		[Filter(1)]
+        public string ColIndicatorGroup { get; set; }
+        
+        
+        [Text("Life Course", "en-ca")]
+        [Text("Parcours de vie", "fr-ca")]
+        [CSVColumn("Life Course")]
+		[Filter(2)]
+        public string ColLifeCourse { get; set; }
+        
+        
+        [Text("Indicators", "en-ca")]
+        [Text("Indicateurs", "fr-ca")]
+        [CSVColumn("Indicator")]
+		[Filter(3)]
         public string ColIndicator { get; set; }
         
         
         [Text("Measures", "en-ca")]
-        [Text("Measures", "fr-ca")]
-        [CSVColumn("Measures")]
-		[Filter(2)]
-        public string ColMeasures { get; set; }
+        [Text("Mesures", "fr-ca")]
+        [CSVColumn("Specific Measure 1")]
+		[Filter(4)]
+        public string ColSpecificMeasure1 { get; set; }
         
         
         [Text("Data Breakdowns", "en-ca")]
-        [Text("Data Breakdowns", "fr-ca")]
+        [Text("Répartition des données", "fr-ca")]
         [CSVColumn("Data Breakdowns")]
-		[Filter(3)]
+		[Filter(5)]
         public string ColDataBreakdowns { get; set; }
         
         
         [Text("Disaggregation", "en-ca")]
         [Text("Disaggregation", "fr-ca")]
         [CSVColumn("Disaggregation")]
-		[Filter(4)]
+		[Filter(6)]
         public string ColDisaggregation { get; set; }
         
         
@@ -126,10 +136,22 @@ namespace Models.Contexts.CMSIF {
         public string ColNObs { get; set; }
         
         
-        [Text("Percent", "en-ca")]
-        [Text("Percent", "fr-ca")]
-        [CSVColumn("Percent")]
-        public string ColPercent { get; set; }
+        [Text("CV_1", "en-ca")]
+        [Text("CV_1", "fr-ca")]
+        [CSVColumn("CV_1")]
+        public string ColCV1 { get; set; }
+        
+        
+        [Text("StError", "en-ca")]
+        [Text("StError", "fr-ca")]
+        [CSVColumn("StError")]
+        public string ColStError { get; set; }
+        
+        
+        [Text("Data", "en-ca")]
+        [Text("Data", "fr-ca")]
+        [CSVColumn("Data")]
+        public string ColData { get; set; }
         
         
         [Text("CI_low_95", "en-ca")]
@@ -144,28 +166,46 @@ namespace Models.Contexts.CMSIF {
         public string ColCIUpper95 { get; set; }
         
         
-        [Text("CV", "en-ca")]
-        [Text("CV", "fr-ca")]
-        [CSVColumn("CV")]
-        public string ColCV { get; set; }
-        
-        
         [Text("CV_Interpretation", "en-ca")]
         [Text("CV_Interpretation", "fr-ca")]
         [CSVColumn("CV_Interpretation")]
         public string ColCVInterpretation { get; set; }
         
         
-        [Text("Label_", "en-ca")]
-        [Text("Label_", "fr-ca")]
-        [CSVColumn("Label_")]
-        public string ColLabel { get; set; }
+        [Text("CV Range 1", "en-ca")]
+        [Text("CV Range 1", "fr-ca")]
+        [CSVColumn("CV Range 1")]
+        public string ColCVRange1 { get; set; }
         
         
-        [Text("Source", "en-ca")]
-        [Text("Source", "fr-ca")]
-        [CSVColumn("Source")]
-        public string ColSource { get; set; }
+        [Text("CV Range 2", "en-ca")]
+        [Text("CV Range 2", "fr-ca")]
+        [CSVColumn("CV Range 2")]
+        public string ColCVRange2 { get; set; }
+        
+        
+        [Text("Display Data", "en-ca")]
+        [Text("Display Data", "fr-ca")]
+        [CSVColumn("Display Data")]
+        public string ColDisplayData { get; set; }
+        
+        
+        [Text("Population 1", "en-ca")]
+        [Text("Population 1", "fr-ca")]
+        [CSVColumn("Population 1")]
+        public string ColPopulation1 { get; set; }
+        
+        
+        [Text("Unit Label 1", "en-ca")]
+        [Text("Unit Label 1", "fr-ca")]
+        [CSVColumn("Unit Label 1")]
+        public string ColUnitLabel1 { get; set; }
+        
+        
+        [Text("Data Source 1", "en-ca")]
+        [Text("Data Source 1", "fr-ca")]
+        [CSVColumn("Data Source 1")]
+        public string ColDataSource1 { get; set; }
         
         
         [Text("Notes", "en-ca")]
@@ -174,28 +214,40 @@ namespace Models.Contexts.CMSIF {
         public string ColNotes { get; set; }
         
         
-        [Text("Population", "en-ca")]
-        [Text("Population", "fr-ca")]
-        [CSVColumn("Population")]
-        public string ColPopulation { get; set; }
+        [Text("PT Table Label", "en-ca")]
+        [Text("PT Table Label", "fr-ca")]
+        [CSVColumn("PT Table Label")]
+        public string ColPTTableLabel { get; set; }
         
         
-        [Text("Measure", "en-ca")]
-        [Text("Measure", "fr-ca")]
-        [CSVColumn("Measure")]
-        public string ColMeasure { get; set; }
+        [Text("Unit Label 2", "en-ca")]
+        [Text("Unit Label 2", "fr-ca")]
+        [CSVColumn("Unit Label 2")]
+        public string ColUnitLabel2 { get; set; }
+        
+        
+        [Text("Data Source 2", "en-ca")]
+        [Text("Data Source 2", "fr-ca")]
+        [CSVColumn("Data Source 2")]
+        public string ColDataSource2 { get; set; }
+        
+        
+        [Text("Specific Measure 2", "en-ca")]
+        [Text("Specific Measure 2", "fr-ca")]
+        [CSVColumn("Specific Measure 2")]
+        public string ColSpecificMeasure2 { get; set; }
         
         
         [Text("Definition", "en-ca")]
         [Text("Definition", "fr-ca")]
-        [CSVColumn("Definition")]
+        [CSVColumn("Defintion")]
         public string ColDefinition { get; set; }
         
         
-        [Text("Data Source", "en-ca")]
-        [Text("Data Source", "fr-ca")]
-        [CSVColumn("Data Source")]
-        public string ColDataSource { get; set; }
+        [Text("Data Source 3", "en-ca")]
+        [Text("Data Source 3", "fr-ca")]
+        [CSVColumn("Data Source 3")]
+        public string ColDataSource3 { get; set; }
         
         
         [Text("Data Available", "en-ca")]
@@ -204,9 +256,9 @@ namespace Models.Contexts.CMSIF {
         public string ColDataAvailable { get; set; }
         
         
-        [Text("Population2", "en-ca")]
-        [Text("Population2", "fr-ca")]
-        [CSVColumn("Population2")]
+        [Text("Population 2", "en-ca")]
+        [Text("Population 2", "fr-ca")]
+        [CSVColumn("Population 2")]
         public string ColPopulation2 { get; set; }
         
         
@@ -220,6 +272,24 @@ namespace Models.Contexts.CMSIF {
         [Text("Additional Remarks", "fr-ca")]
         [CSVColumn("Additional Remarks")]
         public string ColAdditionalRemarks { get; set; }
+        
+        
+        [Text("Include_DT", "en-ca")]
+        [Text("Include_DT", "fr-ca")]
+        [CSVColumn("Include_DT")]
+        public string ColIncludeDT { get; set; }
+        
+        
+        [Text("Other DT Display", "en-ca")]
+        [Text("Other DT Display", "fr-ca")]
+        [CSVColumn("Other DT Display")]
+        public string ColOtherDTDisplay { get; set; }
+        
+        
+        [Text("2019 Updates (Y)", "en-ca")]
+        [Text("2019 Updates (Y)", "fr-ca")]
+        [CSVColumn("2019 Updates (Y)")]
+        public string Col2019UpdatesY { get; set; }
         
         
     }

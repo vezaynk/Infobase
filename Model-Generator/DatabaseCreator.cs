@@ -88,7 +88,7 @@ namespace Model_Generator
                     foreach (var property in csvProperties)
                     {
                         string column = property.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
-                        dict.TryGetValue(column, out var value);
+                        dict.TryGetValue(column ?? "", out var value);
                         if (value == null)
                             throw new Exception($"Column with name {column} not found in CSV");
 
@@ -336,7 +336,7 @@ namespace Model_Generator
                             var sourcePropertyName = translatedProperty.GetCustomAttribute<TranslatePropertyAttribute>().Property;
                             var sourceProperty = type.GetProperty(sourcePropertyName);
                             var sourceValue = (string)sourceProperty.GetValue((object)entity);
-                            translations.TryGetValue(sourceValue, out var translatedValue);
+                            translations.TryGetValue(sourceValue ?? "", out var translatedValue);
 
                             if (translatedValue == null)
                             {
