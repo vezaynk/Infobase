@@ -5,15 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Debug Model-Generator",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build-mg",
+            "program": "${workspaceFolder}/Model-Generator/bin/Debug/netcoreapp3.0/Model-Generator.dll",
+            "cwd": "${workspaceFolder}/Model-Generator",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "requireExactSource": false,
+            // zenity --entry --text="Dataset name"
+            // file-picker
+            // https://code.visualstudio.com/updates/v1_31#_custom-command-user-input-variables
+            "args": "-- -l -d CMSIF -f passv2.csv -c Host=localhost;Database=cmsif;Username=postgres;Password=a -t french.csv"
+        },
+        {
+            "name": "Debug Infobase",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-infobase",
             "program": "${workspaceFolder}/Infobase/bin/Debug/netcoreapp3.0/Infobase.dll",
             "cwd": "${workspaceFolder}/Infobase",
             "console": "internalConsole",
             "stopAtEntry": false,
-            "requireExactSource": false
+            "requireExactSource": false,
         },
         {
             "name": ".NET Core Attach",

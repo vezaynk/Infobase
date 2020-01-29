@@ -251,7 +251,7 @@ namespace Model_Generator
                         }
 
                         Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");
-                        Console.ReadLine();
+                        //Console.ReadLine();
 
                         if (loadData)
                             SetupDatabase(datasetName, csvFilePath, connectionString, generateModels, frenchFile);

@@ -88,11 +88,12 @@ namespace Model_Generator
                     foreach (var property in csvProperties)
                     {
                         string column = property.GetCustomAttribute<CSVColumnAttribute>().CSVColumnName;
-                        dict.TryGetValue(column ?? "", out var value);
-                        if (value == null)
+                        dict.TryGetValue(column, out var value);
+                        
+                        if (!dict.ContainsKey(column))
                             throw new Exception($"Column with name {column} not found in CSV");
 
-                        property.SetValue(masterInstance, value);
+                        property.SetValue(masterInstance, value ?? "");
                     }
 
                     // Set index to maintain consistent order with CSV
