@@ -1,6 +1,6 @@
 @{
     Layout = "_Layout.cshtml";
-    string language = ViewContext.RouteData.Values["language"].ToString();
+    string language = i18nTransformer.Culture;
 }
 
 <div class="row">

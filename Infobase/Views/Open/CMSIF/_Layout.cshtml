@@ -1,5 +1,6 @@
 ﻿@{
-    string language = ViewContext.RouteData.Values["language"].ToString();
+    string language = i18nTransformer.Culture;
+    string page = i18nTransformer.LookupInvariant(ViewContext.RouteData.Values["page"].ToString()).ToLower();
 }
 
 @switch (language) {
@@ -27,15 +28,15 @@
 		<div class="btn-group btn-group-lg btn-group-justified" style="padding:20px 0px;">
 		@if (language == "fr-ca")
                 {
-			<a asp-action="index" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
-			<a asp-action="data-tool" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
-			<a asp-action="publications" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publications" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
+			<a asp-route-page="index" class="@(page == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Statistiques rapides</a>
+			<a asp-route-page="data-tool" class="@(page == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Outil de données</a>
+			<a asp-route-page="publications" class="@(page == "publications" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
                 else
                 {
-			<a asp-action="index" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
-			<a asp-action="data-tool" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
-			<a asp-action="publications" class="@(ViewContext.RouteData.Values["action"].ToString().ToLower() == "publications" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
+			<a asp-route-page="index" class="@(page == "index" ? "active btn btn-primary" : "btn btn-default")" role="button">Quick Stats</a>
+			<a asp-route-page="data-tool" class="@(page == "data-tool" ? "active btn btn-primary" : "btn btn-default")" role="button">Data Tool</a>
+			<a asp-route-page="publications" class="@(page == "publications" ? "active btn btn-primary" : "btn btn-default")" role="button">Publications</a>
                 }
 		</div>
 		</div>

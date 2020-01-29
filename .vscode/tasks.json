@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build-infobase",
             "command": "dotnet",
             "type": "process",
             "args": [
@@ -12,23 +12,12 @@
             "problemMatcher": "$tsc"
         },
         {
-            "label": "publish",
+            "label": "build-mg",
             "command": "dotnet",
             "type": "process",
             "args": [
-                "publish",
-                "${workspaceFolder}/Infobase/Infobase.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/Infobase/Infobase.csproj"
+                "build",
+                "${workspaceFolder}/Model-Generator/Model-Generator.csproj"
             ],
             "problemMatcher": "$tsc"
         }

@@ -5,7 +5,7 @@
     Layout = "_Layout.cshtml";
     
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
-    string language = ViewContext.RouteData.Values["language"].ToString();
+    string language = i18nTransformer.Culture;
 
 
 }
@@ -53,7 +53,7 @@
                                         <td>@measure.ColMeasuresNameEn</td>
                                         <td>@measure.DefaultColDataBreakdowns.DefaultColDisaggregation.ValueAverage %</td>
                                         <td>@measure.ColDataSource</td>
-                                        <td><a class="btn btn-default" asp-action="indicator-details" asp-route-id="@measure.Index">Description</a></td>
+                                        <td><a class="btn btn-default" asp-route-page="indicator-details" asp-route-id="@measure.Index">Description</a></td>
                                         </tr>
                                     }
                                 }

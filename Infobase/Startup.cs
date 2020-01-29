@@ -17,6 +17,7 @@ using System.Reflection;
 using Models.Metadata;
 using Microsoft.AspNetCore.Mvc.Razor;
 using CommandLine;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Infobase
 {
@@ -40,9 +41,13 @@ namespace Infobase
                 .AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
                 .AddChakraCore();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
-            services.AddMvc();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<I18nTransformer>();
+
+            services.AddControllersWithViews();
+
+            services.AddRouting();
 
             var dbContextTypes = Assembly
                                     .GetExecutingAssembly()
@@ -52,7 +57,7 @@ namespace Infobase
                                     .Where(t => t.BaseType == typeof(DbContext) && t.GetCustomAttribute<DatabaseAttribute>() != null);
 
             var dbSetLookup = new Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>>();
-            
+
             Console.WriteLine($"Found {dbContextTypes.Count()} contexts");
             foreach (var dbContextType in dbContextTypes)
             {
@@ -60,7 +65,8 @@ namespace Infobase
                 Console.WriteLine($"Loading {name}");
                 var databaseName = dbContextType.GetCustomAttribute<DatabaseAttribute>().DatabaseName;
                 var connectionString = Configuration.GetConnectionString(databaseName);
-                if (connectionString == null) {   
+                if (connectionString == null)
+                {
                     Console.WriteLine($"Missing connection string for {name}", Console.Error);
                     continue;
                 }
@@ -150,66 +156,22 @@ namespace Infobase
 
             app.UseStaticFiles();
 
-            var translations = new Dictionary<string, Translations>(StringComparer.OrdinalIgnoreCase)
-            {
-                {
-                    "en-ca",
-                    new Translations(new (string, string)[]
-                    {
-                        ("pass", "pass"),
-                        ("pass2", "pass2"),
-                        ("data-tool", "data-tool"),
-                        ("index", "index"),
-                        ("indicator-details", "indicator-details")
-                    })
-                },
-                {
-                    "fr-ca",
-                    new Translations(new (string, string)[]
-                    {
-                        ("pass", "apcss"),
-                        ("pass2", "apcss2"),
-                        ("data-tool", "outil-de-donnees"),
-                        ("index", "index"),
-                        ("indicator-details", "description-de-mesure")
-                    })
-                },
-            };
-            
+
+
             // app.UseMiniProfiler();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                var i18nTransformer = endpoints.ServiceProvider.GetRequiredService<I18nTransformer>();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{datatool}/{page}/{id?}",
+                    defaults: new { controller = "Open", action="Index", page = "Index" },
+                    constraints: new { datatool = i18nTransformer, page = i18nTransformer }
+                );
 
-            app.UseMvc(routes =>
-             {
-                 routes.Routes.Add(new TranslationRoute(
-                    translations,
-                    new Dictionary<string, string> {
-                        { "english.localhost:5000", "en-ca"},
-                        { "french.localhost:5000", "fr-ca"}
-                    },
-                    "en-ca",
-                    routes.DefaultHandler,
-                    routeName: null,
-                    routeTemplate: "/{datatool}/{action}/{id?}",
-                    defaults: new RouteValueDictionary(new { controller = "open" }),
-                    constraints: null,
-                    dataTokens: null,
-                    inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));
-
-                 routes.Routes.Add(new TranslationRoute(
-                    translations,
-                    new Dictionary<string, string> {
-                        { "english.localhost:5000", "en-ca"},
-                        { "french.localhost:5000", "fr-ca"}
-                    },
-                    "en-ca",
-                    routes.DefaultHandler,
-                    routeName: null,
-                    routeTemplate: "/",
-                    defaults: new RouteValueDictionary(new { controller = "open", action = "list", language = "en-ca"}),
-                    constraints: null,
-                    dataTokens: null,
-                    inlineConstraintResolver: routes.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()));
-             });
+                endpoints.MapControllerRoute("Index listing", "/", new { controller = "Open", action = "List"});
+            });
         }
     }
 

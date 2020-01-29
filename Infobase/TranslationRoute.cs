@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Http;
 
 namespace Infobase
 {
@@ -36,7 +39,7 @@ namespace Infobase
             var pageLanguage = context.AmbientValues["language"] as string;
             var languageChanged = newLanguage != pageLanguage && newLanguage != null;
             var language = newLanguage ?? pageLanguage;
-        
+
             // Forces the matching route to be used
             // context.Values["language"] = language;
             context.Values.Remove("language");
@@ -48,12 +51,14 @@ namespace Infobase
             context.Values["action"] = translations.Translate(context.Values["action"] as string ?? context.AmbientValues["action"] as string);
             context.Values["datatool"] = translations.Translate(context.Values["datatool"] as string ?? context.AmbientValues["datatool"] as string);
             context.Values["controller"] = translations.Translate(context.Values["controller"] as string ?? context.AmbientValues["controller"] as string);
-            
 
-            if (languageChanged) {
+
+            if (languageChanged)
+            {
                 context.Values["id"] = context.Values["id"] as string ?? context.AmbientValues["id"] as string;
                 var qs = context.HttpContext.Request.Query;
-                foreach (var q in qs) {
+                foreach (var q in qs)
+                {
                     context.Values[q.Key] = q.Value;
                 }
             }
@@ -75,5 +80,94 @@ namespace Infobase
 
             return base.OnRouteMatched(context);
         }
+    }
+
+    public class I18nTransformer : IOutboundParameterTransformer
+    {
+        public string Culture { get; set; } = "en-ca";
+        public bool TranslateMode { get; set; }
+        public string TranslateTo { get; set; }
+        public readonly IHttpContextAccessor _httpContextAccessor;
+
+        public I18nTransformer(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+        public string TransformOutbound(object value)
+        {
+            var domainMapping = new Dictionary<string, string> {
+                        { "english.localhost:5000", "en-ca"},
+                        { "french.localhost:5000", "fr-ca"}
+                    };
+
+            if (_httpContextAccessor.HttpContext != null && domainMapping.TryGetValue(_httpContextAccessor.HttpContext.Request.Host.ToString(), out var culture))
+                Culture = culture;
+
+            var translations = new Dictionary<string, Translations>(StringComparer.OrdinalIgnoreCase)
+            {
+                {
+                    "en-ca",
+                    new Translations(new (string, string)[]
+                    {
+                        ("pass", "pass"),
+                        ("pass2", "pass2"),
+                        ("data-tool", "data-tool"),
+                        ("index", "index"),
+                        ("indicator-details", "indicator-details")
+                    })
+                },
+                {
+                    "fr-ca",
+                    new Translations(new (string, string)[]
+                    {
+                        ("pass", "apcss"),
+                        ("pass2", "apcss2"),
+                        ("data-tool", "outil-de-donnees"),
+                        ("index", "index"),
+                        ("indicator-details", "description-de-mesure")
+                    })
+                },
+            };
+
+            return TranslateMode ? translations[TranslateTo].Translate(LookupInvariant(value.ToString())) : translations[Culture].Translate(value.ToString());
+            
+        }
+
+        public string LookupInvariant(string value) {
+            var domainMapping = new Dictionary<string, string> {
+                        { "english.localhost:5000", "en-ca"},
+                        { "french.localhost:5000", "fr-ca"}
+                    };
+
+            if (_httpContextAccessor.HttpContext != null && domainMapping.TryGetValue(_httpContextAccessor.HttpContext.Request.Host.ToString(), out var culture))
+                Culture = culture;
+            var translations = new Dictionary<string, Translations>(StringComparer.OrdinalIgnoreCase)
+            {
+                {
+                    "en-ca",
+                    new Translations(new (string, string)[]
+                    {
+                        ("pass", "pass"),
+                        ("pass2", "pass2"),
+                        ("data-tool", "data-tool"),
+                        ("index", "index"),
+                        ("indicator-details", "indicator-details")
+                    })
+                },
+                {
+                    "fr-ca",
+                    new Translations(new (string, string)[]
+                    {
+                        ("pass", "apcss"),
+                        ("pass2", "apcss2"),
+                        ("data-tool", "outil-de-donnees"),
+                        ("index", "index"),
+                        ("indicator-details", "description-de-mesure")
+                    })
+                },
+            };
+            return translations[Culture].LookupInvariant(value);
+        }
+
     }
 }

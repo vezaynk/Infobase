@@ -87,6 +87,7 @@ namespace Model_Generator
                             .UseFilesystemProject(Path.GetFullPath("./Templates"))
                             .UseMemoryCachingProvider()
                             .Build();
+
             var outputModels = engine.CompileRenderAsync("ModelsEntity.cshtml", masterType).GetAwaiter().GetResult();
 
             return outputModels;
@@ -129,15 +130,18 @@ namespace Model_Generator
                         translations.Add(english, french);
                     }
                     var missingTranslations = databaseCreator.LoadEntitiesFromMaster(translations);
-                    foreach (var missingTranslation in missingTranslations) {
+                    foreach (var missingTranslation in missingTranslations)
+                    {
                         translations.Add(missingTranslation ?? "", null);
                     }
                 }
 
                 using (var writer = new StreamWriter(frenchFile, false))
-                using (var csv = new CsvWriter(writer)) {
+                using (var csv = new CsvWriter(writer))
+                {
                     csv.Configuration.HasHeaderRecord = false;
-                    foreach (var translation in translations) {
+                    foreach (var translation in translations)
+                    {
                         csv.WriteRecord(translation);
                         csv.NextRecord();
                     }
@@ -147,111 +151,111 @@ namespace Model_Generator
             {
                 databaseCreator.LoadEntitiesFromMaster();
             }
-
-
         }
 
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(o =>
-                   {
-                       bool generateModels = o.GenerateModels;
-                       bool loadData = o.LoadData;
-                       string frenchFile = o.French;
-                       bool loadFrench = !string.IsNullOrEmpty(frenchFile);
+                    .WithParsed<Options>(o =>
+                    {
+                        bool generateModels = o.GenerateModels;
+                        bool loadData = o.LoadData;
+                        string frenchFile = o.French;
+                        bool loadFrench = !string.IsNullOrEmpty(frenchFile);
 
-                       string datasetName = o.Dataset.ToUpper();
-                       string csvFilePath = o.File;
+                        string datasetName = o.Dataset.ToUpper();
+                        string csvFilePath = o.File;
 
-                       var connectionString = o.ConnectionString;
-
-
-
-                       if (generateModels)
-                       {
-                           Console.Write("This process will guide you through the creation of the data tool. Press enter to continue or ^C to exit.");
-                           Console.ReadLine();
-                           using (var sr = new StreamReader(csvFilePath))
-                           using (var csv = new CsvReader(sr, new Configuration
-                           {
-                               Delimiter = ",",
-                               Encoding = Encoding.UTF8
-                           }))
-                           {
-                               csv.Read();
-                               csv.ReadHeader();
-
-                               var directory = new DirectoryInfo($"../Models/Contexts/{datasetName}");
-                               if (directory.Exists)
-                               {
-                                   Console.WriteLine($"{directory.FullName} directory already exists. Manually delete it or use another name for the dataset");
-                                   Environment.Exit(0);
-                               } else {
-                                   directory.Create();
-                               }
-
-                               Console.Write("Generating master entity");
-                               var outputMaster = GenerateMasterSource(datasetName, csv.Context.HeaderRecord);
-                               bool isValidMaster = IsCodeValid(outputMaster);
-                               if (!isValidMaster)
-                               {
-                                   throw new Exception("Failed to generate valid master file");
-                               }
-
-                               string masterPath = Path.Join(directory.FullName, "Master.cs");
-                               File.WriteAllText(masterPath, outputMaster);
-                               var editedMasterValidated = false;
-                               while (!editedMasterValidated)
-                               {
-                                   Console.Write($"Created {masterPath}. Press Enter when done editing.");
-                                   Console.ReadLine();
-                                   outputMaster = File.ReadAllText(masterPath);
-                                   editedMasterValidated = IsCodeValid(outputMaster);
-                               }
-
-                               var imc = new InMemoryCompiler();
-                               imc.AddCodeBody(outputMaster);
-                               var masterType = imc.CompileAssembly().GetType($"Models.Contexts.{datasetName}.Master");
+                        var connectionString = o.ConnectionString;
 
 
-                               Console.Write("Generating model entities");
-                               var outputModels = GenerateModelsForMaster(masterType);
-                               bool isValidModels = IsCodeValid(outputModels);
-                               if (!isValidModels)
-                               {
-                                   throw new Exception("Failed to generate valid models file");
-                               }
+
+                        if (generateModels)
+                        {
+                            Console.Write("This process will guide you through the creation of the data tool. Press enter to continue or ^C to exit.");
+                            Console.ReadLine();
+                            using (var sr = new StreamReader(csvFilePath))
+                            using (var csv = new CsvReader(sr, new Configuration
+                            {
+                                Delimiter = ",",
+                                Encoding = Encoding.UTF8
+                            }))
+                            {
+                                csv.Read();
+                                csv.ReadHeader();
+
+                                var directory = new DirectoryInfo($"../Models/Contexts/{datasetName}");
+                                if (directory.Exists)
+                                {
+                                    Console.WriteLine($"{directory.FullName} directory already exists. Manually delete it or use another name for the dataset");
+                                    Environment.Exit(0);
+                                }
+                                else
+                                {
+                                    directory.Create();
+                                }
+
+                                Console.Write("Generating master entity");
+                                var outputMaster = GenerateMasterSource(datasetName, csv.Context.HeaderRecord);
+                                bool isValidMaster = IsCodeValid(outputMaster);
+                                if (!isValidMaster)
+                                {
+                                    throw new Exception("Failed to generate valid master file");
+                                }
+
+                                string masterPath = Path.Join(directory.FullName, "Master.cs");
+                                File.WriteAllText(masterPath, outputMaster);
+                                var editedMasterValidated = false;
+                                while (!editedMasterValidated)
+                                {
+                                    Console.Write($"Created {masterPath}. Press Enter when done editing.");
+                                    Console.ReadLine();
+                                    outputMaster = File.ReadAllText(masterPath);
+                                    editedMasterValidated = IsCodeValid(outputMaster);
+                                }
+
+                                var imc = new InMemoryCompiler();
+                                imc.AddCodeBody(outputMaster);
+                                var masterType = imc.CompileAssembly().GetType($"Models.Contexts.{datasetName}.Master");
 
 
-                               string modelsPath = Path.Join(directory.FullName, "Models.cs");
+                                Console.Write("Generating model entities");
+                                var outputModels = GenerateModelsForMaster(masterType);
+                                bool isValidModels = IsCodeValid(outputModels);
+                                if (!isValidModels)
+                                {
+                                    throw new Exception("Failed to generate valid models file");
+                                }
 
-                               File.WriteAllText(modelsPath, outputModels);
-                               var editedModelsValidated = false;
-                               while (!editedModelsValidated)
-                               {
-                                   Console.Write($"Created {modelsPath}. Press Enter when done editing.");
-                                   Console.ReadLine();
-                                   outputModels = File.ReadAllText(modelsPath);
-                                   editedModelsValidated = IsCodeValid(outputModels);
-                               }
 
-                               imc = new InMemoryCompiler();
-                               imc.AddCodeBody(outputModels);
-                               var names = imc.CompileAssembly().GetTypes().Where(t => t.Namespace == $"Models.Contexts.{datasetName}").Select(t => t.Name);
-                               var outputContext = GenerateContextSource(datasetName, names);
+                                string modelsPath = Path.Join(directory.FullName, "Models.cs");
 
-                               string contextPath = Path.Join(directory.FullName, "Context.cs");
-                               File.WriteAllText(contextPath, outputContext);
-                           }
-                       }
+                                File.WriteAllText(modelsPath, outputModels);
+                                var editedModelsValidated = false;
+                                while (!editedModelsValidated)
+                                {
+                                    Console.Write($"Created {modelsPath}. Press Enter when done editing.");
+                                    Console.ReadLine();
+                                    outputModels = File.ReadAllText(modelsPath);
+                                    editedModelsValidated = IsCodeValid(outputModels);
+                                }
 
-                       Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");
-                       Console.ReadLine();
+                                imc = new InMemoryCompiler();
+                                imc.AddCodeBody(outputModels);
+                                var names = imc.CompileAssembly().GetTypes().Where(t => t.Namespace == $"Models.Contexts.{datasetName}").Select(t => t.Name);
+                                var outputContext = GenerateContextSource(datasetName, names);
 
-                       if (loadData)
-                           SetupDatabase(datasetName, csvFilePath, connectionString, generateModels, frenchFile);
-                   });
+                                string contextPath = Path.Join(directory.FullName, "Context.cs");
+                                File.WriteAllText(contextPath, outputContext);
+                            }
+                        }
+
+                        Console.WriteLine("Done. Confirm results and press enter to begin database initialization.");
+                        //Console.ReadLine();
+
+                        if (loadData)
+                            SetupDatabase(datasetName, csvFilePath, connectionString, generateModels, frenchFile);
+                    });
 
         }
 
