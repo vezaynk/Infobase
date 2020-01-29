@@ -5,7 +5,7 @@
     Layout = "_Layout.cshtml";
     
     // Due to the life course not being at the root of the tree, it is necessary to employ some hacks to work as if it were
-    string language = ViewContext.RouteData.Values["language"].ToString();
+    string language = i18nTransformer.Culture;
 
 
 }

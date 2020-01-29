@@ -72,8 +72,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <div class="col-md-12">
                         <ul class="list-inline margin-bottom-none">
                             <li>
-                                <a rel="keep-params" asp-route-language="fr-ca" asp-host="french.localhost:5000">Francais</a>
+                                @{
+                                    i18nTransformer.TranslateMode = true;
+                                    i18nTransformer.TranslateTo = "fr-ca";
+                                }
+                                <a rel="keep-params" href="@Url.ActionLink(host: "french.localhost:5000")">Francais</a>
 
+                                @{
+                                    i18nTransformer.TranslateMode = false;
+                                }
                             </li>
                         </ul>
                     </div>

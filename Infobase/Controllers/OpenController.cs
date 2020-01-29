@@ -4,12 +4,8 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Infobase.Models;
 using Models.Metadata;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
 
 namespace Infobase.Controllers
@@ -17,35 +13,53 @@ namespace Infobase.Controllers
     public class OpenController : Controller
     {
         private readonly Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contexts;
+        private I18nTransformer _i18nTransformer;
+        private string Language => _i18nTransformer.Culture;
 
-        public OpenController(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup)
+        public OpenController(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup, I18nTransformer i18nTransformer)
         {
             contexts = contextLookup;
+            _i18nTransformer = i18nTransformer;
         }
-        public SortedDictionary<Type, ICollection<dynamic>> GetContext(string datatool)
+        [NonAction]
+        public string LookupInvariant(string datatool) => _i18nTransformer.LookupInvariant(datatool);
+        [NonAction]
+        private SortedDictionary<Type, ICollection<dynamic>> GetContext(string datatool)
         {
-            return contexts[datatool + "Context"];
+            return contexts[LookupInvariant(datatool).ToUpper() + "Context"];
         }
-        public async Task<IActionResult> Index(string datatool, string language)
+        public IActionResult Index(string page, string datatool, int index = 1, bool api = false, int? id = null)
         {
+            switch (LookupInvariant(page).ToLower()) {
+                case "index": return IndexPage(datatool);
+                case "data-tool": return Datatool(datatool, index, api);
+                case "indicator-details": return Details(datatool, id??0);
+                case "publications": return Publications(datatool);
+            }
+
+            return List();
+            
+        }
+
+        public IActionResult IndexPage(string datatool) {
             var context = GetContext(datatool);
             var topLevelType = context.Keys.First();
             // var topLevelEntities = typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(new[] { topLevelType }).Invoke(typeof(Enumerable), new[] {  });
             // Load top-level
-            return View($"{datatool}/index", context[topLevelType]);
+            return View($"{LookupInvariant(datatool)}/index", context[topLevelType]);
         }
 
-        public async Task<IActionResult> List() {
+        public IActionResult List() {
             foreach (var item in contexts.Keys.Select(key => key.Substring(0, key.Length - "Context".Length)))
             {
                 Console.WriteLine(item);
             }
             
-            return View(contexts.Keys.Select(key => key.Substring(0, key.Length - "Context".Length)));
+            return View("List", contexts.Keys.Select(key => key.Substring(0, key.Length - "Context".Length)));
         }
 
         [ActionName("data-tool")]
-        public async Task<IActionResult> Datatool(string datatool, string language, int index = 1, bool api = false)
+        public IActionResult Datatool(string datatool, int index = 1, bool api = false)
         {
             var context = GetContext(datatool);
             var dataBreakdownLevelType = context.Keys.SkipLast(1).Last();
@@ -59,12 +73,12 @@ namespace Infobase.Controllers
                                 .GetValue((object)selectedBreakdown)).ToList();
 
             var measureDescription = Metadata
-                            .FindTextPropertiesOnTree((object)selectedBreakdown, language, TextAppearance.MeasureDescription)
+                            .FindTextPropertiesOnTree((object)selectedBreakdown, Language, TextAppearance.MeasureDescription)
                             .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty((string)mp.Value))
                             .ToList();
 
             var notes = Metadata
-                            .FindTextPropertiesOnTree((object)selectedBreakdown, language, TextAppearance.Notes)
+                            .FindTextPropertiesOnTree((object)selectedBreakdown, Language, TextAppearance.Notes)
                             .Where(mp => !string.IsNullOrEmpty(mp.Name) && !string.IsNullOrEmpty((string)mp.Value))
                             .ToList();
 
@@ -78,10 +92,10 @@ namespace Infobase.Controllers
             var cVValueProperty = GetProperty<CVValueAttribute>();
             var cVInterpretationProperty = GetProperty<CVInterpretationAttribute>();
             var typeProperty = GetProperty<TypeAttribute>();
-            var xAxis = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)selectedBreakdown, language, TextAppearance.Filter).FirstOrDefault()?.Value;
-            var yAxis = (string)Metadata.FindTextPropertiesOnTree<UnitLongAttribute>((object)selectedBreakdown, language).FirstOrDefault()?.Value;
-            var unit = (string)Metadata.FindTextPropertiesOnTree<UnitShortAttribute>((object)selectedBreakdown, language).FirstOrDefault()?.Value;
-            var title = (string)Metadata.FindTextPropertiesOnTree<TitleAttribute>((object)selectedBreakdown, language).FirstOrDefault()?.Value;
+            var xAxis = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)selectedBreakdown, Language, TextAppearance.Filter).FirstOrDefault()?.Value;
+            var yAxis = (string)Metadata.FindTextPropertiesOnTree<UnitLongAttribute>((object)selectedBreakdown, Language).FirstOrDefault()?.Value;
+            var unit = (string)Metadata.FindTextPropertiesOnTree<UnitShortAttribute>((object)selectedBreakdown, Language).FirstOrDefault()?.Value;
+            var title = (string)Metadata.FindTextPropertiesOnTree<TitleAttribute>((object)selectedBreakdown, Language).FirstOrDefault()?.Value;
 
             ChartData chart = chart = new ChartData
             {
@@ -91,8 +105,8 @@ namespace Infobase.Controllers
                 Title = title,
                 Points = children.Select((child) => new Point
                 {
-                    Label = (string)Metadata.FindTextPropertiesOnTree<DataLabelChartAttribute>((object)child, language).FirstOrDefault()?.Value,
-                    Text = (string)Metadata.FindTextPropertiesOnTree<DataLabelTableAttribute>((object)child, language).FirstOrDefault()?.Value,
+                    Label = (string)Metadata.FindTextPropertiesOnTree<DataLabelChartAttribute>((object)child, Language).FirstOrDefault()?.Value,
+                    Text = (string)Metadata.FindTextPropertiesOnTree<DataLabelTableAttribute>((object)child, Language).FirstOrDefault()?.Value,
                     CVInterpretation = (int)cVInterpretationProperty.GetValue(child),
                     CVValue = (double?)cVValueProperty.GetValue(child),
                     Value = (double?)averageValueProperty.GetValue(child),
@@ -106,7 +120,7 @@ namespace Infobase.Controllers
                 Notes = notes.ToDictionary(mp => mp.Name, mp => (string)mp.Value)
             };
 
-            var cpm = new ChartPageModel(datatool, language, chart);
+            var cpm = new ChartPageModel(datatool, Language, chart);
 
             var dropdowns = context.SkipLast(1).Select(pair =>
             {
@@ -131,7 +145,7 @@ namespace Infobase.Controllers
                     {
                         var currentLevel = entity;
 
-                        var entityText = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)entity, language, TextAppearance.Filter).First().Value;
+                        var entityText = (string)Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)entity, Language, TextAppearance.Filter).First().Value;
 
                         while (currentLevel.GetType() != dataBreakdownLevelType)
                         {
@@ -144,7 +158,7 @@ namespace Infobase.Controllers
 
                     }).ToList();
 
-                var filterName = Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)dropdownItems.First().Entity, language, TextAppearance.Filter).First().Name;
+                var filterName = Metadata.FindTextPropertiesOnNode<ShowOnAttribute>((object)dropdownItems.First().Entity, Language, TextAppearance.Filter).First().Name;
                 return new DropdownMenuModel(
                         filterName,
                         dropdownItems.Select(di => new DropdownItem { Text = di.Text, Value = di.Value }),
@@ -158,14 +172,14 @@ namespace Infobase.Controllers
             };
 
             if (Request.Method == "GET" && !api)
-                return View(cpm);
+                return View("data-tool", cpm);
             else
                 return Json(cpm);
 
         }
 
         [ActionName("indicator-details")]
-        public async Task<IActionResult> Details(string datatool, string language, int id)
+        public IActionResult Details(string datatool, int id)
         {
             var context = GetContext(datatool);
             var measure = context[context.Keys.SkipLast(2).Last()].FirstOrDefault(m => m.Index == id);
@@ -174,13 +188,13 @@ namespace Infobase.Controllers
                 return NotFound();
             }
 
-            return View(new DescriptionPageModel(datatool, language, measure));
+            return View("indicator-details", new DescriptionPageModel(datatool, Language, measure));
         }
 
         [ActionName("publications")]
-        public IActionResult Publications(string datatool, string language, int id)
+        public IActionResult Publications(string datatool)
         {
-            return View($"{datatool}/publications");
+            return View($"{LookupInvariant(datatool)}/publications");
         }
     }
 }

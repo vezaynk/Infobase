@@ -1,7 +1,7 @@
 ﻿@model Infobase.Models.ChartPageModel
 @{
-    Layout = $"{@Model.DatasetName}/_Layout.cshtml";
-    string language = ViewContext.RouteData.Values["language"].ToString();
+    Layout = $"{i18nTransformer.LookupInvariant(Model.DatasetName)}/_Layout.cshtml";
+    string language = i18nTransformer.Culture;
 }
 @Html.React("InitializeChartDataStore", new {
             state = Model
