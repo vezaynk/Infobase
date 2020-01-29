@@ -61,7 +61,7 @@ namespace Models.Contexts.PASS {
         [CVRangeLower]
         public double? CVRangeLower => double.TryParse(ColCVRange1, out var result) ? result : (double?)null;
         [PointAverage]
-        public double? PointAverage => double.TryParse(ColStError, out var result) ? result : (double?)null;
+        public double? PointAverage => double.TryParse(ColData, out var result) ? result : (double?)null;
         [PointUpper]
         public double? PointUpper => double.TryParse(ColCIUpper95, out var result) ? result : (double?)null;
         [PointLower]
