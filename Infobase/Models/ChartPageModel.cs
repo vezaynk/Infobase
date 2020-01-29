@@ -8,7 +8,7 @@ namespace Infobase.Models
     public class ChartPageModel : PageModel
     {
         public ChartData ChartData { get; set; }
-        public List<DropdownMenuModel> Filters;
+        public List<DropdownMenuModel> Filters { get; set; }
         public string DatasetName { get; set; }
 
         public ChartPageModel(string datasetName, string languageCode, ChartData chartData): base(languageCode)
