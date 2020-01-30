@@ -77,7 +77,7 @@ namespace Models.Contexts.PASS {
         [Aggregator]
         public bool Aggregator => false;
         [Include]
-        public bool Include => true;
+        public bool Include => ColIncludeDT == "Y";
 
 
         /** Modify below to mark filters with their levels and text to display**/

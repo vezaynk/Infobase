@@ -184,11 +184,11 @@ namespace Models.Contexts.PASS {
         public ColSpecificMeasure1 ColSpecificMeasure1 { get; set; }
         [BindToMaster("ColDataSource1")]
         [ShowOn(TextAppearance.Notes)]
-        [Text("Data Source 1", "en-ca")]
+        [Text("Data Source", "en-ca")]
         public string ColDataSource1En { get; set; }
         [ShowOn(TextAppearance.Notes)]
         [TranslateProperty("ColDataSource1En")]
-        [Text("Data Source 1", "fr-ca")]
+        [Text("Data Source", "fr-ca")]
         public string ColDataSource1Fr { get; set; }
         [BindToMaster("ColNotes")]
         [ShowOn(TextAppearance.Notes)]
@@ -199,18 +199,18 @@ namespace Models.Contexts.PASS {
         [Text("Notes", "fr-ca")]
         public string ColNotesFr { get; set; }
         [BindToMaster("ColDataSource2")]
-        [ShowOn(TextAppearance.Notes)]
+        
         [Text("Data Source 2", "en-ca")]
         public string ColDataSource2En { get; set; }
-        [ShowOn(TextAppearance.Notes)]
+        
         [TranslateProperty("ColDataSource2En")]
         [Text("Data Source 2", "fr-ca")]
         public string ColDataSource2Fr { get; set; }
         [BindToMaster("ColDataSource3")]
-        [ShowOn(TextAppearance.Notes)]
+        
         [Text("Data Source 3", "en-ca")]
         public string ColDataSource3En { get; set; }
-        [ShowOn(TextAppearance.Notes)]
+        
         [TranslateProperty("ColDataSource3En")]
         [Text("Data Source 3", "fr-ca")]
         public string ColDataSource3Fr { get; set; }
@@ -291,6 +291,9 @@ namespace Models.Contexts.PASS {
         [Text("fr-ca")]
         [TranslateProperty("DataLabelTableEn")]
         public string DataLabelTableFr { get; set; }
+
+        [Type]
+        public int Type => ColDisaggregationNameEn == "Total population" ? 1 : 0;
     }
     
 }

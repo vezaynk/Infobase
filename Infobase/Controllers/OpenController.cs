@@ -112,7 +112,7 @@ namespace Infobase.Controllers
                     Value = (double?)averageValueProperty.GetValue(child),
                     ValueLower = (double?)lowerValueProperty.GetValue(child),
                     ValueUpper = (double?)upperValueProperty.GetValue(child),
-                    Type = 0//(int)typeProperty.GetValue(child)
+                    Type = typeProperty?.GetValue(child) as int? ?? 0
                 }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,

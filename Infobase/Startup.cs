@@ -19,8 +19,6 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using CommandLine;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Newtonsoft.Json.Serialization;
 
 namespace Infobase
 {
@@ -187,17 +185,6 @@ namespace Infobase
         public static PreserveCasePolicy Policy => new PreserveCasePolicy();
 
         public override string ConvertName(string name) => name;
-    }
-    class CamelCaseExceptDictionaryKeysResolver : CamelCasePropertyNamesContractResolver
-    {
-        protected override JsonDictionaryContract CreateDictionaryContract(Type objectType)
-        {
-            JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
-
-            contract.DictionaryKeyResolver = propertyName => propertyName;
-
-            return contract;
-        }
     }
 
 }
