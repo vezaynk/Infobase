@@ -310,7 +310,7 @@ namespace Model_Generator
 
                 foreach (var entity in dbset)
                 {
-                    var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata.FindPropertyOnType<ChildrenAttribute>(type).GetValue((object)entity));
+                    var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata.FindPropertyOnType<ChildrenAttribute>(type).GetValue((object)entity) ?? Enumerable.Empty<object>());
                     var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || childDefaultChildProperty.GetValue(c) != null));
                     if (defaultChild != null)
                         defaultChildProperty.SetValue(entity, defaultChild);

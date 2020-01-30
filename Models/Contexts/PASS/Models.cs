@@ -293,7 +293,7 @@ namespace Models.Contexts.PASS {
         public string DataLabelTableFr { get; set; }
 
         [Type]
-        public int Type => ColDisaggregationNameEn == "Total population" ? 1 : 0;
+        public int Type => this == ColDataBreakdowns.DefaultColDisaggregation ? 1 : 0;
     }
     
 }
