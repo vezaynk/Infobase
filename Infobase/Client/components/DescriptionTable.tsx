@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export type DescriptionTableProps = {
-    descriptionTable: { [name: string]: string }
+    descriptionTable: { name: string, body: string }[]
 }
 
 export const DescriptionTable: React.FC<DescriptionTableProps> = (props) => {
@@ -10,9 +10,9 @@ export const DescriptionTable: React.FC<DescriptionTableProps> = (props) => {
     return (
         <table className="table table-striped table-hover table-condensed table-bordered">
             <tbody>
-                {Object.entries(props.descriptionTable).map(([header, body], i) => (
+                {props.descriptionTable.map(({name, body}, i) => (
                     <tr key={i}>
-                        <th>{header}</th>
+                        <th>{name}</th>
                         <td>{body || notApplicable}</td>
                     </tr>
                 ))}

@@ -116,8 +116,8 @@ namespace Infobase.Controllers
                 }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,
-                DescriptionTable = measureDescription.ToDictionary(mp => mp.Name, mp => (string)mp.Value),
-                Notes = notes.ToDictionary(mp => mp.Name, mp => (string)mp.Value)
+                DescriptionTable = measureDescription.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
+                Notes = notes.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList()
             };
 
             var cpm = new ChartPageModel(datatool, Language, chart);

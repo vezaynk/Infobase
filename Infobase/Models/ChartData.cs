@@ -19,6 +19,10 @@ namespace Infobase.Models
     public enum ChartType { Bar, Trend };
     public class ChartData
     {
+        public ChartData() {
+            DescriptionTable = new List<MeasureAttribute>();
+            Notes = new List<MeasureAttribute>();
+        }
         public string XAxis { get; set; }
         public string YAxis { get; set; }
         public string Unit { get; set; }
@@ -27,7 +31,7 @@ namespace Infobase.Models
         public double? SuppressCV { get; set; }
         public string Title { get; set; }
         public ChartType ChartType { get; set; }
-        public dynamic DescriptionTable { get; set; }
-        public dynamic Notes { get; set; }
+        public ICollection<MeasureAttribute> DescriptionTable { get; set; }
+        public ICollection<MeasureAttribute> Notes { get; set; }
     }
 }

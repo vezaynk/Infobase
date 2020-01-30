@@ -18,6 +18,9 @@ using Models.Metadata;
 using Microsoft.AspNetCore.Mvc.Razor;
 using CommandLine;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Newtonsoft.Json.Serialization;
 
 namespace Infobase
 {
@@ -45,7 +48,11 @@ namespace Infobase
             services.AddHttpContextAccessor();
             services.AddSingleton<I18nTransformer>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.DictionaryKeyPolicy = PreserveCasePolicy.Policy;
+            });
 
             services.AddRouting();
 
@@ -166,12 +173,30 @@ namespace Infobase
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{datatool}/{page}/{id?}",
-                    defaults: new { controller = "Open", action="Index", page = "Index" },
+                    defaults: new { controller = "Open", action = "Index", page = "Index" },
                     constraints: new { datatool = i18nTransformer, page = i18nTransformer }
                 );
 
-                endpoints.MapControllerRoute("Index listing", "/", new { controller = "Open", action = "List"});
+                endpoints.MapControllerRoute("Index listing", "/", new { controller = "Open", action = "List" });
             });
+        }
+    }
+
+    public class PreserveCasePolicy : JsonNamingPolicy
+    {
+        public static PreserveCasePolicy Policy => new PreserveCasePolicy();
+
+        public override string ConvertName(string name) => name;
+    }
+    class CamelCaseExceptDictionaryKeysResolver : CamelCasePropertyNamesContractResolver
+    {
+        protected override JsonDictionaryContract CreateDictionaryContract(Type objectType)
+        {
+            JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
+
+            contract.DictionaryKeyResolver = propertyName => propertyName;
+
+            return contract;
         }
     }
 

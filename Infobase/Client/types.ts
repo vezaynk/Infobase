@@ -28,12 +28,8 @@ export interface ChartData {
     source: string,
     organization: string,
     population: string,
-    notes: {
-        [name: string]: string
-    },
-    descriptionTable: {
-        [name: string]: string
-    }
+    notes: { name: string, body: string }[],
+    descriptionTable: { name: string, body: string }[],
     warningCV: number | void,
     suppressCV: number | void,
     unit: string,

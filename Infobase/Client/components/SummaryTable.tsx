@@ -89,8 +89,8 @@ export const SummaryTable: React.FC<SummaryTableProps> = (props) => {
                         </table>
                     </div>
                     <div className="col-md-12 mrgn-tp-0 small notes bg-warning">
-                        {Object.entries(props.chartData.notes).map(([header, body], i) => (
-                            <p key={i}><strong>{header}:</strong> {body}</p>
+                        {props.chartData.notes.map(({name, body}, i) => (
+                            <p key={i}><strong>{name}:</strong> {body}</p>
                         ))}
                         
                         {cVWarningText}

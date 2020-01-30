@@ -8,10 +8,10 @@
 <h2>@Model.Title</h2>
 <table class="table table-striped table-hover table-condensed table-bordered">
 <tbody>
-        @foreach (var attr in Model.Attributes) {
+        @foreach (var attr in Model.MeasureAttributes) {
             <tr>
-                <th>@attr.Key</th>
-                <td>@attr.Value</td>
+                <th>@attr.Name</th>
+                <td>@attr.Body</td>
             </tr>
         }
 </tbody></table>

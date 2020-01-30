@@ -205,12 +205,14 @@ namespace Models.Contexts.PASS {
         [Text("Data Source 1", "en-ca")]
         [Text("Data Source 1", "fr-ca")]
         [CSVColumn("Data Source 1")]
+        [ShowOn(TextAppearance.Notes)]
         public string ColDataSource1 { get; set; }
         
         
         [Text("Notes", "en-ca")]
         [Text("Notes", "fr-ca")]
         [CSVColumn("Notes")]
+        [ShowOn(TextAppearance.Notes)]
         public string ColNotes { get; set; }
         
         
@@ -229,6 +231,7 @@ namespace Models.Contexts.PASS {
         [Text("Data Source 2", "en-ca")]
         [Text("Data Source 2", "fr-ca")]
         [CSVColumn("Data Source 2")]
+        [ShowOn(TextAppearance.Notes)]
         public string ColDataSource2 { get; set; }
         
         
@@ -241,18 +244,21 @@ namespace Models.Contexts.PASS {
         [Text("Definition", "en-ca")]
         [Text("Definition", "fr-ca")]
         [CSVColumn("Defintion")]
+        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColDefinition { get; set; }
         
         
         [Text("Data Source 3", "en-ca")]
         [Text("Data Source 3", "fr-ca")]
         [CSVColumn("Data Source 3")]
+        [ShowOn(TextAppearance.Notes)]
         public string ColDataSource3 { get; set; }
         
         
         [Text("Data Available", "en-ca")]
         [Text("Data Available", "fr-ca")]
         [CSVColumn("Data Available")]
+        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColDataAvailable { get; set; }
         
         
@@ -265,12 +271,14 @@ namespace Models.Contexts.PASS {
         [Text("Estimate Calculation", "en-ca")]
         [Text("Estimate Calculation", "fr-ca")]
         [CSVColumn("Estimate Calculation")]
+        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColEstimateCalculation { get; set; }
         
         
         [Text("Additional Remarks", "en-ca")]
         [Text("Additional Remarks", "fr-ca")]
         [CSVColumn("Additional Remarks")]
+        [ShowOn(TextAppearance.MeasureDescription)]
         public string ColAdditionalRemarks { get; set; }
         
         
