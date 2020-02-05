@@ -307,9 +307,11 @@ namespace Model_Generator
                 var defaultChildProperty = Metadata.FindPropertyOnType<DefaultChildAttribute>(type);
                 var childType = defaultChildProperty.PropertyType;
                 var childDefaultChildProperty = Metadata.FindPropertyOnType<DefaultChildAttribute>(childType);
-
+            
                 foreach (var entity in dbset)
                 {
+                    // TODO, make sure the Type is considered in selecting the defaultChild
+                    // Re-order children in accordance with it, if available (data points only)
                     var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata.FindPropertyOnType<ChildrenAttribute>(type).GetValue((object)entity) ?? Enumerable.Empty<object>());
                     var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || childDefaultChildProperty.GetValue(c) != null));
                     if (defaultChild != null)

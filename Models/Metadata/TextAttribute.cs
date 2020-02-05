@@ -22,6 +22,15 @@ namespace Models.Metadata
                 current = GetParentOf(current);
             };
         }
+        public static IEnumerable<object> GetAllDefaultChildrenNodes(object node)
+        {
+            var current = node;
+            while (current != null)
+            {
+                yield return current;
+                current = GetDefaultChildOf(current);
+            };
+        }
 
         public static IEnumerable<PropertyInfo> FindPropertiesOnType<T>(Type type) where T : Attribute => 
             type.GetProperties().Where(p => p.GetCustomAttribute<T>() != null);
@@ -43,7 +52,7 @@ namespace Models.Metadata
             FindTextPropertiesOnNode<TextAttribute>(node, languageCode, textAppearance);
 
         public static IEnumerable<MetadataProperty> FindTextPropertiesOnTree<T>(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) where T : Attribute =>
-            GetAllParentNodes(node)
+            GetAllParentNodes(node).Concat(GetAllDefaultChildrenNodes(node)).Distinct()
                 .SelectMany(n => FindTextPropertiesOnNode<T>(n, languageCode, textAppearance));
 
         public static IEnumerable<MetadataProperty> FindTextPropertiesOnTree(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) =>
@@ -54,6 +63,14 @@ namespace Models.Metadata
             var property = FindPropertyOnType<ParentAttribute>(child.GetType());
             if (property != null)
                 return property.GetValue(child);
+
+            return null;
+        }
+        public static object GetDefaultChildOf(object parent)
+        {
+            var property = FindPropertyOnType<DefaultChildAttribute>(parent.GetType());
+            if (property != null)
+                return property.GetValue(parent);
 
             return null;
         }

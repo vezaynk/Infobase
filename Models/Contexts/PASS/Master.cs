@@ -43,6 +43,12 @@ namespace Models.Contexts.PASS {
                 [ShowOn(TextAppearance.Filter)] <- Implicitly applied when using [Filter(...)], do not use
                 [ShowOn(TextAppearance.MeasureDescription)] <- Appears in measure description tables
                 [ShowOn(TextAppearance.Notes)] <- Appears in the notes section in the data tool
+
+            ** Display as Type **
+                [Type] <- Decides the type of the data point
+                            0 = Normal data point
+                            1 = Representative data point, draws as a line instead of a bar
+                            2 = Super representative data point, additionally appears as the value used for quick stats
         **/
         [Key]
         public int Index { get; set; }
@@ -76,6 +82,8 @@ namespace Models.Contexts.PASS {
         public string DataLabelChart => ColDisaggregation;
         [Aggregator]
         public bool Aggregator => false;
+        [Type]
+        public int Type => int.TryParse(ColDisplayData, out var result) ? result : 0;
         [Include]
         public bool Include => ColIncludeDT == "Y";
 

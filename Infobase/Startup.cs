@@ -10,14 +10,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using React.AspNet;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Routing;
 using System.Reflection;
 using Models.Metadata;
-using Microsoft.AspNetCore.Mvc.Razor;
-using CommandLine;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Text.Json;
 
 namespace Infobase
@@ -134,7 +131,7 @@ namespace Infobase
             return services.BuildServiceProvider();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

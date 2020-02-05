@@ -13,6 +13,7 @@
     <PackageReference Include="commandlineparser" Version="2.6.0" />
     <PackageReference Include="CSvhelper" Version="12.1.2" />
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.linux-x64" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.8.0" />
     <PackageReference Include="React.AspNet" Version="5.1.2" />
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore" Version="3.3.0" />

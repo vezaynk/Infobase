@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Infobase.Models;
 using Models.Metadata;
 using System.Reflection;
+using Microsoft.AspNetCore.Routing;
 
 namespace Infobase.Controllers
 {
@@ -15,12 +16,44 @@ namespace Infobase.Controllers
         private readonly Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contexts;
         private I18nTransformer _i18nTransformer;
         private string Language => _i18nTransformer.Culture;
+        private readonly LinkGenerator _linkGenerator;
 
-        public OpenController(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup, I18nTransformer i18nTransformer)
+        public OpenController(Dictionary<string, SortedDictionary<Type, ICollection<dynamic>>> contextLookup, I18nTransformer i18nTransformer, LinkGenerator linkGenerator)
         {
             contexts = contextLookup;
             _i18nTransformer = i18nTransformer;
+            _linkGenerator = linkGenerator;
         }
+
+        [NonAction]
+        public string MakeLink(string datatool, string page, int? id=null, int? index=null) => _linkGenerator.GetPathByRouteValues(
+            httpContext: HttpContext, 
+            routeName: "default", 
+            values: new { datatool, page, id, index }, 
+            pathBase: new Microsoft.AspNetCore.Http.PathString("/")
+        );
+
+        public IActionResult Sitemap() {
+            var datatools = contexts.Select((kvContext) => {
+                var fullKey = kvContext.Key;
+                var key = fullKey.Substring(0, fullKey.Length - "Context".Length);
+
+                var context = kvContext.Value;
+
+                var indexes = context.Keys.Select(k => {
+                    var indexes = context[k].Select(item => (int)item.Index);
+                    return indexes;
+                })
+                .Aggregate((a, b) => a.Concat(b))
+                .Select(index => MakeLink(key, "data-tool", index: index));
+                
+                
+                return new { key, indexes };
+            });
+
+            return Json(new { datatools });
+        }
+
         [NonAction]
         public string LookupInvariant(string datatool) => _i18nTransformer.LookupInvariant(datatool);
         [NonAction]
@@ -35,6 +68,7 @@ namespace Infobase.Controllers
                 case "data-tool": return Datatool(datatool, index, api);
                 case "indicator-details": return Details(datatool, id??0);
                 case "publications": return Publications(datatool);
+                case "sitemap": return Sitemap();
             }
 
             return List();
