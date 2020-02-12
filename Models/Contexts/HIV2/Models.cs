@@ -9,7 +9,7 @@ using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Contexts.HIV {
+namespace Models.Contexts.HIV2 {
     [Filter(0)]
     public class ColIndicatorParent {
         public int Index { get; set; }
@@ -55,8 +55,6 @@ namespace Models.Contexts.HIV {
         [Include]
         [BindToMaster("Include")]
         public bool Include { get; set; }
-        [ChartType]
-        public ChartType ChartType => ChartType.Bar;
     }
     [Filter(2)]
     public class ColLocation {
@@ -80,6 +78,8 @@ namespace Models.Contexts.HIV {
         public int ColSecondaryBreakdownNameId { get; set; }
         [Parent]
         public ColSecondaryBreakdownName ColSecondaryBreakdownName { get; set; }
+        [ChartType]
+        public ChartType ChartType => ChartType.Stack;
         [Title]
         [Text("en-ca")]
         [BindToMaster("Title")]
@@ -157,6 +157,17 @@ namespace Models.Contexts.HIV {
         [Text("fr-ca")]
         [TranslateProperty("DataLabelTableEn")]
         public string DataLabelTableFr { get; set; }
+        [Type]
+        [BindToMaster("Type")]
+        public int Type { get; set; }
+        [AggregatorLabel]
+        [Text("en-ca")]
+        [BindToMaster("AggregatorLabel")]
+        public string AggregatorLabelEn { get; set; }
+        [AggregatorLabel]
+        [TranslateProperty("AggregatorLabelEn")]
+        [Text("fr-ca")]
+        public string AggregatorLabelFr { get; set; }
     }
     
 }

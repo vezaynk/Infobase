@@ -125,9 +125,8 @@ namespace Models.Contexts.PASS {
         [Include]
         [BindToMaster("Include")]
         public bool Include { get; set; }
-        [Aggregator]
-        [BindToMaster("Aggregator")]
-        public bool IsAggregator { get; set; }
+        [ChartType]
+        public ChartType ChartType => ChartType.Bar;
     }
     [Filter(5)]
     public class ColDataBreakdowns {

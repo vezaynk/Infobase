@@ -240,7 +240,9 @@ namespace Model_Generator
                             {
                                 var columnName = parentProperty.GetCustomAttribute<BindToMasterAttribute>().MasterPropertyName;
                                 var childProperty = masterType.GetProperty(columnName);
-
+                                if (childProperty == null) {
+                                    Console.WriteLine($"ERROR: Failed to bind to master using '{columnName}', check your models.");
+                                }
                                 var childValue = childProperty.GetValue(child);
 
                                 try
@@ -313,7 +315,12 @@ namespace Model_Generator
                     // TODO, make sure the Type is considered in selecting the defaultChild
                     // Re-order children in accordance with it, if available (data points only)
                     var children = Enumerable.Cast<dynamic>((IEnumerable)Metadata.FindPropertyOnType<ChildrenAttribute>(type).GetValue((object)entity) ?? Enumerable.Empty<object>());
-                    var defaultChild = children.FirstOrDefault(c => (types.SkipLast(1).Last() == type || childDefaultChildProperty.GetValue(c) != null));
+                    
+                    var typeProperty = Metadata.FindPropertyOnType<TypeAttribute>(childType);
+                    if (typeProperty != null)
+                        children = children.OrderByDescending(c => typeProperty.GetValue(c));
+                        
+                    var defaultChild = children.FirstOrDefault(c => (types.Last() == childType || childDefaultChildProperty.GetValue(c) != null));
                     if (defaultChild != null)
                         defaultChildProperty.SetValue(entity, defaultChild);
                 }

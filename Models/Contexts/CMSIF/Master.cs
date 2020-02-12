@@ -72,8 +72,7 @@ namespace Models.Contexts.CMSIF {
         public string DataLabelTable => ColDisaggregation;
         [DataLabelChart]
         public string DataLabelChart => ColDisaggregation;
-        [Aggregator]
-        public bool Aggregator => false;
+        
         [Include]
         public bool Include => true;
 

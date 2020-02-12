@@ -131,7 +131,7 @@ namespace Infobase.Controllers
             var unit = (string)Metadata.FindTextPropertiesOnTree<UnitShortAttribute>((object)selectedBreakdown, Language).FirstOrDefault()?.Value;
             var title = (string)Metadata.FindTextPropertiesOnTree<TitleAttribute>((object)selectedBreakdown, Language).FirstOrDefault()?.Value;
 
-            ChartData chart = chart = new ChartData
+            var chart = new ChartData
             {
                 XAxis = xAxis,
                 YAxis = yAxis,
@@ -146,12 +146,14 @@ namespace Infobase.Controllers
                     Value = (double?)averageValueProperty.GetValue(child),
                     ValueLower = (double?)lowerValueProperty.GetValue(child),
                     ValueUpper = (double?)upperValueProperty.GetValue(child),
-                    Type = typeProperty?.GetValue(child) as int? ?? 0
+                    Type = typeProperty?.GetValue(child) as int? ?? 0,
+                    AggregatorLabel = (string)Metadata.FindTextPropertiesOnTree<AggregatorLabelAttribute>((object)child, Language).FirstOrDefault()?.Value
                 }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,
                 DescriptionTable = measureDescription.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
-                Notes = notes.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList()
+                Notes = notes.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
+                ChartType = Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType).GetValue(selectedBreakdown)
             };
 
             var cpm = new ChartPageModel(datatool, Language, chart);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models.Metadata;
 
 namespace Infobase.Models
 {
@@ -15,8 +16,8 @@ namespace Infobase.Models
         public double? CVValue { get; set; }
         public int CVInterpretation { get; set; }
         public int Type { get; set; }
+        public string AggregatorLabel { get; set; }
     }
-    public enum ChartType { Bar, Trend };
     public class ChartData
     {
         public ChartData() {

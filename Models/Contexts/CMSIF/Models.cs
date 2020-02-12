@@ -78,9 +78,7 @@ namespace Models.Contexts.CMSIF {
         [Include]
         [BindToMaster("Include")]
         public bool Include { get; set; }
-        [Aggregator]
-        [BindToMaster("Aggregator")]
-        public bool IsAggregator { get; set; }
+        
         [BindToMaster("ColDataSource")]
         public string ColDataSource { get; set; }
     }

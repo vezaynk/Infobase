@@ -1,5 +1,4 @@
-import { LanguageCode, TranslationType } from "./types"
-import { dataExplorerStore } from './store/dataExplorer';
+import { LanguageCode } from "./types"
 
 export function textFormat(text: string, substitutions: {[key: string]: string}) {
     Object.keys(substitutions).forEach(subkey => {

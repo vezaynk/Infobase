@@ -10,21 +10,33 @@ export interface FilterData {
     selected: number
 }
 
-export interface TPoint {
+export interface Point {
     value: number | void,
     valueUpper: number | void,
     valueLower: number | void,
     label: string,
-    text: String,
+    text: string,
     cvValue: number | void,
     cvInterpretation: 1 | 2 | 3,
-    type: 0 | 1 | 2
+    type: 0 | 1 | 2,
+    aggregatorLabel: string
 };
 
+
+type BarChartType = 0;
+type TrendChartType = 1;
+type Stack = 2;
+type ChartType = BarChartType | TrendChartType | Stack;
+
+export const ChartType: {[key: string]: ChartType} = {
+    Bar: 0,
+    Trend: 1,
+    Stack: 2
+}
 export interface ChartData {
     xAxis: string,
     yAxis: string,
-    points: Array<TPoint>,
+    points: Array<Point>,
     source: string,
     organization: string,
     population: string,
@@ -34,11 +46,11 @@ export interface ChartData {
     suppressCV: number | void,
     unit: string,
     measureName: string,
-    title: string
+    title: string,
+    chartType: ChartType
 };
 
 export type LanguageCode =  "en-ca" | "fr-ca";
-export type TranslationType = "Index" | "Datatool" | "alt";
 
 export interface DataExplorerState {
     filters: FilterData[],

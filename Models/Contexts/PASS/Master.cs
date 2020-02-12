@@ -80,8 +80,8 @@ namespace Models.Contexts.PASS {
         public string DataLabelTable => ColDisaggregation;
         [DataLabelChart]
         public string DataLabelChart => ColDisaggregation;
-        [Aggregator]
-        public bool Aggregator => false;
+        [ChartType]
+        public ChartType ChartType => ChartType.Bar;
         [Type]
         public int Type => int.TryParse(ColDisplayData, out var result) ? result : 0;
         [Include]
