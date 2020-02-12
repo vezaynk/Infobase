@@ -237,9 +237,30 @@ export function renderChart(
   let select = chart.select(".main");
 
   const isTrend = dataset.chartType == ChartType.Trend;
+  const isStack = dataset.chartType == ChartType.Stack;
 
-  let points = dataset.points.filter(point => point.type == 0 || isTrend);
-  let averages = dataset.points.filter(point => point.type != 0 && !isTrend);
+  let points = dataset.points.filter(
+    point => point.type == 0 || isTrend || isStack
+  ).slice().sort((a, b) => (b.value || 0) - (a.value || 0));
+  let averages = dataset.points.filter(point => !points.includes(point));
+
+  const stacks = points
+    .reduce<{[key: string]: Point[]}>((a, b) => {
+      if (!a[b.aggregatorLabel]) {
+        a[b.aggregatorLabel] = [];
+      }
+
+      const sum = a[b.aggregatorLabel].map(p => p.value || 0).reduce((a, b) => a + b, 0);
+      const p = {
+        ...b,
+        value: sum + (b.value || 0)
+      }
+      a[b.aggregatorLabel].push(p);
+
+      return a;
+    }, {});
+
+    console.log("stacks", stacks);
 
   let animationDuration = 525;
   const optionalTransition = function<
@@ -275,10 +296,7 @@ export function renderChart(
     .scaleLinear()
     .domain([
       0,
-      d3.max(
-        dataset.points,
-        point => (point.valueUpper || point.value || 0) * 1.1
-      )
+      d3.max(dataset.points, point => point.valueUpper || point.value || 0)
     ])
     .range([height, 0]);
 
@@ -332,7 +350,12 @@ export function renderChart(
     enteredRect
       .attr(
         "x",
-        (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2
+        (d, i) => {
+          if (isStack) {
+            return (Object.keys(stacks).indexOf(d.aggregatorLabel) + 0.5) * (width / Object.keys(stacks).length)
+          }
+          return (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2
+        }
       )
       .attr("width", isTrend ? 10 : 25)
       //.style("fill", "steelblue")
@@ -342,7 +365,7 @@ export function renderChart(
   )
     .attr("y", d => (isTrend ? y(d.value || 0) - 5 : y(d.value || 0)))
     .attr("height", d => (isTrend ? 10 : height - y(d.value || 0)))
-    .attr("fill", "steelblue")
+    .attr("fill", (d, i) => isStack ? d3.interpolateBrBG(i/points.length) : "steelblue")
     .attr("opacity", (d, i) =>
       isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex
         ? 0.2
@@ -361,11 +384,16 @@ export function renderChart(
     .attr("width", isTrend ? 10 : 25)
     .attr(
       "x",
-      (d, i) => (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2
+      (d, i) => {
+        if (isStack) {
+          return (Object.keys(stacks).indexOf(d.aggregatorLabel) + 0.5) * (width / Object.keys(stacks).length)
+        }
+        return (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2
+      }
     )
     .attr("height", (d, i) => (isTrend ? 10 : height - y(d.value || 0)))
     .attr("y", d => (isTrend ? y(d.value || 0) - 5 : y(d.value || 0)))
-    .attr("fill", "steelblue")
+    .attr("fill", (d, i) => isStack ? d3.interpolateBrBG(i/points.length) : "steelblue")
     .attr("opacity", (d, i) =>
       isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex
         ? 1
