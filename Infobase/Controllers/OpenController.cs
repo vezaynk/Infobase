@@ -153,7 +153,7 @@ namespace Infobase.Controllers
                 SuppressCV = null,
                 DescriptionTable = measureDescription.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
                 Notes = notes.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
-                ChartType = Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType).GetValue(selectedBreakdown)
+                ChartType = (ChartType)Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType).GetValue(selectedBreakdown)
             };
 
             var cpm = new ChartPageModel(datatool, Language, chart);

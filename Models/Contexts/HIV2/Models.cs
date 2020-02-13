@@ -79,7 +79,8 @@ namespace Models.Contexts.HIV2 {
         [Parent]
         public ColSecondaryBreakdownName ColSecondaryBreakdownName { get; set; }
         [ChartType]
-        public ChartType ChartType => ChartType.Stack;
+        [BindToMaster("ChartType")]
+        public ChartType ChartType { get; set; }
         [Title]
         [Text("en-ca")]
         [BindToMaster("Title")]

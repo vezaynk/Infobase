@@ -227,11 +227,7 @@ export function renderChart(
   ref: Element,
   dataset: ChartData,
   culture: LanguageCode,
-  animate: boolean,
-  highlightIndex: number,
-  highlightUpper: number,
-  highlightLower: number,
-  updateHighlight: (newIndex: number) => void
+  animate: boolean
 ): void {
   let chart = d3.select(ref);
   let select = chart.select(".main");
@@ -241,26 +237,26 @@ export function renderChart(
 
   let points = dataset.points.filter(
     point => point.type == 0 || isTrend || isStack
-  ).slice().sort((a, b) => (b.value || 0) - (a.value || 0));
+  );
+
   let averages = dataset.points.filter(point => !points.includes(point));
 
-  const stacks = points
-    .reduce<{[key: string]: Point[]}>((a, b) => {
-      if (!a[b.aggregatorLabel]) {
-        a[b.aggregatorLabel] = [];
-      }
+  const stacks = points.reduce<{ [key: string]: Point[] }>((a, b) => {
+    if (!a[b.aggregatorLabel]) {
+      a[b.aggregatorLabel] = [];
+    }
+    const arr = a[b.aggregatorLabel];
+    const previous = arr[arr.length-1];
+    const p = {
+      ...b,
+      value: (previous ? previous.value || 0 : 0) + (b.value || 0)
+    };
+    arr.push(p);
 
-      const sum = a[b.aggregatorLabel].map(p => p.value || 0).reduce((a, b) => a + b, 0);
-      const p = {
-        ...b,
-        value: sum + (b.value || 0)
-      }
-      a[b.aggregatorLabel].push(p);
+    return a;
+  }, {});
 
-      return a;
-    }, {});
-
-    console.log("stacks", stacks);
+  console.log("stacks", stacks);
 
   let animationDuration = 525;
   const optionalTransition = function<
@@ -289,15 +285,22 @@ export function renderChart(
   }
   let x = d3
     .scaleBand()
-    .domain(points.map(point => point.label))
+    .domain(
+      points.map(point => (isStack ? point.aggregatorLabel : point.label))
+    )
     .range([0, width]);
+
+  const maxValue = !isStack
+    ? d3.max(dataset.points, point => point.valueUpper || point.value || 0)
+    : d3.max(
+        Object.values(stacks).map(points =>
+          points.map(p => p.value || 0).reduce((a, b) => Math.max(a, b))
+        )
+      );
 
   let y = d3
     .scaleLinear()
-    .domain([
-      0,
-      d3.max(dataset.points, point => point.valueUpper || point.value || 0)
-    ])
+    .domain([0, maxValue])
     .range([height, 0]);
 
   optionalTransition(
@@ -348,29 +351,52 @@ export function renderChart(
 
   optionalTransition(
     enteredRect
-      .attr(
-        "x",
-        (d, i) => {
-          if (isStack) {
-            return (Object.keys(stacks).indexOf(d.aggregatorLabel) + 0.5) * (width / Object.keys(stacks).length)
-          }
-          return (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2
+      .attr("x", (d, i) => {
+        if (isStack) {
+          return (
+            (Object.keys(stacks).indexOf(d.aggregatorLabel) + 0.5) *
+              (width / Object.keys(stacks).length) -
+            25 / 2
+          );
         }
-      )
+        return (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2;
+      })
       .attr("width", isTrend ? 10 : 25)
       //.style("fill", "steelblue")
       .attr("ry", isTrend ? 10 : 0)
       .attr("rx", isTrend ? 10 : 0)
       .attr("y", height)
   )
-    .attr("y", d => (isTrend ? y(d.value || 0) - 5 : y(d.value || 0)))
-    .attr("height", d => (isTrend ? 10 : height - y(d.value || 0)))
-    .attr("fill", (d, i) => isStack ? d3.interpolateBrBG(i/points.length) : "steelblue")
-    .attr("opacity", (d, i) =>
-      isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex
-        ? 0.2
-        : 1
-    );
+    .attr("y", d => {
+      if (isTrend) return y(d.value || 0) - 5;
+
+      if (isStack)
+        return y(
+          stacks[d.aggregatorLabel].find(
+            p => p.label == d.label && p.text == d.text
+          ).value || 0
+        );
+      return y(d.value || 0);
+    })
+    .attr("height", d => {
+      if (isTrend) return 10;
+
+      if (isStack) return height - y(d.value || 0);
+
+      return height - y(d.value || 0);
+    })
+    .attr("fill", (d, i) => {
+      if (isStack) {
+        const position = stacks[d.aggregatorLabel]
+          .map(p => p.text)
+          .indexOf(d.text);
+        const length = stacks[d.aggregatorLabel].length;
+
+        return d3.interpolateRainbow(position / length);
+      }
+      return "steelblue";
+    })
+    .attr("opacity", 1);
 
   enteredRect
     .append("title")
@@ -382,30 +408,49 @@ export function renderChart(
     .attr("ry", isTrend ? 10 : 0)
     .attr("rx", isTrend ? 10 : 0)
     .attr("width", isTrend ? 10 : 25)
-    .attr(
-      "x",
-      (d, i) => {
-        if (isStack) {
-          return (Object.keys(stacks).indexOf(d.aggregatorLabel) + 0.5) * (width / Object.keys(stacks).length)
-        }
-        return (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2
+    .attr("x", (d, i) => {
+      if (isStack) {
+        return (
+          (Object.keys(stacks).indexOf(d.aggregatorLabel) + 0.5) *
+            (width / Object.keys(stacks).length) -
+          25 / 2
+        );
       }
-    )
-    .attr("height", (d, i) => (isTrend ? 10 : height - y(d.value || 0)))
-    .attr("y", d => (isTrend ? y(d.value || 0) - 5 : y(d.value || 0)))
-    .attr("fill", (d, i) => isStack ? d3.interpolateBrBG(i/points.length) : "steelblue")
-    .attr("opacity", (d, i) =>
-      isPointInRange(highlightUpper, highlightLower, d) && i != highlightIndex
-        ? 1
-        : 1
-    ) //Point A to 0.2 to bring back functionality
+      return (i + 0.5) * (width / points.length) - (isTrend ? 10 : 25) / 2;
+    })
+    .attr("height", d => {
+      if (isTrend) return 10;
+      if (isStack) return height - y(d.value || 0);
+
+      return height - y(d.value || 0);
+    })
+    .attr("y", d => {
+      if (isTrend) return y(d.value || 0) - 5;
+
+      if (isStack)
+        return y(
+          stacks[d.aggregatorLabel].find(
+            p => p.label == d.label && p.text == d.text
+          ).value || 0
+        );
+      return y(d.value || 0);
+    })
+    .attr("fill", (d, i) => {
+      if (isStack) {
+        const position = stacks[d.aggregatorLabel]
+          .map(p => p.text)
+          .indexOf(d.text);
+        const length = stacks[d.aggregatorLabel].length;
+
+        return d3.interpolateRainbow(position / length);
+      }
+      return "steelblue";
+    })
+    .attr("opacity", 1)
     .select("title")
     .text(
       d => d.label + ": " + numberFormat(d.value || 0, culture, dataset.unit)
     );
-
-  pointBinding.on("mouseover", (_, i) => updateHighlight(i));
-  pointBinding.on("mouseout", (_, i) => updateHighlight(-1));
 
   optionalTransition(exitPoint.select("rect"))
     .style("opacity", 0)
@@ -426,13 +471,15 @@ export function renderChart(
       .attr("y", height)
   )
     .attr("y", d => y(d.valueUpper || 0))
-    .attr("height", 2);
+    .attr("height", 2)
+    .style("opacity", d => d.valueUpper ? 1 : 0);
 
   optionalTransition(cvUpperBinding.select("rect"))
     .attr("width", 25)
     .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
     .attr("height", 2)
     .attr("y", d => y(d.valueUpper || 0))
+    .style("opacity", d => d.valueUpper ? 1 : 0)
     .style("fill", "black");
 
   optionalTransition(exitCvUpper.select("rect"))
@@ -455,6 +502,7 @@ export function renderChart(
       .attr("y", height)
   )
     .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
+    .style("opacity", d => d.valueLower ? 1 : 0)
     .attr("y", d => y(d.valueUpper || 0));
 
   optionalTransition(cvConnectBinding.select("rect"))
@@ -462,6 +510,7 @@ export function renderChart(
     .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 2 / 2)
     .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
     .attr("y", d => y(d.valueUpper || 0))
+    .style("opacity", d => d.valueLower ? 1 : 0)
     .style("fill", "black");
 
   optionalTransition(exitCvConnect.select("rect"))
@@ -484,13 +533,15 @@ export function renderChart(
       .attr("y", height)
   )
     .attr("y", d => y(d.valueLower || 0))
-    .attr("height", 2);
+    .attr("height", 2)
+    .style("opacity", d => d.valueLower ? 1 : 0);
 
   optionalTransition(cvLowerBinding.select("rect"))
     .attr("width", 25)
     .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
     .attr("height", 2)
     .attr("y", d => y(d.valueLower || 0))
+    .style("opacity", d => d.valueLower ? 1 : 0)
     .style("fill", "black");
 
   optionalTransition(exitCvLower.select("rect"))

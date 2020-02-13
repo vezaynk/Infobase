@@ -82,9 +82,9 @@ namespace @Model.Namespace {
         @:public string @(measureProp.Name)Fr { get; set; }
         }
 
-        @:[Aggregator]
-        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorAttribute>() != null)?.Name ?? "binding required")")]
-        @:public bool IsAggregator { get; set; }
+        @:[ChartType]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<ChartTypeAttribute>() != null)?.Name ?? "binding required")")]
+        @:public ChartType ChartType { get; set; }
     
         var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance.HasFlag(TextAppearance.Notes) == true);
         foreach (var breakdownProp in breakdownProperties) {

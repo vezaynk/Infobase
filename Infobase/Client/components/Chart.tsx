@@ -9,21 +9,9 @@ type ChartProps = { chartData: ChartData, animate: boolean, languageCode: Langua
 export const Chart: React.FC<ChartProps> = props => {
     const graphEl: React.MutableRefObject<SVGElement> = React.useRef(null);
     const [firstLoad, setFirstLoad] = React.useState(true);
-    const [highlightIndex, setHighlightIndex] = React.useState(-1);
+    
     React.useEffect(() => {
-        let valueUpper = -1;
-        let valueLower = -2;
-        //let isTrend = props.chartData.xAxis.includes("Trend") || props.chartData.xAxis.includes("Tendance");
-        const isTrend = props.chartData.chartType == ChartType.Trend;
-        let highlighted = props.chartData.points.filter(p => p.type == 0 || isTrend)[highlightIndex];
-        if (highlighted) {
-            if (highlighted.valueUpper)
-                valueUpper = highlighted.valueUpper;
-            if (highlighted.valueLower)
-                valueLower = highlighted.valueLower;
-        }
-
-        const doRender = animated => renderChart(graphEl.current, props.chartData, props.languageCode, animated, highlightIndex, valueUpper, valueLower, newHighlightIndex => setHighlightIndex(newHighlightIndex));
+        const doRender = animated => renderChart(graphEl.current, props.chartData, props.languageCode, animated);
 
         doRender(!firstLoad && props.animate);
         const deferredRender = setTimeout(() => doRender(true), 525)
@@ -31,7 +19,6 @@ export const Chart: React.FC<ChartProps> = props => {
 
         return () => {
             clearTimeout(deferredRender);
-            setHighlightIndex(-1);
         }
     })
 

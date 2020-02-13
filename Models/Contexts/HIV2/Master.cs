@@ -26,12 +26,13 @@ namespace Models.Contexts.HIV2 {
                 [UnitLong] (Can be figured out by looking at UnitShort)
 
                 [DataLabelTable]
-                [DataLabelChart]
+                [DataLabelChart] (Appears in chart on hover, used cross-referencing aggregators)
 
                 [Title]
 
                 [AggregatorLabel] (Label to use for aggregation stack, in lieu of the data point's label)
 
+                [ChartType] (Indicates the type of chart to use)
             ** Filters **
                 [Filter(0)] <- Top level
                 [Filter(1)]
@@ -71,13 +72,19 @@ namespace Models.Contexts.HIV2 {
         [UnitLong]
         public string UnitLong => "Percentage (%)";
         [DataLabelTable]
-        public string DataLabelTable => ColIndicatorBreakdown;
+        public string DataLabelTable => $"{ColIndicatorBreakdown} - {ColSecondaryBreakdown}";
         [DataLabelChart]
-        public string DataLabelChart => ColIndicatorBreakdown;
+        public string DataLabelChart => $"{ColSecondaryBreakdown}";
         [AggregatorLabel]
         public string AggregatorLabel => ColIndicatorBreakdown;
         [ChartType]
-        public ChartType ChartType => ChartType.Bar;
+        public ChartType ChartType {
+            get {
+                if (ColSecondaryBreakdownName == "None")
+                    return ChartType.Bar;
+                return ChartType.Stack;
+            }
+        }
         [Include]
         public bool Include => true;
         [Type]

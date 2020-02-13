@@ -17,7 +17,7 @@ function SSChartingComponent(props: ChartingProps) {
     let html = ReactDOMServer.renderToString(React.createElement(Charting, { ...props, animate: false } ));
     let fakeDOM = new JSDOM(html);
     let graph = fakeDOM.window.document.querySelector("#graph");
-    renderChart(graph, props.chartData, props.languageCode ,false, -1, -1, -1, console.log)
+    renderChart(graph, props.chartData, props.languageCode ,false)
     return (<figure dangerouslySetInnerHTML={{ __html: fakeDOM.window.document.querySelector('figure').innerHTML }}></figure>);
 }
 
