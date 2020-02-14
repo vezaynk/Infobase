@@ -246,7 +246,7 @@ export function renderChart(
       a[b.aggregatorLabel] = [];
     }
     const arr = a[b.aggregatorLabel];
-    const previous = arr[arr.length-1];
+    const previous = arr[arr.length - 1];
     const p = {
       ...b,
       value: (previous ? previous.value || 0 : 0) + (b.value || 0)
@@ -255,6 +255,10 @@ export function renderChart(
 
     return a;
   }, {});
+
+  const aggregatorReferences = points
+    .map(p => p.aggregatorReference)
+    .filter((value, index, arr) => arr.indexOf(value) == index);
 
   console.log("stacks", stacks);
 
@@ -387,10 +391,8 @@ export function renderChart(
     })
     .attr("fill", (d, i) => {
       if (isStack) {
-        const position = stacks[d.aggregatorLabel]
-          .map(p => p.text)
-          .indexOf(d.text);
-        const length = stacks[d.aggregatorLabel].length;
+        const position = aggregatorReferences.indexOf(d.aggregatorReference);
+        const length = aggregatorReferences.length;
 
         return d3.interpolateRainbow(position / length);
       }
@@ -437,10 +439,8 @@ export function renderChart(
     })
     .attr("fill", (d, i) => {
       if (isStack) {
-        const position = stacks[d.aggregatorLabel]
-          .map(p => p.text)
-          .indexOf(d.text);
-        const length = stacks[d.aggregatorLabel].length;
+        const position = aggregatorReferences.indexOf(d.aggregatorReference);
+        const length = aggregatorReferences.length;
 
         return d3.interpolateRainbow(position / length);
       }
@@ -472,14 +472,14 @@ export function renderChart(
   )
     .attr("y", d => y(d.valueUpper || 0))
     .attr("height", 2)
-    .style("opacity", d => d.valueUpper ? 1 : 0);
+    .style("opacity", d => (d.valueUpper ? 1 : 0));
 
   optionalTransition(cvUpperBinding.select("rect"))
     .attr("width", 25)
     .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
     .attr("height", 2)
     .attr("y", d => y(d.valueUpper || 0))
-    .style("opacity", d => d.valueUpper ? 1 : 0)
+    .style("opacity", d => (d.valueUpper ? 1 : 0))
     .style("fill", "black");
 
   optionalTransition(exitCvUpper.select("rect"))
@@ -502,7 +502,7 @@ export function renderChart(
       .attr("y", height)
   )
     .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
-    .style("opacity", d => d.valueLower ? 1 : 0)
+    .style("opacity", d => (d.valueLower ? 1 : 0))
     .attr("y", d => y(d.valueUpper || 0));
 
   optionalTransition(cvConnectBinding.select("rect"))
@@ -510,7 +510,7 @@ export function renderChart(
     .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 2 / 2)
     .attr("height", d => y(d.valueLower || 0) - y(d.valueUpper || 0))
     .attr("y", d => y(d.valueUpper || 0))
-    .style("opacity", d => d.valueLower ? 1 : 0)
+    .style("opacity", d => (d.valueLower ? 1 : 0))
     .style("fill", "black");
 
   optionalTransition(exitCvConnect.select("rect"))
@@ -534,14 +534,14 @@ export function renderChart(
   )
     .attr("y", d => y(d.valueLower || 0))
     .attr("height", 2)
-    .style("opacity", d => d.valueLower ? 1 : 0);
+    .style("opacity", d => (d.valueLower ? 1 : 0));
 
   optionalTransition(cvLowerBinding.select("rect"))
     .attr("width", 25)
     .attr("x", (d, i) => (i + 0.5) * (width / points.length) - 25 / 2)
     .attr("height", 2)
     .attr("y", d => y(d.valueLower || 0))
-    .style("opacity", d => d.valueLower ? 1 : 0)
+    .style("opacity", d => (d.valueLower ? 1 : 0))
     .style("fill", "black");
 
   optionalTransition(exitCvLower.select("rect"))

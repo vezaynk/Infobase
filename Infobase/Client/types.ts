@@ -19,7 +19,8 @@ export interface Point {
     cvValue: number | void,
     cvInterpretation: 1 | 2 | 3,
     type: 0 | 1 | 2,
-    aggregatorLabel: string
+    aggregatorLabel: string,
+    aggregatorReference: string
 };
 
 

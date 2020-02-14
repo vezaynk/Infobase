@@ -17,6 +17,7 @@ namespace Infobase.Models
         public int CVInterpretation { get; set; }
         public int Type { get; set; }
         public string AggregatorLabel { get; set; }
+        public string AggregatorReference { get; set; }
     }
     public class ChartData
     {

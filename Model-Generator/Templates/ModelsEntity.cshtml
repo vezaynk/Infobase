@@ -199,6 +199,10 @@ namespace @Model.Namespace {
         @:[TranslateProperty("AggregatorLabelEn")]
         @:[Text("fr-ca")]
         @:public string AggregatorLabelFr { get; set; }
+
+        @:[AggregatorReference]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorReferenceAttribute>() != null)?.Name ?? "binding required")")]
+        @:public string AggregatorReference { get; set; }
     }
 
     @:}

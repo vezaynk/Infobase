@@ -169,6 +169,9 @@ namespace Models.Contexts.HIV2 {
         [TranslateProperty("AggregatorLabelEn")]
         [Text("fr-ca")]
         public string AggregatorLabelFr { get; set; }
+        [AggregatorReference]
+        [BindToMaster("AggregatorReference")]
+        public string AggregatorReference { get; set; }
     }
     
 }

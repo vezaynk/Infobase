@@ -147,7 +147,8 @@ namespace Infobase.Controllers
                     ValueLower = (double?)lowerValueProperty.GetValue(child),
                     ValueUpper = (double?)upperValueProperty.GetValue(child),
                     Type = typeProperty?.GetValue(child) as int? ?? 0,
-                    AggregatorLabel = (string)Metadata.FindTextPropertiesOnTree<AggregatorLabelAttribute>((object)child, Language).FirstOrDefault()?.Value
+                    AggregatorLabel = (string)Metadata.FindTextPropertiesOnTree<AggregatorLabelAttribute>((object)child, Language).FirstOrDefault()?.Value,
+                    AggregatorReference = (string)GetProperty<AggregatorReferenceAttribute>().GetValue((object)child)
                 }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,

@@ -28,7 +28,7 @@
     <ProjectReference Include="../Models/Models.csproj" />
   </ItemGroup>
 
-  <Target Name="BuildAssets" BeforeTargets="Build">
+  <Target Name="PublishAssets" BeforeTargets="Publish">
     <Exec Command="npm install" /> 
     <Exec Command="npm run webpack -- -p" /> 
   </Target>

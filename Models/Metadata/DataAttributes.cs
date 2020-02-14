@@ -52,4 +52,5 @@ namespace Models.Metadata
     public class TypeAttribute : Attribute {}
     public class TitleAttribute : Attribute {}
     public class AggregatorLabelAttribute : Attribute {}
+    public class AggregatorReferenceAttribute: Attribute {}
 }

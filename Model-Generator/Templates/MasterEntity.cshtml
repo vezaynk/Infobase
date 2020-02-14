@@ -35,6 +35,7 @@ namespace Models.Contexts.@(Model.DatasetName) {
                 [Title]
 
                 [AggregatorLabel] (Label to use for aggregation stack, in lieu of the data point's label)
+                [AggregatorReference] (Hidden, used for cross-referencing aggregations)
 
             ** Filters **
                 [Filter(0)] <- Top level
@@ -80,7 +81,8 @@ namespace Models.Contexts.@(Model.DatasetName) {
         public string DataLabelChart => null;
         [AggregatorLabel]
         public string AggregatorLabel => null;
-        
+        [AggregatorReference]
+        public string AggregatorReference => ColIndicatorBreakdown;
         [Include]
         public bool Include => true;
         [Type]

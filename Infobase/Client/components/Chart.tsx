@@ -24,6 +24,7 @@ export const Chart: React.FC<ChartProps> = props => {
 
     return (
         <figure>
+            {props.chartData.xAxis}
             <figcaption className="text-center" style={{ margin: "0 10px" }}>
                 <strong>{props.chartData.title}</strong>
             </figcaption>

@@ -26,11 +26,12 @@ namespace Models.Contexts.HIV2 {
                 [UnitLong] (Can be figured out by looking at UnitShort)
 
                 [DataLabelTable]
-                [DataLabelChart] (Appears in chart on hover, used cross-referencing aggregators)
+                [DataLabelChart]
 
                 [Title]
 
                 [AggregatorLabel] (Label to use for aggregation stack, in lieu of the data point's label)
+                [AggregatorReference] (Hidden, used cross-referencing aggregators)
 
                 [ChartType] (Indicates the type of chart to use)
             ** Filters **
@@ -74,9 +75,11 @@ namespace Models.Contexts.HIV2 {
         [DataLabelTable]
         public string DataLabelTable => $"{ColIndicatorBreakdown} - {ColSecondaryBreakdown}";
         [DataLabelChart]
-        public string DataLabelChart => $"{ColSecondaryBreakdown}";
+        public string DataLabelChart => $"{ColIndicatorBreakdown} - {ColSecondaryBreakdown}";
         [AggregatorLabel]
         public string AggregatorLabel => ColIndicatorBreakdown;
+        [AggregatorReference]
+        public string AggregatorReference => ColSecondaryBreakdown;
         [ChartType]
         public ChartType ChartType {
             get {
