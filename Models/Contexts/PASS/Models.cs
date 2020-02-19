@@ -125,9 +125,6 @@ namespace Models.Contexts.PASS {
         [Include]
         [BindToMaster("Include")]
         public bool Include { get; set; }
-        [Aggregator]
-        [BindToMaster("Aggregator")]
-        public bool IsAggregator { get; set; }
     }
     [Filter(5)]
     public class ColDataBreakdowns {
@@ -230,6 +227,8 @@ namespace Models.Contexts.PASS {
         [ShowOn(TextAppearance.MeasureDescription)]
         [TranslateProperty("ColAdditionalRemarksEn")]
         [Text("Additional Remarks", "fr-ca")]
+        [ChartType]
+        public ChartType ChartType => ColDataBreakdownsNameEn.Contains("Trend") ? ChartType.Trend : ChartType.Bar;
         public string ColAdditionalRemarksFr { get; set; }
     }
     [Filter(6)]

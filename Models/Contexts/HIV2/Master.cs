@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Models.Metadata;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Contexts.HIV {
+namespace Models.Contexts.HIV2 {
     public class Master {
         /**
             It is important to not forget to use the following annotations also (Cut and paste as necessary).`
@@ -28,8 +28,12 @@ namespace Models.Contexts.HIV {
                 [DataLabelTable]
                 [DataLabelChart]
 
-                [Title]                
+                [Title]
 
+                [AggregatorLabel] (Label to use for aggregation stack, in lieu of the data point's label)
+                [AggregatorReference] (Hidden, used cross-referencing aggregators)
+
+                [ChartType] (Indicates the type of chart to use)
             ** Filters **
                 [Filter(0)] <- Top level
                 [Filter(1)]
@@ -49,7 +53,7 @@ namespace Models.Contexts.HIV {
 
         /** Modify below to resolve to valid data. These can also be adjusted from the generated models if you want them to be derived later **/
         [Title]
-        public string Title => ColLocation;
+        public string Title => null;
         [CVInterpretation]
         public int CVInterpretation => 0;
         [CVValue]
@@ -69,22 +73,34 @@ namespace Models.Contexts.HIV {
         [UnitLong]
         public string UnitLong => "Percentage (%)";
         [DataLabelTable]
-        public string DataLabelTable => ColIndicatorBreakdown;
+        public string DataLabelTable => $"{ColIndicatorBreakdown} - {ColSecondaryBreakdown}";
         [DataLabelChart]
-        public string DataLabelChart => ColIndicatorBreakdown;
-        [Aggregator]
-        public bool Aggregator => false;
+        public string DataLabelChart => $"{ColIndicatorBreakdown} - {ColSecondaryBreakdown}";
+        [AggregatorLabel]
+        public string AggregatorLabel => ColIndicatorBreakdown;
+        [AggregatorReference]
+        public string AggregatorReference => ColSecondaryBreakdown;
+        [ChartType]
+        public ChartType ChartType {
+            get {
+                if (ColSecondaryBreakdownName == "None")
+                    return ChartType.Bar;
+                return ChartType.Stack;
+            }
+        }
         [Include]
         public bool Include => true;
+        [Type]
+        public int Type => 0;
 
 
         /** Modify below to mark filters with their levels and text to display**/
         [Text("Indicator Parent", "en-ca")]
         [Text("Indicator Parent", "fr-ca")]
         [CSVColumn("Indicator Parent")]
-		[Filter(0)]
+        [Filter(0)]
         public string ColIndicatorParent { get; set; }
-                
+        
         
         [Text("Indicator Breakdown", "en-ca")]
         [Text("Indicator Breakdown", "fr-ca")]
@@ -92,30 +108,29 @@ namespace Models.Contexts.HIV {
         public string ColIndicatorBreakdown { get; set; }
         
         
-        [Text("Secondary Breakdown Name", "en-ca")]
-        [Text("Secondary Breakdown Name", "fr-ca")]
-        [CSVColumn("Secondary Breakdown Name")]
-		[Filter(1)]
-        public string ColSecondaryBreakdownName { get; set; }
-        
-        
         [Text("Secondary Breakdown", "en-ca")]
         [Text("Secondary Breakdown", "fr-ca")]
         [CSVColumn("Secondary Breakdown")]
         public string ColSecondaryBreakdown { get; set; }
-        
+
+        [Text("Secondary Breakdown Name", "en-ca")]
+        [Text("Secondary Breakdown Name", "fr-ca")]
+        [CSVColumn("Secondary Breakdown Name")]
+        [Filter(1)]
+        public string ColSecondaryBreakdownName { get; set; }
         
         [Text("Location", "en-ca")]
         [Text("Location", "fr-ca")]
         [CSVColumn("Location")]
-		[Filter(2)]
+        [Filter(2)]
         public string ColLocation { get; set; }
         
         
         [Text("Value", "en-ca")]
         [Text("Value", "fr-ca")]
         [CSVColumn("Value")]
-		[Filter(3)]
+        
+        [Filter(3)]
         public string ColValue { get; set; }
         
         

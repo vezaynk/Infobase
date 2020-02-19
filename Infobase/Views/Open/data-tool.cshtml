@@ -2,6 +2,7 @@
 @{
     Layout = $"{i18nTransformer.LookupInvariant(Model.DatasetName)}/_Layout.cshtml";
     string language = i18nTransformer.Culture;
+    bool ssr = true;
 }
 @Html.React("InitializeChartDataStore", new {
             state = Model
@@ -14,14 +15,14 @@
 		{
             prompt = "Select an item from each list below",
             state = Model
-        }, clientOnly: true)
+        }, clientOnly: !ssr)
             break;
         case "fr-ca":
             @Html.React("Filters", new
 		{
             prompt = "Sélectionner les paramètres d'intérêt",
             state = Model
-        }, clientOnly: true)
+        }, clientOnly: !ssr)
             break;
     }
         
@@ -30,7 +31,7 @@
         @Html.React("Charting", new { 
             Animate=true,
             state = Model 
-        }, clientOnly: true)
+        }, clientOnly: !ssr)
 
         @switch (language) {
         case "en-ca":
@@ -77,7 +78,7 @@
                 confidenceIntervalAbbr = "CI",
                 state = Model
             },
-            clientOnly: true);
+            clientOnly: !ssr);
             break;
         case "fr-ca":
             @Html.React("SummaryTable", new {
@@ -89,7 +90,7 @@
                 confidenceIntervalAbbr = "IC",
                 state = Model
             },
-            clientOnly: true);
+            clientOnly: !ssr);
             break;
     }
 </div>
@@ -118,7 +119,7 @@
                             methodsText = "Estimate Calculation",
                             remarksText = "Additional Remarks",
                             state = Model
-                        }, clientOnly: true);
+                        }, clientOnly: !ssr);
                         break;
                     case "fr-ca":
                         @Html.React("DescriptionTable", new { 
@@ -127,7 +128,7 @@
                             methodsText = "Calcul des estimés",
                             remarksText = "Remarques additionnelle",
                             state = Model
-                        }, clientOnly: true);
+                        }, clientOnly: !ssr);
                         break;
                 }
                 

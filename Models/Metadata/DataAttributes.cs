@@ -41,7 +41,7 @@ namespace Models.Metadata
     [AttributeUsage(AttributeTargets.Property)]
     public class IncludeAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
-    public class AggregatorAttribute : Attribute { }
+    public class ChartTypeAttribute : Attribute { }
     [AttributeUsage(AttributeTargets.Property)]
     public class ParentAttribute : Attribute {}
     [AttributeUsage(AttributeTargets.Property)]
@@ -51,4 +51,6 @@ namespace Models.Metadata
     [AttributeUsage(AttributeTargets.Property)]
     public class TypeAttribute : Attribute {}
     public class TitleAttribute : Attribute {}
+    public class AggregatorLabelAttribute : Attribute {}
+    public class AggregatorReferenceAttribute: Attribute {}
 }

@@ -7,11 +7,11 @@ import { dataExplorerStore } from '../store/dataExplorer';
 import { updateChartData } from '../reducers/dataExplorerReducer';
 import { ChartData, DataExplorerState, LanguageCode } from "../types";
 
-const mapStateToChartProps: MapStateToProps<{ chartData: ChartData }, ChartingProps, DataExplorerState> = (state, props) => state ? { ...state, ...props } : { ...props.state, ...props }
+export type ChartingProps = { animate: boolean, state: DataExplorerState, languageCode: LanguageCode };
+
+export const mapStateToChartProps: MapStateToProps<{ chartData: ChartData }, ChartingProps, DataExplorerState> = (state, props) => state ? { ...state, ...props } : { ...props.state, ...props }
 
 export const ChartingConnect = connect(mapStateToChartProps)(Chart);
-
-type ChartingProps = { animate: boolean, state: DataExplorerState, languageCode: LanguageCode };
 
 export const Charting: React.FC<ChartingProps> = (props) => {
     return <Provider store={dataExplorerStore}>

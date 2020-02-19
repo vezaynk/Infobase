@@ -32,7 +32,10 @@ namespace Models.Contexts.@(Model.DatasetName) {
                 [DataLabelTable]
                 [DataLabelChart]
 
-                [Title]                
+                [Title]
+
+                [AggregatorLabel] (Label to use for aggregation stack, in lieu of the data point's label)
+                [AggregatorReference] (Hidden, used for cross-referencing aggregations)
 
             ** Filters **
                 [Filter(0)] <- Top level
@@ -76,11 +79,16 @@ namespace Models.Contexts.@(Model.DatasetName) {
         public string DataLabelTable => null;
         [DataLabelChart]
         public string DataLabelChart => null;
-        [Aggregator]
-        public bool Aggregator => false;
+        [AggregatorLabel]
+        public string AggregatorLabel => null;
+        [AggregatorReference]
+        public string AggregatorReference => ColIndicatorBreakdown;
         [Include]
         public bool Include => true;
-
+        [Type]
+        public int Type => 0;
+        [ChartType]
+        public ChartType ChartType => ChartType.Bar;
 
         /** Modify below to mark filters with their levels and text to display**/
 @foreach (var column in @Model.Properties) {

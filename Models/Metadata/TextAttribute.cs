@@ -11,8 +11,10 @@ namespace Models.Metadata
         public string Name { get; set; }
         public object Value { get; set; }
     }
-    public class Metadata
+    /// <summary>Helpful methods to work with metadata attributes</summary>
+    public static class Metadata
     {
+        /// <summary>Retrieve all parent nodes, starting with the given node</summary>
         public static IEnumerable<object> GetAllParentNodes(object node)
         {
             var current = node;
@@ -22,6 +24,7 @@ namespace Models.Metadata
                 current = GetParentOf(current);
             };
         }
+        /// <summary>Retrieve all default child nodes, starting with the given node</summary>
         public static IEnumerable<object> GetAllDefaultChildrenNodes(object node)
         {
             var current = node;
@@ -32,12 +35,15 @@ namespace Models.Metadata
             };
         }
 
-        public static IEnumerable<PropertyInfo> FindPropertiesOnType<T>(Type type) where T : Attribute => 
+        /// <summary>Retrieve all properties which have an attribute T on a given Type</summary>
+        public static IEnumerable<PropertyInfo> FindPropertiesOnType<T>(Type type) where T : Attribute =>
             type.GetProperties().Where(p => p.GetCustomAttribute<T>() != null);
-    
-        public static PropertyInfo FindPropertyOnType<T>(Type type) where T : Attribute => 
+
+        /// <summary>Retrieves the first property which has an attribute T on a given Type</summary>
+        public static PropertyInfo FindPropertyOnType<T>(Type type) where T : Attribute =>
             FindPropertiesOnType<T>(type).FirstOrDefault();
 
+        /// <summary>Get all key-value pairings of designated by TextAttribute of a node</summary>
         public static IEnumerable<MetadataProperty> FindTextPropertiesOnNode<T>(object node, string languageCode = null, TextAppearance textAppearance = TextAppearance.None) where T : Attribute =>
             FindPropertiesOnType<T>(node.GetType())
                 .Where(p => languageCode == null || p.GetCustomAttribute<TextAttribute>()?.Culture == languageCode)
@@ -111,7 +117,8 @@ namespace Models.Metadata
     }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class TranslatePropertyAttribute: Attribute {
+    public class TranslatePropertyAttribute : Attribute
+    {
         public string Property { get; set; }
         public TranslatePropertyAttribute(string property)
         {

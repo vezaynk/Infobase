@@ -14,6 +14,7 @@
         .Where(prop => prop.GetCustomAttribute<FilterAttribute>() != null)
         .OrderBy(prop => prop.GetCustomAttribute<FilterAttribute>().Level);
 
+    // Formally used for [ShowOn(MeasureDescription)]
     var measureProperty = filtersProperties.SkipLast(2).Last();
     var breakdownProperty = filtersProperties.SkipLast(1).Last();
     var pointProperty = filtersProperties.Last();
@@ -62,6 +63,12 @@ namespace @Model.Namespace {
     }
 
     if (current == measureProperty) {
+        @:[Include]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null)?.Name ?? "binding required")")]
+        @:public bool Include { get; set; }
+    }
+
+    if (current == breakdownProperty) {
         var measureProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance.HasFlag(TextAppearance.MeasureDescription) == true);
         foreach (var measureProp in measureProperties) {
         @:[BindToMaster("@(measureProp.Name)")]
@@ -74,17 +81,11 @@ namespace @Model.Namespace {
         @:[Text("@(measureProp.GetCustomAttributes<TextAttribute>().First(ta => ta.Culture == "fr-ca").Name)", "fr-ca")]
         @:public string @(measureProp.Name)Fr { get; set; }
         }
-        
-        @:[Include]
-        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<IncludeAttribute>() != null)?.Name ?? "binding required")")]
-        @:public bool Include { get; set; }
 
-        @:[Aggregator]
-        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorAttribute>() != null)?.Name ?? "binding required")")]
-        @:public bool IsAggregator { get; set; }
-    }
-
-    if (current == breakdownProperty) {
+        @:[ChartType]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<ChartTypeAttribute>() != null)?.Name ?? "binding required")")]
+        @:public ChartType ChartType { get; set; }
+    
         var breakdownProperties = properties.Where(p => p.GetCustomAttribute<ShowOnAttribute>()?.TextAppearance.HasFlag(TextAppearance.Notes) == true);
         foreach (var breakdownProp in breakdownProperties) {
         @:[BindToMaster("@(breakdownProp.Name)")]
@@ -182,6 +183,26 @@ namespace @Model.Namespace {
         @:[Text("fr-ca")]
         @:[TranslateProperty("DataLabelTableEn")]
         @:public string DataLabelTableFr { get; set; }
+
+        @:[Type]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<TypeAttribute>() != null)?.Name ?? "binding required")")]
+        @:public int Type { get; set; }
+
+
+        @:[AggregatorLabel]
+        @:[Text("en-ca")]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorLabelAttribute>() != null)?.Name ?? "binding required")")]
+        @:public string AggregatorLabelEn { get; set; }
+
+
+        @:[AggregatorLabel]
+        @:[TranslateProperty("AggregatorLabelEn")]
+        @:[Text("fr-ca")]
+        @:public string AggregatorLabelFr { get; set; }
+
+        @:[AggregatorReference]
+        @:[BindToMaster("@(properties.FirstOrDefault(p => p.GetCustomAttribute<AggregatorReferenceAttribute>() != null)?.Name ?? "binding required")")]
+        @:public string AggregatorReference { get; set; }
     }
 
     @:}

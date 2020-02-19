@@ -7,9 +7,9 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Models.Metadata;
 
-namespace Models.Contexts.HIV
+namespace Models.Contexts.HIV2
 {
-    [Database("HIVContext")]
+    [Database("HIV2Context")]
     public class Context : DbContext
     {
         public Context(DbContextOptions options)
