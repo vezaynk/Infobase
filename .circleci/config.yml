@@ -27,13 +27,13 @@ jobs:
       - run:
           name: "Package Main Project"
           command: |
-            cd Infobase/bin/Release/netcoreapp3.0/win10-x64/publish
+            cd Infobase/bin/Release/netcoreapp*/win10-x64/publish
             zip -qr ~/artifacts/Web-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
           name: "Package Model Generator Project"
           command: |
-            cd Model-Generator/bin/Release/netcoreapp3.0/win10-x64/publish
+            cd Model-Generator/bin/Release/netcoreapp*/win10-x64/publish
             zip -qr ~/artifacts/Model-Generator-$CIRCLE_PROJECT_REPONAME-$CIRCLE_PROJECT_USERNAME-$CIRCLE_BRANCH-win10-x64.zip .
 
       - run:
