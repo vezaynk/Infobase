@@ -148,13 +148,13 @@ namespace Infobase.Controllers
                     ValueUpper = (double?)upperValueProperty.GetValue(child),
                     Type = typeProperty?.GetValue(child) as int? ?? 0,
                     AggregatorLabel = (string)Metadata.FindTextPropertiesOnTree<AggregatorLabelAttribute>((object)child, Language).FirstOrDefault()?.Value,
-                    AggregatorReference = (string)GetProperty<AggregatorReferenceAttribute>().GetValue((object)child)
+                    AggregatorReference = (string)GetProperty<AggregatorReferenceAttribute>()?.GetValue((object)child)
                 }).ToList(),
                 WarningCV = null,
                 SuppressCV = null,
                 DescriptionTable = measureDescription.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
                 Notes = notes.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
-                ChartType = (ChartType)Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType).GetValue(selectedBreakdown)
+                ChartType = Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType).GetValue(selectedBreakdown) as ChartType? ?? ChartType.Bar
             };
 
             var cpm = new ChartPageModel(datatool, Language, chart);
