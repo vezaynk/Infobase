@@ -260,7 +260,37 @@ export function renderChart(
     .map(p => p.aggregatorReference)
     .filter((value, index, arr) => arr.indexOf(value) == index);
 
-  console.log("stacks", stacks);
+  const legend = chart
+  .select(".legend");
+
+  legend.attr("display", isStack ? "block" : "none");
+
+  legend.select("rect").attr("height", aggregatorReferences.length * 20 + 35)
+  const legendBinding = legend
+    .selectAll(".legendItem")
+    .data(aggregatorReferences);
+  legendBinding.exit().remove();
+
+  const entered = legendBinding
+    .enter()
+    .append("g")
+    .attr("class", "legendItem");
+
+  entered
+    .append("rect")
+    .attr("height", 15)
+    .attr("width", 15);
+  entered
+    .append("text")
+    .attr("font-size", 14)
+    .attr("x", 20)
+    .attr("y", 14);
+
+  legendBinding.attr("transform", (_, i) => `translate(10, ${30 + 20 * i})`);
+  legendBinding
+    .select("rect")
+    .attr("fill", (_d, i, arr) => d3.interpolateRainbow(i / arr.length));
+  legendBinding.select("text").text(d => d);
 
   let animationDuration = 525;
   const optionalTransition = function<
@@ -324,13 +354,19 @@ export function renderChart(
     .attr("font-size", "10px")
     .attr("y", 15)
     .attr("text-anchor", "middle")
-    .call(wrap, 500 / points.length, widthTablePointLabel);
+    .call(
+      wrap,
+      500 / Object.keys(stacks).length || points.length,
+      widthTablePointLabel
+    );
 
   chart
     .select(".xAxisLabel")
     .text(dataset.xAxis)
     .call(wrap, 600, widthTableAxisLabel);
 
+  if (isStack) {
+  }
   chart
     .select(".yAxisLabel")
     .text(dataset.yAxis)

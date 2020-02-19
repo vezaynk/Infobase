@@ -4,23 +4,23 @@ import * as ReactDOM from 'react-dom';
 import { renderChart } from '../renderChart';
 import { ChartData, LanguageCode, ChartType } from '../types';
 
-type ChartProps = { chartData: ChartData, animate: boolean, languageCode: LanguageCode };
+type ChartProps = { chartData: ChartData, animate: boolean, languageCode: LanguageCode; };
 
 export const Chart: React.FC<ChartProps> = props => {
     const graphEl: React.MutableRefObject<SVGElement> = React.useRef(null);
     const [firstLoad, setFirstLoad] = React.useState(true);
-    
+
     React.useEffect(() => {
         const doRender = animated => renderChart(graphEl.current, props.chartData, props.languageCode, animated);
 
         doRender(!firstLoad && props.animate);
-        const deferredRender = setTimeout(() => doRender(true), 525)
+        const deferredRender = setTimeout(() => doRender(true), 525);
         setFirstLoad(false);
 
         return () => {
             clearTimeout(deferredRender);
-        }
-    })
+        };
+    });
 
     return (
         <figure>
@@ -50,7 +50,13 @@ export const Chart: React.FC<ChartProps> = props => {
                 <text className="xAxisLabel" y="480" x="400" style={{ textAnchor: "middle", fontWeight: "bold", fontSize: "14px" }}></text>
                 <text className="yAxisLabel" transform="rotate(-90)" x="-200" y="20" style={{ textAnchor: "middle", fontWeight: "bold", fontSize: "14px" }}></text>
                 <g className="main" transform="translate(60,10)"></g>
+                <g className="legend" transform="translate(600, 10)" display="dsdd">
+                    <rect stroke="black" strokeOpacity="0.5" fill="white" opacity="0.5" height="130" width="200"></rect>
+
+                    <text x="100" y="20" style={{ textAnchor: "middle", fontWeight: "bold", fontSize: "14px" }}>Legend</text>
+
+                </g>
             </svg>
         </figure>
     );
-}
+};
