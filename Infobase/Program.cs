@@ -14,6 +14,8 @@ using Models.Metadata;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 
 namespace Infobase
 {
@@ -29,28 +31,48 @@ namespace Infobase
                 Program.Port = n;
 
 
-            // using (var webhost = CreateTestWebHostBuilder(args).Build())
-            // {
-            //     webhost.Start();
+            using (var webhost = CreateTestWebHostBuilder(args).Build())
+            {
+                webhost.Start();
 
-            //     var server = webhost.GetTestServer();
-            //     var client = server.CreateClient();
-            //     client.DefaultRequestHeaders.Add("host", "french.localhost:5000");
+                var server = webhost.GetTestServer();
+                var client = server.CreateClient();
 
-            //     var path = "/pass/sitemap";
-            //     var response = await client.GetAsync(path);
-            //     var body = await response.Content.ReadAsStringAsync();
+                async Task<string> GetUrl(string path)
+                {
+                    var response = await client.GetAsync(path);
+                    var body = await response.Content.ReadAsStringAsync();
+                    return body;
+                }
 
-            //     File.WriteAllText("../Output/a", body);
-            // }
+                var path = "http://localhost:5000/cmsif/sitemap";
 
-            CreateWebHostBuilder(args).Build().Run();
+
+                var sitemapbody = await GetUrl(path);
+                var pages = JsonSerializer.Deserialize<IList<string>>(sitemapbody);
+
+                foreach (var pageUrl in pages) {
+                    var savePath = "../Output/" + pageUrl.Replace("?", "@");
+                    Directory.CreateDirectory(savePath);
+
+                    var pageBody = await GetUrl(pageUrl);
+                    
+                    File.WriteAllText(savePath + "/index.html", pageBody);
+                }
+                
+            }
+
+            //CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 //.UseUrls("http://0.0.0.0:" +  Program.Port.ToString())
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureServices(services =>
+                {
+                    //services.AddSingleton()
+                });
 
         public static IWebHostBuilder CreateTestWebHostBuilder(string[] args) => CreateWebHostBuilder(args).UseTestServer();
     }

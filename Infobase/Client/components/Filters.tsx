@@ -18,9 +18,7 @@ export const Filters: React.FC<FiltersProps> = (props) => {
     }
     const loadNewData = async index => {
         props.updateLoadState(true);
-        let request = await fetch(window.location.toString(), {
-            method: 'POST'
-        })
+        let request = await fetch(window.location.pathname + "?api=True&index=" + index);
         try {
             let response: Response = await request;
             let r = await response.json();

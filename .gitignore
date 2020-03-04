@@ -6,4 +6,5 @@ appsettings.json
 /Infobase/wwwroot/js/chunk.*.js
 /Infobase/wwwroot/js/*.js.map
 /Infobase/wwwroot/js/client.js
-/Infobase/wwwroot/js/server.js
+/Infobase/wwwroot/js/server.jsOutput
+Output

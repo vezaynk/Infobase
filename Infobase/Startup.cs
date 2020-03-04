@@ -133,6 +133,7 @@ namespace Infobase
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -143,7 +144,7 @@ namespace Infobase
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            
             app.UseReact(config =>
             {
                 config

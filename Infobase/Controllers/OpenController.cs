@@ -26,32 +26,30 @@ namespace Infobase.Controllers
         }
 
         [NonAction]
-        public string MakeLink(string datatool, string page, int? id=null, int? index=null) => _linkGenerator.GetPathByRouteValues(
+        public string MakeLink(string datatool, string page, int? id=null, int? index=null, bool? api=null) => _linkGenerator.GetPathByRouteValues(
             httpContext: HttpContext, 
             routeName: "default", 
-            values: new { datatool, page, id, index }, 
+            values: new { datatool, page, id, index, api}, 
             pathBase: new Microsoft.AspNetCore.Http.PathString("/")
         );
 
-        public IActionResult Sitemap() {
-            var datatools = contexts.Select((kvContext) => {
-                var fullKey = kvContext.Key;
-                var key = fullKey.Substring(0, fullKey.Length - "Context".Length);
+        public IActionResult Sitemap(string datatool) {
+            var context = GetContext(datatool);
 
-                var context = kvContext.Value;
-
-                var indexes = context.Keys.Select(k => {
-                    var indexes = context[k].Select(item => (int)item.Index);
+            var allIndexes = context.Select(kvContextType => {
+                    var indexes = kvContextType.Value.Select(item => (int)item.Index);
                     return indexes;
                 })
                 .Aggregate((a, b) => a.Concat(b))
-                .Select(index => MakeLink(key, "data-tool", index: index));
-                
-                
-                return new { key, indexes };
-            });
+                .Distinct()
+                .OrderBy(i => i);
 
-            return Json(new { datatools });
+            var datatoolPages = allIndexes.SelectMany(index => new []{ MakeLink(datatool, "data-tool", index: index), MakeLink(datatool, "data-tool", index: index, api: true) });
+            var publicationPage = MakeLink(datatool, "publications");
+            var indexPage = MakeLink(datatool, "index");
+            var indicatorPages = context[context.Keys.SkipLast(2).Last()].Select(measure => MakeLink(datatool, "indicator-details", id: measure.Index));
+            
+            return Json(datatoolPages.Concat(indicatorPages).Append(indexPage).Append(publicationPage));
         }
 
         [NonAction]
@@ -61,14 +59,14 @@ namespace Infobase.Controllers
         {
             return contexts[LookupInvariant(datatool).ToUpper() + "Context"];
         }
-        public IActionResult Index(string page, string datatool, int index = 1, bool api = false, int? id = null)
+        public IActionResult Index(string page, string datatool, int index = 1, int? id = null, bool? api = null)
         {
             switch (LookupInvariant(page).ToLower()) {
                 case "index": return IndexPage(datatool);
-                case "data-tool": return Datatool(datatool, index, api);
+                case "data-tool": return Datatool(datatool, index, api ?? false);
                 case "indicator-details": return Details(datatool, id??0);
                 case "publications": return Publications(datatool);
-                case "sitemap": return Sitemap();
+                case "sitemap": return Sitemap(datatool);
             }
 
             return List();
@@ -154,7 +152,7 @@ namespace Infobase.Controllers
                 SuppressCV = null,
                 DescriptionTable = measureDescription.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
                 Notes = notes.Select(mp => new MeasureAttribute { Name = mp.Name, Body = (string)mp.Value }).ToList(),
-                ChartType = Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType).GetValue(selectedBreakdown) as ChartType? ?? ChartType.Bar
+                ChartType = Metadata.FindPropertyOnType<ChartTypeAttribute>(dataBreakdownLevelType)?.GetValue(selectedBreakdown) ?? ChartType.Bar
             };
 
             var cpm = new ChartPageModel(datatool, Language, chart);
